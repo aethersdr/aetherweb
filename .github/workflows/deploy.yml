@@ -1,0 +1,57 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # Mapped from the secret so we can gate steps on its presence — the
+      # `secrets` context isn't available directly in step `if:` conditions.
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check configuration
+        if: ${{ env.CF_TOKEN == '' }}
+        run: |
+          echo "::notice::CLOUDFLARE_API_TOKEN not set — skipping deploy."
+          echo "Add CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID repo secrets to enable it."
+
+      # Stage only the files the site actually serves — keep serve.py,
+      # scripts/, dist/, README, and CI config out of the public deployment.
+      - name: Stage site
+        if: ${{ env.CF_TOKEN != '' }}
+        run: |
+          mkdir -p _site
+          cp -R index.html 404.html styles.css assets _headers _site/
+          [ -f _redirects ] && cp _redirects _site/ || true
+          echo "Staged:" && find _site -maxdepth 2 -type f | sort
+
+      # First run creates the project; later runs no-op (hence continue-on-error).
+      - name: Ensure Pages project exists
+        if: ${{ env.CF_TOKEN != '' }}
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create aetherweb --production-branch main
+
+      - name: Deploy
+        if: ${{ env.CF_TOKEN != '' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy _site --project-name=aetherweb --branch=main --commit-dirty=true

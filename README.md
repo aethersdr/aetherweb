@@ -31,11 +31,42 @@ python3 serve.py           # http://127.0.0.1:4321
 python3 scripts/build.py   # writes dist/index.html with CSS + images inlined
 ```
 
-## Deploy
+## Deploy — Cloudflare Pages
 
-Cloudflare Pages pipeline — **to be added after design review.** The site is a
-plain static directory, so it deploys with zero build config (or `dist/` for the
-single-file variant).
+Deploys run from GitHub Actions via Wrangler (Direct Upload). Every push to
+`main` stages the site files into `_site/` and publishes them to the Pages
+project **`aetherweb`**. See [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
+### One-time setup
+
+1. **Create a Cloudflare API token** — Cloudflare dashboard → *My Profile → API
+   Tokens → Create Token → Custom token*. Permission: **Account → Cloudflare
+   Pages → Edit**. Scope it to the AetherSDR account.
+2. **Grab the Account ID** — *Workers & Pages* overview (right sidebar).
+3. **Add two repo secrets** — GitHub → *Settings → Secrets and variables →
+   Actions*:
+   - `CLOUDFLARE_API_TOKEN`
+   - `CLOUDFLARE_ACCOUNT_ID`
+4. **Push to `main`** (or run the workflow manually). The first run creates the
+   `aetherweb` Pages project and publishes it to `https://aetherweb.pages.dev`.
+
+### Domain (`www.aethersdr.com`)
+
+The zone is already on Cloudflare, so DNS and TLS are automatic:
+
+1. Pages project → **Custom domains → Set up a custom domain →
+   `www.aethersdr.com`**. Cloudflare auto-creates the proxied CNAME and
+   provisions the TLS cert.
+2. **Redirect the apex** — *Rules → Redirect Rules*: when hostname equals
+   `aethersdr.com`, 301 to `https://www.aethersdr.com` (preserving path/query).
+   This replaces the current apex → GitHub redirect. (If you still want a GitHub
+   shortcut, point `code.aethersdr.com` at it instead.)
+
+### Local manual deploy (optional)
+
+```bash
+npx wrangler pages deploy . --project-name=aetherweb --branch=main
+```
 
 ---
 
