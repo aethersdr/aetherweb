@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AetherSDR — The full FlexRadio experience, native on every desktop</title>
+  <meta name="description" content="AetherSDR is a cross-platform, open-source client for FlexRadio Systems transceivers. Native builds for Linux, macOS, Windows, and Raspberry Pi. GPU spectrum, multi-slice, DAX, noise reduction, and more." />
+  <meta property="og:title" content="AetherSDR — Native. Open. Yours." />
+  <meta property="og:description" content="Full FlexRadio operation on Linux, macOS, and Windows. GPU-accelerated spectrum, multi-slice, DAX, six noise-reduction engines, packet radio, and remote operation." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/img/screenshot-hero.jpg" />
+  <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">
+        <img src="assets/img/logo-96.png" alt="AetherSDR logo" />
+        <span>Aether<b>SDR</b></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#spectrum">Spectrum</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#built">How it's built</a>
+        <a href="#download">Download</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-ghost btn-sm" href="https://github.com/aethersdr/AetherSDR" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.09 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.79 1.07.79 2.16v3.2c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a class="btn btn-primary btn-sm" href="#download">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <a id="top"></a>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <span class="eyebrow"><span class="dot"></span> Open-source · Cross-platform · Native</span>
+      <h1>The full FlexRadio experience, <span class="grad-text">native on every desktop</span></h1>
+      <p class="sub">
+        AetherSDR brings complete FlexRadio operation to Linux, macOS, and Windows — each a
+        native build, no Wine or virtual machines. Built from the ground up with Qt6 and
+        C++20, it speaks the SmartSDR protocol natively and aims to replicate the full
+        SmartSDR experience.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Download for your platform
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/aethersdr/AetherSDR" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.09 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.79 1.07.79 2.16v3.2c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          View source
+        </a>
+      </div>
+      <div class="hero-meta">
+        <span class="chip"><b>v26.7.1</b> · latest release</span>
+        <span class="chip">GPL v3</span>
+        <span class="chip">Qt6 · C++20</span>
+        <span class="chip">GPG-signed commits</span>
+      </div>
+
+      <figure class="hero-shot">
+        <div class="frame-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="title">AetherSDR — FLEX-8600 · 14.263.000</span>
+        </div>
+        <img src="assets/img/screenshot-hero.jpg" alt="AetherSDR running with dual panadapters, waterfalls, and the full control surface" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== STATS ===================== -->
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="num grad-text">3</div><div class="lbl">Native desktop platforms</div></div>
+      <div class="stat"><div class="num grad-text">8</div><div class="lbl">Detachable panadapters</div></div>
+      <div class="stat"><div class="num grad-text">60 fps</div><div class="lbl">GPU spectrum &amp; waterfall</div></div>
+      <div class="stat"><div class="num grad-text">6</div><div class="lbl">Noise-reduction engines</div></div>
+    </div>
+  </div>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><span class="dot"></span> Everything, on your desktop</span>
+        <h2>A complete station, faithfully rebuilt</h2>
+        <p>Every capability you rely on in SmartSDR — plus a stack of client-side DSP, audio,
+        and connectivity features that go beyond it.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h3l2 6 4-14 2 8h4"/><path d="M20 12h1"/></svg></div>
+          <h3>GPU spectrum &amp; waterfall</h3>
+          <p>QRhi rendering on the GPU (OpenGL/Metal/D3D11) with a per-pixel FFT trace at up to <b>60 fps</b>, an optional <b>3D stacked-trace</b> mode, and ~71% less CPU than CPU paint.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1"/><rect x="14" y="4" width="7" height="16" rx="1"/></svg></div>
+          <h3>Multi-slice &amp; multi-panadapter</h3>
+          <p>Colour-coded VFO overlays, independent TX assignment, diversity/ESC beamforming — up to <b>8 detachable pans</b> with native VITA-49 waterfall tiles and per-flag SmartMTR views.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l6 3"/></svg></div>
+          <h3>KiwiSDR receiver browser</h3>
+          <p>Find and connect to public KiwiSDR receivers worldwide through an API-policy-aware directory, with diversity receive and receive-only TX inhibit.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12h2l2-5 3 12 3-16 3 12 2-3h1"/></svg></div>
+          <h3>Aetherial Audio channel strip</h3>
+          <p>A unified RX <b>and</b> TX DSP suite — gate, EQ, compressor, de-esser, tube, AetherVoice exciter, reverb, brickwall limiter — with a preset library and per-side scope.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-4 3 8 2-6 2 4h5"/></svg></div>
+          <h3>Six noise-reduction engines</h3>
+          <p>NR2 spectral, RN2 (RNNoise), NR4 (libspecbleach), DFNR (DeepFilterNet3), BNR (NVIDIA GPU AI Maxine denoiser), and MNR on macOS — pick per slice.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9v6M11 9v6M15 9v6"/></svg></div>
+          <h3>DAX virtual audio + IQ</h3>
+          <p>4 RX + 1 TX channels and raw I/Q at 24–192 kHz for WSJT-X, fldigi, VARA, and JS8Call — plus a per-slice WFM demodulator for satellite data.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 16 0"/><path d="M7 12a5 5 0 0 1 10 0"/><circle cx="12" cy="12" r="1.6"/></svg></div>
+          <h3>AetherModem packet radio</h3>
+          <p>KISS-over-TCP TNC, connected-mode AX.25 BBS, a personal mailbox, and an <b>APRS client</b> with station map, GPS beacon, and messaging.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 6-8"/><path d="M17 7h3v3"/></svg></div>
+          <h3>AetherSweep SWR analyzer</h3>
+          <p>In-panadapter SWR analysis with log scale, threshold-band shading, and interpolated bandwidth at SWR ≤ 1.5 / 2.0.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg></div>
+          <h3>SpotHub</h3>
+          <p>DX Cluster, RBN, WSJT-X, POTA, and FreeDV Reporter spots in one place, with automatic mode switching on click.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h2M9 12h1M12 12h3M17 12h2"/><path d="M4 8h16v8H4z"/></svg></div>
+          <h3>CW operator suite</h3>
+          <p>Real-time Morse decoder, MIDI/keyboard straight-key &amp; iambic paddles with full QSK, and optional Quindar tones.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4v16M8 8v8M16 8v8M4 11v2M20 11v2"/></svg></div>
+          <h3>FreeDV RADE</h3>
+          <p>AI digital-voice codec with a client-side neural encoder/decoder for natural-sounding low-SNR voice.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 19v2M16 19v2"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+          <h3>SmartLink remote + TCI v2.0</h3>
+          <p>Auth0/TLS WAN operation, plus CAT + audio + IQ + CW + spots over a single TCI WebSocket server.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+          <h3>Broad hardware control</h3>
+          <p>rigctld + virtual-serial CAT, MIDI mapping, the FlexControl knob, serial PTT/CW keying, and Multi-Flex operation alongside SmartSDR/Maestro.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SPECTRUM SPOTLIGHT ===================== -->
+  <section class="block" id="spectrum" style="padding-top: 20px;">
+    <div class="wrap">
+      <div class="spot">
+        <div class="spot-text">
+          <span class="tag">GPU rendering</span>
+          <h3>Spectrum that keeps up with the band</h3>
+          <p>The panadapter and waterfall render entirely on the GPU with a per-pixel FFT
+          trace — smooth at up to 60 fps while freeing ~71% of the CPU the old QPainter
+          path burned.</p>
+          <ul>
+            <li>OpenGL, Metal, and Direct3D 11 backends via Qt's QRhi</li>
+            <li>Optional 3D stacked-trace mode — perspective FFT history with floor-anchored ridges</li>
+            <li>GPU-composited slice flags and multi-GPU adapter selection</li>
+            <li>Native VITA-49 waterfall tiles across up to 8 panadapters</li>
+          </ul>
+        </div>
+        <div class="spot-media viz">
+          <div class="viz-row">
+            <img src="assets/img/viz-ridge.png" alt="3D stacked-trace ridge view" />
+            <img src="assets/img/viz-tunnel.png" alt="3D spectrum tunnel view" />
+            <img src="assets/img/viz-horizon.png" alt="3D spectrum horizon view" />
+          </div>
+        </div>
+      </div>
+
+      <div class="spot rev">
+        <div class="spot-text">
+          <span class="tag">Signal chain</span>
+          <h3>A full studio between you and the air</h3>
+          <p>The Aetherial Audio channel strip gives every RX and TX path a complete DSP
+          suite, with six selectable noise-reduction engines and a preset library so your
+          sound follows you from rig to rig.</p>
+          <ul>
+            <li>Gate, EQ, compressor, de-esser, tube, AetherVoice exciter, reverb, limiter</li>
+            <li>Six NR engines: NR2, RN2, NR4, DFNR, NVIDIA BNR, and macOS MNR</li>
+            <li>Per-side scope and a shareable preset library</li>
+            <li>DAX virtual audio + raw I/Q for WSJT-X, fldigi, VARA, JS8Call</li>
+          </ul>
+        </div>
+        <div class="spot-media">
+          <img src="assets/img/screenshot-alt.jpg" alt="AetherSDR control surface and audio processing" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HARDWARE ===================== -->
+  <section class="block" id="hardware" style="padding-top: 30px;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><span class="dot"></span> Supported hardware</span>
+        <h2>Works with your FlexRadio</h2>
+        <p>Any FlexRadio transceiver, plus the station-control hardware and amplifiers you already run.</p>
+      </div>
+
+      <div class="hw-cols">
+        <div class="hw-panel">
+          <h3><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M7 14h6"/></svg> Transceivers</h3>
+          <div class="pill-row">
+            <span class="pill">FLEX-6300</span><span class="pill">6400 / 6400M</span>
+            <span class="pill">6500</span><span class="pill">6600 / 6600M</span><span class="pill">6700</span>
+            <span class="pill">FLEX-8400 / M</span><span class="pill">8600 / 8600M</span>
+            <span class="pill">Aurora AU-510 / 520</span><span class="pill">ML / CL / RT series</span>
+          </div>
+          <p class="hw-note">Active test target: FLEX-8600 firmware 4.2.18 (SmartSDR protocol v1.4.0.0). Earlier 4.x firmware works; v3.x is unsupported.</p>
+        </div>
+
+        <div class="hw-panel">
+          <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2 2"/></svg> Controllers &amp; accessories</h3>
+          <div class="pill-row">
+            <span class="pill">FlexControl knob</span><span class="pill">Icom RC-28</span>
+            <span class="pill">Griffin PowerMate</span><span class="pill">ShuttleXpress / Pro v2</span>
+            <span class="pill">MIDI controllers</span><span class="pill">Stream Deck</span>
+            <span class="pill">USB PTT / CW</span><span class="pill">PGXL amp</span><span class="pill">TGXL tuner</span>
+          </div>
+          <p class="hw-note">USB serial, USB HID, MIDI (with learn mode &amp; profiles), and Stream Deck / StreamController plugins on macOS, Windows, and Linux.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DOWNLOAD ===================== -->
+  <section class="block" id="download">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><span class="dot"></span> Get AetherSDR</span>
+        <h2>Native builds, released together</h2>
+        <p>Every platform is built, tested in CI, and released together. Signed &amp; notarized where the OS supports it.</p>
+      </div>
+
+      <div class="dl-grid">
+        <div class="dl-card">
+          <div class="os"><svg viewBox="0 0 24 24"><path d="M12 2C9.5 2 8.7 4 8.7 6.2c0 1 .2 1.6.2 2.4-.5.6-2.4 2.9-2.4 6.1 0 2 .6 3.4 1.4 4.4.4.5.2 1.3-.4 1.6-.7.4-1.2 1-1.2 1.6 0 .8.9 1.2 2.2 1.2h6.6c1.3 0 2.2-.4 2.2-1.2 0-.6-.5-1.2-1.2-1.6-.6-.3-.8-1.1-.4-1.6.8-1 1.4-2.4 1.4-4.4 0-3.2-1.9-5.5-2.4-6.1 0-.8.2-1.4.2-2.4C15.3 4 14.5 2 12 2Z"/></svg> Linux</div>
+          <div class="variants">
+            <a href="https://github.com/aethersdr/AetherSDR/releases/latest">AppImage <span class="arch">x86_64</span></a>
+            <a href="https://github.com/aethersdr/AetherSDR/releases/latest">AppImage <span class="arch">aarch64 · Pi</span></a>
+          </div>
+        </div>
+
+        <div class="dl-card">
+          <div class="os"><svg viewBox="0 0 24 24"><path d="M16.4 2c.1 1.2-.3 2.3-1 3.2-.8.9-2 1.6-3.1 1.5-.1-1.1.4-2.3 1.1-3.1.8-.9 2-1.5 3-1.6ZM19 17.3c-.5 1.2-.8 1.8-1.5 2.8-1 1.5-2.5 3.3-4.3 3.3-1.6 0-2-.9-4.1-.9-2.1 0-2.6.9-4.1.9-1.8 0-3.2-1.7-4.2-3.1C-1 16-1.4 9.8 1.4 6.9 2.7 5.4 4.5 4.5 6.3 4.5c1.8 0 3 1 4.1 1 1 0 2.4-1 4.3-1 1.4 0 3.4.6 4.7 2.4-4.1 2.3-3.5 8.2.6 10.4Z"/></svg> macOS</div>
+          <div class="variants">
+            <a href="https://github.com/aethersdr/AetherSDR/releases/latest">DMG <span class="arch">Apple Silicon</span></a>
+            <a href="https://github.com/aethersdr/AetherSDR/releases/latest">DMG <span class="arch">Intel · Rosetta</span></a>
+          </div>
+        </div>
+
+        <div class="dl-card">
+          <div class="os"><svg viewBox="0 0 24 24"><path d="M3 5.5 10.5 4.4v7.1H3V5.5ZM11.6 4.2 21 3v8.5h-9.4V4.2ZM3 12.5h7.5v7.1L3 18.5v-6ZM11.6 12.5H21V21l-9.4-1.3v-7.2Z"/></svg> Windows</div>
+          <div class="variants">
+            <a href="https://github.com/aethersdr/AetherSDR/releases/latest">Installer <span class="arch">x64 setup.exe</span></a>
+            <a href="https://github.com/aethersdr/AetherSDR/releases/latest">Portable <span class="arch">x64 zip</span></a>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align:center; color: var(--muted); font-size: 14px; margin-top: 22px;">
+        All releases are on <a href="https://github.com/aethersdr/AetherSDR/releases/latest">GitHub Releases</a>
+        with <code>.asc</code> signatures and <code>SHA256SUMS.txt</code> ·
+        <a href="https://github.com/aethersdr/AetherSDR#building-from-source">Build from source</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT'S BUILT ===================== -->
+  <section class="block built" id="built">
+    <div class="wrap">
+      <div class="built-wrap">
+        <div class="section-head" style="margin-bottom: 8px;">
+          <span class="eyebrow"><span class="dot"></span> How AetherSDR is built</span>
+          <h2>An AI-augmented open-source project</h2>
+          <p>Developed primarily through Claude Code and a mix of AI tools — with a human
+          review gate on every commit. Nothing reaches <code>main</code> without it.</p>
+        </div>
+
+        <div class="built-grid">
+          <div class="built-item"><div class="k grad-text">~50</div><div class="v">Pull requests merged per week</div></div>
+          <div class="built-item"><div class="k grad-text">15k–30k</div><div class="v">Lifetime downloads</div></div>
+          <div class="built-item"><div class="k grad-text">≥6</div><div class="v">Distinct AI tools in the codebase</div></div>
+          <div class="built-item"><div class="k grad-text">14</div><div class="v">Constitution principles enforced</div></div>
+        </div>
+
+        <ul class="built-points">
+          <li><b>Human-gated merges.</b> Project lead Jeremy (KK7GWY) and a core contributor team work through Claude Code — every commit passes the merge gate.</li>
+          <li><b>AetherClaude orchestrator.</b> A bot auto-triages issues, drafts implementation plans, and opens PRs for <code>aetherclaude-eligible</code> work.</li>
+          <li><b>One rulebook for every tool.</b> Codex, Copilot, Cursor, Gemini, and Aider all follow the project Constitution and <code>AGENTS.md</code>.</li>
+          <li><b>Branch protection.</b> Signed commits, green CI, and CODEOWNERS review — the same gate for humans and AI alike.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA BANNER ===================== -->
+  <section class="block" style="padding-top: 10px;">
+    <div class="wrap">
+      <div class="cta-banner">
+        <span class="eyebrow"><span class="dot"></span> Native. Open. Yours.</span>
+        <h2 style="margin-top:16px;">Bring your Flex to every desktop you own</h2>
+        <p>Download the latest release, or build it yourself from source in a couple of commands.</p>
+        <div class="hero-cta" style="justify-content:center;">
+          <a class="btn btn-primary" href="#download">Download AetherSDR</a>
+          <a class="btn btn-ghost" href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">Join the discussion</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="#top"><img src="assets/img/logo-96.png" alt="AetherSDR logo" /><span>Aether<b>SDR</b></span></a>
+          <p>A cross-platform, open-source client for FlexRadio Systems transceivers. Native. Open. Yours.</p>
+        </div>
+        <div class="foot-col">
+          <h4>Project</h4>
+          <a href="#features">Features</a>
+          <a href="#download">Download</a>
+          <a href="https://github.com/aethersdr/AetherSDR/releases">What's new</a>
+          <a href="https://github.com/aethersdr/AetherSDR#roadmap">Roadmap</a>
+        </div>
+        <div class="foot-col">
+          <h4>Community</h4>
+          <a href="https://github.com/aethersdr/AetherSDR">GitHub</a>
+          <a href="https://github.com/aethersdr/AetherSDR/discussions">Discussions</a>
+          <a href="https://github.com/aethersdr/AetherSDR/issues">Issue tracker</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md">Contributing</a>
+        </div>
+        <div class="foot-col">
+          <h4>Resources</h4>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/VERIFYING-RELEASES.md">Verifying downloads</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONSTITUTION.md">Constitution</a>
+          <a href="https://github.com/aethersdr/aetherclaude">AetherClaude</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/LICENSE">License (GPL v3)</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 AetherSDR · Free software under the GNU GPL v3.</span>
+        <span class="disclaimer">AetherSDR is an independent project and is not affiliated with or endorsed by FlexRadio Systems.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
