@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AetherSDR — The full FlexRadio experience, native on every desktop</title>
-  <meta name="description" content="AetherSDR is a cross-platform, open-source client for FlexRadio Systems transceivers. Native builds for Linux, macOS, Windows, and Raspberry Pi. GPU spectrum, multi-slice, DAX, noise reduction, and more." />
+  <title>AetherSDR — A native amateur-radio workstation for FlexRadio</title>
+  <meta name="description" content="AetherSDR is a native amateur-radio workstation for FlexRadio 6000, 8000, and Aurora transceivers on Linux, macOS, and Windows. Open interfaces, GPU spectrum, DAX, noise reduction, and the data-mode tools you already use." />
   <meta property="og:title" content="AetherSDR — Native. Open. Yours." />
-  <meta property="og:description" content="Full FlexRadio operation on Linux, macOS, and Windows. GPU-accelerated spectrum, multi-slice, DAX, six noise-reduction engines, packet radio, and remote operation." />
+  <meta property="og:description" content="A native amateur-radio workstation for FlexRadio, built around open interfaces and the tools operators already run — WSJT-X, fldigi, JS8Call, VARA, Winlink, and more. Native on Linux, macOS, and Windows." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/img/screenshot-hero.jpg" />
   <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
@@ -28,13 +28,33 @@
         <a href="#built">How it's built</a>
         <a href="#partners">Partners</a>
         <a href="#contribute">Contribute</a>
-        <a href="#download">Download</a>
+        <div class="nav-item">
+          <button class="nav-dd-toggle" type="button" aria-haspopup="true">
+            Support
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dd" role="menu">
+            <a role="menuitem" href="#" data-todo="video-tutorials-url">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+              Video tutorials
+            </a>
+            <a role="menuitem" href="https://github.com/aethersdr/AetherSDR/issues/new/choose" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+              File an issue on GitHub
+            </a>
+            <a role="menuitem" href="#" data-todo="docs-site-url">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8M8 14h8"/></svg>
+              Documentation
+            </a>
+          </div>
+        </div>
       </nav>
       <div class="nav-cta">
-        <a class="btn btn-ghost btn-sm" href="https://github.com/aethersdr/AetherSDR" target="_blank" rel="noopener">
+        <a class="btn btn-ghost btn-sm nav-ghost" href="https://github.com/aethersdr/AetherSDR" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.09 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.79 1.07.79 2.16v3.2c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
           GitHub
         </a>
+        <a class="btn btn-ghost btn-sm nav-ghost" href="https://github.com/aethersdr/AetherSDR/releases" target="_blank" rel="noopener">What's New</a>
         <a class="btn btn-primary btn-sm" href="#download">Download</a>
       </div>
     </div>
@@ -46,12 +66,12 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <span class="eyebrow"><span class="dot"></span> Open-source · Cross-platform · Native</span>
-      <h1>The full FlexRadio experience, <span class="grad-text">native on every desktop</span></h1>
+      <h1>The native workstation for your <span class="grad-text">whole station</span></h1>
       <p class="sub">
-        AetherSDR brings complete FlexRadio operation to Linux, macOS, and Windows — each a
-        native build, no Wine or virtual machines. Built from the ground up with Qt6 and
-        C++20, it speaks the SmartSDR protocol natively and aims to replicate the full
-        SmartSDR experience.
+        AetherSDR is a native amateur-radio workstation for FlexRadio 6000, 8000, and Aurora
+        transceivers — a real build for Linux, macOS, and Windows. Built around open
+        interfaces and the tools you already run, it sits at the center of your station,
+        not just in front of the radio.
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#download">
@@ -84,7 +104,7 @@
   <div class="wrap">
     <div class="stats">
       <div class="stat"><div class="num grad-text">3</div><div class="lbl">Native desktop platforms</div></div>
-      <div class="stat"><div class="num grad-text">8</div><div class="lbl">Detachable panadapters</div></div>
+      <div class="stat"><div class="num grad-text">Up to 8</div><div class="lbl">Detachable panadapters</div></div>
       <div class="stat"><div class="num grad-text">60 fps</div><div class="lbl">GPU spectrum &amp; waterfall</div></div>
       <div class="stat"><div class="num grad-text">6</div><div class="lbl">Noise-reduction engines</div></div>
     </div>
@@ -94,10 +114,10 @@
   <section class="block" id="features">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow"><span class="dot"></span> Everything, on your desktop</span>
-        <h2>A complete station, faithfully rebuilt</h2>
-        <p>Every capability you rely on in SmartSDR — plus a stack of client-side DSP, audio,
-        and connectivity features that go beyond it.</p>
+        <span class="eyebrow"><span class="dot"></span> Built for the whole station</span>
+        <h2>Everything your station needs, in one place</h2>
+        <p>GPU spectrum, a full RX/TX signal chain, data-mode plumbing, spotting, and
+        control surfaces — connected through open, widely used interfaces.</p>
       </div>
 
       <div class="feature-grid">
@@ -111,12 +131,6 @@
           <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1"/><rect x="14" y="4" width="7" height="16" rx="1"/></svg></div>
           <h3>Multi-slice &amp; multi-panadapter</h3>
           <p>Colour-coded VFO overlays, independent TX assignment, diversity/ESC beamforming — up to <b>8 detachable pans</b> with native VITA-49 waterfall tiles and per-flag SmartMTR views.</p>
-        </article>
-
-        <article class="card">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l6 3"/></svg></div>
-          <h3>KiwiSDR receiver browser</h3>
-          <p>Find and connect to public KiwiSDR receivers worldwide through an API-policy-aware directory, with diversity receive and receive-only TX inhibit.</p>
         </article>
 
         <article class="card">
@@ -165,6 +179,12 @@
           <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4v16M8 8v8M16 8v8M4 11v2M20 11v2"/></svg></div>
           <h3>FreeDV RADE</h3>
           <p>AI digital-voice codec with a client-side neural encoder/decoder for natural-sounding low-SNR voice.</p>
+        </article>
+
+        <article class="card">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l6 3"/></svg></div>
+          <h3>KiwiSDR receiver browser</h3>
+          <p>Find and connect to public KiwiSDR receivers worldwide through an API-policy-aware directory, with diversity receive and receive-only TX inhibit.</p>
         </article>
 
         <article class="card">

@@ -168,6 +168,42 @@ header.nav {
 .nav-cta { display: flex; align-items: center; gap: 12px; }
 .nav-toggle { display: none; }
 
+/* Support dropdown */
+.nav-item { position: relative; }
+.nav-dd-toggle {
+  display: inline-flex; align-items: center; gap: 5px;
+  font: inherit; font-size: 14.5px; font-weight: 520;
+  color: var(--ink-soft); background: none; border: 0; padding: 0; cursor: pointer;
+}
+.nav-dd-toggle:hover, .nav-item:focus-within .nav-dd-toggle { color: var(--ink); }
+.nav-dd-toggle svg { width: 13px; height: 13px; transition: transform .18s ease; }
+.nav-item:hover .nav-dd-toggle svg,
+.nav-item:focus-within .nav-dd-toggle svg { transform: rotate(180deg); }
+.nav-dd {
+  position: absolute; top: calc(100% + 12px); right: 0;
+  min-width: 230px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-hi);
+  border-radius: 13px;
+  padding: 8px;
+  display: grid; gap: 2px;
+  box-shadow: var(--shadow);
+  opacity: 0; visibility: hidden; transform: translateY(6px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s;
+}
+/* Hover bridge so the menu doesn't vanish crossing the gap */
+.nav-dd::before { content: ""; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
+.nav-item:hover .nav-dd, .nav-item:focus-within .nav-dd {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.nav-dd a {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 12px; border-radius: 9px;
+  color: var(--ink-soft); font-size: 14px;
+}
+.nav-dd a:hover { background: rgba(93,227,255,0.08); color: var(--ink); }
+.nav-dd a svg { width: 17px; height: 17px; stroke: var(--cyan); flex: none; }
+
 /* ---------- Hero ---------- */
 .hero { padding: 92px 0 40px; position: relative; }
 .hero-grid { display: grid; gap: 30px; text-align: center; justify-items: center; }
@@ -488,6 +524,7 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
   .nav-links { display: none; }
 }
 @media (max-width: 560px) {
+  .nav-ghost { display: none; }
   .feature-grid, .dl-grid, .partners-grid { grid-template-columns: 1fr; }
   .built-grid { grid-template-columns: 1fr 1fr; }
   .foot-grid { grid-template-columns: 1fr; }
