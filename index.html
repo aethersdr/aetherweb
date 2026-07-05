@@ -26,6 +26,8 @@
         <a href="#spectrum">Spectrum</a>
         <a href="#hardware">Hardware</a>
         <a href="#built">How it's built</a>
+        <a href="#partners">Partners</a>
+        <a href="#contribute">Contribute</a>
         <a href="#download">Download</a>
       </nav>
       <div class="nav-cta">
@@ -71,9 +73,9 @@
       <figure class="hero-shot">
         <div class="frame-bar">
           <span class="dots"><i></i><i></i><i></i></span>
-          <span class="title">AetherSDR — FLEX-8600 · 14.263.000</span>
+          <span class="title">AetherSDR v26.6.5 — 40m · 3D stacked-trace panadapter</span>
         </div>
-        <img src="assets/img/screenshot-hero.jpg" alt="AetherSDR running with dual panadapters, waterfalls, and the full control surface" />
+        <img src="assets/img/hero-3dss.jpg" alt="AetherSDR's 3D stacked-trace panadapter over the 40m band, with a live waterfall below and the full control surface" />
       </figure>
     </div>
   </section>
@@ -291,9 +293,12 @@
         <div class="dl-card">
           <div class="os"><svg viewBox="0 0 24 24"><path d="M3 5.5 10.5 4.4v7.1H3V5.5ZM11.6 4.2 21 3v8.5h-9.4V4.2ZM3 12.5h7.5v7.1L3 18.5v-6ZM11.6 12.5H21V21l-9.4-1.3v-7.2Z"/></svg> Windows</div>
           <div class="variants">
+            <a class="primary-dl" href="https://apps.microsoft.com/detail/9nc6bmwfn811" target="_blank" rel="noopener">Microsoft Store <span class="arch">recommended</span></a>
             <a href="https://github.com/aethersdr/AetherSDR/releases/latest">Installer <span class="arch">x64 setup.exe</span></a>
             <a href="https://github.com/aethersdr/AetherSDR/releases/latest">Portable <span class="arch">x64 zip</span></a>
           </div>
+          <div class="winget"><span class="prompt">&gt; </span>winget install aethersdr -s msstore</div>
+          <p class="winget-note">Auto-updating via the Store, or one line for PowerShell users.</p>
         </div>
       </div>
 
@@ -329,20 +334,99 @@
           <li><b>One rulebook for every tool.</b> Codex, Copilot, Cursor, Gemini, and Aider all follow the project Constitution and <code>AGENTS.md</code>.</li>
           <li><b>Branch protection.</b> Signed commits, green CI, and CODEOWNERS review — the same gate for humans and AI alike.</li>
         </ul>
+
+        <div class="bridge">
+          <div class="bridge-lead">
+            <span class="tag">Agent automation bridge</span>
+            <h3>Agents that can actually drive the radio</h3>
+            <p>AetherSDR ships an opt-in, in-process command channel that exposes the live
+            Qt widget tree and can capture any widget — <b>including the GPU
+            panadapter</b> — as a PNG. It's how an AI agent proves a change works before the
+            pull request ever opens.</p>
+            <p>The result: every UX, meter, audio, and transmit fix is verified against real
+            hardware — or headless CI with an offscreen renderer — in a deterministic,
+            cross-OS <b>snapshot → act → assert</b> loop. Off in production; it only exists
+            when a developer turns it on.</p>
+          </div>
+          <div>
+            <div class="bridge-loop">
+              <div class="bridge-step"><span class="verb">dumpTree</span><span class="d"><b>Snapshot.</b> Read the widget tree — slider values, button state, label text, accessible names.</span></div>
+              <div class="bridge-step"><span class="verb">get</span><span class="d"><b>Read truth.</b> Pull live model state: frequency, mode, center, dBm, NB/NR, DSP.</span></div>
+              <div class="bridge-step"><span class="verb">invoke</span><span class="d"><b>Act.</b> Click a button, move a slider, open a menu, add or close a panadapter.</span></div>
+              <div class="bridge-step"><span class="verb">grab</span><span class="d"><b>Assert.</b> Capture what the panadapter or a dialog actually rendered, as a PNG.</span></div>
+            </div>
+            <div class="bridge-guard">
+              <svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 8-4-1-7-4-7-8V6z"/><path d="M9 12l2 2 4-4"/></svg>
+              <span>Transmit verbs are gated behind an explicit allow-TX flag and a dummy-load / ANT2 safety guard — agents can't key the radio by accident.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== CTA BANNER ===================== -->
-  <section class="block" style="padding-top: 10px;">
+  <!-- ===================== PARTNERS ===================== -->
+  <section class="block" id="partners">
     <div class="wrap">
-      <div class="cta-banner">
-        <span class="eyebrow"><span class="dot"></span> Native. Open. Yours.</span>
-        <h2 style="margin-top:16px;">Bring your Flex to every desktop you own</h2>
-        <p>Download the latest release, or build it yourself from source in a couple of commands.</p>
-        <div class="hero-cta" style="justify-content:center;">
-          <a class="btn btn-primary" href="#download">Download AetherSDR</a>
-          <a class="btn btn-ghost" href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">Join the discussion</a>
+      <div class="section-head">
+        <span class="eyebrow"><span class="dot"></span> Partners &amp; friends</span>
+        <h2>Projects we build alongside</h2>
+        <p>Open-source tools, hardware, and communities in the AetherSDR orbit.</p>
+      </div>
+
+      <div class="partners-grid">
+        <a class="partner-card placeholder" href="#partners">
+          <span class="partner-mark">+</span>
+          <div class="partner-body"><h3>Partner slot</h3><p>Link a project &amp; short description here.</p></div>
+        </a>
+        <a class="partner-card placeholder" href="#partners">
+          <span class="partner-mark">+</span>
+          <div class="partner-body"><h3>Partner slot</h3><p>Link a project &amp; short description here.</p></div>
+        </a>
+        <a class="partner-card placeholder" href="#partners">
+          <span class="partner-mark">+</span>
+          <div class="partner-body"><h3>Partner slot</h3><p>Link a project &amp; short description here.</p></div>
+        </a>
+        <a class="partner-card placeholder" href="#partners">
+          <span class="partner-mark">+</span>
+          <div class="partner-body"><h3>Partner slot</h3><p>Link a project &amp; short description here.</p></div>
+        </a>
+        <a class="partner-card placeholder" href="#partners">
+          <span class="partner-mark">+</span>
+          <div class="partner-body"><h3>Partner slot</h3><p>Link a project &amp; short description here.</p></div>
+        </a>
+        <a class="partner-card placeholder" href="#partners">
+          <span class="partner-mark">+</span>
+          <div class="partner-body"><h3>Partner slot</h3><p>Link a project &amp; short description here.</p></div>
+        </a>
+      </div>
+      <p class="partners-note">Building something that pairs with AetherSDR?
+        <a href="https://github.com/aethersdr/AetherSDR/discussions">Let's talk</a> about a spot here.</p>
+    </div>
+  </section>
+
+  <!-- ===================== CONTRIBUTE ===================== -->
+  <section class="block contribute" id="contribute" style="padding-top: 10px;">
+    <div class="wrap">
+      <div class="built-wrap" style="text-align:center;">
+        <span class="eyebrow"><span class="dot"></span> Call for contributors</span>
+        <h2 style="margin-top:16px; font-size: clamp(28px, 4vw, 40px);">Help build the client Flex operators deserve</h2>
+        <p style="max-width:62ch; margin:16px auto 0; color:var(--ink-soft); font-size:17px;">
+          AetherSDR is developed in the open with Claude Code and a merge gate that treats
+          every contributor — human or AI — the same. Bring a fix, a feature, a translation,
+          a bug report, or a screenshot. You don't have to be a C++ developer to help.
+        </p>
+        <div class="contribute-actions">
+          <a class="btn btn-primary" href="https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Read the contributing guide</a>
+          <a class="btn btn-ghost" href="https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" target="_blank" rel="noopener">Good first issues</a>
+          <a class="btn btn-ghost" href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">Join Discussions</a>
+        </div>
+        <div class="contribute-facts">
+          <span class="f"><b>~50</b> PRs merged / week</span>
+          <span class="f"><b>GPG-signed</b> commits</span>
+          <span class="f"><b>≥6</b> AI tools welcome</span>
+          <span class="f"><b>Qt6 · C++20</b></span>
+          <span class="f">Not a dev? The in-app <b>lightbulb</b> files AI-assisted reports</span>
         </div>
       </div>
     </div>
