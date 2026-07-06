@@ -345,6 +345,18 @@ section.block { padding: 84px 0; }
   transition: border-color .2s ease, transform .2s ease;
 }
 .dl-card:hover { border-color: var(--line-hi); transform: translateY(-3px); }
+.dl-card.is-recommended {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 1px var(--cyan), 0 26px 56px -26px rgba(50, 160, 220, 0.6);
+  background: linear-gradient(180deg, rgba(93,227,255,0.06), rgba(93,227,255,0.01)), var(--bg-1);
+}
+.dl-reco {
+  align-self: flex-start;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: #041019;
+  background: var(--grad);
+  border-radius: 100px; padding: 4px 11px;
+}
 .dl-card .os { display: flex; align-items: center; gap: 11px; font-weight: 680; font-size: 18px; }
 .dl-card .os svg { width: 24px; height: 24px; fill: var(--cyan); }
 .dl-card .variants { display: grid; gap: 8px; margin-top: 2px; }
