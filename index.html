@@ -81,9 +81,9 @@
       <h1>The native workstation for your <span class="grad-text">whole station</span></h1>
       <p class="sub">
         AetherSDR is a native amateur-radio workstation for FlexRadio 6000, 8000, and Aurora
-        transceivers — a real build for Linux, macOS, and Windows. Built around open
-        interfaces and the tools you already run, it sits at the center of your station,
-        not just in front of the radio.
+        transceivers — native builds for Linux, macOS, and Windows, no Wine, no virtual
+        machines. Built around open interfaces and the tools you already run, it sits at
+        the center of your station, not just in front of the radio.
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#download" data-dl-primary>
@@ -140,7 +140,7 @@
         <article class="card">
           <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h3l2 6 4-14 2 8h4"/><path d="M20 12h1"/></svg></div>
           <h3>GPU spectrum &amp; waterfall</h3>
-          <p>QRhi rendering on the GPU (OpenGL/Metal/D3D11) with a per-pixel FFT trace at up to <b>60 fps</b>, an optional <b>3D stacked-trace</b> mode, and ~71% less CPU than CPU paint.</p>
+          <p>QRhi rendering on the GPU (OpenGL/Metal/D3D11) with a per-pixel FFT trace at up to <b>60 fps</b> and an optional <b>3D stacked-trace</b> mode.</p>
         </article>
 
         <article class="card">
@@ -164,7 +164,7 @@
         <article class="card">
           <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9v6M11 9v6M15 9v6"/></svg></div>
           <h3>DAX virtual audio + IQ</h3>
-          <p>4 RX + 1 TX channels and raw I/Q at 24–192 kHz for WSJT-X, fldigi, VARA, and JS8Call — plus a per-slice WFM demodulator for satellite data.</p>
+          <p>4 RX + 1 TX channels and raw I/Q at 24–192 kHz for WSJT-X, fldigi, VARA, JS8Call, and Winlink — plus a per-slice WFM demodulator for satellite data.</p>
         </article>
 
         <article class="card">
@@ -181,8 +181,8 @@
 
         <article class="card">
           <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg></div>
-          <h3>SpotHub</h3>
-          <p>DX Cluster, RBN, WSJT-X, POTA, and FreeDV Reporter spots in one place, with automatic mode switching on click.</p>
+          <h3>SpotHub &amp; net reminders</h3>
+          <p>DX Cluster, RBN, WSJT-X, POTA, PSK Reporter, and FreeDV Reporter spots in one place, with auto mode-switch and one-click <b>QRZ lookups</b> — plus recurring <b>net reminders</b> so you never miss a sked.</p>
         </article>
 
         <article class="card">
@@ -206,7 +206,7 @@
         <article class="card">
           <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 19v2M16 19v2"/><circle cx="12" cy="12" r="2.5"/></svg></div>
           <h3>SmartLink remote + TCI v2.0</h3>
-          <p>Auth0/TLS WAN operation, plus CAT + audio + IQ + CW + spots over a single TCI WebSocket server.</p>
+          <p>Secure remote operation from anywhere (Auth0 + TLS), plus CAT + audio + IQ + CW + spots over a single TCI WebSocket server.</p>
         </article>
 
         <article class="card">
@@ -292,7 +292,9 @@
             <span class="pill">FlexControl knob</span><span class="pill">Icom RC-28</span>
             <span class="pill">Griffin PowerMate</span><span class="pill">ShuttleXpress / Pro v2</span>
             <span class="pill">MIDI controllers</span><span class="pill">Stream Deck</span>
-            <span class="pill">USB PTT / CW</span><span class="pill">PGXL amp</span><span class="pill">TGXL tuner</span>
+            <span class="pill">Ulanzi dials</span><span class="pill">USB PTT / CW</span>
+            <span class="pill">PGXL amp</span><span class="pill">TGXL tuner</span>
+            <span class="pill">Antenna Genius</span><span class="pill">ShackSwitch</span>
           </div>
           <p class="hw-note">USB serial, USB HID, MIDI (with learn mode &amp; profiles), and Stream Deck / StreamController plugins on macOS, Windows, and Linux.</p>
         </div>
@@ -463,7 +465,7 @@
         <div class="contribute-facts">
           <span class="f"><b>~50</b> PRs merged / week</span>
           <span class="f"><b>GPG-signed</b> commits</span>
-          <span class="f"><b>≥6</b> AI tools welcome</span>
+          <span class="f"><b>≥6</b> AI tools in the codebase</span>
           <span class="f"><b>Qt6 · C++20</b></span>
           <span class="f">Not a dev? The in-app <b>lightbulb</b> files AI-assisted reports</span>
         </div>
