@@ -35,10 +35,10 @@ def main():
 
     # Inline JS as a real <script> before the asset pass — data-URI-ing a
     # script src would break execution in the single-file bundle.
-    with open(os.path.join(ROOT, "assets/js/os-detect.js"), encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "assets/js/downloads.js"), encoding="utf-8") as f:
         js = f.read()
     html = re.sub(
-        r'<script src="assets/js/os-detect\.js[^"]*"[^>]*></script>',
+        r'<script src="assets/js/downloads\.js[^"]*"[^>]*></script>',
         f"<script>\n{js}\n</script>",
         html,
     )
