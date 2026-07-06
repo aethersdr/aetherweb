@@ -524,7 +524,6 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
   .nav-links { display: none; }
 }
 @media (max-width: 560px) {
-  .nav-ghost { display: none; }
   .feature-grid, .dl-grid, .partners-grid { grid-template-columns: 1fr; }
   .built-grid { grid-template-columns: 1fr 1fr; }
   .foot-grid { grid-template-columns: 1fr; }
