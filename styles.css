@@ -42,7 +42,10 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px; /* keep anchored section headings clear of the sticky nav */
+}
 
 body {
   margin: 0;
@@ -51,6 +54,8 @@ body {
   background: var(--bg);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%; /* stop iOS Safari inflating text in landscape */
+  text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
@@ -149,6 +154,7 @@ header.nav {
   position: sticky;
   top: 0;
   z-index: 50;
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   background: rgba(6, 11, 19, 0.66);
   border-bottom: 1px solid var(--line);
@@ -329,10 +335,6 @@ section.block { padding: 84px 0; }
   box-shadow: var(--shadow);
 }
 .spot-media img { width: 100%; display: block; }
-.spot-media.viz { background: #04070d; }
-.viz-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-.viz-row img { border-right: 1px solid rgba(0,0,0,0.4); }
-.viz-row img:last-child { border-right: 0; }
 
 /* ---------- Download ---------- */
 .dl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
