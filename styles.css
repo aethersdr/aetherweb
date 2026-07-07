@@ -367,14 +367,16 @@ section.block { padding: 84px 0; }
 }
 .dl-card .variants a:hover { border-color: var(--cyan); color: var(--ink); background: rgba(93,227,255,0.06); }
 .dl-card .variants .arch { color: var(--muted); font-size: 12.5px; font-family: var(--mono); }
-.dl-card .variants a.primary-dl {
+/* The Store link is only visually promoted when this card is the visitor's
+   detected platform — otherwise it renders like any other variant. */
+.dl-card.is-recommended .variants a.primary-dl {
   border-color: var(--line-hi);
   background: var(--grad-soft);
   color: var(--ink);
   font-weight: 640;
 }
-.dl-card .variants a.primary-dl .arch { color: var(--cyan); }
-.dl-card .variants a.primary-dl:hover { border-color: var(--cyan); background: rgba(93,227,255,0.12); }
+.dl-card.is-recommended .variants a.primary-dl .arch { color: var(--cyan); }
+.dl-card.is-recommended .variants a.primary-dl:hover { border-color: var(--cyan); background: rgba(93,227,255,0.12); }
 .dl-card .winget {
   margin-top: 2px;
   font-family: var(--mono);
@@ -447,6 +449,25 @@ section.block { padding: 84px 0; }
   display: flex; gap: 9px; align-items: flex-start;
 }
 .bridge-guard svg { width: 16px; height: 16px; stroke: var(--aqua); fill: none; stroke-width: 1.8; flex: none; margin-top: 2px; }
+
+/* ---------- Sponsor ---------- */
+.sponsor-impact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 860px;
+  margin: 28px auto 0;
+  text-align: left;
+}
+.sponsor-impact .imp {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.02);
+  padding: 16px 18px;
+}
+.sponsor-impact .k { font-size: 15px; font-weight: 720; letter-spacing: -0.01em; }
+.sponsor-impact .v { color: var(--muted); font-size: 13.5px; margin-top: 5px; line-height: 1.5; }
+@media (max-width: 700px) { .sponsor-impact { grid-template-columns: 1fr; } }
 
 /* ---------- Contribute ---------- */
 .contribute-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }

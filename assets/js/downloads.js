@@ -113,7 +113,38 @@
       .catch(function () { /* keep fallback /releases/latest links */ });
   }
 
-  function init() { highlight(); loadRelease(); }
+  // Live contributor count: GitHub exposes the total as the last-page number
+  // in the Link header of /contributors?per_page=1 (anon=1 counts everyone).
+  function loadContributors() {
+    var els = document.querySelectorAll('[data-contributor-count]');
+    if (!els.length || !window.fetch) return;
+    var CC_KEY = 'aetherContributorCount';
+    try {
+      var c = JSON.parse(localStorage.getItem(CC_KEY));
+      if (c && Date.now() - c.t < TTL) {
+        for (var i = 0; i < els.length; i++) els[i].textContent = c.n;
+        return;
+      }
+    } catch (e) {}
+    fetch('https://api.github.com/repos/' + REPO + '/contributors?per_page=1&anon=1', {
+      headers: { Accept: 'application/vnd.github+json' }
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('github ' + res.status);
+        var link = res.headers.get('Link') || '';
+        var m = link.match(/[?&]page=(\d+)>;\s*rel="last"/);
+        if (!m) throw new Error('no last page');
+        return parseInt(m[1], 10);
+      })
+      .then(function (n) {
+        if (!n) return;
+        try { localStorage.setItem(CC_KEY, JSON.stringify({ t: Date.now(), n: n })); } catch (e) {}
+        for (var i = 0; i < els.length; i++) els[i].textContent = n;
+      })
+      .catch(function () { /* keep the static fallback count */ });
+  }
+
+  function init() { highlight(); loadRelease(); loadContributors(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
