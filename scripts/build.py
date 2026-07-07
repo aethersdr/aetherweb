@@ -37,9 +37,11 @@ def main():
     # script src would break execution in the single-file bundle.
     with open(os.path.join(ROOT, "assets/js/downloads.js"), encoding="utf-8") as f:
         js = f.read()
+    # Function replacement: a plain-string repl would interpret backslashes
+    # in the JS (e.g. regex \d) as re escape sequences and crash.
     html = re.sub(
         r'<script src="assets/js/downloads\.js[^"]*"[^>]*></script>',
-        f"<script>\n{js}\n</script>",
+        lambda _m: f"<script>\n{js}\n</script>",
         html,
     )
 
