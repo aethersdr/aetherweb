@@ -28,9 +28,10 @@ def main():
         css = f.read()
 
     # Inline the stylesheet.
-    html = html.replace(
-        '<link rel="stylesheet" href="styles.css" />',
-        f"<style>\n{css}\n</style>",
+    html = re.sub(
+        r'<link rel="stylesheet" href="styles\.css(?:\?[^\"]*)?"\s*/?>',
+        lambda _match: f"<style>\n{css}\n</style>",
+        html,
     )
 
     # Inline local JS as real <script> elements before the asset pass —

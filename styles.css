@@ -214,13 +214,14 @@ header.nav {
 .hero {
   padding: 92px 0 40px;
   position: relative;
+  z-index: 0;
   isolation: isolate;
   overflow: hidden;
 }
 .hero::before {
   content: "";
   position: absolute;
-  z-index: 0;
+  z-index: -2;
   inset: 0;
   pointer-events: none;
   background:
@@ -229,7 +230,7 @@ header.nav {
 }
 .rf-ambient {
   position: absolute;
-  z-index: 0;
+  z-index: -1;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
@@ -247,7 +248,23 @@ header.nav {
   transform: scale(1.02);
   animation: rf-breathe 8.333s ease-in-out infinite alternate;
 }
+.rf-ambient::after {
+  content: "";
+  display: none;
+  position: absolute;
+  top: 8%;
+  bottom: 12%;
+  left: 0;
+  width: 120px;
+  background: linear-gradient(90deg, transparent, rgba(93, 227, 255, 0.055) 76%, rgba(142, 247, 230, 0.02));
+  transform: translateX(-120px);
+}
+.hero.rf-safari-static .rf-ambient::after {
+  display: block;
+  animation: rf-safari-sweep 13.333s linear infinite;
+}
 .rf-ambient-canvas {
+  display: block;
   position: absolute;
   inset: 0;
   width: 100%;
@@ -256,6 +273,8 @@ header.nav {
 .hero-grid {
   position: relative;
   z-index: 1;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
   display: grid;
   gap: 30px;
   text-align: center;
@@ -264,6 +283,9 @@ header.nav {
 @keyframes rf-breathe {
   from { transform: scale(1.01); opacity: 0.72; }
   to { transform: scale(1.07); opacity: 1; }
+}
+@keyframes rf-safari-sweep {
+  to { transform: translateX(calc(100vw + 120px)); }
 }
 .hero h1 { font-size: clamp(34px, 5.4vw, 62px); max-width: 16ch; }
 .hero .sub {
@@ -623,4 +645,5 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rf-ambient::before { animation: none; }
+  .rf-ambient::after { animation: none !important; }
 }

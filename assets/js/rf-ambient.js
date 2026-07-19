@@ -17,6 +17,12 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var smallScreen = window.matchMedia('(max-width: 700px)');
+  // Safari can corrupt separately composited text above a continuously
+  // repainting canvas. Keep the spectrum static there and let CSS animate the
+  // sweep on its own layer; other browsers retain the richer live trace.
+  var safariStatic = /Safari\//.test(navigator.userAgent)
+    && !/(Chrome|Chromium|CriOS|Edg|OPR|FxiOS)\//.test(navigator.userAgent);
+  if (safariStatic) hero.classList.add('rf-safari-static');
   var visible = true;
   var pageVisible = !document.hidden;
   var running = false;
@@ -147,7 +153,7 @@
 
     ctx.clearRect(0, 0, width, height);
     ctx.save();
-    ctx.globalCompositeOperation = 'screen';
+    if (!safariStatic) ctx.globalCompositeOperation = 'screen';
     drawGrid(baseline);
     drawSweep(seconds, baseline);
     drawSpectrum(seconds, baseline);
@@ -178,7 +184,7 @@
   }
 
   function updatePlayback() {
-    var shouldRun = visible && pageVisible && !reduceMotion.matches;
+    var shouldRun = visible && pageVisible && !reduceMotion.matches && !safariStatic;
     if (shouldRun && !running) {
       running = true;
       lastFrame = 0;
@@ -187,7 +193,7 @@
       running = false;
       window.cancelAnimationFrame(frameRequest);
     }
-    if (!shouldRun) draw(0);
+    if (!shouldRun && !safariStatic) draw(0);
   }
 
   document.addEventListener('visibilitychange', function () {
