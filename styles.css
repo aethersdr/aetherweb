@@ -248,21 +248,7 @@ header.nav {
   transform: scale(1.02);
   animation: rf-breathe 8.333s ease-in-out infinite alternate;
 }
-.rf-ambient::after {
-  content: "";
-  display: none;
-  position: absolute;
-  top: 8%;
-  bottom: 12%;
-  left: 0;
-  width: 120px;
-  background: linear-gradient(90deg, transparent, rgba(93, 227, 255, 0.055) 76%, rgba(142, 247, 230, 0.02));
-  transform: translateX(-120px);
-}
-.hero.rf-safari-static .rf-ambient::after {
-  display: block;
-  animation: rf-safari-sweep 13.333s linear infinite;
-}
+.hero.rf-safari-static .rf-ambient::before { animation: none; }
 .rf-ambient-canvas {
   display: block;
   position: absolute;
@@ -281,9 +267,6 @@ header.nav {
 @keyframes rf-breathe {
   from { transform: scale(1.01); opacity: 0.72; }
   to { transform: scale(1.07); opacity: 1; }
-}
-@keyframes rf-safari-sweep {
-  to { transform: translateX(calc(100vw + 120px)); }
 }
 .hero h1 { font-size: clamp(34px, 5.4vw, 62px); max-width: 16ch; }
 .hero .sub {
@@ -643,5 +626,4 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rf-ambient::before { animation: none; }
-  .rf-ambient::after { animation: none !important; }
 }
