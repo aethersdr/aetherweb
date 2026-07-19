@@ -273,8 +273,6 @@ header.nav {
 .hero-grid {
   position: relative;
   z-index: 1;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
   display: grid;
   gap: 30px;
   text-align: center;
