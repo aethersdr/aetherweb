@@ -33,15 +33,19 @@ def main():
         f"<style>\n{css}\n</style>",
     )
 
-    # Inline JS as a real <script> before the asset pass — data-URI-ing a
-    # script src would break execution in the single-file bundle.
-    with open(os.path.join(ROOT, "assets/js/downloads.js"), encoding="utf-8") as f:
-        js = f.read()
-    # Function replacement: a plain-string repl would interpret backslashes
-    # in the JS (e.g. regex \d) as re escape sequences and crash.
+    # Inline local JS as real <script> elements before the asset pass —
+    # data-URI-ing a script src would break execution in the single-file bundle.
+    def inline_script(match):
+        path = match.group(1)
+        with open(os.path.join(ROOT, path), encoding="utf-8") as f:
+            js = f.read()
+        # A function replacement avoids interpreting JS backslashes (for
+        # example regex \d) as replacement-string escape sequences.
+        return f"<script>\n{js}\n</script>"
+
     html = re.sub(
-        r'<script src="assets/js/downloads\.js[^"]*"[^>]*></script>',
-        lambda _m: f"<script>\n{js}\n</script>",
+        r'<script src="(assets/js/[^"?]+)(?:\?[^\"]*)?"[^>]*></script>',
+        inline_script,
         html,
     )
 
