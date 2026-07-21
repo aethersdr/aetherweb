@@ -248,7 +248,7 @@ header.nav {
   transform: scale(1.02);
   animation: rf-breathe 8.333s ease-in-out infinite alternate;
 }
-.hero.rf-safari-static .rf-ambient::before { animation: none; }
+.hero.rf-safari-static .rf-ambient { display: none; }
 .rf-ambient-canvas {
   display: block;
   position: absolute;
