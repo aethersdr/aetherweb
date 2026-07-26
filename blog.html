@@ -100,6 +100,27 @@
 
         <div class="blog-grid">
 
+          <a class="blog-card" href="#first-contribution">
+            <div class="blog-card-media">
+              <img width="1200" height="630" src="assets/img/og-image.jpg" alt="AetherSDR's 3D stacked-trace panadapter and waterfall with the full control surface" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-07-26">July 26, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>8 min read</span>
+              </span>
+              <h3>Your first contribution to AetherSDR</h3>
+              <p>You no longer need to be a C++ programmer to fix something in this
+                project. You need judgement, a radio, and the patience to check work —
+                the same things that make a good Elmer. Here's what an AI coding agent
+                changes about contributing, and what it very deliberately doesn't.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#gpu-multislice">
             <div class="blog-card-media">
               <img width="1400" height="1098" src="assets/img/pan-multislice.jpg" alt="Multiple AetherSDR panadapter slices rendering simultaneously on the 20m band" loading="lazy" />
@@ -170,6 +191,150 @@
     <!-- ===================== POSTS ===================== -->
     <!-- Each article is hidden until its slug is routed to. Keep data-post in sync
          with the card href above. Body copy uses .blog-body for prose styling. -->
+
+    <article class="blog-post" data-post="first-contribution" tabindex="-1" aria-labelledby="h-first-contribution" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/og-image.jpg" alt="AetherSDR's 3D stacked-trace panadapter and waterfall with the full control surface" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-07-26">July 26, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>8 min read</span>
+        </span>
+        <h1 id="h-first-contribution">Your first contribution to AetherSDR</h1>
+
+        <div class="blog-body">
+          <p class="lede">You no longer need to be a C++ programmer to fix something
+            in this project. You need judgement, a radio, and the patience to check
+            work — the same things that make a good Elmer.</p>
+
+          <p>Every open-source project says it welcomes newcomers. Most then hand you
+            a wall of build instructions, a toolchain that fights you for a weekend,
+            and a code review that assumes you already know what a rebase is. The
+            welcome is sincere; the on-ramp is still a cliff.</p>
+
+          <p>That cliff is what actually changed. Not the code — the on-ramp. We've
+            published a <a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/first-contribution-cheatsheet.md" target="_blank" rel="noopener">first-contribution cheat sheet</a>
+            that takes you from "I've never used GitHub" to a merged pull request, and
+            the striking thing about it is that you never type a command. Every step is
+            a sentence you say, in English, to an AI coding agent working inside your
+            editor.</p>
+
+          <h2>You're the control operator</h2>
+
+          <p>Here's the part worth being clear about, because it's where the whole
+            thing succeeds or fails: the agent does the typing, not the deciding.</p>
+
+          <p>It will install dependencies, find the bug, write the fix, and draft the
+            pull request. It will also sound completely confident while being wrong.
+            That is not a flaw you can prompt your way out of — it's the nature of the
+            tool, and it's exactly why the human in the chair still matters. Your job
+            is to read what it proposes before you say yes.</p>
+
+          <p>If you've ever supervised a Technician on your license, the arrangement
+            will feel familiar. Someone else is on the mic. You're still responsible
+            for what goes out. The cheat sheet states it as four rules, and the third
+            one — <em>it sounds confident even when wrong</em> — is the one to
+            internalize.</p>
+
+          <p>So the skill that makes you useful here isn't C++. It's knowing what
+            AetherSDR is supposed to do when you key up, and noticing when it doesn't.
+            That's operator knowledge, and no amount of model capability substitutes
+            for it.</p>
+
+          <h2>What it costs to start</h2>
+
+          <p>Three things: a free editor, a GitHub account, and one AI coding agent.
+            The cheat sheet walks through Copilot, Codex, and Claude Code side by side,
+            including which tiers can actually drive your editor and which are chat
+            only — a distinction worth checking before you pay for anything. There is
+            a genuinely free path. Limits shift often enough that the cheat sheet links
+            to the live pricing pages rather than quoting numbers that go stale.</p>
+
+          <p>The GitHub account is the one step nothing can do for you. Pick your
+            callsign as the username — it's public, and it's the handle the rest of us
+            will know you by.</p>
+
+          <h2>Finding a first job</h2>
+
+          <p>Issues tagged <a href="https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" target="_blank" rel="noopener">good first issue</a>
+            are the front door. Ask your agent to read the open ones and explain the
+            top few in plain English, then to recommend one — it's surprisingly good at
+            judging which bugs are self-contained.</p>
+
+          <p>Then claim it before you start. Claiming means adding yourself to the
+            issue's assignees, not leaving a comment saying you'll take it. Our triage
+            bot is auto-assigned to everything, so an issue showing only the bot is
+            free. This is the one piece of etiquette that matters on day one: it's what
+            stops two people quietly fixing the same bug on a Saturday afternoon.</p>
+
+          <h2>Bring evidence, not vibes</h2>
+
+          <p>"Works on my machine" is not evidence, and this is where a first PR
+            usually either lands or stalls.</p>
+
+          <p>AetherSDR ships an agent automation bridge — a switch you flip at launch
+            that lets your agent drive the running application directly: read the state
+            of any control, move sliders, click buttons, capture the panadapter. So
+            instead of asserting the bug is fixed, your agent can walk the issue's
+            exact reproduction steps through the app and show the control values before
+            and after.</p>
+
+          <p>It's the difference between eyeballing the S-meter and putting the radio
+            on a service monitor. Reviewers here look for that trace, and a first pull
+            request that arrives with one moves noticeably faster than one that says
+            "works for me."</p>
+
+          <p>Two ground rules the cheat sheet is firm about, both of which protect your
+            station rather than the codebase: check the radio isn't already in use
+            before launching a test run, because two clients fighting over one radio
+            produce evidence that is simply wrong. And ask for receive-only testing.
+            The bridge refuses to transmit unless you explicitly enable it — leave it
+            that way for your first run.</p>
+
+          <h2>When it goes wrong</h2>
+
+          <p>It will. A build will fail, a check will go red, GitHub will call your
+            commit "Unverified" for reasons that make sense to roughly nobody the first
+            time.</p>
+
+          <p>The entire troubleshooting procedure is: copy whatever you see, paste it
+            to your agent, and add <em>"This happened. What does it mean and what
+            should we do?"</em> That sentence resolves the overwhelming majority of
+            first-timer problems, because the errors are well-known ones and the agent
+            has seen them all.</p>
+
+          <h2>Why we bother</h2>
+
+          <p>Ham radio has always run on people explaining things to each other —
+            someone signed your license test, someone talked you through your first
+            HF contact, someone told you your audio was too wide. That tradition is
+            the reason this project is worth contributing to at all.</p>
+
+          <p>The tooling now handles the part that used to gate people out: the syntax,
+            the build system, the git incantations. What it can't supply is someone who
+            knows what a properly-behaving panadapter looks like at 3 AM during a
+            contest. That's you.</p>
+
+          <p><a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/first-contribution-cheatsheet.md" target="_blank" rel="noopener">Read the cheat sheet</a>,
+            pick an issue, and open the pull request. If you get stuck at any point,
+            <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
+            asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
 
     <article class="blog-post" data-post="gpu-multislice" tabindex="-1" aria-labelledby="h-gpu-multislice" hidden>
       <div class="wrap blog-post-wrap">
