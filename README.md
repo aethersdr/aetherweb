@@ -11,11 +11,34 @@ feature-forward, using AetherSDR's own palette (deep navy + electric cyan→teal
 
 ```
 index.html            The landing page (single page, no build step required)
+blog.html             The blog — card index + every post, routed client-side
 styles.css            All styling (design tokens at the top)
 assets/img/           Optimized screenshots, logo, and 3D-spectrum visuals
+assets/js/blog.js     Blog card-index <-> post routing
 serve.py              Tiny local static server (python3 serve.py → :4321)
 scripts/build.py      Bundles everything into dist/index.html (self-contained)
 ```
+
+## Adding a blog post
+
+Everything lives in `blog.html` — no build step, no separate post files. A post
+is two blocks that share a slug:
+
+1. **A card** in the `.blog-grid`, linking to `#your-slug`. The description is
+   clamped to four lines, so write 3–4 lines and don't worry about matching
+   neighbouring card heights.
+2. **An `<article class="blog-post" data-post="your-slug" ... hidden>`** further
+   down, holding the hero image and full body. Keep the `hidden` attribute — it
+   is what keeps the post off the index until it's routed to.
+
+`assets/js/blog.js` matches the two by slug: clicking a card sets the hash, which
+swaps the grid out for that post. Post URLs (`/blog.html#your-slug`) are
+shareable, and Back/Forward work. Body copy goes inside `.blog-body`, which
+styles headings, lists, links, quotes, and code blocks for you.
+
+> Note: don't add a `display` value to `.blog-post` in CSS — a class rule
+> out-specifies the browser's `[hidden] { display: none }` and every post would
+> render on the index at once.
 
 ## Local preview
 

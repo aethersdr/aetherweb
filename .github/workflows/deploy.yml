@@ -34,7 +34,7 @@ jobs:
         if: ${{ env.CF_TOKEN != '' }}
         run: |
           mkdir -p _site
-          cp -R index.html 404.html styles.css assets _headers _site/
+          cp -R index.html blog.html 404.html styles.css assets _headers _site/
           [ -f _redirects ] && cp _redirects _site/ || true
           echo "Staged:" && find _site -maxdepth 2 -type f | sort
 

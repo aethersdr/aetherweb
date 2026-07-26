@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog — AetherSDR</title>
+  <meta name="description" content="Release notes, engineering deep-dives, and station notes from the AetherSDR project — the native amateur-radio workstation for FlexRadio transceivers." />
+  <link rel="canonical" href="https://www.aethersdr.com/blog.html" />
+  <meta name="theme-color" content="#060b13" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AetherSDR" />
+  <meta property="og:url" content="https://www.aethersdr.com/blog.html" />
+  <meta property="og:title" content="AetherSDR Blog" />
+  <meta property="og:description" content="Release notes, engineering deep-dives, and station notes from the AetherSDR project." />
+  <meta property="og:image" content="https://www.aethersdr.com/assets/img/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AetherSDR's 3D stacked-trace panadapter and waterfall over the 40m band, with the full control surface." />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AetherSDR Blog" />
+  <meta name="twitter:description" content="Release notes, engineering deep-dives, and station notes from the AetherSDR project." />
+  <meta name="twitter:image" content="https://www.aethersdr.com/assets/img/og-image.jpg" />
+
+  <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Without JS there's nothing to route, so show every post stacked under
+       the index rather than a grid of cards that go nowhere. -->
+  <noscript>
+    <style>
+      .blog-post[hidden] { display: block; }
+      .blog-back { display: none; }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo-96.png" alt="AetherSDR logo" />
+        <span>Aether<b>SDR</b></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#built">How it's built</a>
+        <a href="blog.html" class="is-active" aria-current="page">Blog</a>
+        <a href="index.html#partners">Partners</a>
+        <a href="index.html#contribute">Contribute</a>
+        <a href="index.html#sponsor">Sponsor</a>
+        <div class="nav-item">
+          <button class="nav-dd-toggle" type="button" aria-haspopup="true">
+            Support
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dd" role="menu">
+            <a role="menuitem" href="https://lu5dx.github.io/AetherSDRDocsEnglish/latest/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8M8 14h8"/></svg>
+              User Manual
+            </a>
+            <a role="menuitem" href="https://www.youtube.com/@AetherSDR" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+              Video tutorials
+            </a>
+            <a role="menuitem" href="https://github.com/aethersdr/AetherSDR/issues/new/choose" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+              File an issue on GitHub
+            </a>
+          </div>
+        </div>
+      </nav>
+      <div class="nav-cta">
+        <!-- Mobile-only: .nav-links is hidden under 940px, so Blog needs its own way in. -->
+        <a class="nav-cta-link" href="blog.html">Blog</a>
+        <a class="btn btn-primary btn-sm" href="index.html#download">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <a id="top"></a>
+
+  <main id="blog-main">
+
+    <!-- ===================== BLOG INDEX ===================== -->
+    <!-- Card grid. Each card links to #<slug>, matched to an <article data-post="<slug>">
+         below by assets/js/blog.js. Add a post = add one card here + one article there. -->
+    <section class="block blog-index" id="blog-index">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="dot"></span> From the project</span>
+          <h2>The AetherSDR blog</h2>
+          <p>Release notes, engineering deep-dives, and notes from the bench — how the
+            workstation gets built, and what's landing next.</p>
+        </div>
+
+        <div class="blog-grid">
+
+          <a class="blog-card" href="#gpu-multislice">
+            <div class="blog-card-media">
+              <img src="assets/img/pan-multislice.jpg" alt="Multiple AetherSDR panadapter slices rendering simultaneously on the 20m band" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-07-11">July 11, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>5 min read</span>
+              </span>
+              <h3>Every slice, rendered at once</h3>
+              <p>Running eight detachable panadapters used to mean choosing between frame
+                rate and situational awareness. Moving the whole spectrum path onto the GPU
+                removed that tradeoff — here's what changed in the render pipeline, and what
+                a real multislice 20m capture looks like at 60 fps.</p>
+              <span class="blog-more">Read post
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a class="blog-card" href="#signal-chain">
+            <div class="blog-card-media">
+              <img src="assets/img/aetherial-strip.jpg" alt="The Aetherial signal-chain strip in AetherSDR, showing the processing stages end to end" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-06-28">June 28, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>7 min read</span>
+              </span>
+              <h3>Inside the Aetherial signal chain</h3>
+              <p>Six noise-reduction engines, a full transmit strip, and every stage
+                visible and adjustable in one place. We walk the chain end to end —
+                what each stage does to the audio, why the order matters, and how to
+                set it up for a crowded band without over-processing yourself into mush.</p>
+              <span class="blog-more">Read post
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a class="blog-card" href="#three-platforms">
+            <div class="blog-card-media">
+              <img src="assets/img/hero-3dss.jpg" alt="AetherSDR's 3D stacked-trace panadapter over the 40m band with the full control surface" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-06-14">June 14, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>6 min read</span>
+              </span>
+              <h3>Native on three platforms, no compromises</h3>
+              <p>No Wine, no virtual machines, no "Linux support" that means a browser tab.
+                AetherSDR ships real native builds for Linux, macOS, and Windows off one
+                Qt6 and C++20 codebase. Here's how the build is structured, and where
+                platform-specific code actually earns its keep.</p>
+              <span class="blog-more">Read post
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== POSTS ===================== -->
+    <!-- Each article is hidden until its slug is routed to. Keep data-post in sync
+         with the card href above. Body copy uses .blog-body for prose styling. -->
+
+    <article class="blog-post" data-post="gpu-multislice" tabindex="-1" aria-labelledby="h-gpu-multislice" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img src="assets/img/pan-multislice.jpg" alt="Multiple AetherSDR panadapter slices rendering simultaneously on the 20m band" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-07-11">July 11, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>5 min read</span>
+        </span>
+        <h1 id="h-gpu-multislice">Every slice, rendered at once</h1>
+
+        <div class="blog-body">
+          <p class="lede">Running eight detachable panadapters used to mean choosing
+            between frame rate and situational awareness. Moving the whole spectrum path
+            onto the GPU removed that tradeoff.</p>
+
+          <p>The screenshot above is not a concept render. It's a real capture of the 20m
+            band with multiple slices live at once, each with its own panadapter and
+            waterfall, all updating together.</p>
+
+          <h2>Why the old path ran out of headroom</h2>
+          <p>A software spectrum path spends most of its time moving pixels around on the
+            CPU — building the bitmap for every trace, every frame, for every open slice.
+            One panadapter is comfortable. Eight is not: the work scales linearly with the
+            number of slices while the frame budget stays fixed at roughly 16 milliseconds.</p>
+
+          <p>The result was the tradeoff every multi-slice operator knows. Open more
+            windows, watch the frame rate sag. Close windows to get responsiveness back,
+            lose the picture of the band you opened them for.</p>
+
+          <h2>What changed</h2>
+          <p>The render path now hands the spectrum data to the GPU and lets it do what it
+            is built for. The CPU's job shrinks to preparing data; the drawing happens
+            where drawing is cheap. Because the GPU handles each slice in parallel rather
+            than in sequence, adding a panadapter costs far less than it used to.</p>
+
+          <p>The practical outcome: 60 fps spectrum and waterfall, with up to eight
+            detachable panadapters open at once, on hardware that is not exotic.</p>
+
+          <h2>What it means at the operating position</h2>
+          <p>Multislice stops being a feature you ration. Park a slice on each band you're
+            watching, detach them across monitors, and leave them running — the display
+            keeps up. During a contest or a chase, the cost of keeping a second and third
+            window open is no longer measured in dropped frames.</p>
+
+          <p>If you want to see the numbers on your own hardware, the frame rate is
+            visible in the panadapter diagnostics overlay. We'd genuinely like to see
+            reports from a wide range of GPUs —
+            <a href="https://github.com/aethersdr/AetherSDR/discussions">tell us what you get</a>.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="signal-chain" tabindex="-1" aria-labelledby="h-signal-chain" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img src="assets/img/aetherial-strip.jpg" alt="The Aetherial signal-chain strip in AetherSDR, showing the processing stages end to end" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-06-28">June 28, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>7 min read</span>
+        </span>
+        <h1 id="h-signal-chain">Inside the Aetherial signal chain</h1>
+
+        <div class="blog-body">
+          <p class="lede">Six noise-reduction engines, a full transmit strip, and every
+            stage visible and adjustable in one place. Here's the chain end to end — and
+            how to set it up without over-processing yourself into mush.</p>
+
+          <h2>Everything in one strip</h2>
+          <p>Most clients scatter audio processing across a settings dialog, a menu, and a
+            slider you find by accident. The Aetherial strip puts the whole chain on one
+            surface, in signal order, so you can see what is engaged and what it is doing
+            without hunting.</p>
+
+          <h2>Order matters more than settings</h2>
+          <p>The single most common mistake we see is stacking noise reduction on top of
+            noise reduction. Each engine in the chain has a job, and running two that
+            solve the same problem does not double the benefit — it doubles the artifacts.</p>
+
+          <p>Start at the front of the chain and work backwards. Deal with the impulsive
+            noise before the broadband noise; deal with the broadband noise before you
+            reach for anything that reshapes the passband. If a stage isn't earning its
+            place, switch it out and listen to the difference rather than leaving it on
+            by default.</p>
+
+          <h2>Setting up for a crowded band</h2>
+          <p>On a busy band the temptation is to narrow everything and turn every knob up.
+            A better starting point is to get the filter width right first, then add the
+            minimum processing that makes the signal comfortable to copy for an extended
+            stretch. Ear fatigue is the real constraint on a long session, and aggressive
+            processing buys you a clearer first minute at the cost of the next hour.</p>
+
+          <h2>On transmit</h2>
+          <p>The same visibility applies to the transmit side. The strip shows what your
+            audio is doing on the way out, so you can set it by looking as well as by
+            asking for reports. Set it once with a monitor recording, and you have a
+            baseline you can return to instead of re-guessing every time someone tells
+            you that you sound a little wide.</p>
+
+          <p>Full parameter-by-parameter documentation lives in the
+            <a href="https://lu5dx.github.io/AetherSDRDocsEnglish/latest/" target="_blank" rel="noopener">User Manual</a>.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="three-platforms" tabindex="-1" aria-labelledby="h-three-platforms" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img src="assets/img/hero-3dss.jpg" alt="AetherSDR's 3D stacked-trace panadapter over the 40m band with the full control surface" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-06-14">June 14, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>6 min read</span>
+        </span>
+        <h1 id="h-three-platforms">Native on three platforms, no compromises</h1>
+
+        <div class="blog-body">
+          <p class="lede">No Wine, no virtual machines, no "Linux support" that means a
+            browser tab. AetherSDR ships real native builds for Linux, macOS, and Windows
+            off one Qt6 and C++20 codebase.</p>
+
+          <h2>Why native was non-negotiable</h2>
+          <p>A radio client is a real-time application. It draws a spectrum sixty times a
+            second, moves audio with a latency budget measured in milliseconds, and talks
+            to hardware that does not wait politely. Every layer between the application
+            and the operating system is a place for that budget to leak.</p>
+
+          <p>Compatibility layers work, right up until the moment they don't — and the
+            failure modes land on the operator, usually mid-contest.</p>
+
+          <h2>One codebase, three targets</h2>
+          <p>Qt6 gives us a single UI and application layer that compiles natively on all
+            three platforms. The overwhelming majority of the code has no idea which
+            operating system it is running on, which is the point: a fix lands once and
+            ships everywhere.</p>
+
+          <h2>Where platform-specific code earns its keep</h2>
+          <p>The exceptions are deliberate and narrow. Audio device plumbing differs
+            meaningfully across platforms, and pretending otherwise produces the worst of
+            both worlds. Installer and packaging conventions differ too — an AppImage, a
+            signed DMG, and a Microsoft Store package are genuinely different artifacts
+            with different user expectations.</p>
+
+          <p>The rule we hold to: platform-specific code is allowed where the platforms
+            really are different, and nowhere else. Every other divergence is a bug
+            waiting to be reported by whichever platform we tested least.</p>
+
+          <h2>Get the build for your machine</h2>
+          <p>Installers for all three platforms are on the
+            <a href="index.html#download">download page</a>, and every release is on
+            <a href="https://github.com/aethersdr/AetherSDR/releases" target="_blank" rel="noopener">GitHub</a>.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="index.html"><img src="assets/img/logo-96.png" alt="AetherSDR logo" /><span>Aether<b>SDR</b></span></a>
+          <p>A cross-platform, open-source client for FlexRadio Systems transceivers. Native. Open. Yours.</p>
+        </div>
+        <div class="foot-col">
+          <h4>Project</h4>
+          <a href="index.html#features">Features</a>
+          <a href="index.html#download">Download</a>
+          <a href="blog.html">Blog</a>
+          <a href="https://github.com/aethersdr/AetherSDR/releases">What's new</a>
+          <a href="https://github.com/aethersdr/AetherSDR#roadmap">Roadmap</a>
+        </div>
+        <div class="foot-col">
+          <h4>Community</h4>
+          <a href="https://github.com/aethersdr/AetherSDR">GitHub</a>
+          <a href="https://github.com/aethersdr/AetherSDR/discussions">Discussions</a>
+          <a href="https://github.com/aethersdr/AetherSDR/issues">Issue tracker</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md">Contributing</a>
+          <a href="https://opencollective.com/aethersdr">Sponsor us</a>
+        </div>
+        <div class="foot-col">
+          <h4>Resources</h4>
+          <a href="https://lu5dx.github.io/AetherSDRDocsEnglish/latest/">User Manual</a>
+          <a href="https://www.youtube.com/@AetherSDR">Video tutorials</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/VERIFYING-RELEASES.md">Verifying downloads</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONSTITUTION.md">Constitution</a>
+          <a href="https://github.com/aethersdr/aetherclaude">AetherClaude</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/LICENSE">License (GPL v3)</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 AetherSDR · Free software under the GNU GPL v3.</span>
+        <span class="disclaimer">AetherSDR is an independent project and is not affiliated with or endorsed by FlexRadio Systems.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/blog.js" defer></script>
+</body>
+</html>
