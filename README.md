@@ -17,7 +17,20 @@ assets/img/           Optimized screenshots, logo, and 3D-spectrum visuals
 assets/js/blog.js     Blog card-index <-> post routing
 serve.py              Tiny local static server (python3 serve.py → :4321)
 scripts/build.py      Bundles everything into dist/index.html (self-contained)
+scripts/gen-blog-art.py  Regenerates the generated SVG post art
 ```
+
+Post art that isn't a screenshot is generated SVG — drawn in the site palette
+and committed alongside the source that produces it:
+
+```bash
+python3 scripts/gen-blog-art.py   # rewrites assets/img/first-contribution-*.svg
+```
+
+It's deterministic (fixed seed), so re-running produces byte-identical files;
+tweak the constants at the top rather than editing thousands of `<rect>`s by
+hand. Each post needs two crops — a wide hero and a near-square for the card
+column, which crops to roughly 1.1:1.
 
 ## Adding a blog post
 
