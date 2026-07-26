@@ -220,9 +220,148 @@ def build_card(path):
     return W, H
 
 
+
+# ---------------------------------------------------------------- release art
+# One template per release post: version number, kicker, and a motif glyph over
+# the same spectrum backdrop, so the posts read as a series without the cards
+# becoming interchangeable. Glyphs are drawn around 0,0 in a ~200px box.
+
+GLYPHS = {
+    # Concentric rings closing on a point — a version that finally means something.
+    "milestone": '<circle r="76" fill="none" stroke="currentColor" stroke-width="2" opacity=".28"/>'
+                 '<circle r="54" fill="none" stroke="currentColor" stroke-width="2.4" opacity=".5"/>'
+                 '<circle r="32" fill="none" stroke="currentColor" stroke-width="3"/>'
+                 '<circle r="11" fill="currentColor"/>',
+    # A framed bit stream.
+    "packet": '<path d="M-92-46h184v92h-184z" fill="none" stroke="currentColor" stroke-width="2" '
+              'opacity=".35" rx="8"/>'
+              '<path d="M-74 16v-32h20v32h20v-32h20v32h20v-32h20v32h20v-32h14" fill="none" '
+              'stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>',
+    # Symmetric audio envelope, peaks tamed toward the middle.
+    "audio": "".join(
+        f'<rect x="{-88 + i*16}" y="{-h}" width="8" height="{2*h}" rx="4" fill="currentColor" '
+        f'opacity="{0.45 + 0.05*(i % 4)}"/>'
+        for i, h in enumerate([18, 34, 52, 68, 46, 74, 58, 36, 62, 44, 26, 16])),
+    # A control knob with an indicator.
+    "hid": '<circle r="58" fill="none" stroke="currentColor" stroke-width="3"/>'
+           '<path d="M0-58V-30" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>'
+           + "".join(
+               f'<path d="M0-80V-70" stroke="currentColor" stroke-width="3" stroke-linecap="round" '
+               f'opacity=".45" transform="rotate({a})"/>' for a in range(-140, 141, 40)),
+    # Frames queueing through one transmitter.
+    "tnc": "".join(
+        f'<rect x="{-90 + i*30}" y="{-34 + i*8}" width="86" height="52" rx="9" fill="none" '
+        f'stroke="currentColor" stroke-width="2.6" opacity="{0.35 + 0.3*i}"/>' for i in range(3)),
+    # Orbit, spacecraft, ground station.
+    "satellite": '<ellipse rx="88" ry="40" fill="none" stroke="currentColor" stroke-width="2.4" '
+                 'opacity=".45" transform="rotate(-22)"/>'
+                 '<circle cx="62" cy="-38" r="10" fill="currentColor"/>'
+                 '<path d="M-18 44h44l-22-32z" fill="none" stroke="currentColor" stroke-width="3" '
+                 'stroke-linejoin="round"/>'
+                 '<path d="M40-58a34 34 0 0 1 22 26M30-42a20 20 0 0 1 14 16" fill="none" '
+                 'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>',
+    # A globe with a marker on it.
+    "globe": '<circle r="66" fill="none" stroke="currentColor" stroke-width="2.8"/>'
+             '<ellipse rx="26" ry="66" fill="none" stroke="currentColor" stroke-width="2" opacity=".55"/>'
+             '<path d="M-66 0h132M-58-32h116M-58 32h116" stroke="currentColor" stroke-width="2" '
+             'opacity=".45" fill="none"/>'
+             '<path d="M34-46a15 15 0 1 1 30 0c0 12-15 26-15 26s-15-14-15-26z" fill="currentColor"/>',
+    # Two traces converging into alignment.
+    "sync": '<path d="M-92-30q23-34 46 0t46 0" fill="none" stroke="currentColor" stroke-width="3.4" '
+            'stroke-linecap="round" opacity=".4"/>'
+            '<path d="M-92 30q23-34 46 0t46 0" fill="none" stroke="currentColor" stroke-width="3.4" '
+            'stroke-linecap="round" opacity=".4"/>'
+            '<path d="M0 0q23-34 46 0t46 0" fill="none" stroke="currentColor" stroke-width="4.5" '
+            'stroke-linecap="round"/>'
+            '<path d="M-92-30 0 0M-92 30 0 0" stroke="currentColor" stroke-width="1.6" '
+            'stroke-dasharray="4 6" opacity=".45"/>',
+    # Receding ridges — the 3D spectrum, in miniature.
+    "spectrum3d": "".join(
+        f'<path d="M{-96 + i*9} {28 - i*22} l30 {-14 - i*5} l18 {20 + i*4} l24 {-30 - i*8} '
+        f'l22 {26 + i*6} l26 {-12 - i*3}" fill="none" stroke="currentColor" stroke-width="3" '
+        f'stroke-linejoin="round" opacity="{0.9 - 0.18*i}"/>' for i in range(4)),
+    # Radiating transmission around a digital waveform.
+    "dstar": '<circle r="34" fill="none" stroke="currentColor" stroke-width="3"/>'
+             '<path d="M-18 0h8v-12h8v22h8v-14h8v4h6" fill="none" stroke="currentColor" '
+             'stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>'
+             + "".join(
+                 f'<path d="M{r} -{int(r*0.62)}a{r} {r} 0 0 1 0 {int(r*1.24)}" fill="none" '
+                 f'stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="{o}"/>'
+                 f'<path d="M-{r} -{int(r*0.62)}a{r} {r} 0 0 0 0 {int(r*1.24)}" fill="none" '
+                 f'stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="{o}"/>'
+                 for r, o in ((52, ".62"), (74, ".34"))),
+    # Cross-needle: the reading is where they intersect.
+    "meter": '<path d="M-86 34a92 92 0 0 1 172 0" fill="none" stroke="currentColor" '
+             'stroke-width="2.4" opacity=".45"/>'
+             '<path d="M-78 44 38-30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>'
+             '<path d="M78 44-38-30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>'
+             '<circle cx="-78" cy="44" r="6" fill="currentColor"/>'
+             '<circle cx="78" cy="44" r="6" fill="currentColor"/>'
+             '<circle cx="0" cy="7" r="7" fill="none" stroke="currentColor" stroke-width="3"/>',
+}
+
+
+def _release_svg(w, h, version, kicker, motif, wf, trace_peaks, layout):
+    rng = random.Random(abs(hash(version)) % 99991)
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
+         f'role="img" aria-label="AetherSDR {version} — {kicker}">']
+    p.append(defs(w, h))
+    p.append(f'  <rect width="{w}" height="{h}" fill="url(#bg)"/>')
+    p.append(grid(w, h, 40 if w > 800 else 34))
+    p.append(waterfall(rng, 0, h - 160, w, 160, *wf))
+    pts = spectrum(rng, 0, w, h - 178, 130, trace_peaks)
+    poly = " ".join(pts)
+    p.append(f'  <polyline points="{poly}" fill="none" stroke="url(#trace)" stroke-width="2.2" '
+             f'stroke-linejoin="round" filter="url(#glow)"/>')
+    p.append(f'  <polygon points="0,{h} {poly} {w},{h}" fill="url(#trace)" opacity="0.07"/>')
+
+    tx, ty, vsize, gx, gy, gscale, anchor = layout
+    p.append(f'  <text x="{tx}" y="{ty}" font-family="{MONO}" font-size="15" letter-spacing="3.6" '
+             f'text-anchor="{anchor}" fill="{DIM}">{kicker.upper()}</text>')
+    p.append(f'  <text x="{tx}" y="{ty + vsize + 8}" font-family="{MONO}" font-size="{vsize}" '
+             f'font-weight="700" letter-spacing="-1" text-anchor="{anchor}" '
+             f'fill="url(#accent)">{version}</text>')
+    p.append(f'  <circle cx="{gx}" cy="{gy}" r="{int(96*gscale)}" fill="{AQUA}" opacity="0.09" '
+             f'filter="url(#softglow)"/>')
+    p.append(f'  <g transform="translate({gx} {gy}) scale({gscale})" color="{CYAN}" '
+             f'filter="url(#glow)">{GLYPHS[motif]}</g>')
+    p.append("</svg>")
+    return "\n".join(p) + "\n"
+
+
+def build_release(root, slug, version, kicker, motif):
+    import os
+    hero = _release_svg(1200, 630, version, kicker, motif,
+                        wf=(150, 20), trace_peaks=[(0.24, .06, .40), (0.71, .05, .62)],
+                        layout=(96, 214, 86, 916, 286, 1.05, "start"))
+    card = _release_svg(640, 560, version, kicker, motif,
+                        wf=(96, 16), trace_peaks=[(0.34, .07, .52)],
+                        layout=(320, 108, 58, 320, 296, 0.92, "middle"))
+    open(os.path.join(root, f"{slug}-hero.svg"), "w", encoding="utf-8").write(hero)
+    open(os.path.join(root, f"{slug}-card.svg"), "w", encoding="utf-8").write(card)
+
+
+RELEASES = [
+    ("release-26-7-3", "v26.7.3", "Meters you can trust", "meter"),
+    ("release-26-7-2", "v26.7.2", "Digital voice", "dstar"),
+    ("release-26-7-1", "v26.7.1", "The band, over time", "spectrum3d"),
+    ("release-26-6-5", "v26.6.5", "Diversity across geography", "sync"),
+    ("release-26-6-4", "v26.6.4", "Receivers worldwide", "globe"),
+    ("release-26-6-3", "v26.6.3", "Satellite data", "satellite"),
+    ("release-26-6-2", "v26.6.2", "A complete packet station", "tnc"),
+    ("release-26-6-1", "v26.6.1", "Hands on the radio", "hid"),
+    ("release-26-5-3", "v26.5.3", "Aetherial TX complete", "audio"),
+    ("release-26-5-2-1", "v26.5.2.1", "AetherModem, Phase 0", "packet"),
+    ("release-26-5-1", "v26.5.1", "The 1.0 release", "milestone"),
+]
+
+
 if __name__ == "__main__":
     import os
     root = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "img")
     print("hero", build_hero(os.path.join(root, "first-contribution-hero.svg")))
     print("card", build_card(os.path.join(root, "first-contribution-card.svg")))
+    for slug, version, kicker, motif in RELEASES:
+        build_release(root, slug, version, kicker, motif)
+    print(f"release art: {len(RELEASES)} posts x 2 crops")
