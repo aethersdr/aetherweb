@@ -28,7 +28,7 @@
 
   <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 
   <!-- Without JS there's nothing to route, so show every post stacked under
        the index rather than a grid of cards that go nowhere. -->
@@ -100,13 +100,20 @@
 
         <div class="blog-grid">
 
-          <a class="blog-card" href="#first-contribution">
+          <!-- PINNED: stays at the top regardless of date. New posts go BELOW
+               this card, above the newest release post. -->
+          <a class="blog-card is-pinned" href="#first-contribution">
             <div class="blog-card-media">
               <!-- Topmost card is above the fold: eager, so it isn't the LCP holdup. -->
               <img width="640" height="560" src="assets/img/first-contribution-card.svg" alt="A contribution pipeline drawn as a signal chain — issue, fix, merged — over a spectrum trace" />
             </div>
             <div class="blog-card-body">
               <span class="blog-meta">
+                <span class="blog-pin">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.8V4h6v6.8l2.5 3.2h-11z"/></svg>
+                  Pinned
+                </span>
+                <span class="sep" aria-hidden="true">·</span>
                 <time datetime="2026-07-26">July 26, 2026</time>
                 <span class="sep" aria-hidden="true">·</span>
                 <span>8 min read</span>

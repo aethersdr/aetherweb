@@ -39,7 +39,8 @@ is two blocks that share a slug:
 
 1. **A card** in the `.blog-grid`, linking to `#your-slug`. The description is
    clamped to four lines, so write 3–4 lines and don't worry about matching
-   neighbouring card heights.
+   neighbouring card heights. Cards are ordered newest-first by hand — insert
+   yours **below the pinned card** and above the newest release post.
 2. **An `<article class="blog-post" data-post="your-slug" ... hidden>`** further
    down, holding the hero image and full body. Keep the `hidden` attribute — it
    is what keeps the post off the index until it's routed to.
@@ -52,6 +53,15 @@ styles headings, lists, links, quotes, and code blocks for you.
 > Note: don't add a `display` value to `.blog-post` in CSS — a class rule
 > out-specifies the browser's `[hidden] { display: none }` and every post would
 > render on the index at once.
+
+The first card carries `is-pinned` and a **Pinned** badge, holding it at the top
+of the index whatever its date. To pin a different post, move the class, the
+badge markup, and the `<!-- PINNED -->` comment to that card.
+
+Editing `styles.css`? Bump the `?v=` on the three `<link rel="stylesheet">` tags
+(`index.html`, `blog.html`, `404.html`). The file is served with `max-age=14400`,
+so without a new URL a browser can pair a stale stylesheet with fresh markup for
+up to four hours.
 
 Cloudflare Pages serves the page extensionless at **`/blog`** and 308-redirects
 `/blog.html` to it, so `canonical` and the `og:`/`twitter:` URLs point at `/blog`.
