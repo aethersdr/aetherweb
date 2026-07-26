@@ -27,11 +27,16 @@ def main():
     with open(os.path.join(ROOT, "styles.css"), encoding="utf-8") as f:
         css = f.read()
 
-    # Inline the stylesheet.
-    html = html.replace(
-        '<link rel="stylesheet" href="styles.css" />',
-        f"<style>\n{css}\n</style>",
+    # Inline the stylesheet. Matched by pattern rather than exact string so a
+    # cache-busting query (styles.css?v=3) doesn't silently skip the inlining
+    # and produce an unstyled bundle.
+    html, n = re.subn(
+        r'<link rel="stylesheet" href="styles\.css[^"]*"\s*/?>',
+        lambda _m: f"<style>\n{css}\n</style>",
+        html,
     )
+    if n != 1:
+        raise SystemExit(f"expected 1 stylesheet link to inline, found {n}")
 
     # Inline JS as a real <script> before the asset pass — data-URI-ing a
     # script src would break execution in the single-file bundle.
