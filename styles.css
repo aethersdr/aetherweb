@@ -547,9 +547,6 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 
 /* ---------- Blog ---------- */
 .nav-links a.is-active { color: var(--cyan); }
-/* Blog needs a way in once .nav-links collapses under 940px. */
-.nav-cta-link { display: none; color: var(--ink-soft); font-size: 14.5px; font-weight: 520; }
-.nav-cta-link:hover { color: var(--ink); }
 
 .blog-index { padding-top: 76px; }
 .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
@@ -648,7 +645,6 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 /* ---------- Responsive ---------- */
 @media (max-width: 940px) {
   .blog-grid { grid-template-columns: repeat(2, 1fr); }
-  .nav-cta-link { display: inline-flex; }
   .blog-index { padding-top: 46px; }
   .blog-post { padding-top: 36px; }
   .feature-grid, .dl-grid { grid-template-columns: repeat(2, 1fr); }
@@ -660,7 +656,9 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
   .spot.rev .spot-text { order: 0; }
   .hw-cols { grid-template-columns: 1fr; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
-  .nav-links { display: none; }
+  /* No room for the full link set, but Blog is a destination rather than an
+     in-page anchor, so it stays while the rest collapse away. */
+  .nav-links > :not(.nav-blog) { display: none; }
 }
 @media (max-width: 560px) {
   .feature-grid, .dl-grid, .partners-grid, .blog-grid { grid-template-columns: 1fr; }
