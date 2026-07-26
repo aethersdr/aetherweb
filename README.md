@@ -40,6 +40,11 @@ styles headings, lists, links, quotes, and code blocks for you.
 > out-specifies the browser's `[hidden] { display: none }` and every post would
 > render on the index at once.
 
+Cloudflare Pages serves the page extensionless at **`/blog`** and 308-redirects
+`/blog.html` to it, so `canonical` and the `og:`/`twitter:` URLs point at `/blog`.
+Internal links keep the `blog.html` form on purpose — it resolves under
+`serve.py` locally and just costs one redirect hop in production.
+
 ## Local preview
 
 ```bash
