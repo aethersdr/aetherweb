@@ -290,6 +290,16 @@ GLYPHS = {
                  f'<path d="M-{r} -{int(r*0.62)}a{r} {r} 0 0 0 0 {int(r*1.24)}" fill="none" '
                  f'stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="{o}"/>'
                  for r, o in ((52, ".62"), (74, ".34"))),
+    # Speech in, transcript out; the faded last line is the low-confidence tail.
+    "copyassist": "".join(
+        f'<rect x="{-96 + i*15}" y="{-h}" width="7" height="{2*h}" rx="3.5" fill="currentColor" '
+        f'opacity="{0.5 + 0.08*(i % 3)}"/>' for i, h in enumerate([16, 32, 50, 30, 44, 22]))
+    + '<path d="M4 0h20m0 0-7-7m7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" '
+      'stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>'
+    + '<rect x="38" y="-30" width="62" height="7" rx="3.5" fill="currentColor" opacity=".85"/>'
+      '<rect x="38" y="-11" width="48" height="7" rx="3.5" fill="currentColor" opacity=".85"/>'
+      '<rect x="38" y="8" width="58" height="7" rx="3.5" fill="currentColor" opacity=".4"/>'
+      '<rect x="38" y="27" width="30" height="7" rx="3.5" fill="currentColor" opacity=".2"/>',
     # Cross-needle: the reading is where they intersect.
     "meter": '<path d="M-86 34a92 92 0 0 1 172 0" fill="none" stroke="currentColor" '
              'stroke-width="2.4" opacity=".45"/>'
@@ -342,6 +352,7 @@ def build_release(root, slug, version, kicker, motif):
 
 
 RELEASES = [
+    ("release-26-7-4", "v26.7.4", "Speech to text", "copyassist"),
     ("release-26-7-3", "v26.7.3", "Meters you can trust", "meter"),
     ("release-26-7-2", "v26.7.2", "Digital voice", "dstar"),
     ("release-26-7-1", "v26.7.1", "The band, over time", "spectrum3d"),

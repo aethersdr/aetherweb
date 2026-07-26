@@ -129,6 +129,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-7-4">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-7-4-card.svg" alt="v26.7.4 release art — speech to text, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-07-26">July 26, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>10 min read</span>
+              </span>
+              <h3>v26.7.4: Copy Assist, and the eight milliseconds that ate half the audio</h3>
+              <p>AetherSDR now transcribes received voice on your own machine — whisper.cpp under the waterfall, confidence colour-coding, no audio leaving the computer unless you send it. Then the deep end: why it sounded broken with NR2 engaged, and how a repaint optimisation was quietly discarding half the speech.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-7-3">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-7-3-card.svg" alt="v26.7.3 release art — meters you can trust, drawn as an AetherSDR spectrum panel" />
@@ -470,6 +488,81 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-7-4" tabindex="-1" aria-labelledby="h-release-26-7-4" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-7-4-hero.svg" alt="v26.7.4 release art — speech to text, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-07-26">July 26, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>10 min read</span>
+        </span>
+        <h1 id="h-release-26-7-4">v26.7.4: Copy Assist, and the eight milliseconds that ate half the audio</h1>
+
+        <div class="blog-body">
+          <p class="lede">AetherSDR now transcribes received voice locally, docked under the waterfall. The interesting part isn't the transcription — it's what we found when operators turned NR2 on.</p>
+          <p>Speech-to-text has been usable for a while. Putting it in a radio client is a different problem: the audio is worse than anything these models were trained on, the vocabulary is callsigns and signal reports, and the operator needs to know how much to trust what appears.</p>
+          <h2>It runs on your machine</h2>
+          <p>Copy Assist uses <strong>whisper.cpp</strong>, running locally. It'll use the CPU, or a GPU through Vulkan or Metal — detected automatically, so there's no backend to pick. Models are downloaded on demand rather than shipped, which keeps the installer honest.</p>
+          <p>There is an optional remote OpenAI-compatible endpoint if you'd rather the work happened somewhere else — a beefier machine on your LAN, or a hosted service. It's off unless you configure it. <strong>Nothing leaves your computer unless you point it somewhere.</strong></p>
+          <p>That default is deliberate, and it isn't only about your own privacy. Every transcript is of somebody else's transmission. They consented to being heard on the air; they didn't consent to being fed through a third party's API. Local-by-default means the decision to change that is one you make explicitly, for traffic you're responsible for.</p>
+          <h2>It tells you when it's guessing</h2>
+          <p>The transcript is colour-coded by confidence, and that's the feature that makes the rest safe to use.</p>
+          <p>A speech-to-text model always returns its best guess. On a clean studio recording the best guess is usually right. On an SSB signal at the noise floor, it will still return fluent, plausible, confidently-formatted English — and it may be entirely invented. A transcript that renders a wild guess in the same typeface as a certain one is worse than no transcript, because it converts "I didn't copy that" into "I copied something wrong."</p>
+          <p>Colour-coding puts the model's own uncertainty on screen where your eye can use it. Treat the confident text as a strong hint and the uncertain text as a prompt to ask for a repeat. It is not a log entry — do not put a callsign in your log because Copy Assist rendered it. Confirm it on the air, the way you always have.</p>
+          <h2>Tell it what language to expect</h2>
+          <p>You can pick the transcription language rather than relying on auto-detection, and on weak or accented signals that makes a real difference.</p>
+          <p>The reason is worth understanding. Language identification is itself a model running on the same degraded audio — so exactly when conditions are worst, you get two chances to be wrong instead of one. Worse, the failure compounds: misidentify the language and every subsequent word is decoded against the wrong phoneme inventory, which produces fluent nonsense rather than an obvious error.</p>
+          <p>If you're working a pileup into a specific region, or a net that runs in one language, pinning it removes an entire class of failure. And accented speech in a language the detector isn't confident about is precisely the case where auto-detection is least reliable and a human operator is most certain.</p>
+          <h2>The bug: eight milliseconds against 5.33</h2>
+          <p>Now the part worth reading even if you never turn Copy Assist on.</p>
+          <p>Operators reported that with NR2 engaged, Copy Assist produced mangled output — while the audio through the speaker sounded fine. That framing sent everyone looking at NR2's speech quality, which was the wrong place entirely.</p>
+          <p>Copy Assist was being fed from a <em>visualization</em> signal — a tap intended for driving displays. That tap coalesces: if a block arrives within <strong>8 ms</strong> of the previous one, it's dropped, because there's no point repainting a meter faster than anyone can see. Entirely reasonable for its intended purpose.</p>
+          <p>It doesn't skip the repaint. It <strong>discards the whole block</strong> — samples and all.</p>
+          <p>With NR2 engaged, blocks arrive every <strong>5.33 ms</strong>. (Which is what 256 samples at 48 kHz comes to, if you want to picture the buffer.) Walk it through: a block is accepted at t=0. The next arrives at 5.33 ms — inside the 8 ms window, dropped. The next at 10.66 ms — outside the window, accepted. Then 16 ms, dropped. Accept, drop, accept, drop.</p>
+          <p><strong>Roughly half the speech samples were being thrown away</strong>, and the surviving halves were spliced end to end with a discontinuity at every join.</p>
+          <h2>Why that's worse than losing half the audio</h2>
+          <p>Losing half the samples at random would be bad. Losing every other block and concatenating the remainder is worse, because nothing downstream can tell that it happened.</p>
+          <p>The resampler and the voice-activity detector both assume contiguous audio. They had no way to see the gaps. So the resampler interpolated across joins that weren't continuous, and the VAD measured energy envelopes across time that had been silently compressed. The model then received audio that was self-consistent, correctly formatted, and describing speech that never happened at that cadence.</p>
+          <p>And the speaker path was never touched — it reads from a different tap. That's precisely why this presented as "NR2 makes Copy Assist sound bad" rather than "something is dropping samples." The one signal a human could actually verify was the one that was fine.</p>
+          <p>The fix is one line's worth of intent: Copy Assist now reads the unconditional presentation tap. <strong>No audio processing changed.</strong> Nothing was tuned, no filter was adjusted, NR2 was never at fault. A consumer had been wired to a tap whose contract was "good enough to look at," and used it as though the contract were "every sample, in order."</p>
+          <p>The same fix cleared a second symptom that had looked unrelated: a station running a KiwiSDR alongside a Flex was getting both receivers interleaved into one transcript. Copy Assist now follows a single receiver.</p>
+          <p>If there's a lesson to carry off the bench, it's that a tap optimised for human perception and a tap suitable for machine analysis are different things, and the moment you feed the first into the second the failure will surface somewhere that looks nothing like the cause.</p>
+          <h2>Where to find it</h2>
+          <p>Copy Assist docks under the waterfall. Its settings — backend, model, language, and the optional remote endpoint — now live under a single configuration key, so they default, migrate, and save as one unit rather than drifting apart across upgrades. The settings window also honours frameless mode like the rest of the app.</p>
+          <h2>Use cases</h2>
+          <p><strong>Operating with hearing loss.</strong> The case that matters most. A running transcript with visible confidence turns a marginal signal from impossible into workable, and it's the difference between being on the air and not.</p>
+          <p><strong>Catching a callsign in a pileup.</strong> Not as authority — as a second pair of ears. When you half-copied something, the transcript tells you whether your guess has support before you call.</p>
+          <p><strong>Running a net.</strong> Check-ins arrive faster than you can write. A transcript scrolling under the waterfall lets you catch up on the one you missed without asking the whole net to hold.</p>
+          <p><strong>Working across a language barrier.</strong> With the language pinned, a DX contact in a language you don't speak becomes legible enough to complete the exchange.</p>
+          <p><strong>Learning the bands.</strong> New operators spend a lot of effort simply decoding what's being said. Seeing the words alongside the audio shortens that considerably.</p>
+          <p><strong>Testing your own audio.</strong> Point a KiwiSDR at yourself and read the transcript. If the model can't copy you, that's worth knowing before someone tells you on the air.</p>
+          <h2>What feedback helps</h2>
+          <p>Which model and which hardware, with a sense of whether it kept up. The CPU/GPU matrix across Vulkan and Metal is wide, and real-time performance is the thing that determines whether this is useful or merely impressive.</p>
+          <p>Whether the confidence colours are calibrated. This is the one we most want checked. If text shown as high-confidence turns out wrong at a rate that surprises you, the display is actively misleading and we need to know — that's a more serious bug than a missed word.</p>
+          <p>How it does on languages other than English, and on accented speech with the language pinned. The language selector exists because auto-detection struggled; we'd like to know how much of the gap it actually closes.</p>
+          <p>And the vocabulary. Callsigns, signal reports, and Q-codes are not what these models were trained on. If Copy Assist reliably mangles a particular construction, tell us what it turns it into — the pattern matters more than the instance.</p>
+          <h2>Also in this release</h2>
+          <p><strong>Demo mode</strong> — a synthetic backend that generates its own receive audio and a matching panadapter, so you can run the full interface with no radio attached. Ten independently-enabled noise and signal channels make it a genuine test bench for the noise-reduction engines. It synthesizes receive audio only and cannot transmit. If you've been curious about AetherSDR without a Flex on the desk, this is the way in — and it's how a contributor can work on the UI without owning the hardware.</p>
+          <p><strong>NR2 itself</strong> gained better suppression quality and more reliable settings behaviour, independent of the Copy Assist fix. The <strong>3D spectrum</strong> got its largest polish pass yet: slice shadows surface-mapped onto the FFT, history preserved across smooth-scroll boundaries, a stable rear edge when rows arrive late, and fixes for the DC-edge comb and the wide right-edge artifact.</p>
+          <p><strong>AetherClock</strong> decodes NIST time signals and displays your clock's offset against the broadcast standard, alongside a new <strong>GPS and station-location dashboard</strong>. <strong>Slice Link</strong> lets you right-click a panadapter to link two slices so tuning either retunes the other — across panadapters, including Kiwi-sourced slices. PSK Reporter gained a one-shot WSPR beacon, and there's <strong>ACOM S-series amplifier</strong> support over serial or ser2net.</p>
+          <p class="post-foot">Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.7.4" target="_blank" rel="noopener">v26.7.4 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>
