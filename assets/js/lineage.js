@@ -70,8 +70,8 @@ const EVENTS = [
   },
   {
     year: '2012', lane: 'flex', era: 'Commercialisation',
-    title: 'FlexRadio closes the source',
-    body: 'The FLEX-6000 series is shown at Dayton with a direct-sampling architecture that moves DSP into the radio. It needs a new client, and SmartSDR is written from scratch as closed source. No code crosses between the two families again.',
+    title: 'FlexRadio closes the source, and opens the API',
+    body: 'The FLEX-6000 series is shown at Dayton with a direct-sampling architecture that moves DSP into the radio. SmartSDR is written from scratch as closed source and no code crosses between the two families again — but the same move opens something up. With the DSP inside the radio, a console is no longer a signal-processing engine; it is a control surface over the network, and FlexRadio documents that surface in full. A versioned command protocol, VITA-49 streaming for spectrum, waterfall and audio, and FlexLib published as a reference implementation. Slices, panadapters, meters, profiles, the ATU, DAX and remote access are all reachable from outside, so a client written from nothing can reach parity rather than approximate it. That depth is why AetherSDR could start from an empty file instead of a fork.',
     people: [['FlexRadio Systems']]
   },
   {

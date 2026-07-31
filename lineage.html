@@ -203,8 +203,8 @@
             <span class="ev-year">2012</span>
             <span class="ev-branch" style="color:#8B7FF0">SmartSDR (proprietary)</span>
           </div>
-          <h2 class="ev-title">FlexRadio closes the source</h2>
-          <p class="ev-body">The FLEX-6000 series is shown at Dayton with a direct-sampling architecture that moves DSP into the radio. It needs a new client, and SmartSDR is written from scratch as closed source. No code crosses between the two families again.</p>
+          <h2 class="ev-title">FlexRadio closes the source, and opens the API</h2>
+          <p class="ev-body">The FLEX-6000 series is shown at Dayton with a direct-sampling architecture that moves DSP into the radio. SmartSDR is written from scratch as closed source and no code crosses between the two families again — but the same move opens something up. With the DSP inside the radio, a console is no longer a signal-processing engine; it is a control surface over the network, and FlexRadio documents that surface in full. A versioned command protocol, VITA-49 streaming for spectrum, waterfall and audio, and FlexLib published as a reference implementation. Slices, panadapters, meters, profiles, the ATU, DAX and remote access are all reachable from outside, so a client written from nothing can reach parity rather than approximate it. That depth is why AetherSDR could start from an empty file instead of a fork.</p>
           <div class="ev-people"><span class="call">FlexRadio Systems</span></div>
         </li>
         <li class="ev" data-i="8" data-lane="flex" data-year="2013" data-era="Commercialisation">
@@ -356,9 +356,8 @@
       </div>
 
       <p class="lin-foot">
-        Lane colours mark independent codebases, not companies. A dashed lane means no shared
-        source — AetherSDR is a clean-room implementation written against FlexRadio's published
-        VITA-49 and SmartSDR APIs, with no PowerSDR, Thetis or OpenHPSDR lineage.
+        Lane colours mark independent codebases, not companies. A dashed fork means no shared
+        source.
       </p>
 
     </div>
