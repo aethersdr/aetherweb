@@ -149,7 +149,7 @@ const EVENTS = [
   {
     year: '2026', month: 'MAR', lane: 'aether', era: 'AetherSDR',
     title: 'AetherSDR starts from an empty file',
-    body: 'First commit lands on 12 March — a root commit with no history behind it. A native Qt6 and C++20 console written clean-room against FlexRadio’s published VITA-49 and SmartSDR APIs. No PowerSDR ancestry, no Thetis ancestry. That was deliberate, and it is why none of the licensing constraints on the rest of this page apply to it.',
+    body: 'First commit lands on 12 March — a root commit with no history behind it. A native Qt6 and C++20 console written clean-room against FlexRadio’s published VITA-49 and SmartSDR APIs. No PowerSDR ancestry, no Thetis ancestry.',
     people: [['KK7GWY', 'Jeremy Fielder']]
   },
   {
