@@ -167,7 +167,7 @@ const EVENTS = [
   {
     year: 'Today', lane: 'aether', era: 'AetherSDR', terminal: true,
     title: 'Where AetherSDR sits',
-    body: 'Native on Linux, macOS and Windows, driving the FLEX-6000 and 8000 series and Aurora. More than 15,000 downloads and over 40 contributors, on a monthly CalVer release cadence. Nothing above the AetherSDR lane is a dependency — it is a parallel start, written for this decade rather than inherited from the last one.',
+    body: 'Native on Linux, macOS and Windows, driving the FLEX-6000 and 8000 series and Aurora. More than 15,000 downloads and over 40 contributors, on a monthly CalVer release cadence. Nothing above the AetherSDR lane is a dependency — it is a parallel start, written for this decade rather than inherited from the last one. Where it goes next runs the other way. The split this page traces is an accident of hardware and protocol history rather than anything operators asked for, and the intent is to close it inside the client: native support for the Metis- and Thetis-derived radios alongside the FLEX families, so one console speaks both branches. The three things that ended Thetis — a .NET Framework dependency, a rendering stack archived underneath it, and multiple receive slices needing a display engine it never got — are already solved here. Same console, same habits, whichever branch your radio came down.',
     people: [['GPL-3.0'], ['aethersdr.com']]
   }
 ];
