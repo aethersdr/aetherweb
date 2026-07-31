@@ -29,7 +29,7 @@
 
   <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
 
@@ -43,6 +43,7 @@
       <nav class="nav-links">
         <a href="#features">Features</a>
         <a href="#built">How it's built</a>
+        <a href="lineage.html">Lineage</a>
         <a href="#partners">Partners</a>
         <a href="#contribute">Contribute</a>
         <a href="#sponsor">Sponsor</a>
@@ -66,7 +67,7 @@
             </a>
           </div>
         </div>
-        <a class="nav-blog" href="blog.html">Blog</a>
+        <a class="nav-keep" href="blog.html">Blog</a>
       </nav>
       <div class="nav-cta">
         <a class="btn btn-primary btn-sm" href="#download">Download</a>
@@ -401,6 +402,27 @@
           </div>
         </div>
       </div>
+
+      <!-- Teaser only — the timeline itself is far too long for the homepage. -->
+      <a class="lineage-teaser" href="lineage.html">
+        <div class="lineage-teaser-body">
+          <span class="eyebrow"><span class="dot"></span> Provenance</span>
+          <h3>Twenty-three years of amateur SDR, and where AetherSDR picks up</h3>
+          <p>Almost every SDR console an amateur can run today traces back to one C# codebase
+            FlexRadio released under the GPL in 2003. Here's which branches forked, which went
+            quiet, and why AetherSDR started from an empty file instead of a fork.</p>
+          <span class="lineage-teaser-more">See the lineage
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+          </span>
+        </div>
+        <div class="lineage-teaser-rail" aria-hidden="true">
+          <span style="--c:#3FC9A8"></span>
+          <span style="--c:#F2B441"></span>
+          <span style="--c:#8B7FF0"></span>
+          <span style="--c:#EE7355"></span>
+          <span style="--c:#5DE3FF"></span>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -537,7 +559,8 @@
           <h4>Project</h4>
           <a href="#features">Features</a>
           <a href="#download">Download</a>
-          <a class="nav-blog" href="blog.html">Blog</a>
+          <a href="lineage.html">Lineage</a>
+          <a href="blog.html">Blog</a>
           <a href="https://github.com/aethersdr/AetherSDR/releases">What's new</a>
           <a href="https://github.com/aethersdr/AetherSDR#roadmap">Roadmap</a>
         </div>

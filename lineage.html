@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lineage — AetherSDR</title>
+  <meta name="description" content="Twenty-three years of amateur SDR software, from FlexRadio's 2003 GPL release of PowerSDR through OpenHPSDR, Thetis and piHPSDR — which branches forked, which went quiet, and why AetherSDR started from a blank file instead of a fork." />
+  <link rel="canonical" href="https://www.aethersdr.com/lineage" />
+  <meta name="theme-color" content="#060b13" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="AetherSDR" />
+  <meta property="og:url" content="https://www.aethersdr.com/lineage" />
+  <meta property="og:title" content="AetherSDR — Lineage" />
+  <meta property="og:description" content="Twenty-three years of amateur SDR software, and where AetherSDR picks up. Which branches forked, which went quiet, and why this one started from an empty file." />
+  <meta property="og:image" content="https://www.aethersdr.com/assets/img/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AetherSDR's 3D stacked-trace panadapter and waterfall over the 40m band, with the full control surface." />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AetherSDR — Lineage" />
+  <meta name="twitter:description" content="Twenty-three years of amateur SDR software, and where AetherSDR picks up." />
+  <meta name="twitter:image" content="https://www.aethersdr.com/assets/img/og-image.jpg" />
+
+  <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css?v=5" />
+
+  <!-- The reveal transition is opt-in via .js-reveal, but belt and braces: with
+       no JS the cards must be visible even if that class never gets added. -->
+  <noscript>
+    <style>
+      .lineage .ev { opacity: 1; transform: none; }
+      .lineage .readout { display: none; }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo-96.png" alt="AetherSDR logo" />
+        <span>Aether<b>SDR</b></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#built">How it's built</a>
+        <a href="lineage.html" class="is-active" aria-current="page">Lineage</a>
+        <a href="index.html#partners">Partners</a>
+        <a href="index.html#contribute">Contribute</a>
+        <a href="index.html#sponsor">Sponsor</a>
+        <div class="nav-item">
+          <button class="nav-dd-toggle" type="button" aria-haspopup="true">
+            Support
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dd" role="menu">
+            <a role="menuitem" href="https://lu5dx.github.io/AetherSDRDocsEnglish/latest/" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8M8 14h8"/></svg>
+              User Manual
+            </a>
+            <a role="menuitem" href="https://www.youtube.com/@AetherSDR" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+              Video tutorials
+            </a>
+            <a role="menuitem" href="https://github.com/aethersdr/AetherSDR/issues/new/choose" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+              File an issue on GitHub
+            </a>
+          </div>
+        </div>
+        <a href="blog.html" class="nav-keep">Blog</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-primary btn-sm" href="index.html#download">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <a id="top"></a>
+
+  <main>
+  <section class="lineage" id="lineage">
+    <div class="wrap">
+
+      <header class="lin-head">
+        <span class="eyebrow"><span class="dot"></span> Provenance</span>
+        <h1 class="lin-title">Twenty-three years of amateur SDR, and where <em>AetherSDR</em> picks up.</h1>
+        <p class="lin-lede">Almost every software-defined radio console an amateur can run today
+          traces back to one C# codebase that FlexRadio released under the GPL in 2003. This is what
+          happened to it — which branches forked, which ones went quiet, and why AetherSDR started
+          from a blank file instead of a fork.</p>
+      </header>
+
+      <div class="stats lin-stats">
+        <div class="stat"><div class="num grad-text">23</div><div class="lbl">Years of lineage</div></div>
+        <div class="stat"><div class="num grad-text">5</div><div class="lbl">Independent codebases</div></div>
+        <div class="stat"><div class="num grad-text">2003</div><div class="lbl">The GPL release that started it</div></div>
+        <div class="stat"><div class="num grad-text">0</div><div class="lbl">Lines AetherSDR inherited</div></div>
+      </div>
+
+      <div class="legend" id="legend">
+        <!-- GENERATED:legend -->
+        <span class="legend-item">
+          <span class="legend-swatch" style="background:#3FC9A8"></span>PowerSDR (Flex legacy)
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="background:#F2B441"></span>OpenHPSDR / Thetis
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="background:#8B7FF0"></span>SmartSDR (proprietary)
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="background:#EE7355"></span>piHPSDR (native C)
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="background:#5DE3FF"></span>AetherSDR
+        </span>
+        <!-- /GENERATED:legend -->
+      </div>
+
+      <div class="readout" id="readout">
+        <span class="readout-year" id="readoutYear">2002</span>
+        <span class="readout-era" id="readoutEra">Origins</span>
+        <span class="readout-bar" id="readoutBar"></span>
+      </div>
+
+      <div class="track">
+        <div class="rail" id="rail" aria-hidden="true"></div>
+        <ol class="events" id="events">
+          <!-- GENERATED:events -->
+        <li class="ev" data-i="0" data-lane="legacy" data-year="2002" data-era="Origins">
+          <div class="ev-meta">
+            <span class="ev-year">2002</span>
+            <span class="ev-branch" style="color:#3FC9A8">PowerSDR (Flex legacy)</span>
+          </div>
+          <h2 class="ev-title">A software defined radio for the masses</h2>
+          <p class="ev-body">Gerald Youngblood publishes a four-part series in ARRL’s QEX between July 2002 and March 2003. Part four announces the SDR-1000 as a semi-assembled board set, with the software to be released in open-source form.</p>
+          <div class="ev-people"><span class="call"><b>AC5OG</b> &middot; Gerald Youngblood</span></div>
+        </li>
+        <li class="ev" data-i="1" data-lane="legacy" data-year="2002" data-era="Origins">
+          <div class="ev-meta">
+            <span class="ev-year">2002</span>
+            <span class="ev-branch" style="color:#3FC9A8">PowerSDR (Flex legacy)</span>
+          </div>
+          <h2 class="ev-title">DttSP becomes the DSP core</h2>
+          <p class="ev-body">Frank Brickle and Bob McGwier write the C signal-processing engine that sits underneath PowerSDR and release it under the GPL. Every console on this page inherits its architecture, directly or by way of a rewrite.</p>
+          <div class="ev-people"><span class="call"><b>AB2KT</b> &middot; Frank Brickle</span><span class="call"><b>N4HY</b> &middot; Bob McGwier</span></div>
+        </li>
+        <li class="ev" data-i="2" data-lane="legacy" data-year="2003" data-era="Origins">
+          <div class="ev-meta">
+            <span class="ev-year">2003</span>
+            <span class="ev-branch" style="color:#3FC9A8">PowerSDR (Flex legacy)</span>
+          </div>
+          <h2 class="ev-title">SDR-1000 and PowerSDR ship under GPLv2</h2>
+          <p class="ev-body">A headless box that converts RF to an 11 kHz I/Q pair over a parallel port, with everything else done in software. The GPL release is the single most consequential decision in this history — it is why the rest of the page exists.</p>
+          <div class="ev-people"><span class="call">FlexRadio Systems</span></div>
+        </li>
+        <li class="ev" data-i="3" data-lane="hpsdr" data-year="2005" data-era="The HPSDR era">
+          <div class="ev-meta">
+            <span class="ev-year">2005<span class="mo">– 06</span></span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">The HPSDR group forms</h2>
+          <p class="ev-body">Phil Covington’s FPGA project merges with the XYLO effort by Phil Harman and Bill Tracey. The result is a modular open-hardware bus — Atlas, Ozy, Mercury, Penelope — built around direct conversion from DC to 55 MHz.</p>
+          <div class="ev-people"><span class="call"><b>N8VB</b> &middot; Phil Covington</span><span class="call"><b>VK6APH</b> &middot; Phil Harman</span><span class="call"><b>KD5TFD</b> &middot; Bill Tracey</span></div>
+        </li>
+        <li class="ev" data-i="4" data-lane="hpsdr" data-year="2007" data-era="The HPSDR era">
+          <div class="ev-meta">
+            <span class="ev-year">2007</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">PowerSDR is ported to HPSDR hardware</h2>
+          <p class="ev-body">Bill Tracey and Doug Wigley adapt FlexRadio’s GPL console to drive Mercury, Penelope, Ozy and Metis. The branch becomes OpenHPSDR PowerSDR mRX PS. From this point the two codebases evolve separately.</p>
+          <div class="ev-people"><span class="call"><b>KD5TFD</b> &middot; Bill Tracey</span><span class="call"><b>W5WC</b> &middot; Doug Wigley</span></div>
+        </li>
+        <li class="ev" data-i="5" data-lane="hpsdr" data-year="2008" data-era="The HPSDR era">
+          <div class="ev-meta">
+            <span class="ev-year">2008</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">TAPR funds Mercury development</h2>
+          <p class="ev-body">TAPR agrees to fund the Mercury receiver proposal in March and continues underwriting OpenHPSDR hardware from then on, distributing boards as kits and assembled units.</p>
+          <div class="ev-people"><span class="call">TAPR</span></div>
+        </li>
+        <li class="ev" data-i="6" data-lane="hpsdr" data-year="2012" data-era="Commercialisation">
+          <div class="ev-meta">
+            <span class="ev-year">2012<span class="mo">OCT</span></span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">Apache Labs ships the ANAN-10</h2>
+          <p class="ev-body">The Hermes board collapses Mercury, Metis and Penelope onto one PCB with Ethernet. Apache Labs wraps it in a chassis with a PA and filters. The ANAN-100 and ANAN-100D follow in March 2013, the latter built on the dual-ADC Angelia board.</p>
+          <div class="ev-people"><span class="call"><b>M0KHZ</b> &middot; Kevin Wheatley</span><span class="call">Apache Labs</span></div>
+        </li>
+        <li class="ev" data-i="7" data-lane="flex" data-year="2012" data-era="Commercialisation">
+          <div class="ev-meta">
+            <span class="ev-year">2012</span>
+            <span class="ev-branch" style="color:#8B7FF0">SmartSDR (proprietary)</span>
+          </div>
+          <h2 class="ev-title">FlexRadio closes the source</h2>
+          <p class="ev-body">The FLEX-6000 series is shown at Dayton with a direct-sampling architecture that moves DSP into the radio. It needs a new client, and SmartSDR is written from scratch as closed source. No code crosses between the two families again.</p>
+          <div class="ev-people"><span class="call">FlexRadio Systems</span></div>
+        </li>
+        <li class="ev" data-i="8" data-lane="flex" data-year="2013" data-era="Commercialisation">
+          <div class="ev-meta">
+            <span class="ev-year">2013<span class="mo">JUN</span></span>
+            <span class="ev-branch" style="color:#8B7FF0">SmartSDR (proprietary)</span>
+          </div>
+          <h2 class="ev-title">First FLEX-6700 units ship</h2>
+          <p class="ev-body">General release begins in June. SmartSDR v1.1 later that year doubles panadapters and slice receivers to eight on the 6700.</p>
+          <div class="ev-people"><span class="call">FlexRadio Systems</span></div>
+        </li>
+        <li class="ev" data-i="9" data-lane="legacy" data-year="2013" data-era="Commercialisation">
+          <div class="ev-meta">
+            <span class="ev-year">2013<span class="mo">DEC</span></span>
+            <span class="ev-branch" style="color:#3FC9A8">PowerSDR (Flex legacy)</span>
+          </div>
+          <h2 class="ev-title">PowerSDR 2.7.2 — FlexRadio’s last release</h2>
+          <p class="ev-body">The final upstream build for the FLEX-1500, 3000 and 5000. The source stays available under GPLv2, which keeps the legacy line alive long after the company stops working on it.</p>
+          <div class="ev-people"><span class="call">FlexRadio Systems</span></div>
+        </li>
+        <li class="ev" data-i="10" data-lane="hpsdr" data-year="2014" data-era="WDSP">
+          <div class="ev-meta">
+            <span class="ev-year">2014</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">WDSP replaces DttSP</h2>
+          <p class="ev-body">Warren Pratt rewrites the DSP layer as a new GPL library with separate receive and transmit chains. It becomes the shared engine under every non-FlexRadio console that follows — Thetis, piHPSDR, linHPSDR, deskHPSDR.</p>
+          <div class="ev-people"><span class="call"><b>NR0V</b> &middot; Warren Pratt</span></div>
+        </li>
+        <li class="ev" data-i="11" data-lane="hpsdr" data-year="2014" data-era="WDSP">
+          <div class="ev-meta">
+            <span class="ev-year">2014</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">PureSignal wins the ARRL Technical Innovation Award</h2>
+          <p class="ev-body">Adaptive predistortion implemented in WDSP pushes IMD3 on the ANAN line to around −50 dB — cleaner than a class-A transmitter while keeping class-AB efficiency.</p>
+          <div class="ev-people"><span class="call"><b>NR0V</b> &middot; Warren Pratt</span></div>
+        </li>
+        <li class="ev" data-i="12" data-lane="hpsdr" data-year="2016" data-era="Protocol 2">
+          <div class="ev-meta">
+            <span class="ev-year">2016</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">Thetis begins</h2>
+          <p class="ev-body">HPSDR’s next-generation firmware introduces an entirely new radio-to-PC protocol that PowerSDR cannot speak, and gigabit Ethernet becomes mandatory. Doug Wigley leads a new console for it. Later versions speak both protocols.</p>
+          <div class="ev-people"><span class="call"><b>W5WC</b> &middot; Doug Wigley</span></div>
+        </li>
+        <li class="ev" data-i="13" data-lane="legacy" data-year="2016" data-era="Protocol 2">
+          <div class="ev-meta">
+            <span class="ev-year">2016<span class="mo">JAN</span></span>
+            <span class="ev-branch" style="color:#3FC9A8">PowerSDR (Flex legacy)</span>
+          </div>
+          <h2 class="ev-title">KE9NS forks PowerSDR 2.7.2</h2>
+          <p class="ev-body">Darrin Kohn picks up the abandoned legacy branch on New Year’s Day and adds cluster spotting on the panadapter, callsign decoding in the waterfall, band stacking and much else. It is still the best software for a FLEX-5000.</p>
+          <div class="ev-people"><span class="call"><b>KE9NS</b> &middot; Darrin Kohn</span></div>
+        </li>
+        <li class="ev" data-i="14" data-lane="native" data-year="2016" data-era="Protocol 2">
+          <div class="ev-meta">
+            <span class="ev-year">2016</span>
+            <span class="ev-branch" style="color:#EE7355">piHPSDR (native C)</span>
+          </div>
+          <h2 class="ev-title">piHPSDR takes the codebase native</h2>
+          <p class="ev-body">John Melton writes a client in C on his own Linux and Android port of WDSP, breaking the dependency on Windows and .NET. Christoph van Wüllen later takes over as maintainer and his fork becomes the mainline.</p>
+          <div class="ev-people"><span class="call"><b>G0ORX</b> &middot; John Melton</span><span class="call"><b>DL1YCF</b> &middot; Christoph van Wüllen</span></div>
+        </li>
+        <li class="ev" data-i="15" data-lane="hpsdr" data-year="2019" data-era="Protocol 2">
+          <div class="ev-meta">
+            <span class="ev-year">2019</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">MW0LGE starts working on Thetis</h2>
+          <p class="ev-body">Richard Samphire begins contributing, and over the following years his fork becomes the de facto mainline — multi-panadapter rendering, TCI, the voice keyer and a long run of releases through v2.10.</p>
+          <div class="ev-people"><span class="call"><b>MW0LGE</b> &middot; Richard Samphire</span></div>
+        </li>
+        <li class="ev" data-i="16" data-lane="native" data-year="2021" data-era="Protocol 2">
+          <div class="ev-meta">
+            <span class="ev-year">2021</span>
+            <span class="ev-branch" style="color:#EE7355">piHPSDR (native C)</span>
+          </div>
+          <h2 class="ev-title">Hermes-Lite 2 wins the ARRL Technical Innovation Award</h2>
+          <p class="ev-body">Steve Haynal’s low-cost open transceiver puts protocol 1 in reach of anyone, and the native-C clients are what make it usable across Linux and macOS.</p>
+          <div class="ev-people"><span class="call">Steve Haynal</span><span class="call"><b>N2ADR</b> &middot; Jim Ahlstrom</span><span class="call"><b>M5EVT</b> &middot; Matthew</span></div>
+        </li>
+        <li class="ev" data-i="17" data-lane="hpsdr" data-year="2023" data-era="Handover">
+          <div class="ev-meta">
+            <span class="ev-year">2023<span class="mo">JUL</span></span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">The canonical Thetis repository goes quiet</h2>
+          <p class="ev-body">TAPR’s upstream stops at v2.10.0.0. Development continues only in the MW0LGE fork.</p>
+          <div class="ev-people"><span class="call">TAPR</span></div>
+        </li>
+        <li class="ev" data-i="18" data-lane="hpsdr" data-year="2023" data-era="Handover">
+          <div class="ev-meta">
+            <span class="ev-year">2023</span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">ANAN-G2 arrives on the SATURN board</h2>
+          <p class="ev-body">A large FPGA rated around 930 GMAC/s with a Raspberry Pi compute module on board, derived from the 7000DLE mk2 RF chain. For the first time the radio can run its own console.</p>
+          <div class="ev-people"><span class="call"><b>G8NJJ</b> &middot; Laurence Barker</span><span class="call"><b>N1GP</b> &middot; Rick Koch</span></div>
+        </li>
+        <li class="ev" data-i="19" data-lane="flex" data-year="2025" data-era="AetherSDR">
+          <div class="ev-meta">
+            <span class="ev-year">2025<span class="mo">SEP</span></span>
+            <span class="ev-branch" style="color:#8B7FF0">SmartSDR (proprietary)</span>
+          </div>
+          <h2 class="ev-title">SmartSDR moves to a subscription</h2>
+          <p class="ev-body">From v4.0, bug fixes stay free under SmartSDR Basic while new features require an annual SmartSDR+ licence. FlexRadio’s stated reasoning is that fourteen years of major-version upgrades produced only two paid releases.</p>
+          <div class="ev-people"><span class="call">FlexRadio Systems</span></div>
+        </li>
+        <li class="ev" data-i="20" data-lane="aether" data-year="2026" data-era="AetherSDR">
+          <div class="ev-meta">
+            <span class="ev-year">2026<span class="mo">MAR</span></span>
+            <span class="ev-branch" style="color:#5DE3FF">AetherSDR</span>
+          </div>
+          <h2 class="ev-title">AetherSDR starts from an empty file</h2>
+          <p class="ev-body">First commit lands on 12 March — a root commit with no history behind it. A native Qt6 and C++20 console written clean-room against FlexRadio’s published VITA-49 and SmartSDR APIs. No PowerSDR ancestry, no Thetis ancestry. That was deliberate, and it is why none of the licensing constraints on the rest of this page apply to it.</p>
+          <div class="ev-people"><span class="call"><b>KK7GWY</b> &middot; Jeremy Fielder</span></div>
+        </li>
+        <li class="ev" data-i="21" data-lane="hpsdr" data-year="2026" data-era="AetherSDR">
+          <div class="ev-meta">
+            <span class="ev-year">2026<span class="mo">APR</span></span>
+            <span class="ev-branch" style="color:#F2B441">OpenHPSDR / Thetis</span>
+          </div>
+          <h2 class="ev-title">Thetis is archived</h2>
+          <p class="ev-body">Richard Samphire archives the repository. The reasons are entirely technical: the codebase still depends on .NET Framework 4.8, rendering runs on SharpDX which is itself archived, and multiple receive slices would need a full display-engine rewrite. Final release v2.10.3.15 ships in May.</p>
+          <div class="ev-people"><span class="call"><b>MW0LGE</b> &middot; Richard Samphire</span></div>
+        </li>
+        <li class="ev" data-i="22" data-lane="native" data-year="2026" data-era="AetherSDR">
+          <div class="ev-meta">
+            <span class="ev-year">2026<span class="mo">JUN</span></span>
+            <span class="ev-branch" style="color:#EE7355">piHPSDR (native C)</span>
+          </div>
+          <h2 class="ev-title">Apache Labs funds piHPSDR</h2>
+          <p class="ev-body">Apache Labs forms an in-house software team whose first stated mission is assisting DL1YCF with piHPSDR, plus companion tooling and continued support for the 7000DLE and 8000DLE. After twenty years, the OpenHPSDR side finally has paid engineers.</p>
+          <div class="ev-people"><span class="call">Apache Labs</span><span class="call"><b>DL1YCF</b> &middot; Christoph van Wüllen</span></div>
+        </li>
+        <li class="ev is-terminal" data-i="23" data-lane="aether" data-year="Today" data-era="AetherSDR">
+          <div class="ev-meta">
+            <span class="ev-year">Today</span>
+            <span class="ev-branch" style="color:#5DE3FF">AetherSDR</span>
+          </div>
+          <h2 class="ev-title">Where AetherSDR sits</h2>
+          <p class="ev-body">Native on Linux, macOS and Windows, driving the FLEX-6000 and 8000 series and Aurora. More than 15,000 downloads and over 40 contributors, on a monthly CalVer release cadence. Nothing above the AetherSDR lane is a dependency — it is a parallel start, written for this decade rather than inherited from the last one.</p>
+          <div class="ev-people"><span class="call">GPL-3.0</span><span class="call">aethersdr.com</span></div>
+        </li>
+          <!-- /GENERATED:events -->
+        </ol>
+      </div>
+
+      <p class="lin-foot">
+        Lane colours mark independent codebases, not companies. A dashed lane means no shared
+        source — AetherSDR is a clean-room implementation written against FlexRadio's published
+        VITA-49 and SmartSDR APIs, with no PowerSDR, Thetis or OpenHPSDR lineage.
+      </p>
+
+    </div>
+  </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="index.html"><img src="assets/img/logo-96.png" alt="AetherSDR logo" /><span>Aether<b>SDR</b></span></a>
+          <p>A cross-platform, open-source client for FlexRadio Systems transceivers. Native. Open. Yours.</p>
+        </div>
+        <div class="foot-col">
+          <h4>Project</h4>
+          <a href="index.html#features">Features</a>
+          <a href="index.html#download">Download</a>
+          <a href="lineage.html">Lineage</a>
+          <a href="blog.html">Blog</a>
+          <a href="https://github.com/aethersdr/AetherSDR/releases">What's new</a>
+          <a href="https://github.com/aethersdr/AetherSDR#roadmap">Roadmap</a>
+        </div>
+        <div class="foot-col">
+          <h4>Community</h4>
+          <a href="https://github.com/aethersdr/AetherSDR">GitHub</a>
+          <a href="https://github.com/aethersdr/AetherSDR/discussions">Discussions</a>
+          <a href="https://github.com/aethersdr/AetherSDR/issues">Issue tracker</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md">Contributing</a>
+          <a href="https://opencollective.com/aethersdr">Sponsor us</a>
+        </div>
+        <div class="foot-col">
+          <h4>Resources</h4>
+          <a href="https://lu5dx.github.io/AetherSDRDocsEnglish/latest/">User Manual</a>
+          <a href="https://www.youtube.com/@AetherSDR">Video tutorials</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/VERIFYING-RELEASES.md">Verifying downloads</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONSTITUTION.md">Constitution</a>
+          <a href="https://github.com/aethersdr/aetherclaude">AetherClaude</a>
+          <a href="https://github.com/aethersdr/AetherSDR/blob/main/LICENSE">License (GPL v3)</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 AetherSDR · Free software under the GNU GPL v3.</span>
+        <span class="disclaimer">AetherSDR is an independent project and is not affiliated with or endorsed by FlexRadio Systems.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/lineage.js?v=1" defer></script>
+</body>
+</html>
