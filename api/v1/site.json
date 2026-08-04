@@ -1,0 +1,62 @@
+{
+  "name": "AetherSDR",
+  "tagline": "A native amateur-radio workstation for FlexRadio",
+  "description": "AetherSDR is a native amateur-radio workstation for FlexRadio 6000, 8000, and Aurora transceivers on Linux, macOS, and Windows. Open interfaces, GPU spectrum, DAX, noise reduction, and the data-mode tools you already use.",
+  "homepage": "https://www.aethersdr.com/",
+  "license": "GPL-3.0-or-later",
+  "sourceCode": "https://github.com/aethersdr/AetherSDR",
+  "issues": "https://github.com/aethersdr/AetherSDR/issues",
+  "documentation": "https://lu5dx.github.io/AetherSDRDocsEnglish/latest/",
+  "releases": "https://github.com/aethersdr/AetherSDR/releases",
+  "latestReleaseFeed": "https://api.github.com/repos/aethersdr/AetherSDR/releases/latest",
+  "platforms": [
+    "linux",
+    "macos",
+    "windows"
+  ],
+  "builtWith": [
+    "Qt6",
+    "C++20"
+  ],
+  "affiliation": "AetherSDR is an independent project and is not affiliated with or endorsed by FlexRadio Systems.",
+  "supportedHardware": {
+    "transceivers": [
+      "FLEX-6300",
+      "FLEX-6400",
+      "FLEX-6400M",
+      "FLEX-6500",
+      "FLEX-6600",
+      "FLEX-6600M",
+      "FLEX-6700",
+      "FLEX-8400",
+      "FLEX-8400M",
+      "FLEX-8600",
+      "FLEX-8600M",
+      "Aurora AU-510",
+      "Aurora AU-520"
+    ],
+    "testTarget": "FLEX-8600 firmware 4.2.18 (SmartSDR protocol v1.4.0.0); earlier 4.x works, v3.x is unsupported."
+  },
+  "downloads": {
+    "linux": {
+      "x86_64": "https://github.com/aethersdr/AetherSDR/releases/latest",
+      "aarch64": "https://github.com/aethersdr/AetherSDR/releases/latest",
+      "format": "AppImage"
+    },
+    "macos": {
+      "appleSilicon": "https://github.com/aethersdr/AetherSDR/releases/latest",
+      "intel": "https://github.com/aethersdr/AetherSDR/releases/latest",
+      "format": "DMG"
+    },
+    "windows": {
+      "store": "https://apps.microsoft.com/detail/9nc6bmwfn811",
+      "installer": "https://github.com/aethersdr/AetherSDR/releases/latest",
+      "winget": "winget install aethersdr -s msstore",
+      "format": "MSIX / setup.exe / portable zip"
+    },
+    "note": "Installer filenames carry the version, so resolve the exact asset from the GitHub latest-release API rather than constructing a URL.",
+    "signatures": "Every release ships .asc signatures and SHA256SUMS.txt."
+  },
+  "latestReleaseMentionedOnSite": "v26.7.1",
+  "postCount": 13
+}

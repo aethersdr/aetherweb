@@ -1,0 +1,86 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AetherSDR site content API",
+    "version": "1.0.0",
+    "summary": "Read-only JSON for the facts published on www.aethersdr.com.",
+    "description": "A small, unauthenticated, read-only API over the content of the AetherSDR website: project facts, the blog index, and a status endpoint. It is generated from the site's own HTML at build time and served as static files, so it never disagrees with the pages.\n\nThere is no write surface and no authentication — every endpoint is public. For release artifacts (which change outside this site), use the GitHub releases API linked from `/api/v1/site.json`.",
+    "license": {
+      "name": "GPL-3.0-or-later",
+      "identifier": "GPL-3.0-or-later"
+    },
+    "contact": {
+      "name": "AetherSDR",
+      "url": "https://github.com/aethersdr/AetherSDR/issues"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://www.aethersdr.com/api/v1",
+      "description": "Production"
+    }
+  ],
+  "externalDocs": {
+    "description": "API notes",
+    "url": "https://www.aethersdr.com/api/v1/docs.md"
+  },
+  "paths": {
+    "/site.json": {
+      "get": {
+        "summary": "Project facts",
+        "description": "Name, license, platforms, supported hardware, and where to get builds and documentation.",
+        "operationId": "getSite",
+        "responses": {
+          "200": {
+            "description": "Project facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts.json": {
+      "get": {
+        "summary": "Blog post index",
+        "description": "Every published post: slug, title, publication date, summary, reading time, and canonical URL.",
+        "operationId": "getPosts",
+        "responses": {
+          "200": {
+            "description": "Blog post index",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status.json": {
+      "get": {
+        "summary": "Deployment status",
+        "description": "A 200 from this endpoint means the current deployment is serving.",
+        "operationId": "getStatus",
+        "responses": {
+          "200": {
+            "description": "Deployment status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

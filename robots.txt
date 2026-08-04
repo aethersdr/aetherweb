@@ -1,0 +1,15 @@
+# www.aethersdr.com — everything here is public documentation for an
+# open-source project. Crawlers and agents are welcome to read all of it.
+
+User-agent: *
+Allow: /
+
+# Machine-readable entrypoints, for anything that reads robots.txt first:
+#   /sitemap.xml                          canonical page list
+#   /api/v1/openapi.json                  the read-only content API
+#   /.well-known/api-catalog              RFC 9727 API catalog
+#   /.well-known/agent-skills/index.json  Agent Skills discovery index
+# Every HTML page also answers `Accept: text/markdown` with a markdown
+# rendering of the same content.
+
+Sitemap: https://www.aethersdr.com/sitemap.xml

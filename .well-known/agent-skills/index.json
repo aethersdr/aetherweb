@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "aethersdr-downloads",
+      "type": "skill-md",
+      "description": "Resolve the correct AetherSDR installer for a given operating system and CPU architecture from the project's latest GitHub release, including signature and checksum verification.",
+      "url": "https://www.aethersdr.com/.well-known/agent-skills/aethersdr-downloads/SKILL.md",
+      "digest": "sha256:39aa20771c30b03007e4690785596bd76d8ad3e14870996854391781604d842d"
+    },
+    {
+      "name": "aethersdr-project-facts",
+      "type": "skill-md",
+      "description": "Answer questions about what AetherSDR is, which FlexRadio hardware and platforms it supports, how it is licensed, and where its source, documentation, and release notes live.",
+      "url": "https://www.aethersdr.com/.well-known/agent-skills/aethersdr-project-facts/SKILL.md",
+      "digest": "sha256:048216e4e63519f3c2c9d93ede469bd201ae09d09c280c858e26872a834b017e"
+    },
+    {
+      "name": "aethersdr-release-notes",
+      "type": "skill-md",
+      "description": "Find what changed in a given AetherSDR release, or which release introduced a particular feature, using the project blog and its machine-readable post index.",
+      "url": "https://www.aethersdr.com/.well-known/agent-skills/aethersdr-release-notes/SKILL.md",
+      "digest": "sha256:fb0cab52d72c1840ff2e5f65ef8669385199183d2b3e74583e017e379852c1ee"
+    }
+  ]
+}

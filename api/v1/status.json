@@ -1,0 +1,9 @@
+{
+  "status": "operational",
+  "service": "www.aethersdr.com",
+  "note": "This is a statically hosted site. A 200 with this body means the current deployment is serving; there is no backend whose health could differ from that.",
+  "endpoints": [
+    "https://www.aethersdr.com/api/v1/site.json",
+    "https://www.aethersdr.com/api/v1/posts.json"
+  ]
+}

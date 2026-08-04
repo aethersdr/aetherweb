@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "include": [
+    "/",
+    "/blog",
+    "/blog.html",
+    "/blog.md",
+    "/index.html",
+    "/index.md",
+    "/lineage",
+    "/lineage.html",
+    "/lineage.md"
+  ],
+  "exclude": []
+}

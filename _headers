@@ -7,7 +7,58 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://api.github.com; font-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  # RFC 8288 discovery, for agents that read headers before they read markup.
+  # One comma-separated field rather than repeated ones — both are legal, and
+  # this form survives every proxy and parser in between.
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </api/v1/openapi.json>; rel="service-desc"; type="application/vnd.oai.openapi+json", </api/v1/docs.md>; rel="service-doc"; type="text/markdown", </.well-known/agent-skills/index.json>; rel="describedby"; type="application/json", </sitemap.xml>; rel="sitemap"; type="application/xml", <https://www.gnu.org/licenses/gpl-3.0.html>; rel="license", <https://github.com/aethersdr/AetherSDR>; rel="related"
 
 # Fingerprinted/rarely-changing media can cache hard
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# ---------------------------------------------------------------------------
+# The machine-readable surface. Other people's software reads these, so the
+# content types have to be right and cross-origin reads have to work.
+# ---------------------------------------------------------------------------
+
+# No file extension, so nothing downstream would guess this one (RFC 9727).
+/.well-known/api-catalog
+  Content-Type: application/linkset+json
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/index.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/*
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/api/v1/*.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/api/v1/docs.md
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+# Markdown renderings of the pages. functions/_middleware.js serves these same
+# files in response to Accept: text/markdown; they are addressable directly too.
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+  Vary: Accept
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
