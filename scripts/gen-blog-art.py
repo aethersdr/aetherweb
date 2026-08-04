@@ -301,6 +301,16 @@ GLYPHS = {
       '<rect x="38" y="-11" width="48" height="7" rx="3.5" fill="currentColor" opacity=".85"/>'
       '<rect x="38" y="8" width="58" height="7" rx="3.5" fill="currentColor" opacity=".4"/>'
       '<rect x="38" y="27" width="30" height="7" rx="3.5" fill="currentColor" opacity=".2"/>',
+    # Stacked platters, and the key that no longer lives among them.
+    "store": "".join(
+        f'<ellipse cy="{cy}" rx="60" ry="16" fill="none" stroke="currentColor" '
+        f'stroke-width="2.8" opacity="{op}"/>'
+        f'<path d="M-60 {cy}v24a60 16 0 0 0 120 0v-24" fill="none" stroke="currentColor" '
+        f'stroke-width="2.8" opacity="{op}"/>'
+        for cy, op in ((-62, ".42"), (-10, ".68"), (42, "1")))
+    + '<circle cx="92" cy="-56" r="14" fill="none" stroke="currentColor" stroke-width="3"/>'
+      '<path d="M92-42v40m0-24h11m-11 12h8" fill="none" stroke="currentColor" '
+      'stroke-width="3" stroke-linecap="round"/>',
     # Cross-needle: the reading is where they intersect.
     "meter": '<path d="M-86 34a92 92 0 0 1 172 0" fill="none" stroke="currentColor" '
              'stroke-width="2.4" opacity=".45"/>'
@@ -363,6 +373,7 @@ def build_release(root, slug, version, kicker, motif, force=False):
 
 
 RELEASES = [
+    ("release-26-8-1", "v26.8.1", "Settings that survive", "store"),
     ("release-26-7-4", "v26.7.4", "Speech to text", "copyassist"),
     ("release-26-7-3", "v26.7.3", "Meters you can trust", "meter"),
     ("release-26-7-2", "v26.7.2", "Digital voice", "dstar"),

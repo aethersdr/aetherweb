@@ -3,8 +3,8 @@
 export const MD_MAP = {
   '/': { asset: '/index.md', tokens: 3065 },
   '/index.md': { asset: '/index.md', tokens: 3065 },
-  '/blog': { asset: '/blog.md', tokens: 14362 },
-  '/blog.md': { asset: '/blog.md', tokens: 14362 },
+  '/blog': { asset: '/blog.md', tokens: 17534 },
+  '/blog.md': { asset: '/blog.md', tokens: 17534 },
   '/lineage': { asset: '/lineage.md', tokens: 1994 },
   '/lineage.md': { asset: '/lineage.md', tokens: 1994 },
 };

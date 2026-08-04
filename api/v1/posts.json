@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 13,
+  "count": 14,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-8-1",
+      "title": "v26.8.1: settings that survive, and a way in when they don’t",
+      "url": "https://www.aethersdr.com/blog#release-26-8-1",
+      "published": "2026-08-02",
+      "summary": "Your settings stop being an XML file and become a database — transactional saves, verified backups, and credentials moved out to your OS keychain. Then the part that matters when it goes wrong: a config editor that runs without the GUI, because the escape hatch can’t depend on the thing it’s rescuing.",
+      "readingTime": "10 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-8-1-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-7-4",

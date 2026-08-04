@@ -130,6 +130,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-8-1">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-8-1-card.svg" alt="v26.8.1 release art — settings that survive, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-08-02">August 2, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>10 min read</span>
+              </span>
+              <h3>v26.8.1: settings that survive, and a way in when they don’t</h3>
+              <p>Your settings stop being an XML file and become a database — transactional saves, verified backups, and credentials moved out to your OS keychain. Then the part that matters when it goes wrong: a config editor that runs without the GUI, because the escape hatch can’t depend on the thing it’s rescuing.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-7-4">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-7-4-card.svg" alt="v26.7.4 release art — speech to text, drawn as an AetherSDR spectrum panel" />
@@ -489,6 +507,145 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-8-1" tabindex="-1" aria-labelledby="h-release-26-8-1" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-8-1-hero.svg" alt="v26.8.1 release art — settings that survive, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-08-02">August 2, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>10 min read</span>
+        </span>
+        <h1 id="h-release-26-8-1">v26.8.1: settings that survive, and a way in when they don’t</h1>
+
+        <div class="blog-body">
+          <p class="lede">Your settings stop being a file that gets rewritten and become a database that gets updated. That is plumbing, and mostly you should never notice it — which is exactly why this release also ships the way back in for when you do.</p>
+
+          <p>There are three changes to what runs where before any of that, and they are the ones to read first.</p>
+
+          <h2>Read this before you upgrade</h2>
+
+          <p><strong>Intel Macs no longer get Copy Assist.</strong> In exchange the Intel DMG now targets macOS 12.0, down from 13.0, so it reaches the older hardware it exists for.</p>
+
+          <p>Those two facts are the same fact. The speech runtime is published with a macOS 15.5 minimum, and macOS applies the <em>highest</em> minimum of anything inside an app bundle to the whole app. Shipping Copy Assist on Intel meant shipping a DMG that most Intel Macs would refuse to launch at all — not a degraded app, a dead icon. One optional feature was setting the floor for everything else in the bundle. Apple Silicon is unaffected and keeps Copy Assist in full.</p>
+
+          <p><strong>The aarch64 AppImage now needs Raspberry Pi OS Trixie.</strong> It moves to Qt 6.8.3 LTS, which raises its glibc floor to 2.38. Bookworm cannot run it — as was already true of the builds it replaces. What you get for that is the ARM AppImage finally rendering the spectrum on the GPU instead of falling back to CPU drawing.</p>
+
+          <p><strong>Building from source now requires Qt 6.8 or newer.</strong> Nothing changes if you use the released binaries; they were already built against 6.8.3. Distro Qt satisfies this on Debian Trixie, Ubuntu 25.10+, Fedora 41+ and Arch. On Ubuntu 24.04 LTS it does not — build against a Qt from aqtinstall or the Qt online installer and pass <code>-DCMAKE_PREFIX_PATH=/path/to/Qt/6.8.3/gcc_64</code>.</p>
+
+          <h2>Why a file had to become a database</h2>
+
+          <p>Settings used to live in <code>AetherSDR.settings</code>, an XML file. Saving a setting meant writing the whole file out again.</p>
+
+          <p>That works until it doesn’t, and the way it fails is disproportionate. Change one checkbox and the operation on disk is not “update one checkbox” — it is “replace the entire configuration.” Lose power, run out of disk, or crash during that window and what you lose is not the checkbox. It is every panadapter layout, every profile, every controller mapping, every bookmark, replaced by a truncated file. The unit of risk had nothing to do with the size of the change.</p>
+
+          <p>Settings now live in a SQLite store with transactional saves. A write either lands completely or not at all, so an interrupted save leaves the previous state intact rather than a half-written file. On top of that: integrity checks at startup, automatic verified backups, and quarantine-and-restore if the store is ever damaged — with a notice telling you which backup it fell back to, rather than silently starting up looking like a fresh install.</p>
+
+          <p>Bookmarks get a related fix. The band stack now writes through the moment you make one, instead of riding along on a later save that a crash could beat to disk. A bookmark you made and then lost was never a corruption bug; it was a durability one.</p>
+
+          <h2>Your credentials leave the settings file</h2>
+
+          <p>The MQTT password, the automation-bridge token and the remote-ASR API key move to your operating system’s keychain during the upgrade. They are not in the settings store, and they are not in the file the store replaced.</p>
+
+          <p>This matters more than it sounds, because a settings file is a <em>sociable</em> object. It gets attached to bug reports. It gets swept into backups that sync somewhere. It gets pasted into a forum thread by someone troubleshooting at midnight who has not thought about what else is in it. Every one of those is a reasonable thing to do with a configuration file and a bad thing to do with a password.</p>
+
+          <p>The new Settings Browser reflects that: credential-shaped values are masked and read-only, and its diagnostic export is sanitized. The intent is that the obvious, helpful action — export this and send it to someone who can help — stops being the one that leaks.</p>
+
+          <h2>The escape hatch can’t live inside the app</h2>
+
+          <p>Two ways in, and the second one is the interesting one.</p>
+
+          <p><strong>Settings ▸ Settings Browser…</strong> browses and edits the whole store with live filtering and guarded editing. That is for when the app starts.</p>
+
+          <p><strong><code>aethersdr --config</code></strong> is for when it doesn’t. <code>list</code>, <code>get</code>, <code>set</code>, <code>unset</code>, <code>export</code> and <code>path</code> all work without starting the GUI at all.</p>
+
+          <p>The reason that exists is worth stating plainly, because it generalises. A stored value can be bad enough to stop the application launching. If the only tool for repairing settings is a window inside that application, then the tool is unavailable in precisely the situation it was built for. A recovery mechanism that depends on the thing it recovers is not a recovery mechanism — it is a feature that works when you don’t need it.</p>
+
+          <p>So the config editor runs without the GUI, without a radio, and without the store being in a good state.</p>
+
+          <h2>What the upgrade does to your settings</h2>
+
+          <p>Migration happens automatically on first launch. You should not have to do anything.</p>
+
+          <p>The old <code>AetherSDR.settings</code> file is left in place, untouched. That is deliberate: if you roll back to an older release, it finds the settings you had at the moment you upgraded and carries on. The one thing to understand is that it is a snapshot, not a mirror — changes you make after upgrading live in the new store, so a rollback returns you to the upgrade point rather than to last night.</p>
+
+          <h2>TCI keys the slice you asked for</h2>
+
+          <p>Some continuity first, because it was never written up here. v26.7.4 broke WSJT-X rig control over TCI, and v26.7.4.1 was a same-day hotfix that restored it — band changes were failing and transmissions could go out of band, which is not a thing to leave sitting until the next release. If you are still on v26.7.4, upgrade regardless of anything else on this page.</p>
+
+          <p>This release fixes the deeper fault underneath it. Since v26.7.4, no TCI client could activate the slice it named: keying stayed pinned to wherever transmit already happened to sit. And before that, every client’s <code>trx:0</code> promoted the first slice — so a second WSJT-X instance would yank transmit off the slice the first one was working.</p>
+
+          <p>That second one is the one that ruins an evening. Two clients, one radio, both behaving correctly by their own lights, and the one that connected most recently silently takes the transmit slice away from the one that is mid-QSO. Nothing errors. It just stops being your slice.</p>
+
+          <p>Both are fixed, and satellite and cross-band split are preserved. Three related faults in the same path go with them:</p>
+
+          <ul>
+            <li>A cached route can no longer outlive the live transmit slice and move transmit onto a stale slice’s band <em>and antenna</em>. That is the one worth a second look — the failure was not a wrong dial reading, it was RF out of the wrong port.</li>
+            <li>An unresolvable receiver is now declined, rather than transmitting on the first slice as a fallback. “I don’t know which slice you meant” is not a good reason to pick one.</li>
+            <li>Two clients on one radio each resolve against the receiver they actually declared.</li>
+          </ul>
+
+          <p>Refusals now reply instead of failing silently, receiver numbers stay stable when a slice is closed mid-session, and the routing decision is logged — which is the change that makes the next report of this class diagnosable at all.</p>
+
+          <h2>Meters that stop lying</h2>
+
+          <p>Three metering bugs, with a common shape: the number on screen outlived the measurement behind it.</p>
+
+          <p><strong>Forward power kept reporting for about three seconds after unkey.</strong> The raw meter read zero within 200 ms; the derived watts value decayed exponentially from full power on its own schedule. The radio knew you had stopped. The display was still telling you a story about it.</p>
+
+          <p><strong>SWR reported a stale reading while receiving.</strong> With no transmit for sixteen minutes, the meter still showed the value measured during the <em>previous</em> transmit — which, if that transmit happened to be into a poorly matched antenna, reads as a live fault on a station that is working perfectly.</p>
+
+          <p><strong>Amplifier bar gauges kept painting the old scale</strong> after an auto-range or a LOW/MID/HIGH change. Measured on the bench: an ACOM reflected-power gauge showed 206 W for an actual 120 W, and stayed there.</p>
+
+          <p>Reflected power is the worst possible reading to get wrong, and not because the error was large. It is the number you look at to decide whether to stop transmitting. A forward-power display that reads high is an annoyance. A reflected-power display that reads high sends you hunting a fault that isn’t there — or, with the error in the other direction, doesn’t send you anywhere at all.</p>
+
+          <p>Related, and in the same spirit: the TX filter now tells you when it is removing your transmit audio. A low/high cut that excludes the audio keys the radio normally and produces almost no RF — and in DIGU/DIGL there was no cue whatsoever. Everything looked correct except the part you cannot see from the operating position.</p>
+
+          <h2>RN2 stops pumping on binaural audio</h2>
+
+          <p>If you listen with binaural or diversity audio, the noise floor no longer rises every time somebody talks.</p>
+
+          <p>RN2 was deriving a single gain envelope from an L/R downmix and applying it to both channels. For a mono source that is exactly right — both channels carry the same signal, so one envelope describes both. For binaural audio the channels differ by design, and a gain curve computed from their sum fits neither. The audible result was pumping: speech on one side dragging the gain for both.</p>
+
+          <p>Nothing changes for duplicated-mono slices, and nothing changes in how much noise RN2 removes.</p>
+
+          <p>New, and off by default: <strong>RN2 ▸ Noise Floor</strong>. RNNoise gates hard, and some operators hear that as the receiver going dead rather than quiet — the band vanishing between phrases is unnerving when you are used to judging conditions by what sits underneath them. This leaves a percentage of the original signal under the denoised audio so the band still sounds live. 10–20% is a usable floor.</p>
+
+          <p>Transmit audio also no longer breaks up with RN2 enabled. The pacer could never repay a missed deadline, so recovered microphone frames accumulated until the queue cap discarded audio outright. Reported by @Bill6000 on a FLEX-6500 under Linux Mint.</p>
+
+          <h2>Also in this release</h2>
+
+          <p><strong>Changing the waterfall Scheme now recolours the history you are already looking at</strong>, rather than only the rows that arrive next. Switching themes does the same, and nothing moves while it happens — scroll position, paused scrollback and the scroll animation are all preserved.</p>
+
+          <p><strong>The interface follows what your radio actually reports.</strong> GPS status is gated on live hardware presence as well as radio family, so a Flex without the GPSDO option fitted no longer shows a GPS stack. The DVK button follows your SmartSDR+ entitlement — without it, DVK read as <em>broken</em> rather than <em>unlicensed</em>, after you had already recorded into a slot that was never going to work. The status bar no longer invents a <code>0.00 V</code> PA supply reading on radios that never report one.</p>
+
+          <p><strong>Squelch behaves.</strong> Manual squelch is remembered per slice again on every path — a non-active slice’s VFO flag, a MIDI or controller knob, or the radio itself. Previously only the RX applet kept that memory current, so cycling the SQL button pushed a stale value back and quietly undid what you had set. It is also no longer saved between sessions: squelch belongs to the radio, and new slices start from the radio’s own level.</p>
+
+          <p><strong>Controllers and operating.</strong> Stream Deck becomes slice-aware, with a Slice Target action cycling <code>TRX0 → TX → ACTIVE</code> and keys showing live values from the radio instead of static labels — the default is unchanged, so an existing deck behaves exactly as before. Ulanzi Dial buttons can hold PTT and key CW and remember their mappings; only the button-down half of each press was being read, so those did nothing at all. FlexControl recovers on its own after losing its USB port instead of staying dead until you restart the PC. SpotHub gains a Freeze toggle so you can click a spot without the list shifting under you. The IARU Region 1 80 m band plan is corrected — 3.600–3.620 MHz is ALL, not DIGI.</p>
+
+          <p><strong>Platform.</strong> The Linux AppImage runs natively on Wayland instead of XWayland, so text and the spectrum are sharp under fractional scaling — and it asks for Wayland with a fallback, so a machine without it quietly uses XWayland rather than failing to start. Qt 6.8.3 LTS is now pinned everywhere, including both macOS legs; the Apple Silicon DMG previously took whatever Qt Homebrew was publishing that day. Every HTTP request now has a transfer timeout, so a half-open connection no longer leaves space-weather, POTA, PSK Reporter, SmartLink auth and map tiles pending forever with no error.</p>
+
+          <p><strong>Themes</strong> get a quieter but satisfying fix: the compiled fallback table is now generated from the bundled theme and pinned in CI, rather than hand-maintained. It had drifted on nine tokens — it claimed slice A was red while both bundled themes say cyan — and twenty-four more tokens had no fallback at all, resolving to transparent on older themes, which could leave the waterfall with no colormap. “Reset to default” also follows the theme you are actually editing; on Default Light it had been restoring the <em>dark</em> value for 96 of the 147 shared tokens.</p>
+
+          <p>Work continued on the experimental Hermes-Lite 2 backend and on the host-side memory bank for radios without memory slots. To be explicit about it: <strong>Hermes-Lite 2 remains experimental and is not a supported radio family. FlexRadio remains the supported target.</strong></p>
+
+          <p>118 commits across 15 contributors. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.8.1">v26.8.1 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>
