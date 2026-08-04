@@ -67,7 +67,32 @@ verify() {
 
     say "Checking DNSSEC on $ZONE"
     if [[ -n "$(dig +short DS "$ZONE" 2>/dev/null)" ]]; then
-      say "  DS present at parent — zone is signed"
+      say "  DS present at parent"
+
+      # Presence is not validity. A DS that no longer matches a published key
+      # makes validating resolvers refuse the zone outright — worse than
+      # unsigned — and that failure looks identical to "signed" if you only
+      # check that the DS exists. Ask a validating resolver whether the chain
+      # actually verifies, via the AD (authenticated data) flag.
+      local validated=""
+      local r
+      for r in 1.1.1.1 9.9.9.9 8.8.8.8; do
+        if dig @"$r" +dnssec "$ZONE" SOA 2>/dev/null \
+           | grep -m1 "^;; flags:" | grep -q " ad[;,]"; then
+          validated="$r"
+          break
+        fi
+      done
+      if [[ -n "$validated" ]]; then
+        say "  chain validates — $validated returned the AD flag"
+      else
+        say "  WARN: no resolver returned AD yet."
+        say "  Right after a DS is added this is usually just negative caching"
+        say "  of the previous unsigned answer; re-check in a few minutes. If it"
+        say "  persists, the DS does not match the published KSK — fix that"
+        say "  before anything else, because the zone will fail to resolve."
+        rc=1
+      fi
     else
       say "  no DS at parent — zone is UNSIGNED."
       say "  Enable DNSSEC (Cloudflare → DNS → Settings → DNSSEC), then add the"
