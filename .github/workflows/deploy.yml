@@ -20,7 +20,11 @@ jobs:
       # `secrets` context isn't available directly in step `if:` conditions.
       CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
+      # Full history: the sitemap's <lastmod> comes from each page's last
+      # commit date, which a shallow clone would flatten to the tip commit.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Check configuration
         if: ${{ env.CF_TOKEN == '' }}
@@ -28,15 +32,32 @@ jobs:
           echo "::notice::CLOUDFLARE_API_TOKEN not set — skipping deploy."
           echo "Add CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID repo secrets to enable it."
 
+      # sitemap.xml, the markdown renderings, and everything under /api and
+      # /.well-known are derived from the pages themselves. Regenerate here
+      # rather than trusting whatever was committed, so publishing a page can
+      # never ship a stale sitemap or post index. (Locally, run the same script
+      # with --check to see whether the committed copies have drifted — they
+      # can't be checked in CI, since a page's <lastmod> only becomes correct
+      # once the commit that changed it exists.)
+      - name: Regenerate the agent-discovery artifacts
+        run: |
+          python3 scripts/gen-agent-discovery.py
+          git --no-pager diff --stat -- sitemap.xml api .well-known \
+            index.md blog.md lineage.md functions _routes.json || true
+
       # Stage only the files the site actually serves — keep serve.py,
       # scripts/, dist/, README, and CI config out of the public deployment.
+      # _headers, _routes.json and functions/ are consumed by Pages rather than
+      # uploaded as assets, but they still have to be in the staged directory.
       - name: Stage site
         if: ${{ env.CF_TOKEN != '' }}
         run: |
           mkdir -p _site
           cp -R index.html blog.html lineage.html 404.html styles.css assets _headers _site/
+          cp -R robots.txt sitemap.xml index.md blog.md lineage.md _site/
+          cp -R api .well-known functions _routes.json _site/
           [ -f _redirects ] && cp _redirects _site/ || true
-          echo "Staged:" && find _site -maxdepth 2 -type f | sort
+          echo "Staged:" && find _site -maxdepth 3 -type f | sort
 
       # First run creates the project; later runs no-op (hence continue-on-error).
       - name: Ensure Pages project exists
@@ -49,9 +70,18 @@ jobs:
           command: pages project create aetherweb --production-branch main
 
       - name: Deploy
+        id: deploy
         if: ${{ env.CF_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy _site --project-name=aetherweb --branch=main --commit-dirty=true
+
+      # The machine-readable surface has no human who'd notice it 404ing, so
+      # check it on every deploy. Runs against the fresh deployment URL.
+      - name: Smoke-test the agent-discovery surface
+        if: ${{ env.CF_TOKEN != '' && steps.deploy.outputs.deployment-url != '' }}
+        run: |
+          sleep 10
+          bash scripts/check-agent-discovery.sh "${{ steps.deploy.outputs.deployment-url }}"

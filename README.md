@@ -12,12 +12,18 @@ feature-forward, using AetherSDR's own palette (deep navy + electric cyan→teal
 ```
 index.html            The landing page (single page, no build step required)
 blog.html             The blog — card index + every post, routed client-side
+lineage.html          The 2003→now amateur-SDR timeline
 styles.css            All styling (design tokens at the top)
 assets/img/           Optimized screenshots, logo, and 3D-spectrum visuals
 assets/js/blog.js     Blog card-index <-> post routing
+assets/js/webmcp.js   WebMCP tools — the site's actions, exposed to agents
+functions/            Cloudflare Pages Function: Accept: text/markdown handling
+api/, .well-known/    Machine-readable surface (generated — see docs/)
 serve.py              Tiny local static server (python3 serve.py → :4321)
 scripts/build.py      Bundles everything into dist/index.html (self-contained)
 scripts/gen-blog-art.py  Regenerates the generated SVG post art
+scripts/gen-agent-discovery.py  Regenerates sitemap, /api, /.well-known, *.md
+scripts/check-agent-discovery.sh  Smoke-tests that surface on a deployed site
 ```
 
 Post art that isn't a screenshot is generated SVG — drawn in the site palette
@@ -68,12 +74,47 @@ Cloudflare Pages serves the page extensionless at **`/blog`** and 308-redirects
 Internal links keep the `blog.html` form on purpose — it resolves under
 `serve.py` locally and just costs one redirect hop in production.
 
+## Machine-readable surface
+
+The site publishes a sitemap, an RFC 9727 API catalog over a small read-only
+content API, an Agent Skills index, RFC 8288 `Link` headers, markdown versions
+of every page (`Accept: text/markdown`), and WebMCP tools. All of it is derived
+from the pages themselves:
+
+```bash
+python3 scripts/gen-agent-discovery.py           # rewrite the generated files
+python3 scripts/gen-agent-discovery.py --check   # report drift, write nothing
+```
+
+CI regenerates on every deploy, so publishing a page or a post cannot ship a
+stale sitemap or post index. Adding a *page* means adding it to `PAGES` in that
+script and to the `Stage site` step in the deploy workflow; adding a *post*
+needs nothing — it's read out of `blog.html`.
+
+After a deploy, `scripts/check-agent-discovery.sh [base-url]` smoke-tests the
+whole surface (status codes, content types, negotiation, and that the security
+headers survive the Pages Function). CI runs it against the fresh deployment.
+
+**Read [`docs/agent-readiness.md`](docs/agent-readiness.md) before changing any
+of it** — in particular, `_headers` is not applied to responses that a Pages
+Function produces, so `functions/site-headers.js` is generated from it and must
+be regenerated whenever `_headers` changes.
+
 ## Local preview
 
 ```bash
 python3 serve.py           # http://127.0.0.1:4321
 # or any static server:
 # npx serve .
+```
+
+`serve.py` is a plain static server: no extensionless `/blog`, no `_headers`,
+and no `Accept: text/markdown` negotiation. To exercise the Pages Function and
+the headers the way production does:
+
+```bash
+npx wrangler pages dev .   # http://127.0.0.1:8788
+curl -sI -H 'Accept: text/markdown' http://127.0.0.1:8788/
 ```
 
 ## Self-contained build (for review / Claude Desktop)
