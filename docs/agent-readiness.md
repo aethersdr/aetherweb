@@ -97,52 +97,91 @@ The site does expose browser-side tools over WebMCP, which is the appropriate
 mechanism for a website. Publish a server card if and when there is a hosted
 MCP endpoint to name.
 
-### DNS-AID — needs DNS access, and an endpoint worth pointing at
+## Prepared, but not published from here — DNS-AID
+
+Unlike the four items above, this one isn't declined. It's ready, and it needs
+a hand outside this repository.
+
+### DNS-AID — ready to publish, one command away
 
 [DNS for AI Discovery](https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/)
-publishes ServiceMode SVCB records under `_agents.<domain>` so resolvers can
-find agent endpoints without an HTTP round trip. Two things block it:
+publishes ServiceMode SVCB records under `_agents.<domain>` so a resolver can
+find an organisation's agent entrypoint without an HTTP round trip.
 
-1. **It cannot be done from this repository.** These are DNS records in the
-   `aethersdr.com` zone, managed in the Cloudflare dashboard. Nothing in a
-   Pages deployment can create them.
-2. **There is currently no agent endpoint to advertise.** DNS-AID names a
-   service (an A2A or MCP endpoint, via the `alpn` parameter). This site serves
-   documents, not an agent protocol. A record pointing at nothing is worse than
-   no record.
+The record is prepared and applying it is one command — but it **cannot be run
+from CI**, because these are records in the `aethersdr.com` zone rather than
+files in a Pages deployment. It needs a Cloudflare token with *Zone → DNS →
+Edit*:
 
-The draft is also a work in progress and its SvcParamKeys (`cap`, `cap-sha256`,
-`well-known`, `bap`, `policy`, `realm`) are not yet IANA-registered, so the
-syntax may still change. Treat the sketch below as a starting point to check
-against the current draft, not as a spec-conformant record.
-
-**When there is an endpoint to advertise**, in Cloudflare → *DNS → Records* for
-the `aethersdr.com` zone:
-
-```dns
-; Organizational index — where an agent starts.
-_index._agents.aethersdr.com. 3600 IN SVCB 1 agents.aethersdr.com. (
-    alpn="h2,h3"
-    port=443
-    well-known="agent-card.json" )
-
-; One entry per agent service actually operated, e.g. an MCP endpoint:
-mcp._agents.aethersdr.com.    3600 IN SVCB 1 mcp.aethersdr.com. (
-    alpn="mcp,h2"
-    port=443
-    well-known="mcp/server-card.json" )
+```bash
+export CLOUDFLARE_API_TOKEN=...
+scripts/apply-dns-aid.sh            # plan — prints the record, changes nothing
+scripts/apply-dns-aid.sh --apply    # create or update it
+scripts/apply-dns-aid.sh --verify   # query DNS and report what is live
 ```
 
-Then **sign the zone with DNSSEC** — *DNS → Settings → DNSSEC → Enable* — so
-validating resolvers get authenticated answers. Without DNSSEC the records are
-trivially spoofable, which for service discovery is the whole risk. The zone is
-already on Cloudflare, so signing is a toggle plus a DS record at the registrar.
+The record it publishes:
 
-Verify with:
+```dns
+_index._agents.aethersdr.com. 3600 IN SVCB 1 www.aethersdr.com. (
+    alpn="h2,h3" port=443 mandatory=alpn,port )
+```
+
+**Why only `_index`.** The draft defines `_index._agents` as "a well-known entry
+point to a more complete capability description" — which this domain now has:
+`/.well-known/api-catalog` and the agent-skills index, both reachable over plain
+HTTPS at the target above. That is an honest record.
+
+There is deliberately no `_a2a._agents` or `_mcp._agents` record. Those name a
+*protocol* endpoint through `alpn`, and this domain operates neither. An
+`alpn="a2a"` record would send agents to a port that answers nothing — the same
+objection as the [MCP Server Card](#mcp-server-card--not-applicable-to-this-domain)
+above, one layer further down the stack, and harder to retract because
+resolvers cache.
+
+**Why only registered parameters.** `alpn`, `port` and `mandatory` are all
+RFC 9460. The draft's own keys — `cap`, `cap-sha256`, `policy`, `realm`,
+`well-known` — are still provisional and unregistered, and the skill's guidance
+is to use numeric `keyNNNNN` naming until IANA assigns them. Picking a number
+now means guessing one that a later registration could collide with, so the
+capability description is left to be discovered at the target host, which is
+what `_index` is for. Revisit once the keys are assigned.
+
+### DNSSEC — currently unsigned, and it is the point
+
+As of this writing `aethersdr.com` has **no DS record at the parent**, so the
+zone is unsigned:
+
+```console
+$ dig +short DS aethersdr.com
+$ scripts/apply-dns-aid.sh --verify
+  no DS at parent — zone is UNSIGNED.
+```
+
+Publishing discovery records in an unsigned zone gets the syntax right and
+misses the substance. An unsigned SVCB answer is trivially forged, and the
+thing being forged is *where an agent should connect* — so the failure mode is
+an agent talking to an attacker's endpoint believing it is this project's.
+DNSSEC is what makes the record worth trusting.
+
+Two steps, neither of them in this repository:
+
+1. **Cloudflare → DNS → Settings → DNSSEC → Enable.** Cloudflare signs the zone
+   and shows you a DS record.
+2. **Add that DS record at the registrar** for `aethersdr.com`. Until this
+   happens the zone stays effectively unsigned — step 1 alone does nothing for
+   validating resolvers, because the chain of trust is broken at the parent.
+
+Then confirm the `ad` (authenticated data) flag comes back set:
 
 ```bash
 dig +dnssec _index._agents.aethersdr.com SVCB
+scripts/apply-dns-aid.sh --verify
 ```
+
+Order matters: sign the zone first, publish the record second. A record that
+resolvers learn to accept unsigned is one they will keep accepting unsigned
+until it falls out of cache.
 
 ## Adding a page
 

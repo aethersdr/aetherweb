@@ -95,6 +95,12 @@ After a deploy, `scripts/check-agent-discovery.sh [base-url]` smoke-tests the
 whole surface (status codes, content types, negotiation, and that the security
 headers survive the Pages Function). CI runs it against the fresh deployment.
 
+One piece lives in DNS rather than in the deployment: the DNS-AID entrypoint
+record. `scripts/apply-dns-aid.sh` plans it, applies it with a Cloudflare token,
+and verifies it — CI can't, because it's a zone record, not a file. The zone
+also still needs DNSSEC enabling, which matters more than the record itself.
+Both are covered in [`docs/agent-readiness.md`](docs/agent-readiness.md).
+
 **Read [`docs/agent-readiness.md`](docs/agent-readiness.md) before changing any
 of it** — in particular, `_headers` is not applied to responses that a Pages
 Function produces, so `functions/site-headers.js` is generated from it and must
