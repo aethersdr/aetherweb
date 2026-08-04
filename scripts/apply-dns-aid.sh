@@ -46,6 +46,58 @@ esac
 
 say() { printf '%s\n' "$*"; }
 
+# Decode SVCB rdata (RFC 9460 §2.2) from dig's TYPE64 hex and check the parts
+# DNS-AID depends on. Single-quote-free so it survives the shell quoting below.
+SVCB_DECODE_PY='
+import sys
+try:
+    raw = bytes.fromhex(sys.argv[1])
+except ValueError:
+    sys.exit("  could not parse rdata: " + sys.argv[1][:60])
+
+KEYS = {0:"mandatory",1:"alpn",2:"no-default-alpn",3:"port",
+        4:"ipv4hint",5:"ech",6:"ipv6hint"}
+
+priority = int.from_bytes(raw[:2], "big")
+i = 2
+labels = []
+while raw[i]:
+    n = raw[i]
+    labels.append(raw[i+1:i+1+n].decode())
+    i += 1 + n
+i += 1
+
+params = {}
+while i < len(raw):
+    key = int.from_bytes(raw[i:i+2], "big")
+    ln = int.from_bytes(raw[i+2:i+4], "big")
+    params[KEYS.get(key, "key" + str(key))] = raw[i+4:i+4+ln]
+    i += 4 + ln
+
+alpn = []
+if "alpn" in params:
+    v = params["alpn"]
+    j = 0
+    while j < len(v):
+        alpn.append(v[j+1:j+1+v[j]].decode())
+        j += 1 + v[j]
+port = int.from_bytes(params["port"], "big") if "port" in params else None
+
+print("  target   : " + ".".join(labels) + ".")
+print("  priority : " + str(priority) + ("  ServiceMode" if priority else "  AliasMode"))
+print("  alpn     : " + (",".join(alpn) if alpn else "MISSING"))
+print("  port     : " + (str(port) if port else "(default)"))
+
+problems = []
+if priority == 0:
+    problems.append("priority 0 is AliasMode; DNS-AID wants ServiceMode")
+if not alpn:
+    problems.append("no alpn parameter")
+for p in problems:
+    print("  WARN: " + p)
+sys.exit(1 if problems else 0)
+'
+
 # --------------------------------------------------------------------------
 # Verify: what does the world actually see?
 # --------------------------------------------------------------------------
@@ -54,14 +106,27 @@ verify() {
   say "Querying $RECORD"
 
   if command -v dig >/dev/null 2>&1; then
-    local answer
-    answer=$(dig +short SVCB "$RECORD" 2>/dev/null || true)
+    # Query by numeric type, not by name. SVCB is type 64, and dig only learned
+    # the mnemonic in 9.18 — macOS still ships 9.10, where `dig SVCB` returns
+    # NOERROR and prints nothing. That reads as "not published" for a record
+    # that is being served perfectly well, so ask for TYPE64 and decode the
+    # rdata here instead of trusting dig to render it.
+    local answer="" r
+    for r in "" @1.1.1.1 @9.9.9.9 @8.8.8.8; do
+      # Strip dig's "\# <rdlength> " prefix while the spaces are still there to
+      # delimit it — collapsing whitespace first makes the length field
+      # indistinguishable from the hex that follows it.
+      answer=$(dig $r +short "$RECORD" TYPE64 2>/dev/null \
+               | sed 's/^\\# [0-9]* //' | tr -d ' \n')
+      [[ -n "$answer" ]] && break
+    done
+
     if [[ -n "$answer" ]]; then
-      say "  SVCB: $answer"
-      [[ "$answer" == *"alpn"* ]] || { say "  WARN: no alpn parameter"; rc=1; }
-      [[ "$answer" =~ ^[1-9] ]]   || { say "  WARN: priority 0 is AliasMode, not ServiceMode"; rc=1; }
+      python3 -c "$SVCB_DECODE_PY" "$answer" || rc=1
     else
-      say "  not published"
+      say "  not published (no resolver returned a TYPE64 answer)"
+      say "  If it was only just applied, a previous negative answer may still"
+      say "  be cached — the zone's SOA minimum is the ceiling on that wait."
       rc=1
     fi
 

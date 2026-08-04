@@ -23,6 +23,7 @@ the result with `scripts/check-agent-discovery.sh`.
 | Skill bodies | `/.well-known/agent-skills/*/SKILL.md` | — | committed |
 | Markdown pages | `Accept: text/markdown`, and `/*.md` | [Markdown for Agents](https://developers.cloudflare.com/fundamentals/reference/markdown-for-agents/) | generated |
 | WebMCP tools | `assets/js/webmcp.js` | [WebMCP](https://webmachinelearning.github.io/webmcp/) | committed |
+| DNS-AID entrypoint | `_index._agents.aethersdr.com` | [DNS-AID draft](https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/) · [RFC 9460](https://www.rfc-editor.org/rfc/rfc9460) | DNS, applied by script |
 
 ### Markdown negotiation
 
@@ -97,21 +98,22 @@ The site does expose browser-side tools over WebMCP, which is the appropriate
 mechanism for a website. Publish a server card if and when there is a hosted
 MCP endpoint to name.
 
-## Prepared, but not published from here — DNS-AID
+## DNS-AID — published
 
-Unlike the four items above, this one isn't declined. It's ready, and it needs
-a hand outside this repository.
+Unlike the four items above, this one isn't declined. It is live, and it is the
+one piece that does not ship from this repository.
 
-### DNS-AID — ready to publish, one command away
+### The record
 
 [DNS for AI Discovery](https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/)
 publishes ServiceMode SVCB records under `_agents.<domain>` so a resolver can
 find an organisation's agent entrypoint without an HTTP round trip.
 
-The record is prepared and applying it is one command — but it **cannot be run
-from CI**, because these are records in the `aethersdr.com` zone rather than
-files in a Pages deployment. It needs a Cloudflare token with *Zone → DNS →
-Edit*:
+Applying it **cannot run in CI**: these are records in the `aethersdr.com` zone
+rather than files in a Pages deployment. It needs a Cloudflare token with
+*Zone → DNS → Edit*, and if that token lacks *Zone → Zone → Read* (the "Edit
+zone DNS" template doesn't grant it), pass `CLOUDFLARE_ZONE_ID` to skip the
+lookup:
 
 ```bash
 export CLOUDFLARE_API_TOKEN=...
@@ -120,11 +122,38 @@ scripts/apply-dns-aid.sh --apply    # create or update it
 scripts/apply-dns-aid.sh --verify   # query DNS and report what is live
 ```
 
-The record it publishes:
+The record, as published and verified live:
 
 ```dns
 _index._agents.aethersdr.com. 3600 IN SVCB 1 www.aethersdr.com. (
     alpn="h2,h3" port=443 mandatory=alpn,port )
+```
+
+### Verifying it, and why `dig SVCB` lies
+
+`dig` only learned the `SVCB` mnemonic in 9.18. macOS ships 9.10, where
+`dig SVCB` returns NOERROR and prints **nothing at all** — indistinguishable
+from the record not existing. That cost a real debugging detour here: the
+record was live and correct while every check said "not published".
+
+`--verify` therefore queries the numeric type and decodes the rdata itself:
+
+```console
+$ scripts/apply-dns-aid.sh --verify
+Querying _index._agents.aethersdr.com
+  target   : www.aethersdr.com.
+  priority : 1  ServiceMode
+  alpn     : h2,h3
+  port     : 443
+Checking DNSSEC on aethersdr.com
+  DS present at parent
+  chain validates — 1.1.1.1 returned the AD flag
+```
+
+To check by hand, ask for `TYPE64` rather than `SVCB`:
+
+```bash
+dig @1.1.1.1 +short _index._agents.aethersdr.com TYPE64
 ```
 
 **Why only `_index`.** The draft defines `_index._agents` as "a well-known entry
@@ -147,41 +176,27 @@ now means guessing one that a later registration could collide with, so the
 capability description is left to be discovered at the target host, which is
 what `_index` is for. Revisit once the keys are assigned.
 
-### DNSSEC — currently unsigned, and it is the point
+### DNSSEC — signed
 
-As of this writing `aethersdr.com` has **no DS record at the parent**, so the
-zone is unsigned:
-
-```console
-$ dig +short DS aethersdr.com
-$ scripts/apply-dns-aid.sh --verify
-  no DS at parent — zone is UNSIGNED.
-```
-
-Publishing discovery records in an unsigned zone gets the syntax right and
-misses the substance. An unsigned SVCB answer is trivially forged, and the
+`aethersdr.com` is signed: `DS 2371 13 2` is published at the `.com` parent and
+validating resolvers return the AD flag. The zone was unsigned when this work
+started, and signing it first was the prerequisite — publishing discovery
+records into an unsigned zone gets the syntax right and misses the substance. An unsigned SVCB answer is trivially forged, and the
 thing being forged is *where an agent should connect* — so the failure mode is
 an agent talking to an attacker's endpoint believing it is this project's.
 DNSSEC is what makes the record worth trusting.
 
-Two steps, neither of them in this repository:
+It took two steps, neither in this repository: enabling DNSSEC in Cloudflare
+(*DNS → Settings*), then adding the DS it generated at the **registrar**
+(GoDaddy). The second is the one that completes the chain — signing alone does
+nothing for validating resolvers while the parent has no DS.
 
-1. **Cloudflare → DNS → Settings → DNSSEC → Enable.** Cloudflare signs the zone
-   and shows you a DS record.
-2. **Add that DS record at the registrar** for `aethersdr.com`. Until this
-   happens the zone stays effectively unsigned — step 1 alone does nothing for
-   validating resolvers, because the chain of trust is broken at the parent.
-
-Then confirm the `ad` (authenticated data) flag comes back set:
-
-```bash
-dig +dnssec _index._agents.aethersdr.com SVCB
-scripts/apply-dns-aid.sh --verify
-```
-
-Order matters: sign the zone first, publish the record second. A record that
-resolvers learn to accept unsigned is one they will keep accepting unsigned
-until it falls out of cache.
+**Do not roll or disable the KSK, and do not turn DNSSEC off in Cloudflare
+without first removing the DS at GoDaddy.** A DS pointing at a key that no
+longer exists makes validating resolvers refuse `aethersdr.com` outright —
+worse than unsigned, because the domain stops resolving rather than degrading.
+`--verify` checks the AD flag, not merely that a DS exists, precisely because
+those two failure modes look identical otherwise.
 
 ## Adding a page
 
