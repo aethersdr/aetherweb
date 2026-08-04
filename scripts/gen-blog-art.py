@@ -8,6 +8,7 @@ output.
 """
 import math
 import random
+import zlib
 
 BG, BG1, BG2 = "#060b13", "#0a121e", "#0e1a2a"
 CYAN, CYAN_DEEP, TEAL, AQUA = "#5de3ff", "#3aa7ff", "#7bf2dc", "#8ef7e6"
@@ -312,7 +313,12 @@ GLYPHS = {
 
 
 def _release_svg(w, h, version, kicker, motif, wf, trace_peaks, layout):
-    rng = random.Random(abs(hash(version)) % 99991)
+    # crc32, not hash(): Python randomises string hashing per process, so this
+    # seed used to change on every run and the "deterministic" claim only held
+    # within a single invocation. The art committed before this fix was drawn
+    # under the old seeding, which is why build_release leaves existing files
+    # alone unless you ask for them back.
+    rng = random.Random(zlib.crc32(version.encode("utf-8")))
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
          f'role="img" aria-label="AetherSDR {version} — {kicker}">']
     p.append(defs(w, h))
@@ -339,16 +345,21 @@ def _release_svg(w, h, version, kicker, motif, wf, trace_peaks, layout):
     return "\n".join(p) + "\n"
 
 
-def build_release(root, slug, version, kicker, motif):
+def build_release(root, slug, version, kicker, motif, force=False):
     import os
+    paths = [os.path.join(root, f"{slug}-{crop}.svg") for crop in ("hero", "card")]
+    if not force and all(os.path.exists(p) for p in paths):
+        return False
+
     hero = _release_svg(1200, 630, version, kicker, motif,
                         wf=(150, 20), trace_peaks=[(0.24, .06, .40), (0.71, .05, .62)],
                         layout=(96, 214, 86, 916, 286, 1.05, "start"))
     card = _release_svg(640, 560, version, kicker, motif,
                         wf=(96, 16), trace_peaks=[(0.34, .07, .52)],
                         layout=(320, 108, 58, 320, 296, 0.92, "middle"))
-    open(os.path.join(root, f"{slug}-hero.svg"), "w", encoding="utf-8").write(hero)
-    open(os.path.join(root, f"{slug}-card.svg"), "w", encoding="utf-8").write(card)
+    open(paths[0], "w", encoding="utf-8").write(hero)
+    open(paths[1], "w", encoding="utf-8").write(card)
+    return True
 
 
 RELEASES = [
@@ -369,10 +380,17 @@ RELEASES = [
 
 if __name__ == "__main__":
     import os
+    import sys
     root = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "img")
     print("hero", build_hero(os.path.join(root, "first-contribution-hero.svg")))
     print("card", build_card(os.path.join(root, "first-contribution-card.svg")))
-    for slug, version, kicker, motif in RELEASES:
-        build_release(root, slug, version, kicker, motif)
-    print(f"release art: {len(RELEASES)} posts x 2 crops")
+    # Existing art predates the seeding fix above, so regenerating it would
+    # redraw every post's noise for no reason. Only missing crops are drawn;
+    # pass --force to redraw everything against the current seeding.
+    force = "--force" in sys.argv[1:]
+    drawn = [s for s, v, k, m in RELEASES if build_release(root, s, v, k, m, force)]
+    if drawn:
+        print(f"release art: drew {len(drawn)} x 2 crops -> {', '.join(drawn)}")
+    else:
+        print(f"release art: all {len(RELEASES)} posts already drawn (--force to redraw)")
