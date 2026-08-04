@@ -153,9 +153,29 @@ else:
 field() { python3 -c "$CF_JSON_PY" "$1"; }
 
 say "Zone:     $ZONE"
-ZONE_ID=$(cf "$API/zones?name=$ZONE" | field first_id)
-[[ -n "$ZONE_ID" ]] || { echo "zone $ZONE not found for this token" >&2; exit 1; }
-say "Zone ID:  $ZONE_ID"
+
+# Looking the zone up by name needs Zone → Zone → Read, which a DNS-only token
+# doesn't carry. Rather than force a broader token, take the id directly:
+#   CLOUDFLARE_ZONE_ID=... scripts/apply-dns-aid.sh --apply
+# It's the hex string in the dashboard URL, and on the zone's Overview page.
+if [[ -n "${CLOUDFLARE_ZONE_ID:-}" ]]; then
+  ZONE_ID="$CLOUDFLARE_ZONE_ID"
+  say "Zone ID:  $ZONE_ID (from CLOUDFLARE_ZONE_ID)"
+else
+  if ! ZONE_ID=$(cf "$API/zones?name=$ZONE" | field first_id); then
+    echo >&2
+    echo "Could not look up the zone. If that was a permissions error, the" >&2
+    echo "token needs Zone → Zone → Read as well as Zone → DNS → Edit — or" >&2
+    echo "skip the lookup entirely:" >&2
+    echo "  CLOUDFLARE_ZONE_ID=<id> $0 ${1:---plan}" >&2
+    exit 1
+  fi
+  [[ -n "$ZONE_ID" ]] || {
+    echo "zone $ZONE not visible to this token — check it's scoped to the right zone" >&2
+    exit 1
+  }
+  say "Zone ID:  $ZONE_ID"
+fi
 
 EXISTING=$(cf "$API/zones/$ZONE_ID/dns_records?type=SVCB&name=$RECORD" | field first_id)
 
