@@ -50,6 +50,15 @@ def main():
         html,
     )
 
+    # Drop the WebMCP tools from the bundle. They're relative-URL calls into
+    # /api/v1 and the live release feed — meaningless in a one-file preview,
+    # and left in they'd only fail at whatever origin the file was opened from.
+    html, n = re.subn(
+        r'\s*<script src="assets/js/webmcp\.js[^"]*"[^>]*></script>', "", html
+    )
+    if n != 1:
+        raise SystemExit(f"expected 1 webmcp script tag to strip, found {n}")
+
     # Embed every referenced asset (src="assets/..." and content="assets/...").
     def repl(match):
         attr, path = match.group(1), match.group(2)
