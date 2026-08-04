@@ -40,6 +40,7 @@ PAGES = [
     ('index.html', '/', '1.0', 'weekly'),
     ('blog.html', '/blog', '0.9', 'weekly'),
     ('lineage.html', '/lineage', '0.5', 'monthly'),
+    ('supporters.html', '/supporters', '0.6', 'weekly'),
 ]
 
 

@@ -9,7 +9,10 @@
     "/index.md",
     "/lineage",
     "/lineage.html",
-    "/lineage.md"
+    "/lineage.md",
+    "/supporters",
+    "/supporters.html",
+    "/supporters.md"
   ],
   "exclude": []
 }

@@ -13,16 +13,19 @@ feature-forward, using AetherSDR's own palette (deep navy + electric cyan→teal
 index.html            The landing page (single page, no build step required)
 blog.html             The blog — card index + every post, routed client-side
 lineage.html          The 2003→now amateur-SDR timeline
+supporters.html       The supporter panadapter — everyone who has funded the project
 styles.css            All styling (design tokens at the top)
 assets/img/           Optimized screenshots, logo, and 3D-spectrum visuals
 assets/js/blog.js     Blog card-index <-> post routing
 assets/js/webmcp.js   WebMCP tools — the site's actions, exposed to agents
+assets/js/supporters.js  The supporter spectrum: live ledger, S-meter scaling, canvas
 functions/            Cloudflare Pages Function: Accept: text/markdown handling
 api/, .well-known/    Machine-readable surface (generated — see docs/)
 serve.py              Tiny local static server (python3 serve.py → :4321)
 scripts/build.py      Bundles everything into dist/index.html (self-contained)
 scripts/gen-blog-art.py  Regenerates the generated SVG post art
 scripts/gen-agent-discovery.py  Regenerates sitemap, /api, /.well-known, *.md
+scripts/gen-supporters.py  Bakes the supporter roll from Open Collective
 scripts/check-agent-discovery.sh  Smoke-tests that surface on a deployed site
 ```
 
@@ -73,6 +76,44 @@ Cloudflare Pages serves the page extensionless at **`/blog`** and 308-redirects
 `/blog.html` to it, so `canonical` and the `og:`/`twitter:` URLs point at `/blog`.
 Internal links keep the `blog.html` form on purpose — it resolves under
 `serve.py` locally and just costs one redirect hop in production.
+
+## The supporters page
+
+`/supporters` draws everyone who has funded the project as a signal on a
+panadapter — the more someone has given, the stronger their signal, spotted
+with their callsign the way SpotHub flags a station.
+
+Three layers, in this order:
+
+1. **The roll of names is real markup**, baked into `supporters.html` between
+   the `SUPPORTERS` markers by `scripts/gen-supporters.py`. That is what a
+   reader without JavaScript gets, and what agents and search engines read.
+2. `assets/js/supporters.js` reads that markup and draws it.
+3. It then fetches the live ledger from Open Collective and redraws. If that is
+   slow, rate-limited (their limit is 10 requests per window) or refused, the
+   baked roll stays on screen with a quiet note — the page never empties.
+
+```bash
+python3 scripts/gen-supporters.py           # refresh the baked roll
+python3 scripts/gen-supporters.py --check   # report staleness, write nothing
+```
+
+Run it when someone new appears. It is not wired into the deploy: a transient
+Open Collective outage should not be able to fail a deploy, and the live fetch
+means the page is current regardless.
+
+Two things worth knowing before editing it:
+
+- **Amounts never reach the page.** Each supporter carries a `data-strength`
+  between 0 and 1 — their log-scaled position between the smallest and largest
+  contribution. The figures stay on the public ledger, where people chose to
+  put them. The scale is logarithmic because the range runs from $3 to $200,
+  and a linear one would render the smallest gift invisible.
+- **A `guest-*` slug does not mean anonymous.** It means the contribution came
+  through guest checkout without an Open Collective account, which is true of
+  most of this collective — including people who gave their full name and
+  callsign. Only a *name* of "Guest" means anonymous. Keying on the slug
+  credits 15 real supporters as "Anonymous".
 
 ## Machine-readable surface
 

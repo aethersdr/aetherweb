@@ -53,8 +53,8 @@ jobs:
         if: ${{ env.CF_TOKEN != '' }}
         run: |
           mkdir -p _site
-          cp -R index.html blog.html lineage.html 404.html styles.css assets _headers _site/
-          cp -R robots.txt sitemap.xml index.md blog.md lineage.md _site/
+          cp -R index.html blog.html lineage.html supporters.html 404.html styles.css assets _headers _site/
+          cp -R robots.txt sitemap.xml index.md blog.md lineage.md supporters.md _site/
           cp -R api .well-known functions _routes.json _site/
           [ -f _redirects ] && cp _redirects _site/ || true
           echo "Staged:" && find _site -maxdepth 3 -type f | sort

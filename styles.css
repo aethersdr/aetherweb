@@ -849,3 +849,137 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
   .lineage.js-reveal .ev { opacity: 1; transform: none; transition: none; }
   .readout-bar { transition: none; }
 }
+
+/* ==========================================================================
+   Supporters — the panadapter of everyone who has funded the project
+   ========================================================================== */
+
+.sup-hero .section-head { max-width: 760px; }
+.sup-hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin: 10px 0 14px;
+}
+
+/* The scope itself reuses the hero-shot frame so it reads as the same
+   instrument as the screenshots on the landing page. */
+.sup-scope {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-1);
+  box-shadow: var(--shadow-glow);
+}
+.sup-canvas-wrap { position: relative; }
+.sup-scope canvas {
+  display: block;
+  width: 100%;
+  /* Tall enough for three rows of spot flags plus the waterfall, without
+     letting a wide desktop stretch it into a strip. */
+  height: clamp(340px, 42vw, 520px);
+  background: #070d17;
+  touch-action: pan-y;
+}
+
+.sup-tip {
+  position: absolute;
+  top: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-hi);
+  background: rgba(10, 20, 34, 0.96);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sup-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  justify-content: center;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.sup-legend-item { display: inline-flex; align-items: center; gap: 8px; }
+.sup-swatch {
+  width: 22px; height: 3px; border-radius: 2px;
+  background: var(--grad);
+  display: inline-block;
+}
+
+/* ---------- The roll ---------- */
+.sup-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+  gap: 10px;
+}
+.sup-item {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-1);
+}
+/* Height of the tick mirrors the signal strength on the scope, so the list is
+   not merely alphabetised names — it carries the same information. */
+.sup-mark {
+  flex: 0 0 auto;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--grad);
+  align-self: center;
+}
+.sup-item[data-anon] .sup-mark { background: var(--muted-dim); }
+.sup-label {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.sup-item[data-anon] .sup-label { color: var(--muted); }
+.sup-name {
+  color: var(--ink-soft);
+  font-size: 13px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sup-since {
+  margin-left: auto;
+  color: var(--muted-dim);
+  font-size: 11.5px;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.sup-stale {
+  margin-top: 18px;
+  color: var(--muted-dim);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .sup-scope canvas { height: clamp(300px, 78vw, 380px); }
+  .sup-list { grid-template-columns: 1fr; }
+}
+
+/* The scope is decorative reinforcement of the list below it; with reduced
+   motion it renders one static frame (handled in supporters.js) and the tick
+   marks stop drawing attention. */
+@media (prefers-reduced-motion: reduce) {
+  .sup-scope { box-shadow: none; }
+}
