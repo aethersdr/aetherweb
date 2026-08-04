@@ -82,6 +82,4 @@ jobs:
       # check it on every deploy. Runs against the fresh deployment URL.
       - name: Smoke-test the agent-discovery surface
         if: ${{ env.CF_TOKEN != '' && steps.deploy.outputs.deployment-url != '' }}
-        run: |
-          sleep 10
-          bash scripts/check-agent-discovery.sh "${{ steps.deploy.outputs.deployment-url }}"
+        run: bash scripts/check-agent-discovery.sh "${{ steps.deploy.outputs.deployment-url }}"
