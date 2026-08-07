@@ -220,6 +220,277 @@ def build_card(path):
     open(path, "w", encoding="utf-8").write("\n".join(p) + "\n")
     return W, H
 
+# --------------------------------------------------------------------- the play
+# Art for the multi-agent post, drawn the way a coach draws one: a formation, a
+# line of scrimmage with a front on it, and everybody running a route at once.
+# Everybody has an assignment and only the ball arrives: the routes fan out and
+# end in their own arrowheads, two of them stopped at the line with a crossbar
+# instead, and the dashed flight clears the defence into main. The stopped ones
+# are the argument the post makes, so they are drawn as carefully as the rest.
+#
+# Routes are sampled to polylines and jittered rather than emitted as clean
+# beziers: it should read as chalk, not as CAD.
+
+def _bez(p0, p1, p2, p3, n=30):
+    out = []
+    for i in range(n + 1):
+        t, mt = i / n, 1 - i / n
+        out.append((mt**3 * p0[0] + 3 * mt * mt * t * p1[0]
+                    + 3 * mt * t * t * p2[0] + t**3 * p3[0],
+                    mt**3 * p0[1] + 3 * mt * mt * t * p1[1]
+                    + 3 * mt * t * t * p2[1] + t**3 * p3[1]))
+    return out
+
+
+def _leg(pts, a, b, n=14):
+    """A straight run, sampled so a broken route jitters like the curved bits."""
+    return pts + [(a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n)
+                  for i in range(1, n + 1)]
+
+
+def _chalk(rng, pts, j=1.5):
+    return " ".join(f"{x + rng.uniform(-j, j):.1f},{y + rng.uniform(-j, j):.1f}"
+                    for x, y in pts)
+
+
+def _stroke(rng, pts, colour, w, dash="", op=1.0, j=1.5):
+    d = f' stroke-dasharray="{dash}"' if dash else ""
+    return (f'  <polyline points="{_chalk(rng, pts, j)}" fill="none" stroke="{colour}" '
+            f'stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round" '
+            f'opacity="{op}"{d}/>')
+
+
+def _tip(pts, colour, w, size=14, cross=False):
+    """Arrowhead, or the crossbar that means this route was stopped."""
+    (x0, y0), (x1, y1) = pts[-4], pts[-1]
+    ang = math.atan2(y1 - y0, x1 - x0)
+    if cross:
+        a = ang + math.pi / 2
+        dx, dy = size * math.cos(a), size * math.sin(a)
+        return (f'  <path d="M{x1 - dx:.1f} {y1 - dy:.1f}L{x1 + dx:.1f} {y1 + dy:.1f}" '
+                f'stroke="{colour}" stroke-width="{w}" stroke-linecap="round"/>')
+    a1, a2 = ang + math.radians(148), ang - math.radians(148)
+    return (f'  <path d="M{x1 + size * math.cos(a1):.1f} {y1 + size * math.sin(a1):.1f}'
+            f'L{x1:.1f} {y1:.1f}'
+            f'L{x1 + size * math.cos(a2):.1f} {y1 + size * math.sin(a2):.1f}" fill="none" '
+            f'stroke="{colour}" stroke-width="{w}" stroke-linecap="round" '
+            f'stroke-linejoin="round"/>')
+
+
+def _o(cx, cy, r, colour, w, op=1.0):
+    return (f'  <circle cx="{cx:.0f}" cy="{cy:.0f}" r="{r}" fill="{BG}" fill-opacity="0.7" '
+            f'stroke="{colour}" stroke-width="{w}" opacity="{op}"/>')
+
+
+def _xx(rng, cx, cy, s, colour, w, op=1.0):
+    j = lambda: rng.uniform(-1.4, 1.4)
+    return (f'  <path d="M{cx-s+j():.1f} {cy-s+j():.1f}L{cx+s+j():.1f} {cy+s+j():.1f}'
+            f'M{cx+s+j():.1f} {cy-s+j():.1f}L{cx-s+j():.1f} {cy+s+j():.1f}" fill="none" '
+            f'stroke="{colour}" stroke-width="{w}" stroke-linecap="round" opacity="{op}"/>')
+
+
+def _block(rng, cx, cy, r, dy, colour, w):
+    """The short hook-and-bar every coach draws for a blocking assignment."""
+    pts = _bez((cx, cy - r), (cx, cy - r - dy * 0.55),
+               (cx + dy * 0.5, cy - r - dy), (cx + dy * 0.95, cy - r - dy))
+    return [_stroke(rng, pts, colour, w, op=0.75, j=1.0),
+            _tip(pts, colour, w, size=r * 0.8, cross=True)]
+
+
+def _play(p, rng, los_y, los_x0, los_x1, line, backs, wides, front, mid, deep,
+          routes, blocks, ball, r, w, label_fs, hash_y):
+    # Field: one yard line above the front, ticked like a real one.
+    for hy in hash_y:
+        p.append(f'  <path d="M{los_x0} {hy}H{los_x1 + 40}" stroke="rgba(120,165,210,0.10)" '
+                 f'stroke-width="1.4" stroke-dasharray="2 12" fill="none"/>')
+
+    # Line of scrimmage.
+    p.append(_stroke(rng, [(los_x0, los_y), (los_x1, los_y)], CYAN_DEEP, w, op=0.5, j=1.1))
+    # Anchored at the start of the line, not before it — anchoring "end" ran the
+    # label off the left edge at card size.
+    p.append(f'  <text x="{los_x0 + 2}" y="{los_y - 14}" font-family="{MONO}" '
+             f'font-size="{label_fs}" letter-spacing="3" text-anchor="start" '
+             f'fill="{MUTED}">GATE</text>')
+
+    # The front, then the second and third levels behind it.
+    for cx, cy, op in ([(x, y, 0.9) for x, y in front]
+                       + [(x, y, 0.7) for x, y in mid]
+                       + [(x, y, 0.5) for x, y in deep]):
+        p.append(_xx(rng, cx, cy, r * 0.98, MUTED, w, op))
+
+    # Routes. Each is a list of legs; the last point is where the tip goes.
+    for pts, through in routes:
+        colour = "url(#chain)" if through else DIM
+        p.append(_stroke(rng, pts, colour, w, op=1.0 if through else 0.8))
+        p.append(_tip(pts, CYAN if through else MUTED, w + (0 if through else 0.6),
+                      size=r * (1.0 if through else 1.25), cross=not through))
+
+    # Blocking assignments off the interior line.
+    for cx, cy, dy in blocks:
+        p.extend(_block(rng, cx, cy, r, dy, DIM, w))
+
+    # The ball: dashed the way every playbook draws it, and the only thing on
+    # the board that actually arrives. Everything else just ran a route.
+    p.append(_stroke(rng, ball, AQUA, w + 0.4, dash="11 9", op=0.95, j=1.0))
+    p.append(_tip(ball, AQUA, w + 0.4, size=r * 1.15))
+
+    # Personnel last, so the circles sit on top of their own routes.
+    for cx, cy in line:
+        p.append(_o(cx, cy, r, CYAN_DEEP, w, 0.85))
+    for cx, cy in backs + wides:
+        p.append(_o(cx, cy, r, CYAN, w))
+
+
+def build_play_hero(path):
+    W, H = 1200, 630
+    rng = random.Random(20260806)
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
+         f'width="{W}" height="{H}" role="img" '
+         f'aria-label="A play drawn on a chalkboard: a full formation runs routes at one '
+         f'line of scrimmage, two of them stopped there, while the dashed flight of the '
+         f'ball clears the defence and arrives at a single point marked main">']
+    LOS, r, w = 430, 14, 2.8
+    out_cx, out_cy, size = 1046, 206, 92
+
+    line = [(300 + i * 58, LOS + 20) for i in range(7)]
+    backs = [(474, LOS + 66), (388, LOS + 92), (560, LOS + 92)]
+    wides = [(168, LOS + 20), (752, LOS + 20)]
+    front = [(330 + i * 64, LOS - 34) for i in range(6)]
+    mid = [(392, LOS - 92), (534, LOS - 96), (676, LOS - 90)]
+    deep = [(300, LOS - 168), (712, LOS - 176)]
+
+    def route(legs, curve=None):
+        pts = [legs[0]]
+        for a, b in zip(legs, legs[1:]):
+            pts = _leg(pts, a, b)
+        if curve:
+            pts += _bez(pts[-1], *curve)[1:]
+        return pts
+
+    routes = [
+        # Left wide: releases upfield, breaks hard in on a post.
+        (route([(168, LOS + 4), (168, LOS - 120)],
+               curve=((168, LOS - 200), (330, LOS - 250), (452, LOS - 254))), True),
+        # Right wide: deep, then breaks out to the boundary — kept under the
+        # throw's arc so the two arrowheads don't collide near main.
+        (route([(752, LOS + 4), (752, LOS - 150), (930, LOS - 164)]), True),
+        # Back out of the backfield on a wheel up the boundary.
+        (route([(560, LOS + 76), (648, LOS + 40)],
+               curve=((760, LOS + 14), (830, LOS - 44), (836, LOS - 114))), True),
+        # Slot dig: gets depth, then squares it off across the middle.
+        (route([(646, LOS + 12), (646, LOS - 66), (782, LOS - 80)]), True),
+        # Drag underneath, all the way across the formation.
+        (route([(242, LOS + 10), (242, LOS - 40)],
+               curve=((380, LOS - 66), (560, LOS - 62), (688, LOS - 54))), True),
+        # Corner route out of the slot.
+        (route([(358, LOS + 8), (358, LOS - 96)],
+               curve=((358, LOS - 150), (240, LOS - 168), (176, LOS - 186))), True),
+        # Checkdown the front eats before it starts.
+        (route([(388, LOS + 78), (432, LOS + 22), (432, LOS - 16)]), False),
+        # Curl that never gets off the line.
+        (route([(300, LOS + 8), (300, LOS - 30)]), False),
+    ]
+    blocks = [(474, LOS + 20, 30), (532, LOS + 20, 30), (416, LOS + 20, 26)]
+    # The throw: over the front, over the deep help, into main.
+    ball = _bez((492, LOS + 52), (640, LOS - 210), (860, LOS - 290),
+                (out_cx - 58, out_cy))
+
+    p.append(defs(W, H, 168, out_cx))
+    p.append(f'  <rect width="{W}" height="{H}" fill="url(#bg)"/>')
+    p.append(grid(W, H))
+    p.append(waterfall(rng, 0, 566, W, 64, 240, 14))
+    pts = spectrum(rng, 0, W, 580, 46, [(0.24, .06, .3), (0.74, .05, .4)])
+    poly = " ".join(pts)
+    p.append(f'  <polyline points="{poly}" fill="none" stroke="url(#trace)" '
+             f'stroke-width="2" stroke-linejoin="round" filter="url(#glow)"/>')
+    p.append(f'  <polygon points="0,{H} {poly} {W},{H}" fill="url(#trace)" opacity="0.06"/>')
+
+    p.append(f'  <circle cx="{out_cx}" cy="{out_cy}" r="70" fill="{AQUA}" opacity="0.10" '
+             f'filter="url(#softglow)"/>')
+    _play(p, rng, LOS, 132, 900, line, backs, wides, front, mid, deep, routes,
+          blocks, ball, r, w, 15, hash_y=[LOS - 130, LOS - 214])
+    p.append("  " + node(out_cx, out_cy, size, "main", NODES[4][1],
+                         last=True, label_dy=size / 2 + 34, fs=17))
+
+    p.append(f'  <text x="118" y="96" font-family="{MONO}" font-size="16" '
+             f'letter-spacing="3.4" fill="{DIM}">AETHERSDR · MULTI-AGENT CONTRIBUTION</text>')
+    p.append(f'  <text x="118" y="126" font-family="{MONO}" font-size="15" '
+             f'letter-spacing="1.2" fill="{MUTED}">everybody runs a route, one ball gets through</text>')
+    p.append("</svg>")
+    open(path, "w", encoding="utf-8").write("\n".join(p) + "\n")
+    return W, H
+
+
+def build_play_card(path):
+    """Near-square for the card column, which crops to roughly 1.1:1."""
+    W, H = 640, 560
+    rng = random.Random(806)
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
+         f'width="{W}" height="{H}" role="img" '
+         f'aria-label="A play drawn on a chalkboard: a formation runs routes at one line '
+         f'of scrimmage while the dashed flight of the ball arrives at a point marked '
+         f'main">']
+    # Heavier and sparser than the hero: this crop renders about 240px wide in
+    # the card column, where the hero's full roster turns into scribble.
+    LOS, r, w = 386, 15, 3.4
+    out_cx, out_cy, size = 516, 190, 86
+
+    line = [(150 + i * 58, LOS + 20) for i in range(4)]
+    backs = [(208, LOS + 68)]
+    wides = [(72, LOS + 20), (384, LOS + 20)]
+    front = [(178 + i * 74, LOS - 38) for i in range(3)]
+    mid = [(214, LOS - 100), (330, LOS - 96)]
+    deep = []
+
+    def route(legs, curve=None):
+        pts = [legs[0]]
+        for a, b in zip(legs, legs[1:]):
+            pts = _leg(pts, a, b)
+        if curve:
+            pts += _bez(pts[-1], *curve)[1:]
+        return pts
+
+    routes = [
+        # Post from the left, breaking back to the middle of the field.
+        (route([(72, LOS + 2), (72, LOS - 128)],
+               curve=((72, LOS - 186), (150, LOS - 208), (218, LOS - 214))), True),
+        # Corner up the right boundary, breaking off short of the throw.
+        (route([(384, LOS + 2), (384, LOS - 140)],
+               curve=((384, LOS - 190), (372, LOS - 206), (346, LOS - 216))), True),
+        # Wheel out of the backfield, kept under the ball's arc.
+        (route([(208, LOS + 50), (300, LOS + 22)],
+               curve=((388, LOS - 2), (432, LOS - 52), (436, LOS - 104))), True),
+        # Dig across the middle.
+        (route([(150, LOS + 4), (150, LOS - 68), (296, LOS - 82)]), True),
+        # And one the front simply eats.
+        (route([(266, LOS + 4), (266, LOS - 30)]), False),
+    ]
+    blocks = [(208, LOS + 20, 30)]
+    ball = _bez((228, LOS + 40), (330, LOS - 160), (430, LOS - 208),
+                (out_cx - 54, out_cy))
+
+    p.append(defs(W, H, 72, out_cx))
+    p.append(f'  <rect width="{W}" height="{H}" fill="url(#bg)"/>')
+    p.append(grid(W, H, 34))
+    p.append(waterfall(rng, 0, 498, W, 62, 128, 14))
+    pts = spectrum(rng, 0, W, 510, 40, [(0.36, .07, .32)])
+    poly = " ".join(pts)
+    p.append(f'  <polyline points="{poly}" fill="none" stroke="url(#trace)" '
+             f'stroke-width="2" stroke-linejoin="round" filter="url(#glow)"/>')
+    p.append(f'  <polygon points="0,{H} {poly} {W},{H}" fill="url(#trace)" opacity="0.06"/>')
+
+    p.append(f'  <circle cx="{out_cx}" cy="{out_cy}" r="62" fill="{AQUA}" opacity="0.12" '
+             f'filter="url(#softglow)"/>')
+    _play(p, rng, LOS, 44, 460, line, backs, wides, front, mid, deep, routes,
+          blocks, ball, r, w, 15, hash_y=[LOS - 116, LOS - 190])
+    p.append("  " + node(out_cx, out_cy, size, "main", NODES[4][1],
+                         last=True, label_dy=size / 2 + 30, fs=16))
+
+    p.append(f'  <text x="{W/2}" y="70" font-family="{MONO}" font-size="15" '
+             f'letter-spacing="3" text-anchor="middle" fill="{DIM}">ONE MAIN BRANCH</text>')
+    p.append("</svg>")
+    open(path, "w", encoding="utf-8").write("\n".join(p) + "\n")
+    return W, H
 
 
 # ---------------------------------------------------------------- release art
@@ -396,6 +667,8 @@ if __name__ == "__main__":
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "img")
     print("hero", build_hero(os.path.join(root, "first-contribution-hero.svg")))
     print("card", build_card(os.path.join(root, "first-contribution-card.svg")))
+    print("hero", build_play_hero(os.path.join(root, "one-main-branch-hero.svg")))
+    print("card", build_play_card(os.path.join(root, "one-main-branch-card.svg")))
     # Existing art predates the seeding fix above, so regenerating it would
     # redraw every post's noise for no reason. Only missing crops are drawn;
     # pass --force to redraw everything against the current seeding.

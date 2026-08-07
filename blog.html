@@ -28,7 +28,7 @@
 
   <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=7" />
 
   <!-- Without JS there's nothing to route, so show every post stacked under
        the index rather than a grid of cards that go nowhere. -->
@@ -124,6 +124,24 @@
                 project. You need judgement, a radio, and the patience to check work —
                 the same things that make a good Elmer. Here's what an AI coding agent
                 changes about contributing, and what it very deliberately doesn't.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a class="blog-card" href="#one-main-branch">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/one-main-branch-card.svg" alt="A play drawn on a chalkboard: a formation runs routes at one line of scrimmage while the dashed flight of the ball arrives at a point marked main" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-08-06">August 6, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>24 min read</span>
+              </span>
+              <h3>An army of agents vs one main branch</h3>
+              <p>An essay on how a project with no human-authored code actually gets built. There's no ceiling on the number of AI agents proposing changes to it — at least one per contributor, and a single run can spawn ninety. What stops that becoming an unreviewable mess isn't better prompting: it's written-down authority, and a gate that doesn't care how confident anyone sounds.</p>
               <span class="blog-more">Read post
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
               </span>
@@ -507,6 +525,708 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="one-main-branch" tabindex="-1" aria-labelledby="h-one-main-branch" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/one-main-branch-hero.svg" alt="A play drawn on a chalkboard: a full formation runs routes at one line of scrimmage, two of them stopped there, while the dashed flight of the ball clears the defence and arrives at a single point marked main" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-08-06">August 6, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>24 min read</span>
+        </span>
+        <h1 id="h-one-main-branch">An army of agents vs one main branch</h1>
+
+        <div class="blog-body">
+          <p class="lede">The question I get asked most now isn't about DSP. It's
+            how much of AetherSDR the AI wrote — and whether that makes this a
+            "vibe coding" project. The honest answer: a great deal of the typing,
+            almost none of the deciding. And the most useful prompt I have ever
+            written for this project did not ask for a single line of code.</p>
+
+          <p>AetherSDR started in March 2026. It is now around 2,700 commits and
+            380,000 lines of C++ and Qt, merged across some 1,800 pull requests,
+            with fifty-odd contributor identities in the log. Half a dozen distinct
+            AI tools touch it — Claude Code, AetherClaude, Codex, Copilot,
+            Gemini, Aider — but the count of tools is the boring number.
+            The one that matters is instances, and it has no ceiling: at minimum
+            one agent per contributor, running simultaneously from machines that
+            have never heard of each other, and a single orchestrated run on my
+            own bench can fan out to ninety of them at once.</p>
+
+          <p>Downstream of all of it is a community of more than two thousand
+            operators worldwide, running builds of AetherSDR that contain no
+            human-authored code, filing the bug reports our agent triages, asking
+            for the features our agent implements. Several of the people shaping
+            this project most directly have never written a line of C++. They
+            describe what's wrong,
+            or what's missing, in plain English — and
+            <a href="https://github.com/ten9876/aetherclaude" target="_blank" rel="noopener">AetherClaude</a>,
+            our autonomous triage agent, which reads every new issue, asks for
+            whatever's missing, and opens the pull request itself, turns it into a
+            change that goes through the same gate as everything else.</p>
+
+          <p>The barrier to contributing is no longer knowing how to code. It's
+            knowing how to describe what you need.</p>
+
+          <h2>"You'll give up in a week"</h2>
+
+          <p>Before any of this existed, I told an Elmer I was going to write a
+            native Linux client for FlexRadio hardware. He told me I would fail,
+            and that I would probably give up inside a week.</p>
+
+          <p>He wasn't being unkind. He was being experienced, which is a
+            different thing and usually a more reliable one. He knew the size of
+            the protocol surface. He knew roughly what SmartSDR had cost to build.
+            And he had watched people announce this exact project before and go
+            quiet a month later, which is a pattern worth respecting.</p>
+
+          <p>Arthur C. Clarke put it better than I can, in what's now called his
+            first law: when a distinguished, elderly expert says something is
+            possible, he is almost certainly right; when he says it is impossible,
+            he is very probably wrong. Amateur radio runs on Elmers, and that
+            tradition is most of the reason any of us know anything at all. But
+            the failure mode of hard-won experience is that it's calibrated
+            against the tools that existed while it was being won.</p>
+
+          <p>His arithmetic was correct. A native client is several hundred
+            thousand lines of Qt, DSP and protocol work, and he was measuring how
+            long that takes a person. What changed isn't that I turned out to be a
+            better programmer than he thought. It's what a week is now worth.</p>
+
+          <h2>It started with a prompt for a prompt</h2>
+
+          <p>The first thing I typed at this project wasn't a request for code. It
+            was a request for a prompt.</p>
+
+          <p>I gave it three things and nothing else. <strong>What I wanted:</strong>
+            a Linux-native version of SmartSDR. <strong>What I had to work
+            with:</strong> full API documentation, in the form of FlexRadio's own
+            FlexLib, and a pile of screenshots of the application I was trying to
+            match. <strong>What it had to run against:</strong> a FLEX-8600. Then
+            the actual instruction — write me a detailed prompt I can paste back
+            into Claude Code, one that will produce a detailed plan and an
+            implementation strategy for this project.</p>
+
+          <p>Prompt inception, if you like. And of everything in this post it's the
+            technique I'd most want a newcomer to take, because it inverts what
+            almost everyone does first.</p>
+
+          <p>The instinct is to prompt for the outcome: "build me a Linux SmartSDR
+            client." You will get something, and it will compile. It will also have
+            quietly decided a hundred things you'd have decided differently — the
+            threading model, where settings live, whether the panadapter owns its
+            own FFT — and you won't find out which hundred until you're eight
+            thousand lines in and one of them turns out to be load-bearing.</p>
+
+          <p>Prompting for the prompt puts a reviewable artifact in between. A
+            model asked to write the brief has to make its assumptions explicit, in
+            prose, before any of them have been cast into code — and prose is
+            something you can read in ten minutes and argue with. That is the whole
+            trick. Correcting a paragraph is free. Correcting the same
+            misunderstanding after it has been expressed as a class hierarchy is
+            not.</p>
+
+          <p>The three things I supplied are worth separating out, because that
+            shape has held for every large piece of work since:</p>
+
+          <ul>
+            <li><strong>What I wanted</strong> — one sentence, in plain terms, with
+              no implementation in it.</li>
+            <li><strong>What I had</strong> — the authoritative sources. FlexLib is
+              FlexRadio's own library, which makes it the protocol truth; pointing
+              at it up front is the reason this project never had to guess at the
+              wire format. The screenshots did the same job for the interface.</li>
+            <li><strong>What it had to work against</strong> — the actual radio on
+              the bench, named.</li>
+          </ul>
+
+          <p>Two of those three are materials, not instructions, and that ratio is
+            about right. Most of the leverage in prompting a large project turns
+            out to be in telling the model where the authority lives rather than in
+            telling it what to do — which is, eventually, how a constitution ends
+            up checked into the repository.</p>
+
+          <h2>The thing that actually breaks</h2>
+
+          <p>None of which survives contact with scale on its own. At the volume
+            those numbers describe, "describe what you want and accept the diff"
+            stops working — not slowly, and not because the code is bad. It stops
+            working because the code is <em>plausible</em>.</p>
+
+          <p>It is also why this project doesn't take human-authored code. Not
+            human contribution — that's most of what makes it good. But the code
+            itself is written by agents, working against conventions that are
+            written down.</p>
+
+          <p>Look again at that contributor list. Dozens of people I have mostly
+            never met, many of whom have never written code at all, and
+            vanishingly few of whom have read the architecture holding up 380,000
+            lines. Every one of them arrives with their own habits and their own
+            idea of how a thing ought to be done. That isn't a criticism; it's
+            simply what working in a silo produces. But conventions only hold if
+            they're applied identically by everybody, every time, and a
+            distributed group of humans is worse at that than at almost anything
+            else — not through carelessness, through being individuals.</p>
+
+          <p>An agent is unusually good at precisely that. It re-reads the
+            conventions before every change, applies them the same way on a
+            Tuesday as on a Sunday, and has no preferred bracket style to smuggle
+            in. That consistency is the whole reason this project moves at the
+            pace it does — not because the model is fast, but because almost
+            nothing has to be re-litigated.</p>
+
+          <p>Which is also why bolting AI onto a mountain of existing
+            human-written code tends to produce slop. The conventions in a
+            codebase like that were never written down. They live in the heads of
+            the people who wrote it, a good half of them quietly contradict each
+            other, and an agent set to work there has nothing to be consistent
+            <em>with</em>. You get something plausible, in eight different
+            dialects, and the review burden lands straight back on you. If you
+            want this to work, be AI from the ground up. Projects that try to
+            layer it on afterwards routinely lose more time to that mismatch than
+            starting over would have cost them.</p>
+
+          <p>All of that said — a model that writes a subtly wrong fix also writes
+            a fluent, confident, thorough-sounding explanation of why the fix is
+            right. The two come from the same place. So the failure isn't a
+            compiler error you trip over — it's a merged pull request whose
+            description reads better than most human ones and whose claim was
+            never checked.</p>
+
+          <p>We have a documented example. A noise-reduction integration was
+            committed with the claim "alloc-free after the first call." Confident
+            wording, detailed test plan, and the verification step for that specific
+            claim had simply never been run. It had to be added before the claim was
+            worth anything.</p>
+
+          <p>The second failure is worse because it doesn't look like a failure at
+            all. An agent generates a patch against a snapshot of the tree, work
+            lands while it's thinking, and the patch quietly reverts it. That is
+            <a href="https://github.com/aethersdr/AetherSDR/pull/2780" target="_blank" rel="noopener">PR #2780</a>
+            in our history: a run that silently undid two changes that had merged in
+            between. It was caught by a manual three-way merge audit. The automatic
+            gate did not catch it, because a clean diff is exactly what it looks
+            like.</p>
+
+          <p>Neither of those is fixed by a better prompt. They're fixed by writing
+            down what the project believes and enforcing it somewhere the agent
+            can't argue with.</p>
+
+          <h2>One file that every tool reads</h2>
+
+          <p>Every AI coding tool looks for its instructions at a different
+            well-known filename. Claude Code loads <code>CLAUDE.md</code>, Copilot
+            reads <code>.github/copilot-instructions.md</code>, Gemini reads
+            <code>GEMINI.md</code>, Aider reads <code>CONVENTIONS.md</code>. Keeping
+            five copies in sync is a losing game, so all of those are three-line
+            pointers to one real file:
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/AGENTS.md" target="_blank" rel="noopener">AGENTS.md</a>.
+            Every tool reads from its native path; there is still only one source of
+            truth.</p>
+
+          <p>That file is the highest-leverage thing in the repository, and not
+            because it makes any model smarter. It stops the same mistake from
+            recurring. One concrete example, because it shows the shape:</p>
+
+          <p>Our changelog is a release-preparation file. Agents kept adding an
+            entry per pull request anyway — not because anyone asked, but because
+            they read the commit history, saw entries being added, and copied what
+            they saw. Every entry lands at the top of the same list, so any two open
+            PRs that both add one conflict with each other. When we measured it, 18
+            of the last 40 merges had done it. Not a convention anyone could rely
+            on, and enough churn to conflict constantly.</p>
+
+          <p>The fix was one paragraph in AGENTS.md explaining the rule <em>and why
+            the file merges badly</em>. That distinction matters more than it
+            sounds: a rule without its reason gets rationalized around by a
+            sufficiently confident model. A rule with the failure attached
+            doesn't.</p>
+
+          <h2>A constitution, with footnotes</h2>
+
+          <p>Above the conventions sits
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONSTITUTION.md" target="_blank" rel="noopener">CONSTITUTION.md</a>
+            — fourteen principles that don't bend. Seven are about this domain:
+            FlexLib is the protocol authority, the radio is authoritative on live
+            state, every contribution is clean-room, AetherSDR never transmits
+            without operator intent.</p>
+
+          <p>The other seven are adopted from Cisco's
+            <a href="https://github.com/CiscoDevNet/foundry-security-spec/blob/main/constitution.md" target="_blank" rel="noopener">Foundry Constitution</a>,
+            and they exist specifically because the contribution surface is
+            multi-agent. Each one carries the incident that produced it. Four are
+            worth repeating outside this project:</p>
+
+          <p><strong>Evidence over assertion.</strong> A fix claim is verified by CI
+            and behaviour, never by the implementing agent's confidence. No agent
+            may merge or recommend merging on the strength of its own prose. A claim
+            whose verification step wasn't actually run is a hypothesis, however
+            well it reads.</p>
+
+          <p><strong>Claims are atomic and mortal.</strong> Before producing a
+            patch, an agent verifies its base against current <code>main</code> and
+            inspects what landed in between for overlap with the files it intends to
+            touch. And if a run dies — timeout, context loss, network drop — it
+            holds no resource past its own death. A fresh process can pick the work
+            up.</p>
+
+          <p><strong>Sandbox by infrastructure, not by prompt.</strong> Our agents
+            read untrusted text constantly: issue bodies, pull request
+            descriptions, attached logs, comments in third-party source. Any of it
+            can contain "ignore previous instructions." So enforcement lives
+            somewhere an agent cannot talk its way past — a diff-path validator,
+            branch protection, required commit signatures, required status checks.
+            The instructions are defence in depth on top of that. They are never the
+            thing holding the line.</p>
+
+          <p><strong>The operator outranks every agent.</strong> This is the subtle
+            one, and the one I'd most want other projects to steal. Agents talk each
+            other out of work. One writes "X is fully addressed." The next reads it
+            and skips X. A third reads two such notes and is <em>more</em> convinced.
+            Within a cycle the fleet has collectively decided something is done and
+            is citing its own consensus as evidence. Nothing breaks that loop except
+            ranking a human's direct steering above agent consensus, permanently.</p>
+
+          <h2>Who is allowed to decide what</h2>
+
+          <p><a href="https://github.com/aethersdr/AetherSDR/blob/main/GOVERNANCE.md" target="_blank" rel="noopener">GOVERNANCE.md</a>
+            handles the human side: contributor, triager, domain maintainer, core
+            maintainer, project maintainer; which changes need an RFC before any
+            code is written; who owns which directory. It also states plainly that
+            AI-assisted contributions are held to the same standard as any other
+            pull request — "generated by AI" is not grounds to relax review, and if
+            anything it warrants closer scrutiny on cross-platform correctness. The
+            human who submits it is responsible for understanding it.</p>
+
+          <p>The boundary that does the most work is the one on autonomy. Our agents
+            may independently fix bugs with a clear root cause, protocol compliance
+            against confirmed FlexLib behaviour, and build or CI failures. They may
+            <em>not</em> independently change visual design, UX behaviour,
+            architecture, feature scope, or default values.</p>
+
+          <p>The reasoning behind that list is one line: a user preference is not
+            project direction. An agent handed a bug report saying a control feels
+            wrong can reason its way to a redesign, implement it competently, and
+            justify it well. That is precisely the change that should arrive as a
+            proposal rather than a merge.</p>
+
+          <h2>AetherClaude, and what it takes to let an agent off the leash</h2>
+
+          <p>Clarke's second law says the only way of discovering the limits of
+            the possible is to venture a little way past them into the impossible.
+            I'd file this next part under that. An agent running unattended
+            against a public issue tracker, on hardware I own, with the standing
+            to open pull requests against a project two thousand people run — that
+            is the furthest past the line we've gone, and most of what follows is
+            what we found out there.</p>
+
+          <p>Those boundaries exist because one agent here isn't being driven by
+            anybody.
+            <a href="https://github.com/ten9876/aetherclaude" target="_blank" rel="noopener">AetherClaude</a>
+            runs on a Mac Mini in my house, wakes on a GitHub webhook, and works
+            the tracker on its own. It triages every new issue with the project's
+            own context loaded, posts its analysis, and asks for the log or the
+            firmware version the report didn't include. When an issue is
+            well-formed and inside the boundary above, it implements the fix in a
+            clean worktree, runs validation, and opens the pull request. It also
+            reviews incoming community PRs for convention compliance, flags
+            duplicates, explains CI failures, closes zero-effort submissions, and
+            compiles the release notes.</p>
+
+          <p>Its state lives in a SQLite action log rather than in the model's
+            head, which matters more than it sounds. An issue sitting in
+            <code>waiting</code> stays in <code>waiting</code> until the reporter
+            replies or seven days pass. There is no "proceeding with best
+            judgment" path out of that state, because wanting to act rather than
+            wait is the characteristic failure of an unattended agent, and a state
+            machine is the only thing that reliably says no.</p>
+
+          <h3>Contained by infrastructure, not by instructions</h3>
+
+          <p>This is where Principle XII stops being a sentence. An agent that
+            opens pull requests unsupervised, on a machine on my own network,
+            reading issue text written by strangers, is exactly the threat model
+            that principle describes — so the enforcement is all in places the
+            agent has no standing to argue with:</p>
+
+          <ul>
+            <li>A <strong>pf firewall</strong> rule under which the
+              <code>aetherclaude</code> user can reach GitHub, Anthropic, the
+              tunnel and the telemetry endpoint. Everything else is dropped.</li>
+            <li><strong>tinyproxy</strong> over the top of that, with a domain
+              allowlist.</li>
+            <li>Cisco <strong>DefenseClaw CodeGuard</strong>, which statically
+              analyses every changed file before a PR can be pushed and blocks
+              HIGH and CRITICAL findings.</li>
+            <li>Cisco's <strong>MCP Scanner</strong> and <strong>Skill
+              Scanner</strong> — the second of which blocks injected
+              <code>.claude/</code> skills appearing in the workspace. That is
+              prompt injection delivered as a filename, and it is a real thing
+              people try.</li>
+            <li>A <strong>validation gate</strong> that refuses modifications to
+              <code>.github/</code>, the Dockerfile, and the other protected
+              paths. The agent cannot edit the thing that checks the agent.</li>
+            <li><strong>Tetragon</strong>, recording every tool invocation at the
+              kernel via eBPF, and <strong>token scrubbing</strong> over the
+              session logs for anything shaped like <code>ghs_</code>,
+              <code>github_pat_</code> or <code>sk-ant-</code>.</li>
+          </ul>
+
+          <figure>
+            <img width="1440" height="827" loading="lazy" src="assets/img/aetherclaude-dashboard.jpg" alt="The AetherClaude operations dashboard: a defense-posture score of 93, counters for firewall blocks, web-proxy denials, OS isolation events, sandboxed agent runs, CodeGuard scans and validation-gate failures, then panels for agent runs, issues and PRs handled, Antares findings, run success and evaluation quality, a 24-hour activity graph, an alerts feed of blocked outbound connections, and a log of recent triage and PR reviews" />
+            <figcaption>The dashboard, on an ordinary day. Every counter along the
+              top is an enforcement layer reporting what it stopped — and the
+              alerts panel is the argument in miniature: the agent repeatedly
+              trying to reach a telemetry host, and the firewall and proxy
+              repeatedly declining. Nothing in its instructions told it not to.
+              It simply couldn't.</figcaption>
+          </figure>
+
+          <p>The detail I'd underline is in the telemetry. Every run is traced,
+            but the sandboxed agent never touches the tracing service: it posts a
+            compact record to a local dashboard over loopback, and only that
+            trusted dashboard holds the API key. The agent shares the same proxy
+            allowlist, so even with the telemetry host perfectly reachable it has
+            nothing to authenticate with. The boundary is the credential it lacks,
+            not the network path — which is the difference between a rule and a
+            wall.</p>
+
+          <h3>It hunts for bugs in our code, not just misbehaviour in its own</h3>
+
+          <p>The part I did not expect to end up with, having set out to write an
+            SDR client, was a vulnerability pipeline I had to manage. This is
+            where Cisco Foundation AI's <strong>Antares-1B</strong> comes in. It's
+            a small model built on IBM's Granite 4.0, Apache-licensed, and it runs
+            locally through Ollama on loopback, so no source leaves the machine.
+            On every issue and every PR it explores the repository inside a
+            read-only allowlist jail (<code>grep</code>, <code>find</code>,
+            <code>cat</code>, <code>ls</code>, pipes; no writes, no exec) and
+            localizes files that look like they contain a vulnerability.</p>
+
+          <p>And then — this is the part that earns it — a candidate is not
+            allowed to be a finding. Where a fuzzing harness exists, the validator
+            rebuilds the localized code under AddressSanitizer and
+            UndefinedBehaviorSanitizer, drives it with generated input, and
+            returns CONFIRMED or UNCONFIRMED <em>with a reproducer</em>. It found
+            a real signed-overflow in our ADIF log parser that way. A nightly
+            sweep runs the detector across about twenty CWE categories, unions the
+            candidates by confidence, and validates the ones that have a harness.</p>
+
+          <p>That is Evidence Over Assertion running unattended at three in the
+            morning. The pipeline exists precisely because a model's confident
+            "this looks like a buffer overflow" is worth nothing on its own, and
+            a crash on demand is worth a great deal.</p>
+
+          <h3>And is it any good?</h3>
+
+          <p>Separate question from whether it stayed in its box, and it took us a
+            while to notice they were separate. Containment is proven by the
+            firewall and the scanners; quality has to be measured. So every
+            Claude invocation is logged as a trace, and the triage, implement and
+            review flows are scored against datasets curated from our own action
+            history — including a known stale-code regression, so the evaluation
+            has at least one case it is supposed to catch and we find out when it
+            stops catching it.</p>
+
+          <p>All of it is open source, at
+            <a href="https://github.com/ten9876/aetherclaude" target="_blank" rel="noopener">github.com/ten9876/aetherclaude</a>,
+            under AGPL — the network-copyleft licence, deliberately, because a
+            hosted agent that talks to people through their issue tracker is
+            exactly the case that clause was written for. There's a self-hosting
+            guide in the repository if you want one pointed at your own project.
+            I'd read the security architecture before you do.</p>
+
+          <h2>The etiquette that keeps agents out of each other's way</h2>
+
+          <p>Two mechanisms do most of the coordination, and both are unglamorous.</p>
+
+          <p>First, an agent assigns itself on GitHub before it reviews or
+            implements anything. The assignee list is the visible, persistent,
+            multi-agent claim signal — it's how an agent running in a contributor's
+            editor in Denmark discovers that one running on a Raspberry Pi in
+            Washington is already on that issue. Without it, both spend tokens on
+            the same bug and post contradictory recommendations minutes apart.
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">CONTRIBUTING.md</a>
+            asks the same of humans, for the same reason.</p>
+
+          <p>Second, every agent works in its own git worktree on its own branch.
+            This one cost us a work-in-progress recovery incident before it became a
+            rule. A checkout's HEAD is <em>directory</em> state, not per-process
+            state: when I switch branches to look at something, every agent working
+            in that directory is silently retargeted mid-task and has no way to
+            notice. Documenting it wasn't enough either — it's now enforced by a
+            hook that refuses the operation, because a rule an agent can rationalize
+            around isn't a rule.</p>
+
+          <h2>So does anyone read the code?</h2>
+
+          <p>Honestly? No. Not line by line, and not for a long time now.</p>
+
+          <p>Every submission goes through a red-team agent workflow instead. It's
+            a review skill we wrote, invoked as <code>/pr-review</code>, and its
+            job is not to form an opinion about the change. It is to find the
+            reason the change should not merge.</p>
+
+          <h3>What it actually does</h3>
+
+          <p>It starts from the issue rather than the diff — including the issue's
+            comment thread, because the thread is usually where the ask got
+            redefined. From that it builds a requirements list, then maps every
+            requirement onto a specific hunk. It reports both directions: things
+            the issue asked for that the diff never touches, and hunks that no
+            requirement explains. That second direction is scope creep, and it's
+            the one human reviewers miss, because a change that does more than it
+            promised still looks like effort.</p>
+
+          <p>Then it asks whether a test exists that fails without the fix and
+            passes with it. Not "are there tests" — whether the guard actually
+            holds when you break it on purpose.</p>
+
+          <p>Then the governance audit, against every canon document in priority
+            order: the Constitution, AGENTS.md, the CMake contract, the dialog
+            patterns, the accessibility rules, CONTRIBUTING, GOVERNANCE. One
+            discipline there matters more than the list itself — <em>cite the
+            sentence, or downgrade it to a nit</em>. If the reviewer can't quote
+            the rule out of canon, it's a convention at most, and conventions
+            don't block a merge. That rule is in there because an agent once
+            inferred a changelog requirement from <code>git log</code>, using
+            <code>git log -- &lt;path&gt;</code> — which only returns commits that
+            touched that path, so "N of the last N commits did X" comes back 100%
+            every time. Perfectly circular evidence, and it blocked somebody's
+            pull request.</p>
+
+          <p>Then the pass I wouldn't have thought to write. Every change to
+            existing UI or behaviour gets classified as a <em>fix</em> or a
+            <em>preference</em>. A fix can point at an authority: FlexLib, the
+            reference behaviour, an issue with a repro, the accessibility doc, a
+            maintainer's ruling. A preference can't. Changed defaults with no
+            issue calling the old default a defect, a restyle bundled into an
+            unrelated fix, a confirmation dialog quietly removed — those get
+            blocked. Not because they're wrong, but because they need their own
+            proposal and a decision. The instruction reads: never let polished
+            code quality launder an unratified behaviour change.</p>
+
+          <p>And it has to prove things rather than conclude them. Verify at least
+            one non-trivial claim by actually building it. State in the report
+            what was verified against what was only read. Never take a green CI
+            badge over a local reproduction when the two disagree — and note that
+            "CI is green" is not "the suite passes", because our CI filters the
+            test run down to a handful of the roughly 240 tests. Before blaming a
+            pull request for a failing test, build its merge base separately and
+            run the same test there; if the failure is intermittent, twenty runs
+            on each side and compare the rates, because a single run tells you
+            nothing.</p>
+
+          <p>What comes out is one GitHub review with the findings anchored inline
+            to the lines they concern, one-click suggestion blocks wherever the
+            fix is mechanical, and a request-for-changes if anything blocking
+            survived. Plus a private report to me: issue-fit verdict, numbered
+            blockers with evidence, nits marked explicitly non-blocking, and a
+            recommendation that is allowed to be "needs a maintainer decision"
+            when the call is genuinely mine.</p>
+
+          <h3>Why that beats me reading it</h3>
+
+          <p>Not because the agent is a better reader. A good reviewer with the
+            whole system in their head still beats it on architecture and on
+            taste. It's that human review quality is a function of attention, and
+            attention is the thing that doesn't scale.</p>
+
+          <p>A person reads the first two hundred lines of a diff properly and the
+            next two thousand progressively less so. The agent applies the same
+            checklist to hunk four hundred as to hunk one. A person reviewing a
+            friendly contributor's work is socially disinclined to block it; the
+            agent is pointed at the change and asked to refute it, which is a
+            different job with a different default. A person does not re-read
+            seven governance documents before every review. The agent does, every
+            time, and it costs nothing.</p>
+
+          <p>The part that compounds, though, is that the checklist is a file. Every
+            miss becomes another line in it. The circular <code>git log</code>
+            reasoning is in there because it happened; the preference-laundering
+            pass is in there because it happened. That skill is 247 lines now and
+            most of them are scar tissue — which means review quality only moves
+            in one direction, and it doesn't leave when a reviewer gets busy or
+            moves on. Reviewer knowledge that lives in one person's head is
+            knowledge the project loses.</p>
+
+          <p>What I still do is decide. The report lands, I read the blockers and
+            the recommendation, and the calls that are actually mine — scope,
+            direction, whether a preference is one we want — stay mine. That's the
+            operator principle again, one layer up.</p>
+
+          <p>The reviewers are also allowed to demand evidence rather than
+            argument — which only works because there is somewhere to go and get
+            it.</p>
+
+          <h2>AI-native all the way to the control surface</h2>
+
+          <p>There's a problem sitting underneath everything above that I haven't
+            mentioned yet. AetherSDR is a native Qt 6 Widgets application. No QML,
+            no web layer, no DOM — which means essentially none of the tooling the
+            industry has built for letting agents drive software applies to it. An
+            agent working on a web app can query the page. An agent working on
+            this could read the source, write a change, watch it compile, and
+            still have no way whatsoever to find out whether the thing it changed
+            does what it just claimed.</p>
+
+          <p>So we built one. The
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/automation-bridge.md" target="_blank" rel="noopener">automation bridge</a>
+            is an in-process command channel — compiled in, but inert unless you
+            ask for it at launch — that opens the running application up to
+            whatever is driving it.</p>
+
+          <h3>What it exposes</h3>
+
+          <p><code>dumpTree</code> returns the entire widget tree as structured
+            JSON: object names, accessible names, enabled state, geometry, and the
+            live value of every control. That is the DOM substitute, and it's what
+            makes all the rest possible.</p>
+
+          <p><code>get</code> reads live model truth instead of pixels — frequency,
+            mode, filter width, noise blanker and reduction, squelch, AGC, pan
+            centre and dBm limits, the whole transmit chain, the EQ bands. An
+            assertion against that is an assertion about what the radio is
+            actually doing, not about what the screen appears to say.
+            <code>invoke</code> drives any control: click, toggle, set a value,
+            type text. <code>grab</code> returns a PNG of any widget, including a
+            correct GPU framebuffer readback of the panadapter — so when a change
+            is visual, an agent can look at what actually rendered rather than
+            reason about what ought to have. Behind those sit the verbs a real
+            interface needs: gestures, drags, hovers, tooltips, context menus,
+            menu traversal, keyboard shortcuts, window management,
+            scroll-into-view, hit testing, audio capture.</p>
+
+          <h3>It speaks MCP, so any assistant can drive it</h3>
+
+          <p>This is the part that turns a test harness into something else. The
+            same bridge is wrapped as a Model Context Protocol server — 25 typed
+            tools — so an MCP-capable assistant operates the application natively,
+            with schema-validated arguments, rather than scripting a socket. The
+            repository ships an <code>.mcp.json</code>, so Claude Code registers
+            the server by itself: a contributor approves one prompt, and their
+            assistant can now drive the radio software they are modifying.</p>
+
+          <p>Two details make that usable rather than merely possible.
+            <code>assert_state</code> and <code>wait_for</code> read a model
+            property and check or await a value, so a validation comes back as
+            pass or fail instead of a diff for somebody to eyeball. And a
+            <code>validate_ui_change</code> prompt ships the entire loop as a
+            guided workflow, so an agent doesn't have to reinvent the methodology
+            every time. There are read-only resources as well — the widget tree,
+            radio state, slices, pans — that an assistant can pull in as context
+            without spending a tool call on it.</p>
+
+          <p>The loop itself is five steps: check the bridge is up, dump the tree
+            filtered to the widget you touched, invoke the control, assert on the
+            model property that should have moved, grab the widget for a look.</p>
+
+          <h3>Using it is not optional</h3>
+
+          <p>Every agent working on this project drives its fix through the bridge
+            before it opens a pull request, and again before anything merges to
+            <code>main</code>. Not "should." The claim in the PR body is not the
+            evidence. The bridge session is.</p>
+
+          <p>This is Evidence Over Assertion with teeth in it. A model can be
+            entirely certain that moving the AGC-T slider now updates the model,
+            write a lucid paragraph explaining why, and be wrong — because it
+            wired the signal to the wrong slot, or because the control it changed
+            isn't the one the operator actually touches, or because the value
+            round-trips through a formatter that quietly clamps it. Every one of
+            those survives a careful code read. None of them survives thirty
+            seconds against a running application.</p>
+
+          <p>It also makes the reproduction steps in a bug report executable.
+            Rather than reasoning about whether a fix addresses what the reporter
+            saw, the agent walks the reporter's exact steps through the actual
+            program and shows the state before and after. It's the difference
+            between eyeballing the S-meter and putting the radio on a service
+            monitor.</p>
+
+          <h3>What keeps it safe</h3>
+
+          <p>The bridge refuses to touch any control marked as transmit-keying —
+            MOX, PTT, tune, ATU, CWX send, packet and APRS send — unless you have
+            deliberately opted in with an environment variable. Setpoint sliders
+            stay drivable, so an agent can set power to 20 watts; it simply cannot
+            key. The dedicated transmit verbs sit behind a raw escape hatch on
+            purpose, to make them less convenient to reach by accident. An agent
+            verifying a change against my station cannot put RF into the air, and
+            that is a property of the bridge rather than a line in a file.</p>
+
+          <p>Access is the other half. Enabling the bridge mints a random token
+            that lives in the operating system's secret store — Keychain,
+            Credential Manager, libsecret — and never in the settings file, which
+            our own policy bans credentials from outright. Without a matching
+            token the bridge will answer <code>ping</code> and refuse everything
+            else.</p>
+
+          <p>And it runs headless: no display required, so all of this works in CI
+            and on a machine with no monitor attached, which is where most of
+            these agents live.</p>
+
+          <h2>What it's actually like</h2>
+
+          <p>Clarke's third law — the one everybody knows — is that any
+            sufficiently advanced technology is indistinguishable from magic. I
+            always read that as a line about starships. It turns out it describes
+            an operator with a callsign, a radio, and no programming experience of
+            any kind, watching something they complained about in plain English
+            turn up as a fix in a signed release inside a week.</p>
+
+          <p>From where they're standing, that is magic. I don't think there's a
+            more honest word for it, and I don't think the right response is to
+            insist otherwise. The right response is to explain the trick — which
+            is the whole of what this post has been.</p>
+
+          <p>But explaining the trick doesn't make it a cheap trick. What all of
+            that scaffolding buys isn't the magic — the models supply that — it's
+            the <em>reliability</em> of the magic.
+            Someone who has never written a line of C++ can describe a problem
+            precisely and get a correct fix in a release, not because the model is
+            infallible (it isn't, and a good half of this post is a catalogue of
+            the ways it isn't), but because everything downstream of the model is
+            built on the assumption that it isn't.</p>
+
+          <p>That's the honest summary. Advanced enough to look like magic to the
+            person holding the microphone; boring enough underneath that it still
+            works on a Tuesday.</p>
+
+          <p>All of it is public, and none of it is long. The governance:
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/AGENTS.md" target="_blank" rel="noopener">AGENTS.md</a>,
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONSTITUTION.md" target="_blank" rel="noopener">CONSTITUTION.md</a>,
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/GOVERNANCE.md" target="_blank" rel="noopener">GOVERNANCE.md</a>,
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">CONTRIBUTING.md</a>.
+            The machinery:
+            <a href="https://github.com/ten9876/aetherclaude" target="_blank" rel="noopener">AetherClaude</a>
+            and the
+            <a href="https://github.com/aethersdr/AetherSDR/blob/main/docs/automation-bridge.md" target="_blank" rel="noopener">automation bridge</a>,
+            both with self-hosting and setup guides. Take whatever's useful. And
+            if you'd rather come at this from the other end — what it looks like
+            when you're the one contributing — that's
+            <a href="#first-contribution">the first-contribution post</a>.</p>
+
+          <p>And if you want to argue with any of it,
+            <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a>.
+            This is a new enough way of building software that nobody should be
+            claiming it's settled. 73.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

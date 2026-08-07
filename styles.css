@@ -644,6 +644,18 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 .blog-body a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
 .blog-body a:hover { color: var(--aqua); }
 .blog-body img { max-width: 100%; height: auto; border-radius: var(--radius-sm); }
+/* In-body figures. Framed like the hero so a screenshot reads as an exhibit
+   rather than as a stray image, and the caption stays subordinate to the prose. */
+.blog-body figure { margin: 26px 0 28px; }
+.blog-body figure img {
+  display: block; width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.blog-body figcaption {
+  margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: var(--muted);
+}
 .blog-body code {
   font-family: var(--mono); font-size: 0.9em;
   background: var(--bg-2); border: 1px solid var(--line);

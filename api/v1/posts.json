@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 14,
+  "count": 15,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "one-main-branch",
+      "title": "An army of agents vs one main branch",
+      "url": "https://www.aethersdr.com/blog#one-main-branch",
+      "published": "2026-08-06",
+      "summary": "An essay on how a project with no human-authored code actually gets built. There's no ceiling on the number of AI agents proposing changes to it — at least one per contributor, and a single run can spawn ninety. What stops that becoming an unreviewable mess isn't better prompting: it's written-down authority, and a gate that doesn't care how confident anyone sounds.",
+      "readingTime": "24 min read",
+      "image": "https://www.aethersdr.com/assets/img/one-main-branch-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-8-1",

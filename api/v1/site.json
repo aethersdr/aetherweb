@@ -58,5 +58,5 @@
     "signatures": "Every release ships .asc signatures and SHA256SUMS.txt."
   },
   "latestReleaseMentionedOnSite": "v26.7.1",
-  "postCount": 14
+  "postCount": 15
 }
