@@ -582,6 +582,23 @@ GLYPHS = {
     + '<circle cx="92" cy="-56" r="14" fill="none" stroke="currentColor" stroke-width="3"/>'
       '<path d="M92-42v40m0-24h11m-11 12h8" fill="none" stroke="currentColor" '
       'stroke-width="3" stroke-linecap="round"/>',
+    # One seam, three radios docking to it: the supported family drawn solid,
+    # the two experimental ones on dashed leads.
+    "seam": '<path d="M69-86V86" stroke="currentColor" stroke-width="3.4" '
+            'stroke-linecap="round"/>'
+            + "".join(
+                f'<rect x="-75" y="{cy-19}" width="76" height="38" rx="9" fill="none" '
+                f'stroke="currentColor" stroke-width="2.8" opacity="{op}"/>'
+                f'<circle cx="-51" cy="{cy}" r="8.5" fill="none" stroke="currentColor" '
+                f'stroke-width="2.4" opacity="{op}"/>'
+                f'<path d="M-29 {cy-8}h22M-29 {cy}h22M-29 {cy+8}h13" stroke="currentColor" '
+                f'stroke-width="2.2" stroke-linecap="round" opacity="{op}"/>'
+                f'<path d="M1 {cy}h68" stroke="currentColor" stroke-width="2.6" '
+                f'stroke-linecap="round" opacity="{op}"{dash}/>'
+                f'<circle cx="69" cy="{cy}" r="6" fill="currentColor" opacity="{op}"/>'
+                for cy, op, dash in ((-60, "1", ""),
+                                     (0, ".45", ' stroke-dasharray="7 8"'),
+                                     (60, ".45", ' stroke-dasharray="7 8"'))),
     # Cross-needle: the reading is where they intersect.
     "meter": '<path d="M-86 34a92 92 0 0 1 172 0" fill="none" stroke="currentColor" '
              'stroke-width="2.4" opacity=".45"/>'
@@ -644,6 +661,7 @@ def build_release(root, slug, version, kicker, motif, force=False):
 
 
 RELEASES = [
+    ("release-26-8-2", "v26.8.2", "Two more radios", "seam"),
     ("release-26-8-1", "v26.8.1", "Settings that survive", "store"),
     ("release-26-7-4", "v26.7.4", "Speech to text", "copyassist"),
     ("release-26-7-3", "v26.7.3", "Meters you can trust", "meter"),

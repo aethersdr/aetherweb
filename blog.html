@@ -130,6 +130,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-8-2">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-8-2-card.svg" alt="v26.8.2 release art — two more radios, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-08-09">August 9, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>14 min read</span>
+              </span>
+              <h3>v26.8.2: two more radios, and what “experimental” has to mean</h3>
+              <p>The Hermes-Lite 2 and the Icom IC-705 arrive on the vendor-neutral backend seam, labelled experimental — which here is a request for reports rather than a disclaimer. Plus SPE Expert amplifiers, a noise reducer found to be delivering a fifth of the attenuation it advertised, and a CW keyer measured at 26 WPM with 30 on the dial.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#one-main-branch">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/one-main-branch-card.svg" alt="A play drawn on a chalkboard: a formation runs routes at one line of scrimmage while the dashed flight of the ball arrives at a point marked main" />
@@ -525,6 +543,137 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-8-2" tabindex="-1" aria-labelledby="h-release-26-8-2" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-8-2-hero.svg" alt="v26.8.2 release art — two more radios, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-08-09">August 9, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>14 min read</span>
+        </span>
+        <h1 id="h-release-26-8-2">v26.8.2: two more radios, and what “experimental” has to mean</h1>
+
+        <div class="blog-body">
+          <p class="lede">AetherSDR now connects to two radios FlexRadio didn’t build. Both are labelled experimental, and that word is doing real work here — it is a statement about maturity and a request for reports, not a disclaimer.</p>
+
+          <h2>Two more families, on the same seam</h2>
+
+          <p>Everything above the radio in AetherSDR talks to an interface called <code>IRadioBackend</code> rather than to a radio. That seam has been in place for a while, and this is what it is for. This release puts two more implementations behind it: the <strong>Hermes-Lite 2</strong> and the <strong>Icom IC-705</strong>.</p>
+
+          <p>Both are experimental, and we would rather over-explain that than let you infer it. Neither is a supported radio family. FlexRadio remains the supported target. <a href="https://github.com/aethersdr/AetherSDR/blob/v26.8.2/README.md#supported-hardware">Supported Hardware</a> lists what each backend does and does not do today, and it is the honest list rather than the aspirational one.</p>
+
+          <p>What experimental does <em>not</em> mean here is “don’t tell us.” Bug reports and feature requests against both backends are open and wanted. The one thing to include is which radio and which firmware version, because at this stage the difference between “the backend is wrong” and “this firmware behaves differently” is the entire question. Reports from operators are the mechanism by which either family stops being experimental. There isn’t a second mechanism.</p>
+
+          <h2>The conformance harness went first</h2>
+
+          <p><code>radiocert</code> is the project’s radio-conformance harness — the thing that asks a backend whether it actually honours the contract the seam describes. The IC-705 is the first radio brought up with it in hand rather than run against it afterwards, and <code>docs/CERTIFICATION.md</code> gains thirteen new lessons (1.19–1.31) out of that bring-up.</p>
+
+          <p>The ordering matters more than it sounds. A conformance suite written after the implementation tends to encode what the implementation already does. It tests the code rather than the contract, and it passes on the first run, which ought to be the tell. Running it during bring-up inverts that: every place the radio didn’t fit the seam surfaced as a failure while there was still a choice about which of the two was wrong. Some of those thirteen lessons are about the Icom. Some are about the seam.</p>
+
+          <p>There are new design notes for the SPE amplifier, the Icom CI-V backend and HL2 frequency calibration alongside them, and <code>HERMES.md</code> gains a section on WDSP channel-open cost and FFTW wisdom.</p>
+
+          <h2>SPE Expert amplifiers</h2>
+
+          <p><strong>1.3K-FA, 1.5K-FA and 2K-FA</strong>, over serial (115200 8N1) or ser2net TCP, raw or telnet — both transports verified on real hardware. This is the second peripheral amplifier after ACOM, and like ACOM it sits entirely outside the radio seam. An amplifier is not a radio, and modelling it as one would have been the easy mistake to make twice.</p>
+
+          <p>The applet carries power, antenna-SWR and ATU-SWR gauges, V/I/temperature readouts, warning and alarm banners, and the front-panel keystrokes. The power gauge rescales with the selected LOW/MID/HIGH level so that it matches the reading on the amplifier’s own display, which is the version of “correct” that matters when both are on the desk in front of you.</p>
+
+          <p>Two details are worth pulling out of the feature list. <strong>Poll silence is detected and reported</strong>, because a TCP session can stay perfectly healthy after the amplifier at the far end has been switched off — the socket is fine, the amplifier is not, and without something watching for silence the gauges go on showing the last thing the amp said. That is the metering-staleness problem from v26.8.1 wearing a network adapter. And the <strong>power-ON pulse works over the network</strong>: it is an RFC 2217 DTR/RTS pulse, so switching the amplifier on is not something you have to be in the room for.</p>
+
+          <h2>MNR was advertising an attenuation it wasn’t delivering</h2>
+
+          <p>This one changes what your existing settings do, so it is worth reading even if you never open the noise-reduction menu.</p>
+
+          <p>MNR’s minimum-statistics estimator was taking a raw minimum across 25 periodograms. The minimum of a noisy quantity is biased low by construction, so the noise estimate came out well under the actual noise floor, and the Wiener gain computed from it sat close to unity. A gain of one is “pass the signal through unchanged.” Measured maximum-strength stationary attenuation was <strong>4.54 dB</strong>, on a control whose top end was meant to be in the twenties.</p>
+
+          <p>It is now <strong>24.4 dB</strong>, scale-invariant within 1 dB, with a +18.8 dB SNR improvement on speech-like input for −2.8 dB of desired-signal level.</p>
+
+          <p><strong>Start lower than you are used to.</strong> Whatever number you settled on, you settled on it by ear against an MNR that was removing about a fifth of what it claimed. That setting now describes something else. Nothing in your configuration changed; what the configuration means did.</p>
+
+          <p>The redundant <code>Enable MNR</code> checkbox goes with it. The method selector is the sole enable now, consistent with every other AetherDSP method — two controls for one piece of state is a bug generator, because it lets the interface represent a condition the DSP cannot actually be in.</p>
+
+          <h2>The keyer was running slow, and the error never came back</h2>
+
+          <p>Measured on an Intel MacBook Pro with a HaliKey Serial, at a 30 WPM setting: <strong>45.70 ms per unit, where 30 WPM is 40 ms.</strong> That is a keyer sending 26.26 WPM with 30 on the dial.</p>
+
+          <p>The cause is one of the more instructive bugs in this release. <code>workerLoop()</code> armed each element’s deadline as <code>now() + duration</code>, and read <code>now()</code> <em>after</em> the previous wait returned. Every element therefore started from wherever the last one actually finished, inheriting its lateness and adding a fresh error of its own. Nothing in the loop ever referred back to when the squeeze began, so there was no reference against which accumulated error could be repaid. Each element was on time relative to the one before it, and progressively later relative to the operator.</p>
+
+          <p>Deadlines now advance on an absolute <code>steady_clock</code> grid anchored at squeeze start and tracked in nanoseconds, and key transitions are timestamped into a lock-free ring and mapped to exact sample offsets instead of being quantised to whichever audio block they landed in. Measured the same way afterwards: <strong>40.002 ms per unit — 29.998 WPM.</strong></p>
+
+          <p>Separately, <strong>Mode B no longer drops the trailing element on a clean simultaneous release.</strong> The memory latch ran only when the condition variable woke, and a wake caused by a release always observes post-release state — so the latch never saw the squeeze it existed to remember, and the keyer quietly behaved like Mode A. That was routine rather than rare on the serial path, where a 10 ms poll collapses both edges into a single event.</p>
+
+          <p>Thanks to @rsaue, whose Mode B root-cause analysis verified accurate in full, and to @williamscody for the timing logs that made both halves of the sidetone fix measurable rather than arguable.</p>
+
+          <h2>60m, as the FCC actually has it</h2>
+
+          <p>The US 60m band plan followed the ARRL’s, which still carried the pre-2026 five-channel allocation. The FCC’s Report &amp; Order took effect on <strong>13 February 2026</strong>, and the panadapter had not noticed.</p>
+
+          <p>Two things were wrong on screen. A 100 W channel was being drawn over spectrum that is capped at 9.15 W ERP. And 15 kHz that US operators have had since February was not drawn at all.</p>
+
+          <p>The first is the one to sit with, because a band plan is not decoration. It is a legal display, and an operator glancing at it to check a power limit was being given the wrong answer confidently.</p>
+
+          <p>The new <strong>5351.5 – 5366.5 kHz</strong> segment is now drawn in its own colour, so the power boundary reads straight off the panadapter instead of out of a document. The retired 5358.5 kHz channel is gone. The four channels that survived keep their historic numbering — 1, 2, 4, 5, with the gap where 3 used to be. Renumbering them 1 through 4 would have been tidier, and would have silently disagreed with every log entry anyone has already written.</p>
+
+          <p>While in there: the 60m band edges were clipping the top 1.3 kHz of the 5405 kHz channel, so band-stack entries in that sliver saved under “Other” and digital-mode band matching failed.</p>
+
+          <p>Thanks to <strong>@csylvain (KB3CS)</strong> for catching that the triage on this was arguing from superseded law. That is the failure worth naming: the reasoning was sound, the source was two years stale, and nothing inside the argument would ever have revealed it. Somebody has to already know.</p>
+
+          <h2>Spots, schedules, and a second pan</h2>
+
+          <p>Three new overlays, and a small window that is more useful than its size suggests.</p>
+
+          <p><strong>N1MM+ and DXLog contest spots</strong> arrive over a SmartSDR-CAT-compatible UDP XML listener, with dupe, needed-multiplier, CQ, busy and bust status shown on the panadapter and eight configurable status-to-colour swatches. The default port is 12060, matching the <code>FocusHelperN1MMPort</code> SmartSDR documents, so an existing broadcast configuration works unchanged. Spots are keyed by callsign plus band rather than deduplicated by frequency, because N1MM is the only feed that explicitly says when to add, update and remove a spot — where the lifecycle is stated you can follow it, instead of inferring it from where things moved.</p>
+
+          <p><strong>The EiBi shortwave broadcast schedule</strong> gets its own SpotHub tab: auto-start, a live spot counter, forced re-download, conditional <code>If-Modified-Since</code> updates on a 7-day threshold, and a spot colour that repaints active markers as you change it. It resolves 289 country codes, 560 language and mode codes, target areas and 1,629 transmitter sites into the tooltips, so a carrier on 49m comes with a name attached.</p>
+
+          <p><strong>The KiwiSDR DX Community database</strong> is an independent, opt-in overlay for shortwave utility, beacon, broadcast and DX spots — cyan diamonds on the band-plan strip, tooltips carrying frequency, station, mode, passband cuts and notes, and click-to-tune that sets frequency, filter bandwidth and, with SpotHub’s <strong>Auto</strong> on, the mode. Mode strings pass through a normalising whitelist first, which is the boundary between “this community database has a typo in it” and “your radio just received a command nobody wrote.”</p>
+
+          <p><strong>The K4-style mini-pan</strong> is a detachable ±5/±10 kHz window centred on the active VFO, independent of the main panadapter and usable when the main pan is hidden in Minimal Mode. It is a genuine top-level window rather than a docked panel, so it floats over other applications and survives AetherSDR being minimised — which is the entire point when a contest logger owns the screen. Live on a FLEX-6500 it runs at about 26 Hz per bin, five times finer than the 200 kHz main pan.</p>
+
+          <p>Smaller, in the same area: the SpotHub <strong>Time column sorts</strong> at last — only Freq ever returned a sort value, so sorting by frequency had been a one-way trip. The FreeDV Reporter panel gains a status-message field that stays in sync with SpotHub → FreeDV. And <strong>KiwiSDR receiver lists import and export as CSV</strong>, merging on a normalised endpoint so re-importing the same file is idempotent; passwords are never exported, and stay in the OS keychain.</p>
+
+          <h2>The one file we were never shipping</h2>
+
+          <p><code>AetherSDR.exe</code> genuinely imports the MSVC OpenMP runtime, <code>vcomp140.dll</code>. Our packaging never shipped it. It resolved out of System32 on machines with the Visual C++ redistributable installed, which is nearly all of them — so it worked everywhere, on every Windows artifact, for every release since Copy Assist landed.</p>
+
+          <p>What that actually left was a single file’s worth of machine-wide dependency inside an otherwise self-contained payload. Any other installer that repaired, downgraded or removed the redistributable took AetherSDR down with it, and reinstalling AetherSDR could not fix it, because AetherSDR was never what put the file there. All three Windows artifacts were affected.</p>
+
+          <p>It now ships app-local. The more durable half of the fix is a CI gate, <code>check-deploy-dependencies.ps1</code>, which walks every PE in the payload and fails when an MSVC runtime import is not app-local — checking app-local <strong>before</strong> it probes System32. That ordering is the whole thing. Build machines have the redistributable installed. A check that asks “can this dependency resolve?” gets a yes from the one machine least qualified to answer, which is exactly how this shipped unnoticed release after release.</p>
+
+          <h2>Also in this release</h2>
+
+          <p><strong>Spectrum, waterfall and 3D.</strong> The 3D stacked-trace wedges close: every row covered the same frequency span while the far rows narrowed with perspective, leaving two empty black triangles flanking the surface. A <strong>3D Span</strong> slider now sits under Display → 3D VIEW, and 0 restores the existing rendering exactly. 3D FFT works on the Raspberry Pi 5 again — <code>dss_mesh</code> is the only shader using the <code>flat</code> qualifier, no 140 slice existed for it, and the Pi’s v3d driver fell back to a 120 slice the shader cannot compile against; desktop GPUs picked the 150 slice, which is why CI never saw it. History outlines render on Linux/OpenGL. Waterfall interpolation is clamped at history boundaries, ending the occasional bright, dark or scrambled horizontal line during a rapid pan or zoom, and Waterfall Blanker rows stay in a single frequency frame. A GPU that fails mid-session now says so on screen — <code>renderFailed()</code> was firing with nothing listening, leaving a blank panadapter and no explanation. Off-screen slice indicators centre on a single click, including the active one, which previously emitted nothing at all.</p>
+
+          <p><strong>Rendering on awkward platforms.</strong> Windows panadapters are no longer blank under software OpenGL: with <code>AETHER_NO_GPU</code> or <code>QT_OPENGL=software</code> the panadapter chose OpenGL while the hidden WAVE scope had already chosen D3D11 for the same top-level window, and Qt refuses to mix QRhi APIs in one backing store — 13,804 <code>QRhiWidget: No QRhi</code> messages, every panadapter transparent. The default D3D11 path is unchanged. A headless Wayland session now prefers xcb automatically, which is the VNC and wayvnc case: with no DRM scanout, every frame’s <code>makeCurrent</code> fails with <code>EGL_BAD_MATCH</code> and <code>AETHER_NO_GPU=1</code> does not help. Detection is deliberately tri-state, a <code>QT_QPA_PLATFORM</code> you set yourself still wins, and the decision is logged at startup so it is diagnosable from a support bundle. On Linux, the Connect to Radio dialog reopens reliably under xcb — it had been wedging in the ICCCM Withdrawn state under Mutter/XWayland with <code>isVisible()</code> cheerfully reporting true, leaving no way to disconnect.</p>
+
+          <p><strong>Audio and DSP.</strong> DFNR no longer pumps on stereo; it was driving a delayed dry stereo signal with a fast processed-to-dry power envelope, the same family of fault fixed in RN2 last release. The AetherVoice EQ canvas caches its layers instead of rebuilding the band response, grid, labels and band-plan decoration on the GUI thread every analyzer frame — on the same Windows VM, 73.1% to 37.4% of one core at 1280×900, and 82.8% to 43.1% at 2200×1300. Audio mute commands now reach the model: the three mute setters sent their command and returned without ever assigning or emitting, and <code>FlexBackend</code> is the only parser of those statuses, so on every other backend the flags sat at their <code>false</code> initialisers for the whole session — mute the headphones, nudge the volume, and the glyph flipped back. The title-bar headphone mute also reconciles with the radio, so a second Multi-Flex client changing it no longer leaves the icon lying.</p>
+
+          <p><strong>Copy Assist.</strong> A GPU that cannot be used now falls back to CPU instead of taking the application down with it. On a machine whose Vulkan stack enumerates GPUs but cannot create a logical device, Copy Assist was killing the process silently — and it is the <em>second</em> GPU attempt that does it, which no <code>try</code>/<code>catch</code> can intercept, so the only fix is to never make the second attempt. The selector now labels unusable devices, resolves to the first usable one or to CPU, and says in plain language when it has fallen back; previously the dialog went on naming a GPU that was running nothing while the queue grew from 7.6 to 22.5 seconds. Enabling speaker labels no longer freezes the GUI. And <strong>boundary overlap</strong> is new and opt-in: when an utterance is force-closed by the max-length cap the cut can land mid-word, and because each segment is decoded independently the straddling word is mangled or lost. A small window of trailing audio now carries into the next segment, at no inference cost. The slider starts at 0 ms.</p>
+
+          <p><strong>Controllers and TCI.</strong> The Ulanzi Dial gains a rotary action selector — frequency, filter bandwidth, slice and master volume, panadapter zoom, RIT/XIT, AGC-T, RF gain, APF, CW speed and RF power — and filter-preset stepping now scales with the magnitude of the rotary step instead of discarding it. MIDI bindings can be typed in by hand and edited per row, so one that Learn captured wrong can be corrected without re-learning; the settings format is untouched, so a file written by this build still loads in older ones. On TCI, a use-after-free in the DAX RX path is fixed, reproduced under ASan and triggered deterministically by a client switching from 48 kHz to native 24 kHz with sub-threshold samples still staged. Malformed input is now rejected rather than reinterpreted — an empty <code>volume:</code> argument parsed to <code>0.0</code>, and 0 dB is the <em>top</em> of that range, so a malformed command landed on the loudest value the interface can express; an unrecognised modulation name silently set USB while the notification echoed the client’s own wrong name back at it. And the <code>aether.cat</code> log category is relabelled <strong>“TCI / CAT / rigctld”</strong>, because operators chasing a TCI problem scanned the checkbox grid, found no mention of TCI, and reasonably concluded there was nothing to turn on.</p>
+
+          <p><strong>Interface.</strong> Choose Background Image gains a thumbnail view, with an Explorer-style small-icons toggle and a preview pane that grows with the dialog; decoding runs off the GUI thread behind the same decompression-bomb guard used for callsign photos. The analog power gauge picks the right scale at connect instead of coming up on 120 W and correcting after a band change. The FFTW wisdom popup stopped strobing — a deliberate infinite opacity animation past 90%, which supplied no elapsed time or status and left a slow process looking frozen; it is now a low-key activity indicator with a monotonic timer and a “still working” explanation after ten quiet seconds. The PGXL fan-mode dropdown fits its widest item, its hand-rolled stylesheet having set a 10px font on the combo but not on its popup, which is a separate top-level window and does not inherit it — root cause and fix worked out by the triage bot on the issue. And every model-lifetime callback is installed exactly once; two self-connections were owned by the <code>RadioModel</code> rather than by the replaceable backend, so every radio-family switch accumulated another capability publication and TX-power push.</p>
+
+          <p>Also: an undefined downcast that was aborting the sanitizer job before it printed a single result line is gone.</p>
+
+          <p>57 commits across 14 contributors. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.8.2">v26.8.2 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

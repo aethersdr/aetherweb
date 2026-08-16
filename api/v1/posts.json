@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 15,
+  "count": 16,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-8-2",
+      "title": "v26.8.2: two more radios, and what “experimental” has to mean",
+      "url": "https://www.aethersdr.com/blog#release-26-8-2",
+      "published": "2026-08-09",
+      "summary": "The Hermes-Lite 2 and the Icom IC-705 arrive on the vendor-neutral backend seam, labelled experimental — which here is a request for reports rather than a disclaimer. Plus SPE Expert amplifiers, a noise reducer found to be delivering a fifth of the attenuation it advertised, and a CW keyer measured at 26 WPM with 30 on the dial.",
+      "readingTime": "14 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-8-2-card.svg",
+      "pinned": false
     },
     {
       "slug": "one-main-branch",
