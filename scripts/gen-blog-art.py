@@ -582,6 +582,44 @@ GLYPHS = {
     + '<circle cx="92" cy="-56" r="14" fill="none" stroke="currentColor" stroke-width="3"/>'
       '<path d="M92-42v40m0-24h11m-11 12h8" fill="none" stroke="currentColor" '
       'stroke-width="3" stroke-linecap="round"/>',
+    # Applets placed freely on a canvas, one of them the active item.
+    "canvas": '<rect x="-98" y="-68" width="196" height="136" rx="13" fill="none" '
+              'stroke="currentColor" stroke-width="2" opacity=".28"/>'
+              '<rect x="-84" y="-54" width="82" height="56" rx="8" fill="none" '
+              'stroke="currentColor" stroke-width="3"/>'
+              '<rect x="10" y="-54" width="74" height="34" rx="8" fill="none" '
+              'stroke="currentColor" stroke-width="2.6" opacity=".62"/>'
+              '<rect x="10" y="-10" width="74" height="56" rx="8" fill="none" '
+              'stroke="currentColor" stroke-width="2.6" opacity=".48"/>'
+              '<rect x="-84" y="12" width="82" height="34" rx="8" fill="none" '
+              'stroke="currentColor" stroke-width="2.6" opacity=".62"/>',
+    # A capability profile: what the radio attested to, and what stays closed.
+    "attest": '<rect x="-80" y="-76" width="160" height="152" rx="14" fill="none" '
+              'stroke="currentColor" stroke-width="2.4" opacity=".42"/>'
+              + "".join(
+                  (f'<path d="M-60 {y} l7 8 l15 -17" fill="none" stroke="currentColor" '
+                   f'stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" '
+                   f'opacity="{op}"/>' if ok else
+                   f'<path d="M-62 {y} h18" stroke="currentColor" stroke-width="3.2" '
+                   f'stroke-linecap="round" opacity="{op}"/>')
+                  + f'<path d="M-24 {y} h84" stroke="currentColor" stroke-width="3" '
+                    f'stroke-linecap="round" opacity="{op}"/>'
+                  for y, ok, op in ((-44, True, "1"), (-8, True, ".8"),
+                                    (28, True, ".62"), (60, False, ".3"))),
+    # A compass ring with the beam swung off north.
+    "azimuth": '<circle r="76" fill="none" stroke="currentColor" stroke-width="2.6" opacity=".5"/>'
+               '<circle r="54" fill="none" stroke="currentColor" stroke-width="2" opacity=".26"/>'
+               + "".join(
+                   f'<path d="M0-76V-64" stroke="currentColor" stroke-width="{w}" '
+                   f'stroke-linecap="round" opacity="{op}" transform="rotate({a})"/>'
+                   for a, w, op in ((0, 3.4, "1"), (45, 2.2, ".4"), (90, 2.6, ".55"),
+                                    (135, 2.2, ".4"), (180, 2.6, ".55"), (225, 2.2, ".4"),
+                                    (270, 2.6, ".55"), (315, 2.2, ".4")))
+               + '<path d="M0 0 L44-44" stroke="currentColor" stroke-width="4.4" '
+                 'stroke-linecap="round"/>'
+               '<path d="M30-52 L48-48 L44-30" fill="none" stroke="currentColor" '
+               'stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+               '<circle r="7.5" fill="currentColor"/>',
     # One seam, three radios docking to it: the supported family drawn solid,
     # the two experimental ones on dashed leads.
     "seam": '<path d="M69-86V86" stroke="currentColor" stroke-width="3.4" '
@@ -661,6 +699,9 @@ def build_release(root, slug, version, kicker, motif, force=False):
 
 
 RELEASES = [
+    ("release-26-9-1", "v26.9.1", "The map goes round", "azimuth"),
+    ("release-26-8-4", "v26.8.4", "Evidence, not assumption", "attest"),
+    ("release-26-8-3", "v26.8.3", "The workspace canvas", "canvas"),
     ("release-26-8-2", "v26.8.2", "Two more radios", "seam"),
     ("release-26-8-1", "v26.8.1", "Settings that survive", "store"),
     ("release-26-7-4", "v26.7.4", "Speech to text", "copyassist"),
