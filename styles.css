@@ -533,11 +533,12 @@ section.block { padding: 84px 0; }
 
 /* ---------- Footer ---------- */
 footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px 0 40px; }
-.foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; }
+.foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 30px; }
 .foot-brand p { color: var(--muted); font-size: 14px; margin: 14px 0 0; max-width: 34ch; }
 .foot-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 0 0 14px; }
 .foot-col a { display: block; color: var(--ink-soft); font-size: 14.5px; margin-bottom: 10px; }
 .foot-col a:hover { color: var(--cyan); }
+.foot-col p { color: var(--muted); font-size: 14px; margin: 0; max-width: 22ch; }
 .foot-bottom {
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
   margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line);
