@@ -44,6 +44,11 @@ Ordered by when they first chipped in. Amounts stay between each supporter and t
 22. John Katerenchuk August 2026
 23. WW4GA Ryland August 2026
 24. DANIEL August 2026
+25. Peter Fox August 2026
+26. KR6W Russ August 2026
+27. SQ7BCE August 2026
+28. WP4SK August 2026
+29. WP4SK August 2026
 
 Add your signal
 

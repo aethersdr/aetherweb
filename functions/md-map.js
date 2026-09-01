@@ -7,6 +7,6 @@ export const MD_MAP = {
   '/blog.md': { asset: '/blog.md', tokens: 29372 },
   '/lineage': { asset: '/lineage.md', tokens: 1994 },
   '/lineage.md': { asset: '/lineage.md', tokens: 1994 },
-  '/supporters': { asset: '/supporters.md', tokens: 468 },
-  '/supporters.md': { asset: '/supporters.md', tokens: 468 },
+  '/supporters': { asset: '/supporters.md', tokens: 495 },
+  '/supporters.md': { asset: '/supporters.md', tokens: 495 },
 };
