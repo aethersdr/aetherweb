@@ -8,93 +8,133 @@ Roadmap
 
 ## One engine, many front ends
 
-AetherSDR is being split in two: an engine that owns the radio, and an interface that talks to it over a versioned protocol. Everything below either builds toward that split or waits for it. The columns are an order of work, not dates — we ship a piece when it is right rather than when a calendar says so.
+AetherSDR is being split in two: an engine that owns the radio, and an interface that talks to it over a versioned protocol. Everything here either builds toward that split or waits for it. Phases are an order of work, not dates — a piece ships when it is right rather than when a calendar says so.
 
-Work
+Release view
 
-**Shipped**available now
+Progress
 
-**Building now**in progress
+Radios Engine Interfaces Across everything Released Committed Tentative Paused
 
-**Next**after the above
+**Shipped**available now*6*
 
-**Exploring**designed before built
+ReleasedRadios
 
-Radios
+#### One interface for every radio
 
-**One interface for every radio**A new model became a self-contained piece of work instead of a change threaded through the whole application.
+Supporting a new model became a self-contained piece of work instead of a change threaded through the whole application.
 
-v26.7.4 · shipped
+v26.7.4
 
-**Hermes-Lite 2**Receive and transmit, with the signal chain running on your computer.
+ReleasedRadios
 
-v26.7.4 · shipped
+#### Hermes-Lite 2
 
-**Networked Icom**Control and audio over the network, with each model's real capabilities read from the radio.
+Receive and transmit, with the signal chain running on your computer.
 
-v26.8.2 · shipped
+v26.7.4
 
-**ANAN-G2 and RTL-SDR receive**openHPSDR Protocol 2 and RTL dongles, both demodulating through the same chain.
+ReleasedRadios
+
+#### Networked Icom
+
+Control and audio over the network, with each model's real capabilities read from the radio rather than assumed.
+
+v26.8.2
+
+ReleasedRadios
+
+#### ANAN-G2 and RTL-SDR receive
+
+openHPSDR Protocol 2 and RTL dongles, both demodulating through the same chain.
 
 shipped
 
-**New radio families**Deliberately paused. Four are written or requested — see below for why they wait.
+ReleasedEngine
 
-paused until the split lands
+#### The engine as a library
 
-The engine
-
-**The engine as a library**What makes a build with no interface attached possible at all.
+What makes a build with no interface attached possible at all.
 
 shipped
 
-**The control protocol**The engine describes what the radio can do; the interface subscribes to what it needs. Both upgrade independently.
+ReleasedAcross everything
+
+#### Transmit safeguards
+
+Every intent that can key a transmitter passes the same refusal checks — including the antenna tuner, which had slipped through.
+
+continuing
+
+**Building now**in progress*3*
+
+CommittedEngine
+
+#### The control protocol
+
+The engine describes what the radio can do; the interface subscribes to what it needs. Both upgrade independently.
+
+ships with transmit arbitration
+
+CommittedEngine
+
+#### Transmit arbitration and per-client authorisation
+
+Exactly one client may key the transmitter, and each is authorised separately. Never lands after the protocol — always with it.
+
+ships with the protocol
+
+CommittedAcross everything
+
+#### Honest capability reporting
+
+A control that quietly stops matching the radio is worse than one that is plainly unavailable.
 
 in progress
 
-**Transmit arbitration and per-client authorisation**Exactly one client may key the transmitter, and each is authorised separately.
+**Next**after the above*2*
 
-in progress
+CommittedEngine
 
-These two ship together, never one after the other.
+#### Spectrum and audio across the network
 
-same release
+Shared memory on one machine, compressed frames over a link, so a remote interface gets the same waterfall as one sitting at the radio.
 
-**Spectrum and audio across the network**Shared memory on one machine, compressed frames over a link, so a remote interface gets the same waterfall.
+needs the protocol first
 
-next
+CommittedInterfaces
 
-Interfaces
+#### A reference thin client
 
-**The native desktop application**Linux, macOS and Windows. Maintained and improved throughout, not frozen while the split happens.
+Part of the desktop, ported to speak the protocol — proof the boundary is complete. If a real interface can be built on it, so can any other.
 
-shipped, and continuing throughout
+after the data plane
 
-**A reference thin client**Part of the desktop, ported to speak the protocol — proof the boundary is complete.
+**Exploring**designed before built*3*
 
-next
+TentativeInterfaces
 
-**A browser interface**Once the protocol carries everything the desktop needs, this is an interface problem rather than a radio one.
+#### A browser interface
 
-exploring
+Once the protocol carries everything the desktop needs, this is an interface problem rather than a radio one.
 
-**Two radios in one session**Needs decisions about audio routing, settings separation and which radio a transmit request means.
+follows the protocol
 
-exploring
+TentativeInterfaces
 
-Across everything
+#### Two radios in one session
 
-**Transmit safeguards**Every intent that can key a transmitter passes the same refusal checks — including the antenna tuner, which had slipped through.
+Needs decisions about audio routing, settings separation and which radio a transmit request means, before any of it is code.
 
-shipped, and hardened as the split proceeds
+design first
 
-**Honest capability reporting**A control that quietly stops matching the radio is worse than one that is plainly unavailable.
+PausedRadios
 
-in progress
+#### New radio families
 
-Shipped Building now Next Exploring Paused on purpose │ the line marks today
+Four are written or requested. They wait until the split lands — see below for why, and why paused is not declined.
 
-Scroll the chart sideways to see later phases.
+paused on purpose
 
 #### Why new radios are paused
 
@@ -104,9 +144,9 @@ ColibriNANO — parked Yaesu FT-991 — parked Expert Electronics SunSDR — que
 
 Parked is not declined. Two of these are finished, reviewed contributions waiting on sequencing rather than quality, and the work is credited to the people who wrote it. Radios we already support keep getting fixes throughout.
 
-#### Why the split is worth doing
+#### What the labels mean
 
-Today the interface and the radio engine are one program, so the engine cannot run without a screen and the interface cannot be replaced without rebuilding everything. Separating them lets the engine run headless next to the radio, lets another device drive it across the network, and puts every transmit safeguard in one place below the boundary where no client can talk its way past it.
+**Released** is in a build you can download today. **Committed** has been reviewed and is being built or is definitely next. **Tentative** is wanted and thought about, but the design is not settled and it may move. **Paused** is a deliberate hold, not a rejection.
 
 #### Shaping what comes next
 
