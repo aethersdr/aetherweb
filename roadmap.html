@@ -28,7 +28,7 @@
 
   <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=13" />
+  <link rel="stylesheet" href="styles.css?v=14" />
 
   <!-- Both views describe the same work. With no JS the switcher cannot route,
        so reveal both rather than leave the page showing one empty panel. -->
@@ -792,6 +792,17 @@
 
       <!-- ============================ PROGRESS VIEW =========================== -->
       <div class="rm-view" data-view="progress" id="view-progress" role="tabpanel" aria-labelledby="tab-progress" hidden>
+        <div class="rm-relbar">
+          <button class="rm-mini" type="button" data-steps="open">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            Expand all deliverables
+          </button>
+          <button class="rm-mini" type="button" data-steps="close">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+            Collapse all
+          </button>
+          <span class="rm-count">16 deliverables · 30 steps</span>
+        </div>
         <div class="rm-keys" style="margin-bottom:14px">
           <span class="k rm-a-radio"><i></i>Radios</span>
           <span class="k rm-a-engine"><i></i>Engine</span>
@@ -816,141 +827,277 @@
             </div>
 
             <div class="rm-grid-row"><div class="rm-lane rm-a-radio">Radios</div></div>
-
-            <div class="rm-grid-row rm-r rm-a-radio">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>One interface for every radio</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">A new model is self-contained work, not a change threaded through the application.</span>
+            <details class="rm-deliv rm-a-radio">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>One interface for every radio</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">Every radio sits behind one internal interface.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-radio">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>Hermes-Lite 2</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">Receive and transmit, signal chain on your computer.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-radio">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>Networked Icom</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">Capabilities read from the radio rather than assumed.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-radio">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>ANAN-G2 and RTL-SDR receive</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">Receive paths for two more families.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-radio">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>New radio families</b><span class="rm-pill s-paused">Paused</span><span class="rm-steps-n">4 steps</span></div>
+                  <span class="d">Four written or requested, held until the split lands.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg is-hold" style="grid-column:2/span 3">paused until the split lands</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">ColibriNANO — written, in review</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 3">paused</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">v26.7.4</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-radio">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Hermes-Lite 2</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">Receive and transmit, signal chain on your computer.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">Yaesu FT-991 — written, in review</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 3">paused</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">v26.7.4</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-radio">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Networked Icom</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">Capabilities read from the radio rather than assumed.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">Expert Electronics SunSDR — requested</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 3">paused</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">v26.8.2</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-radio">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>ANAN-G2 and RTL-SDR receive</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">Protocol 2 and RTL dongles, same demodulation chain.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">ADALM-Pluto — requested</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 3">paused</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-radio">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>New radio families</b><span class="rm-pill s-paused">Paused</span></div>
-                <span class="d">Four written or requested. Held until the split lands.</span>
-              </div>
-              <div class="rm-track rm-body"><div class="rm-seg is-hold" style="grid-column:2/span 3">paused until the split lands</div></div>
-            </div>
-
+            </details>
             <div class="rm-grid-row"><div class="rm-lane rm-a-engine">The engine</div></div>
-
-            <div class="rm-grid-row rm-r rm-a-engine">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>The engine as a library</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">What makes a build with no interface attached possible.</span>
+            <details class="rm-deliv rm-a-engine">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>The engine as a library</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">What makes a build with no interface attached possible.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-engine">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>The control protocol</b><span class="rm-pill s-committed">Committed</span><span class="rm-steps-n">5 steps</span></div>
+                  <span class="d">A versioned conversation between engine and interface.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 2">largely landed, finishing now</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Versioned envelope and bounded codec</div>
+                <div class="rm-track"><div class="rm-seg is-sub is-done" style="grid-column:1/span 1">done</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 1">shipped</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-engine">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>The control protocol</b><span class="rm-pill s-committed">Committed</span></div>
-                <span class="d">The engine describes the radio; the interface subscribes.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">Capability descriptor in the handshake</div>
+                <div class="rm-track"><div class="rm-seg is-sub is-done" style="grid-column:1/span 1">done</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:2/span 1">in progress</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-engine">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Transmit arbitration and authorisation</b><span class="rm-pill s-committed">Committed</span></div>
-                <span class="d">One client may key the transmitter; each is authorised separately.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">Typed resources, snapshots and events</div>
+                <div class="rm-track"><div class="rm-seg is-sub is-done" style="grid-column:1/span 1">done</div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:2/span 1">in progress</div></div>
-            </div>
-
+              <div class="rm-sub">
+                <div class="rm-slabel">Session resync and bounded coalescing</div>
+                <div class="rm-track"><div class="rm-seg is-sub is-done" style="grid-column:1/span 1">done</div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">An honest capability descriptor before it is frozen</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+            </details>
+            <details open class="rm-deliv rm-a-engine">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>Transmit arbitration and authorisation</b><span class="rm-pill s-committed">Committed</span><span class="rm-steps-n">5 steps</span></div>
+                  <span class="d">One client may key the transmitter; each is authorised separately.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:2/span 1">in progress</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Engine-owned operation and cancellation guards</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Desktop transmit paths migrated</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Per-client actor propagation</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Scheduled expiry and qualified stop</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Queued audio and wire fences</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+            </details>
             <div class="rm-grid-row rm-r">
-              <div class="rm-label" style="padding-block:2px 12px">
-                <span class="d" style="color:var(--cyan)">The two above ship together, never one after the other.</span>
-              </div>
-              <div class="rm-track" style="min-height:26px">
-                <div class="rm-tie" style="grid-column:2/span 1"><span>same release</span></div>
-              </div>
+              <div class="rm-label" style="padding-block:2px 12px"><span class="d" style="color:var(--cyan)">Ships in the same release as the control protocol, never after it.</span></div>
+              <div class="rm-track" style="min-height:26px"><div class="rm-tie" style="grid-column:2/span 1"><span>same release</span></div></div>
             </div>
-
-            <div class="rm-grid-row rm-r rm-a-engine">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Spectrum and audio across the network</b><span class="rm-pill s-committed">Committed</span></div>
-                <span class="d">Shared memory locally, compressed frames over a link.</span>
+            <details class="rm-deliv rm-a-engine">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>Honest capability reporting</b><span class="rm-pill s-committed">Committed</span><span class="rm-steps-n">3 steps</span></div>
+                  <span class="d">A control that stops matching the radio is worse than one plainly unavailable.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:2/span 1">in progress</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Every backend announces its revisions</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:3/span 1">next</div></div>
-            </div>
-
+              <div class="rm-sub">
+                <div class="rm-slabel">Panadapter capacity read from the radio</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">A conformance suite across every backend</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+            </details>
+            <details class="rm-deliv rm-a-engine">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>One command path for every radio</b><span class="rm-pill s-committed">Committed</span><span class="rm-steps-n">3 steps</span></div>
+                  <span class="d">Today some controls speak a FlexRadio-only dialect that other radios discard.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:2/span 2">in progress</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Freeze the count so it can only shrink</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Move the FlexRadio path behind the boundary</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:2/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Convert the remaining controls by area</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:3/span 1"></div></div>
+              </div>
+            </details>
+            <details class="rm-deliv rm-a-engine">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>Spectrum and audio across the network</b><span class="rm-pill s-committed">Committed</span><span class="rm-steps-n">3 steps</span></div>
+                  <span class="d">So a remote interface gets the same waterfall as one at the radio.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:3/span 1">next</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Shared memory on the same machine</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:3/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Compressed frames over a network link</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:3/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Bounded queues — newest frame wins</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:3/span 1"></div></div>
+              </div>
+            </details>
             <div class="rm-grid-row"><div class="rm-lane rm-a-iface">Interfaces</div></div>
-
-            <div class="rm-grid-row rm-r rm-a-iface">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>The native desktop application</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">Linux, macOS and Windows. Improved throughout, not frozen while the split happens.</span>
+            <details class="rm-deliv rm-a-iface">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>The native desktop application</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">Linux, macOS and Windows. Improved throughout, not frozen while the split happens.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 4">shipped, and continuing throughout</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-iface">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>A reference thin client</b><span class="rm-pill s-committed">Committed</span><span class="rm-steps-n">2 steps</span></div>
+                  <span class="d">Proof the boundary is complete.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:3/span 1">next</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Port one pane to speak the protocol</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:3/span 1"></div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 4">shipped, and continuing throughout</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-iface">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>A reference thin client</b><span class="rm-pill s-committed">Committed</span></div>
-                <span class="d">Proof the boundary is complete.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">Close whatever the port proves is missing</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:3/span 1"></div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:3/span 1">next</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-iface">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>A browser interface</b><span class="rm-pill s-tentative">Tentative</span></div>
-                <span class="d">An interface problem rather than a radio one.</span>
+            </details>
+            <details class="rm-deliv rm-a-iface">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>A browser interface</b><span class="rm-pill s-tentative">Tentative</span></div>
+                  <span class="d">An interface problem rather than a radio one.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg is-open" style="grid-column:4/span 1">exploring</div></div>
+              </summary>
+            </details>
+            <details class="rm-deliv rm-a-iface">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><svg class="rm-dchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><b>Two radios in one session</b><span class="rm-pill s-tentative">Tentative</span><span class="rm-steps-n">5 steps</span></div>
+                  <span class="d">Design decisions first, code second.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg is-open" style="grid-column:4/span 1">exploring</div></div>
+              </summary>
+              <div class="rm-sub">
+                <div class="rm-slabel">Who creates and tears down a second session</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:4/span 1"></div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg is-open" style="grid-column:4/span 1">exploring</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-iface">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Two radios in one session</b><span class="rm-pill s-tentative">Tentative</span></div>
-                <span class="d">Audio routing, settings separation, and which radio a transmit request means.</span>
+              <div class="rm-sub">
+                <div class="rm-slabel">Audio routing when there are two</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:4/span 1"></div></div>
               </div>
-              <div class="rm-track rm-body"><div class="rm-seg is-open" style="grid-column:4/span 1">exploring</div></div>
-            </div>
-
+              <div class="rm-sub">
+                <div class="rm-slabel">Settings and profiles kept apart</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:4/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Port allocation for the second radio</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:4/span 1"></div></div>
+              </div>
+              <div class="rm-sub">
+                <div class="rm-slabel">Which radio a transmit request means</div>
+                <div class="rm-track"><div class="rm-seg is-sub" style="grid-column:4/span 1"></div></div>
+              </div>
+            </details>
             <div class="rm-grid-row"><div class="rm-lane rm-a-all">Across everything</div></div>
-
-            <div class="rm-grid-row rm-r rm-a-all">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Transmit safeguards</b><span class="rm-pill s-released">Released</span></div>
-                <span class="d">Every keying intent passes the same refusal checks.</span>
-              </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 2">shipped, hardened as the split proceeds</div></div>
-            </div>
-
-            <div class="rm-grid-row rm-r rm-a-all">
-              <div class="rm-label">
-                <div class="rm-l-top"><b>Honest capability reporting</b><span class="rm-pill s-committed">Committed</span></div>
-                <span class="d">A control that stops matching the radio is worse than one plainly unavailable.</span>
-              </div>
-              <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:2/span 1">in progress</div></div>
-            </div>
+            <details class="rm-deliv rm-a-all">
+              <summary>
+                <div class="rm-label">
+                  <div class="rm-l-top"><b>Transmit safeguards</b><span class="rm-pill s-released">Released</span></div>
+                  <span class="d">Every intent that can key a transmitter passes the same refusal checks.</span>
+                </div>
+                <div class="rm-track rm-body"><div class="rm-seg" style="grid-column:1/span 2">shipped, hardened as the split proceeds</div></div>
+              </summary>
+            </details>
 
             <div class="rm-scrollnote">Scroll the chart sideways to see later phases.</div>
           </div>
@@ -1049,7 +1196,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/roadmap.js?v=3" defer></script>
+  <script src="assets/js/roadmap.js?v=4" defer></script>
   <script src="assets/js/webmcp.js?v=1" defer></script>
 </body>
 </html>

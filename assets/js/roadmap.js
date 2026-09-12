@@ -81,4 +81,14 @@
       for (var c = 0; c < cats.length; c++) cats[c].open = open;
     });
   }
+
+  // Same for the tracker's deliverables and their steps.
+  var bulkSteps = document.querySelectorAll('.rm-mini[data-steps]');
+  for (var s = 0; s < bulkSteps.length; s++) {
+    bulkSteps[s].addEventListener('click', function (ev) {
+      var open = ev.currentTarget.getAttribute('data-steps') === 'open';
+      var ds = document.querySelectorAll('details.rm-deliv');
+      for (var d = 0; d < ds.length; d++) ds[d].open = open;
+    });
+  }
 }());
