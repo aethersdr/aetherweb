@@ -151,9 +151,12 @@ def dropped(node):
         return True
     if DROP_CLASSES & set(node.cls()):
         return True
-    # `hidden` marks UI that isn't showing yet — except blog posts, where it is
-    # exactly how a not-yet-routed-to article is held off the index.
-    if 'hidden' in node.attrs and node.tag != 'article':
+    # `hidden` marks UI that isn't showing yet — except blog posts and the
+    # roadmap's two views, where it is exactly how a not-yet-routed-to panel is
+    # held off the page. Both are real content that a markdown reader wants;
+    # dropping them silently published half the roadmap.
+    if ('hidden' in node.attrs and node.tag != 'article'
+            and 'rm-view' not in node.cls()):
         return True
     return False
 

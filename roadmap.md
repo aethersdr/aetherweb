@@ -392,6 +392,210 @@ Further work toward the engine that runs with no interface attached.
 
 Scroll sideways for earlier releases — the full history is in the changelog.
 
+Expand all deliverables
+
+Collapse all
+
+16 deliverables · 30 steps
+
+Radios Engine Interfaces Across everything Released Committed Tentative Paused
+
+Deliverable
+
+**Shipped**available now
+
+**Building now**in progress
+
+**Next**after the above
+
+**Exploring**designed before built
+
+Radios
+
+**One interface for every radio**Released
+
+Every radio sits behind one internal interface.
+
+shipped
+
+**Hermes-Lite 2**Released
+
+Receive and transmit, signal chain on your computer.
+
+shipped
+
+**Networked Icom**Released
+
+Capabilities read from the radio rather than assumed.
+
+shipped
+
+**ANAN-G2 and RTL-SDR receive**Released
+
+Receive paths for two more families.
+
+shipped
+
+**New radio families**Paused4 steps
+
+Four written or requested, held until the split lands.
+
+paused until the split lands
+
+ColibriNANO — written, in review
+
+paused
+
+Yaesu FT-991 — written, in review
+
+paused
+
+Expert Electronics SunSDR — requested
+
+paused
+
+ADALM-Pluto — requested
+
+paused
+
+The engine
+
+**The engine as a library**Released
+
+What makes a build with no interface attached possible.
+
+shipped
+
+**The control protocol**Committed5 steps
+
+A versioned conversation between engine and interface.
+
+largely landed, finishing now
+
+Versioned envelope and bounded codec
+
+done
+
+Capability descriptor in the handshake
+
+done
+
+Typed resources, snapshots and events
+
+done
+
+Session resync and bounded coalescing
+
+done
+
+An honest capability descriptor before it is frozen
+
+**Transmit arbitration and authorisation**Committed5 steps
+
+One client may key the transmitter; each is authorised separately.
+
+in progress
+
+Engine-owned operation and cancellation guards
+
+Desktop transmit paths migrated
+
+Per-client actor propagation
+
+Scheduled expiry and qualified stop
+
+Queued audio and wire fences
+
+Ships in the same release as the control protocol, never after it.
+
+same release
+
+**Honest capability reporting**Committed3 steps
+
+A control that stops matching the radio is worse than one plainly unavailable.
+
+in progress
+
+Every backend announces its revisions
+
+Panadapter capacity read from the radio
+
+A conformance suite across every backend
+
+**One command path for every radio**Committed3 steps
+
+Today some controls speak a FlexRadio-only dialect that other radios discard.
+
+in progress
+
+Freeze the count so it can only shrink
+
+Move the FlexRadio path behind the boundary
+
+Convert the remaining controls by area
+
+**Spectrum and audio across the network**Committed3 steps
+
+So a remote interface gets the same waterfall as one at the radio.
+
+next
+
+Shared memory on the same machine
+
+Compressed frames over a network link
+
+Bounded queues — newest frame wins
+
+Interfaces
+
+**The native desktop application**Released
+
+Linux, macOS and Windows. Improved throughout, not frozen while the split happens.
+
+shipped, and continuing throughout
+
+**A reference thin client**Committed2 steps
+
+Proof the boundary is complete.
+
+next
+
+Port one pane to speak the protocol
+
+Close whatever the port proves is missing
+
+**A browser interface**Tentative
+
+An interface problem rather than a radio one.
+
+exploring
+
+**Two radios in one session**Tentative5 steps
+
+Design decisions first, code second.
+
+exploring
+
+Who creates and tears down a second session
+
+Audio routing when there are two
+
+Settings and profiles kept apart
+
+Port allocation for the second radio
+
+Which radio a transmit request means
+
+Across everything
+
+**Transmit safeguards**Released
+
+Every intent that can key a transmitter passes the same refusal checks.
+
+shipped, hardened as the split proceeds
+
+Scroll the chart sideways to see later phases.
+
 #### Why new radios are paused
 
 Each additional radio multiplies work on a boundary that is still moving: capability reporting is not yet consistent across the radios we already support, the original FlexRadio path still bypasses part of the new data route, and the conversion of the command path has not started. Adding a seventh and eighth radio now would mean doing each of those conversions twice more, against code that is changing underneath them. Finishing first makes every radio after it cheaper to add and safer to review.
