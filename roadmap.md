@@ -12,7 +12,7 @@ AetherSDR is being split in two: an engine that owns the radio, and an interface
 
 Release view
 
-Progress
+Progress Tracker
 
 Expand all categories
 
