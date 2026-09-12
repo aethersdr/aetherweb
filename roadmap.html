@@ -28,7 +28,7 @@
 
   <link rel="icon" type="image/png" href="assets/img/logo-96.png" />
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
 
@@ -79,176 +79,207 @@
 
   <main>
   <section class="rm-hero" id="roadmap">
-    <div class="wrap">
+    <div class="rm-wide">
 
-      <header class="section-head">
+      <header class="section-head" style="text-align:left;max-width:820px;margin-inline:0">
         <span class="eyebrow"><span class="dot"></span> Roadmap</span>
         <h1>One engine, <span class="grad-text">many front ends</span></h1>
-        <p class="lede">AetherSDR is being split in two: an engine that owns the radio, and a user
+        <p class="lede">AetherSDR is being split in two: an engine that owns the radio, and an
           interface that talks to it over a versioned protocol. Everything below either builds toward
-          that split or waits for it. Phases are an order of work, not dates — we ship when a piece is
-          right rather than when a calendar says so.</p>
+          that split or waits for it. The columns are an order of work, not dates — we ship a piece
+          when it is right rather than when a calendar says so.</p>
       </header>
 
-      <div class="rm-thesis">
-        <h2>Why the split is worth doing</h2>
-        <p>Today the interface and the radio engine are one program, so the engine cannot run without
-          a screen and the interface cannot be replaced without rebuilding everything. Separating them
-          means the engine can run headless on the machine next to the radio, a second device can drive
-          it across the network, and a browser or a text interface becomes possible without touching
-          radio code. It also means every transmit safeguard lives in one place, below the boundary,
-          where no client can talk its way past it.</p>
+      <div class="rm-chart">
+        <div class="rm-chart-inner">
+
+          <!-- phases -->
+          <div class="rm-grid-row rm-head">
+            <div class="rm-corner"><span>Work</span></div>
+            <div class="rm-track">
+              <div class="rm-ph"><b>Shipped</b><span>available now</span></div>
+              <div class="rm-ph is-now"><b>Building now</b><span>in progress</span></div>
+              <div class="rm-ph"><b>Next</b><span>after the above</span></div>
+              <div class="rm-ph"><b>Exploring</b><span>designed before built</span></div>
+            </div>
+          </div>
+
+          <!-- ── radios ── -->
+          <div class="rm-grid-row"><div class="rm-lane">Radios</div></div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>One interface for every radio</b><span>A new model became a self-contained piece of work instead of a change threaded through the whole application.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 1">v26.7.4 · shipped</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Hermes-Lite 2</b><span>Receive and transmit, with the signal chain running on your computer.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 1">v26.7.4 · shipped</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Networked Icom</b><span>Control and audio over the network, with each model's real capabilities read from the radio.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 1">v26.8.2 · shipped</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>ANAN-G2 and RTL-SDR receive</b><span>openHPSDR Protocol 2 and RTL dongles, both demodulating through the same chain.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 1">shipped</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>New radio families</b><span>Deliberately paused. Four are written or requested — see below for why they wait.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-hold" style="grid-column:2/span 3">paused until the split lands</div>
+            </div>
+          </div>
+
+          <!-- ── engine ── -->
+          <div class="rm-grid-row"><div class="rm-lane">The engine</div></div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>The engine as a library</b><span>What makes a build with no interface attached possible at all.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 1">shipped</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>The control protocol</b><span>The engine describes what the radio can do; the interface subscribes to what it needs. Both upgrade independently.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-build" style="grid-column:2/span 1">in progress</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Transmit arbitration and per-client authorisation</b><span>Exactly one client may key the transmitter, and each is authorised separately.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-build" style="grid-column:2/span 1">in progress</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label" style="padding-top:0;padding-bottom:12px"><span style="color:var(--cyan)">These two ship together, never one after the other.</span></div>
+            <div class="rm-track" style="min-height:26px">
+              <div class="rm-tie" style="grid-column:2/span 1"><span>same release</span></div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Spectrum and audio across the network</b><span>Shared memory on one machine, compressed frames over a link, so a remote interface gets the same waterfall.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-next" style="grid-column:3/span 1">next</div>
+            </div>
+          </div>
+
+          <!-- ── interfaces ── -->
+          <div class="rm-grid-row"><div class="rm-lane">Interfaces</div></div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>The native desktop application</b><span>Linux, macOS and Windows. Maintained and improved throughout, not frozen while the split happens.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 4">shipped, and continuing throughout</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>A reference thin client</b><span>Part of the desktop, ported to speak the protocol — proof the boundary is complete.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-next" style="grid-column:3/span 1">next</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>A browser interface</b><span>Once the protocol carries everything the desktop needs, this is an interface problem rather than a radio one.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-explore" style="grid-column:4/span 1">exploring</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Two radios in one session</b><span>Needs decisions about audio routing, settings separation and which radio a transmit request means.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-explore" style="grid-column:4/span 1">exploring</div>
+            </div>
+          </div>
+
+          <!-- ── across everything ── -->
+          <div class="rm-grid-row"><div class="rm-lane">Across everything</div></div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Transmit safeguards</b><span>Every intent that can key a transmitter passes the same refusal checks — including the antenna tuner, which had slipped through.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-ship" style="grid-column:1/span 2">shipped, and hardened as the split proceeds</div>
+            </div>
+          </div>
+
+          <div class="rm-grid-row rm-r">
+            <div class="rm-label"><b>Honest capability reporting</b><span>A control that quietly stops matching the radio is worse than one that is plainly unavailable.</span></div>
+            <div class="rm-track rm-body">
+              <div class="rm-bar t-build" style="grid-column:2/span 1">in progress</div>
+            </div>
+          </div>
+
+          <div class="rm-key">
+            <span class="k"><i style="background:linear-gradient(100deg,#7bf2dc,#8ef7e6)"></i>Shipped</span>
+            <span class="k"><i style="background:linear-gradient(100deg,#3aa7ff,#5de3ff)"></i>Building now</span>
+            <span class="k"><i style="background:linear-gradient(100deg,#2f7fd6,#3aa7ff)"></i>Next</span>
+            <span class="k"><i style="border:1px dashed var(--line-hi)"></i>Exploring</span>
+            <span class="k"><i style="border:1px dashed var(--muted-dim);background:repeating-linear-gradient(135deg,rgba(133,152,180,.16) 0 7px,transparent 7px 14px)"></i>Paused on purpose</span>
+            <span class="k" style="color:var(--cyan)">│ the line marks today</span>
+          </div>
+          <div class="rm-scrollnote">Scroll the chart sideways to see later phases.</div>
+
+        </div>
       </div>
 
-      <div class="stats">
-        <div class="stat"><div class="num grad-text">6</div><div class="lbl">Radio families behind one interface</div></div>
-        <div class="stat"><div class="num grad-text">3</div><div class="lbl">Native platforms, no emulation</div></div>
-        <div class="stat"><div class="num grad-text">1</div><div class="lbl">Engine, once the split lands</div></div>
-        <div class="stat"><div class="num grad-text">GPL</div><div class="lbl">v3, all of it</div></div>
-      </div>
-
-      <div class="rm-rail">
-
-        <div class="rm-band" style="--st:#7bf2dc">
-          <div class="rm-band-head">
-            <h3>Shipped</h3>
-            <span class="when">available now</span>
+      <div class="rm-after">
+        <div class="rm-note-card is-wide">
+          <h3>Why new radios are paused</h3>
+          <p>Each additional radio multiplies work on a boundary that is still moving: capability
+            reporting is not yet consistent across the radios we already support, the original
+            FlexRadio path still bypasses part of the new data route, and the conversion of the
+            command path has not started. Adding a seventh and eighth radio now would mean doing each
+            of those conversions twice more, against code that is changing underneath them. Finishing
+            first makes every radio after it cheaper to add and safer to review.</p>
+          <div class="rm-parked">
+            <span class="pill">ColibriNANO — parked</span>
+            <span class="pill">Yaesu FT-991 — parked</span>
+            <span class="pill">Expert Electronics SunSDR — queued</span>
+            <span class="pill">ADALM-Pluto — queued</span>
           </div>
-          <div class="rm-items">
-            <div class="rm-item">
-              <h4>The radio boundary <span class="ver">v26.7.4</span></h4>
-              <p>Every radio now sits behind one internal interface, so support for a new model is a
-                self-contained piece of work rather than a change threaded through the whole
-                application. The engine also became a library in its own right, which is what makes
-                a headless build possible at all.</p>
-            </div>
-            <div class="rm-item">
-              <h4>Hermes-Lite 2 <span class="ver">v26.7.4</span></h4>
-              <p>Direct-sampling receive and transmit with the signal processing running on your
-                computer, including the noise reduction, filters and transmit chain you already use
-                on a FlexRadio.</p>
-            </div>
-            <div class="rm-item">
-              <h4>Networked Icom <span class="ver">v26.8.2</span></h4>
-              <p>Control and audio over the network for Icom transceivers that speak it, with each
-                model's real capabilities read from the radio rather than assumed.</p>
-            </div>
-            <div class="rm-item">
-              <h4>ANAN-G2 and RTL-SDR receive</h4>
-              <p>Receive support for Apache Labs ANAN over openHPSDR Protocol 2, and for RTL-SDR
-                dongles. Both demodulate on your computer through the same signal chain.</p>
-            </div>
-            <div class="rm-item">
-              <h4>Transmit safeguards, tightened</h4>
-              <p>Every intent that can key a transmitter — including the antenna tuner, which had
-                slipped through — now passes the same refusal checks, and the engine reports a
-                blocked control instead of silently doing nothing.</p>
-            </div>
-          </div>
+          <p style="color:var(--muted);font-size:13.5px">Parked is not declined. Two of these are
+            finished, reviewed contributions waiting on sequencing rather than quality, and the work
+            is credited to the people who wrote it. Radios we already support keep getting fixes
+            throughout.</p>
         </div>
 
-        <div class="rm-band" style="--st:#5de3ff">
-          <div class="rm-band-head">
-            <h3>Building now</h3>
-            <span class="when">in progress</span>
-          </div>
-          <div class="rm-items">
-            <div class="rm-item">
-              <h4>The control protocol</h4>
-              <p>A versioned conversation between engine and interface: the engine describes what the
-                connected radio can actually do, the interface subscribes to what it needs, and both
-                sides can be upgraded independently.</p>
-            </div>
-            <div class="rm-item">
-              <h4>Transmit arbitration and per-client authorisation</h4>
-              <p>Once more than one client can reach the engine, exactly one of them may key the
-                transmitter at a time, and each is authorised separately. This lands together with the
-                protocol rather than after it — a scriptable interface that could reach the
-                transmitter before the guard existed is not something we ship, even briefly.</p>
-            </div>
-            <div class="rm-item">
-              <h4>Honest capability reporting</h4>
-              <p>Radios revise what they can do mid-session, and a control that quietly stops matching
-                the radio is worse than one that is plainly unavailable. Every backend is being made to
-                announce its changes so the interface never shows a control the radio cannot honour.</p>
-            </div>
-          </div>
+        <div class="rm-note-card">
+          <h3>Why the split is worth doing</h3>
+          <p>Today the interface and the radio engine are one program, so the engine cannot run
+            without a screen and the interface cannot be replaced without rebuilding everything.
+            Separating them lets the engine run headless next to the radio, lets another device drive
+            it across the network, and puts every transmit safeguard in one place below the boundary
+            where no client can talk its way past it.</p>
         </div>
 
-        <div class="rm-band" style="--st:#3aa7ff">
-          <div class="rm-band-head">
-            <h3>Next</h3>
-            <span class="when">after the above</span>
+        <div class="rm-note-card">
+          <h3>Shaping what comes next</h3>
+          <p>This roadmap is written in public and argued about in public. Feature requests, radio
+            support and design disagreements live in the issue tracker, and the decisions behind them
+            are written down rather than announced.</p>
+          <div class="pill-row" style="margin-top:4px">
+            <a class="btn btn-primary btn-sm" href="https://github.com/aethersdr/AetherSDR/issues" target="_blank" rel="noopener">Issue tracker</a>
+            <a class="btn btn-ghost btn-sm" href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">Discussions</a>
           </div>
-          <div class="rm-items">
-            <div class="rm-item">
-              <h4>Spectrum and audio across the network</h4>
-              <p>A dedicated path for the heavy data, shared memory on the same machine and compressed
-                frames over a network link, so a remote interface gets the same waterfall and audio as
-                one sitting at the radio.</p>
-            </div>
-            <div class="rm-item">
-              <h4>A reference thin client</h4>
-              <p>Part of the existing desktop interface, ported to speak the protocol instead of
-                calling the engine directly. It exists to prove the boundary is complete — if a real
-                interface can be built on it, so can any other.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rm-band" style="--st:#8598b4">
-          <div class="rm-band-head">
-            <h3>Exploring</h3>
-            <span class="when">designed before built</span>
-          </div>
-          <div class="rm-items">
-            <div class="rm-item">
-              <h4>A browser interface</h4>
-              <p>Once the protocol carries everything the desktop needs, a web client is an interface
-                problem rather than a radio one. It follows the proven protocol rather than leading it.</p>
-            </div>
-            <div class="rm-item">
-              <h4>Two radios in one session</h4>
-              <p>Running a second receiver alongside your main radio — a remote antenna, a second site,
-                a receive-only source — needs decisions about audio routing, settings separation and
-                which radio a transmit request means, before any of it is code.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="rm-pause">
-        <h2>Why new radios are paused</h2>
-        <p>We are not adding support for new radio families until the engine split is finished. Each
-          additional radio multiplies work on a boundary that is still moving: capability reporting is
-          not yet consistent across the radios we already support, the original FlexRadio path still
-          bypasses part of the new data route, and the conversion of the command path has not started.
-          Adding a seventh and eighth radio now would mean doing each of those conversions twice more,
-          against code that is changing underneath them.</p>
-        <p>Finishing first makes every radio after it cheaper to add, safer to review, and less likely
-          to arrive with the quiet gaps that are expensive to find later.</p>
-        <div class="rm-parked">
-          <span class="pill">ColibriNANO — parked</span>
-          <span class="pill">Yaesu FT-991 — parked</span>
-          <span class="pill">Expert Electronics SunSDR — queued</span>
-          <span class="pill">ADALM-Pluto — queued</span>
-        </div>
-        <p class="rm-note">Parked is not declined. Two of these are finished, reviewed contributions
-          waiting on sequencing rather than quality, and the work is credited to the people who wrote
-          it. Radios we already support keep getting fixes and improvements throughout.</p>
-      </div>
-
-      <div class="rm-thesis" style="margin-top:34px">
-        <h2>Shaping what comes next</h2>
-        <p>This roadmap is written in public and argued about in public. Feature requests, radio
-          support and design disagreements all live in the issue tracker, and the decisions behind
-          them are written down rather than announced. If something here matters to your station,
-          the discussion is the place to say so.</p>
-        <div class="pill-row" style="margin-top:6px">
-          <a class="btn btn-primary btn-sm" href="https://github.com/aethersdr/AetherSDR/issues" target="_blank" rel="noopener">Issue tracker</a>
-          <a class="btn btn-ghost btn-sm" href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">Discussions</a>
-          <a class="btn btn-ghost btn-sm" href="https://opencollective.com/aethersdr" target="_blank" rel="noopener">Sponsor the work</a>
         </div>
       </div>
 

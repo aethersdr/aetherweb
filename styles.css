@@ -998,116 +998,160 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 }
 
 /* ==========================================================================
-   Roadmap — what is shipped, what is being built, and what is deliberately paused
+   Roadmap — a Gantt of the engine split. Deliberately wider than --maxw:
+   a schedule reads across, and squeezing it into the prose column would
+   cost the one thing the chart is for.
    ========================================================================== */
 
-.rm-hero .section-head { max-width: 780px; }
+.rm-wide { width: min(1720px, 94vw); margin-inline: auto; padding-inline: 0; }
+
 .rm-hero h1 {
-  font-size: clamp(32px, 5vw, 52px);
+  font-size: clamp(30px, 4.4vw, 50px);
   line-height: 1.06;
   letter-spacing: -0.02em;
   margin: 10px 0 14px;
 }
-.rm-hero .lede { color: var(--ink-soft); font-size: 18px; max-width: 66ch; }
+.rm-hero .lede { color: var(--ink-soft); font-size: 17.5px; max-width: 70ch; }
 
-/* The through-line callout: one idea the whole roadmap hangs off. */
-.rm-thesis {
-  margin: 34px 0 0;
-  padding: 26px 28px;
-  border-radius: var(--radius);
-  border: 1px solid var(--line-hi);
-  background: var(--grad-soft);
-  display: grid;
-  gap: 10px;
-}
-.rm-thesis h2 { margin: 0; font-size: 21px; letter-spacing: -0.01em; }
-.rm-thesis p { margin: 0; color: var(--ink-soft); max-width: 74ch; }
+/* ── the chart ─────────────────────────────────────────────────────────── */
 
-/* Status rail — each band is a phase, not a date. */
-.rm-rail { display: grid; gap: 0; margin-top: 12px; }
-.rm-band {
-  display: grid;
-  grid-template-columns: 168px minmax(0, 1fr);
-  gap: 0 28px;
-  padding: 30px 0;
-  border-top: 1px solid var(--line);
-}
-.rm-band:first-child { border-top: 0; }
-.rm-band-head { position: relative; padding-left: 22px; }
-.rm-band-head::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 7px;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--st, var(--muted));
-  box-shadow: 0 0 0 4px rgba(93, 227, 255, 0.10);
-}
-.rm-band-head h3 {
-  margin: 0;
-  font-size: 15px;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-}
-.rm-band-head .when {
-  display: block;
-  margin-top: 5px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted-dim);
-  letter-spacing: 0.04em;
-}
-.rm-items { display: grid; gap: 14px; }
-.rm-item {
+.rm-chart {
+  margin-top: 30px;
   border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  background: var(--panel);
-  padding: 18px 20px;
-  display: grid;
-  gap: 7px;
-}
-.rm-item h4 {
-  margin: 0;
-  font-size: 16px;
-  letter-spacing: -0.005em;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 10px;
-}
-.rm-item h4 .ver {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--cyan);
-  border: 1px solid var(--line-hi);
-  border-radius: 999px;
-  padding: 1px 9px;
-  letter-spacing: 0.02em;
-}
-.rm-item p { margin: 0; color: var(--ink-soft); font-size: 14.5px; max-width: 70ch; }
-
-/* The pause. Deliberately not styled as a warning — it is a decision. */
-.rm-pause {
-  margin-top: 8px;
-  border: 1px solid var(--line-hi);
   border-radius: var(--radius);
-  background: var(--bg-2);
-  padding: 28px 30px;
-  display: grid;
-  gap: 14px;
+  background: var(--panel);
+  overflow-x: auto;
+  overflow-y: hidden;
 }
-.rm-pause h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
-.rm-pause p { margin: 0; color: var(--ink-soft); max-width: 74ch; }
-.rm-parked { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
-.rm-note {
-  font-size: 13.5px;
-  color: var(--muted);
-  border-left: 2px solid var(--line-hi);
-  padding-left: 14px;
-  max-width: 70ch;
+.rm-chart-inner { min-width: 940px; }
+
+.rm-grid-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  align-items: stretch;
+}
+.rm-track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  position: relative;
+}
+/* Gridlines are painted, not built from elements: one element per cell drew a
+   box around every empty slot, which read as an input field rather than a
+   schedule. The second layer is the present — everything left of it exists. */
+.rm-track {
+  background-image:
+    linear-gradient(to right,
+      transparent calc(25% - 1px), rgba(93,227,255,.55) calc(25% - 1px),
+      rgba(93,227,255,.55) 25%, transparent 25%),
+    repeating-linear-gradient(to right,
+      var(--line) 0 1px, transparent 1px 25%);
+}
+.rm-head .rm-track { background-image: none; }
+
+/* header */
+.rm-head { border-bottom: 1px solid var(--line-hi); background: var(--bg-2); }
+.rm-head .rm-corner { padding: 15px 20px; display: flex; align-items: flex-end; }
+.rm-head .rm-corner span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted-dim);
+}
+.rm-ph { grid-row: 1; padding: 15px 16px; display: flex; flex-direction: column; gap: 3px; }
+.rm-ph b { font-size: 14px; font-weight: 600; letter-spacing: -.005em; color: var(--ink); }
+.rm-ph span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--muted-dim);
+}
+.rm-ph.is-now b { color: var(--cyan); }
+
+/* lane bands */
+.rm-lane {
+  grid-column: 1 / -1;
+  padding: 11px 20px;
+  background: var(--bg-1);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-soft); font-weight: 600;
 }
 
-@media (max-width: 720px) {
-  .rm-band { grid-template-columns: 1fr; gap: 16px; padding: 24px 0; }
-  .rm-thesis, .rm-pause { padding: 22px 20px; }
+/* rows */
+.rm-grid-row.rm-r { border-bottom: 1px solid var(--line); }
+.rm-grid-row.rm-r:last-child { border-bottom: 0; }
+.rm-label { padding: 14px 18px 14px 20px; display: flex; flex-direction: column; gap: 3px; justify-content: center; }
+.rm-label b { font-size: 14.5px; font-weight: 550; letter-spacing: -.005em; line-height: 1.3; }
+.rm-label span { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+.rm-track.rm-body { padding: 11px 0; }
+
+/* bars */
+.rm-bar {
+  grid-row: 1;
+  align-self: center;
+  margin: 0 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -.003em;
+  color: #06131c;
+  background: var(--grad);
+  display: flex; align-items: center; gap: 8px;
+  min-width: 0;
+  box-shadow: 0 8px 22px -14px rgba(58,167,255,.9);
+}
+.rm-bar.t-ship  { background: linear-gradient(100deg,#7bf2dc,#8ef7e6); }
+.rm-bar.t-build { background: linear-gradient(100deg,#3aa7ff,#5de3ff); }
+.rm-bar.t-next  { background: linear-gradient(100deg,#2f7fd6,#3aa7ff); color:#f2f9ff; }
+.rm-bar.t-explore {
+  background: transparent; color: var(--ink-soft);
+  border: 1px dashed var(--line-hi); box-shadow: none; font-weight: 500;
+}
+.rm-bar.t-hold {
+  background: repeating-linear-gradient(135deg,
+    rgba(133,152,180,.16) 0 7px, transparent 7px 14px);
+  color: var(--ink-soft);
+  border: 1px dashed var(--muted-dim);
+  box-shadow: none; font-weight: 500;
+}
+.rm-bar .tick { flex: none; opacity: .8; }
+
+/* the co-land tie: two bars that must ship in the same release */
+.rm-tie { grid-row: 1; align-self: center; position: relative; pointer-events: none; }
+.rm-tie::before {
+  content: "";
+  position: absolute; left: 14px; right: 14px; top: 50%;
+  border-top: 1px dashed var(--cyan); opacity: .55;
+}
+.rm-tie span {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  background: var(--bg-2); padding: 1px 9px; border-radius: 999px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em;
+  color: var(--cyan); border: 1px solid var(--line-hi); white-space: nowrap;
+}
+
+/* legend + notes under the chart */
+.rm-key {
+  display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center;
+  padding: 14px 20px; border-top: 1px solid var(--line); background: var(--bg-2);
+  font-family: var(--mono); font-size: 11.5px; color: var(--muted);
+}
+.rm-key i { width: 24px; height: 11px; border-radius: 3px; display: inline-block; flex: none; }
+.rm-key .k { display: flex; align-items: center; gap: 8px; }
+
+.rm-scrollnote {
+  display: none; padding: 9px 20px; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 11px; color: var(--muted-dim);
+}
+
+.rm-after { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; margin-top: 28px; }
+.rm-note-card {
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--panel); padding: 20px 22px; display: grid; gap: 8px;
+}
+.rm-note-card h3 { margin: 0; font-size: 16.5px; letter-spacing: -.01em; }
+.rm-note-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; }
+.rm-note-card .rm-parked { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 3px; }
+.rm-note-card.is-wide { grid-column: 1 / -1; }
+
+@media (max-width: 900px) {
+  .rm-scrollnote { display: block; }
+  .rm-wide { width: min(100%, 94vw); }
 }

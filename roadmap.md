@@ -8,104 +8,108 @@ Roadmap
 
 ## One engine, many front ends
 
-AetherSDR is being split in two: an engine that owns the radio, and a user interface that talks to it over a versioned protocol. Everything below either builds toward that split or waits for it. Phases are an order of work, not dates — we ship when a piece is right rather than when a calendar says so.
+AetherSDR is being split in two: an engine that owns the radio, and an interface that talks to it over a versioned protocol. Everything below either builds toward that split or waits for it. The columns are an order of work, not dates — we ship a piece when it is right rather than when a calendar says so.
 
-### Why the split is worth doing
+Work
 
-Today the interface and the radio engine are one program, so the engine cannot run without a screen and the interface cannot be replaced without rebuilding everything. Separating them means the engine can run headless on the machine next to the radio, a second device can drive it across the network, and a browser or a text interface becomes possible without touching radio code. It also means every transmit safeguard lives in one place, below the boundary, where no client can talk its way past it.
+**Shipped**available now
 
-6
+**Building now**in progress
 
-Radio families behind one interface
+**Next**after the above
 
-3
+**Exploring**designed before built
 
-Native platforms, no emulation
+Radios
 
-1
+**One interface for every radio**A new model became a self-contained piece of work instead of a change threaded through the whole application.
 
-Engine, once the split lands
+v26.7.4 · shipped
 
-GPL
+**Hermes-Lite 2**Receive and transmit, with the signal chain running on your computer.
 
-v3, all of it
+v26.7.4 · shipped
 
-#### Shipped
+**Networked Icom**Control and audio over the network, with each model's real capabilities read from the radio.
 
-available now
+v26.8.2 · shipped
 
-##### The radio boundary v26.7.4
+**ANAN-G2 and RTL-SDR receive**openHPSDR Protocol 2 and RTL dongles, both demodulating through the same chain.
 
-Every radio now sits behind one internal interface, so support for a new model is a self-contained piece of work rather than a change threaded through the whole application. The engine also became a library in its own right, which is what makes a headless build possible at all.
+shipped
 
-##### Hermes-Lite 2 v26.7.4
+**New radio families**Deliberately paused. Four are written or requested — see below for why they wait.
 
-Direct-sampling receive and transmit with the signal processing running on your computer, including the noise reduction, filters and transmit chain you already use on a FlexRadio.
+paused until the split lands
 
-##### Networked Icom v26.8.2
+The engine
 
-Control and audio over the network for Icom transceivers that speak it, with each model's real capabilities read from the radio rather than assumed.
+**The engine as a library**What makes a build with no interface attached possible at all.
 
-##### ANAN-G2 and RTL-SDR receive
+shipped
 
-Receive support for Apache Labs ANAN over openHPSDR Protocol 2, and for RTL-SDR dongles. Both demodulate on your computer through the same signal chain.
-
-##### Transmit safeguards, tightened
-
-Every intent that can key a transmitter — including the antenna tuner, which had slipped through — now passes the same refusal checks, and the engine reports a blocked control instead of silently doing nothing.
-
-#### Building now
+**The control protocol**The engine describes what the radio can do; the interface subscribes to what it needs. Both upgrade independently.
 
 in progress
 
-##### The control protocol
+**Transmit arbitration and per-client authorisation**Exactly one client may key the transmitter, and each is authorised separately.
 
-A versioned conversation between engine and interface: the engine describes what the connected radio can actually do, the interface subscribes to what it needs, and both sides can be upgraded independently.
+in progress
 
-##### Transmit arbitration and per-client authorisation
+These two ship together, never one after the other.
 
-Once more than one client can reach the engine, exactly one of them may key the transmitter at a time, and each is authorised separately. This lands together with the protocol rather than after it — a scriptable interface that could reach the transmitter before the guard existed is not something we ship, even briefly.
+same release
 
-##### Honest capability reporting
+**Spectrum and audio across the network**Shared memory on one machine, compressed frames over a link, so a remote interface gets the same waterfall.
 
-Radios revise what they can do mid-session, and a control that quietly stops matching the radio is worse than one that is plainly unavailable. Every backend is being made to announce its changes so the interface never shows a control the radio cannot honour.
+next
 
-#### Next
+Interfaces
 
-after the above
+**The native desktop application**Linux, macOS and Windows. Maintained and improved throughout, not frozen while the split happens.
 
-##### Spectrum and audio across the network
+shipped, and continuing throughout
 
-A dedicated path for the heavy data, shared memory on the same machine and compressed frames over a network link, so a remote interface gets the same waterfall and audio as one sitting at the radio.
+**A reference thin client**Part of the desktop, ported to speak the protocol — proof the boundary is complete.
 
-##### A reference thin client
+next
 
-Part of the existing desktop interface, ported to speak the protocol instead of calling the engine directly. It exists to prove the boundary is complete — if a real interface can be built on it, so can any other.
+**A browser interface**Once the protocol carries everything the desktop needs, this is an interface problem rather than a radio one.
 
-#### Exploring
+exploring
 
-designed before built
+**Two radios in one session**Needs decisions about audio routing, settings separation and which radio a transmit request means.
 
-##### A browser interface
+exploring
 
-Once the protocol carries everything the desktop needs, a web client is an interface problem rather than a radio one. It follows the proven protocol rather than leading it.
+Across everything
 
-##### Two radios in one session
+**Transmit safeguards**Every intent that can key a transmitter passes the same refusal checks — including the antenna tuner, which had slipped through.
 
-Running a second receiver alongside your main radio — a remote antenna, a second site, a receive-only source — needs decisions about audio routing, settings separation and which radio a transmit request means, before any of it is code.
+shipped, and hardened as the split proceeds
 
-### Why new radios are paused
+**Honest capability reporting**A control that quietly stops matching the radio is worse than one that is plainly unavailable.
 
-We are not adding support for new radio families until the engine split is finished. Each additional radio multiplies work on a boundary that is still moving: capability reporting is not yet consistent across the radios we already support, the original FlexRadio path still bypasses part of the new data route, and the conversion of the command path has not started. Adding a seventh and eighth radio now would mean doing each of those conversions twice more, against code that is changing underneath them.
+in progress
 
-Finishing first makes every radio after it cheaper to add, safer to review, and less likely to arrive with the quiet gaps that are expensive to find later.
+Shipped Building now Next Exploring Paused on purpose │ the line marks today
+
+Scroll the chart sideways to see later phases.
+
+#### Why new radios are paused
+
+Each additional radio multiplies work on a boundary that is still moving: capability reporting is not yet consistent across the radios we already support, the original FlexRadio path still bypasses part of the new data route, and the conversion of the command path has not started. Adding a seventh and eighth radio now would mean doing each of those conversions twice more, against code that is changing underneath them. Finishing first makes every radio after it cheaper to add and safer to review.
 
 ColibriNANO — parked Yaesu FT-991 — parked Expert Electronics SunSDR — queued ADALM-Pluto — queued
 
-Parked is not declined. Two of these are finished, reviewed contributions waiting on sequencing rather than quality, and the work is credited to the people who wrote it. Radios we already support keep getting fixes and improvements throughout.
+Parked is not declined. Two of these are finished, reviewed contributions waiting on sequencing rather than quality, and the work is credited to the people who wrote it. Radios we already support keep getting fixes throughout.
 
-### Shaping what comes next
+#### Why the split is worth doing
 
-This roadmap is written in public and argued about in public. Feature requests, radio support and design disagreements all live in the issue tracker, and the decisions behind them are written down rather than announced. If something here matters to your station, the discussion is the place to say so.
+Today the interface and the radio engine are one program, so the engine cannot run without a screen and the interface cannot be replaced without rebuilding everything. Separating them lets the engine run headless next to the radio, lets another device drive it across the network, and puts every transmit safeguard in one place below the boundary where no client can talk its way past it.
 
-[Issue tracker](https://github.com/aethersdr/AetherSDR/issues) [Discussions](https://github.com/aethersdr/AetherSDR/discussions) [Sponsor the work](https://opencollective.com/aethersdr)
+#### Shaping what comes next
+
+This roadmap is written in public and argued about in public. Feature requests, radio support and design disagreements live in the issue tracker, and the decisions behind them are written down rather than announced.
+
+[Issue tracker](https://github.com/aethersdr/AetherSDR/issues) [Discussions](https://github.com/aethersdr/AetherSDR/discussions)
