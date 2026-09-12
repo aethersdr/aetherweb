@@ -996,3 +996,118 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 @media (prefers-reduced-motion: reduce) {
   .sup-scope { box-shadow: none; }
 }
+
+/* ==========================================================================
+   Roadmap — what is shipped, what is being built, and what is deliberately paused
+   ========================================================================== */
+
+.rm-hero .section-head { max-width: 780px; }
+.rm-hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin: 10px 0 14px;
+}
+.rm-hero .lede { color: var(--ink-soft); font-size: 18px; max-width: 66ch; }
+
+/* The through-line callout: one idea the whole roadmap hangs off. */
+.rm-thesis {
+  margin: 34px 0 0;
+  padding: 26px 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-hi);
+  background: var(--grad-soft);
+  display: grid;
+  gap: 10px;
+}
+.rm-thesis h2 { margin: 0; font-size: 21px; letter-spacing: -0.01em; }
+.rm-thesis p { margin: 0; color: var(--ink-soft); max-width: 74ch; }
+
+/* Status rail — each band is a phase, not a date. */
+.rm-rail { display: grid; gap: 0; margin-top: 12px; }
+.rm-band {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 0 28px;
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+}
+.rm-band:first-child { border-top: 0; }
+.rm-band-head { position: relative; padding-left: 22px; }
+.rm-band-head::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 7px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--st, var(--muted));
+  box-shadow: 0 0 0 4px rgba(93, 227, 255, 0.10);
+}
+.rm-band-head h3 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+.rm-band-head .when {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted-dim);
+  letter-spacing: 0.04em;
+}
+.rm-items { display: grid; gap: 14px; }
+.rm-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  padding: 18px 20px;
+  display: grid;
+  gap: 7px;
+}
+.rm-item h4 {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: -0.005em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+.rm-item h4 .ver {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--cyan);
+  border: 1px solid var(--line-hi);
+  border-radius: 999px;
+  padding: 1px 9px;
+  letter-spacing: 0.02em;
+}
+.rm-item p { margin: 0; color: var(--ink-soft); font-size: 14.5px; max-width: 70ch; }
+
+/* The pause. Deliberately not styled as a warning — it is a decision. */
+.rm-pause {
+  margin-top: 8px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  padding: 28px 30px;
+  display: grid;
+  gap: 14px;
+}
+.rm-pause h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+.rm-pause p { margin: 0; color: var(--ink-soft); max-width: 74ch; }
+.rm-parked { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.rm-note {
+  font-size: 13.5px;
+  color: var(--muted);
+  border-left: 2px solid var(--line-hi);
+  padding-left: 14px;
+  max-width: 70ch;
+}
+
+@media (max-width: 720px) {
+  .rm-band { grid-template-columns: 1fr; gap: 16px; padding: 24px 0; }
+  .rm-thesis, .rm-pause { padding: 22px 20px; }
+}
