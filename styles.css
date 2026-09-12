@@ -1064,10 +1064,16 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 .rm-relbar .rm-mini:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .rm-relbar .rm-count { font-family: var(--mono); font-size: 11.5px; color: var(--muted-dim); margin-left: auto; }
 
+/* Columns are a FIXED height and scroll their own category list. Letting a
+   column grow on expand pushed everything below it down the page, which moved
+   the thing the reader had just clicked. */
 .rm-rels {
   display: grid; grid-auto-flow: column; grid-auto-columns: minmax(268px, 1fr);
-  gap: 14px; overflow-x: auto; padding-bottom: 8px; align-items: start;
+  gap: 14px; overflow-x: auto; padding-bottom: 8px; align-items: stretch;
 }
+.rm-rel { display: flex; flex-direction: column; height: 560px; }
+.rm-rel-head { flex: 0 0 auto; }
+.rm-cats { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; }
 /* The default scrollbar renders as a bright bar across a dark page. */
 .rm-rels, .rm-chart { scrollbar-width: thin; scrollbar-color: var(--line-hi) transparent; }
 .rm-rels::-webkit-scrollbar, .rm-chart::-webkit-scrollbar { height: 10px; }
@@ -1079,6 +1085,10 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 }
 .rm-rel { border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--panel); overflow: hidden; }
+.rm-cats { scrollbar-width: thin; scrollbar-color: var(--line-hi) transparent; }
+.rm-cats::-webkit-scrollbar { width: 9px; }
+.rm-cats::-webkit-scrollbar-track { background: transparent; }
+.rm-cats::-webkit-scrollbar-thumb { background: var(--line-hi); border-radius: 999px; }
 .rm-rel.is-latest { border-color: var(--line-hi); box-shadow: var(--shadow-glow); }
 .rm-rel-head { padding: 16px 16px 14px; border-bottom: 1px solid var(--line);
   background: var(--bg-2); display: grid; gap: 9px; justify-items: start; }
@@ -1092,7 +1102,9 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 }
 .rm-rel-sub { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
 
-.rm-cats { display: grid; gap: 1px; background: var(--line); }
+/* align-content:start so a release with three categories packs them at the
+   top instead of spreading them down a fixed-height column. */
+.rm-cats { display: grid; gap: 1px; background: var(--line); align-content: start; }
 details.rm-cat { background: var(--bg-1); border-left: 3px solid var(--area, var(--line-hi)); }
 details.rm-cat > summary {
   list-style: none; cursor: pointer; padding: 12px 14px;

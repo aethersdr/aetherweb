@@ -64,6 +64,12 @@
   window.addEventListener('popstate', route);
   route();
 
+  // Newest release sits at the right-hand end, so start the view there rather
+  // than on a release from months ago. Instant, not smooth: this is the
+  // starting position, not a movement the reader should watch.
+  var rels = document.querySelector('.rm-rels');
+  if (rels) rels.scrollLeft = rels.scrollWidth;
+
   // Expand / collapse every category in the release view. The accordions are
   // native <details>, so they already work without this — these two buttons
   // just save thirty-nine clicks.
