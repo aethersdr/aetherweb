@@ -14,127 +14,383 @@ Release view
 
 Progress
 
-Radios Engine Interfaces Across everything Released Committed Tentative Paused
+Expand all categories
 
-**Shipped**available now*6*
+Collapse all categories
 
-ReleasedRadios
+10 releases · 57 entries · newest first
 
-#### One interface for every radio
+v26.9.2 Released, 6 Sep 2026 New receivers, multi-band skimming and station control
 
-Supporting a new model became a self-contained piece of work instead of a change threaded through the whole application.
+Radios3 entries
 
-v26.7.4
+Experimental **Experimental ANAN-G2 reception**
 
-ReleasedRadios
+openHPSDR Protocol 2 discovery, a single receive path, spectrum and audio, with live tuning and zoom. Receive only for now.
 
-#### Hermes-Lite 2
+#5143
 
-Receive and transmit, with the signal chain running on your computer.
+Experimental **Experimental RTL-SDR USB reception**
 
-v26.7.4
+A single slice and panadapter with AM, FM, SSB and CW demodulation, on builds carrying the RTL libraries.
 
-ReleasedRadios
+#4862
 
-#### Networked Icom
+**Icom identified from the wire**
 
-Control and audio over the network, with each model's real capabilities read from the radio rather than assumed.
+Model identification and optional wake on connect replace reliance on an editable network nickname.
 
-v26.8.2
+#5438
 
-ReleasedRadios
+Transmit & CW2 entries
 
-#### ANAN-G2 and RTL-SDR receive
+**Recordings capture sent CW**
 
-openHPSDR Protocol 2 and RTL dongles, both demodulating through the same chain.
+Client-side recordings capture the keyed signal instead of microphone input.
 
-shipped
+#5278
 
-ReleasedEngine
+**CWX sidetone follows the keyer**
 
-#### The engine as a library
+The sidetone tracks the keyer's scheduled edges rather than drifting from them.
 
-What makes a build with no interface attached possible at all.
+#5129
 
-shipped
+Station Control2 entries
 
-ReleasedAcross everything
+**SPE floating front panel**
 
-#### Transmit safeguards
+A live amplifier LCD mirror with guarded front-panel keys.
 
-Every intent that can key a transmitter passes the same refusal checks — including the antenna tuner, which had slipped through.
+#5393
 
-continuing
+**TelePost LP-100A wattmeter**
 
-**Building now**in progress*3*
+Readings over local serial or a serial-to-network proxy. Read-only in this first version.
 
-CommittedEngine
+#5320
 
-#### The control protocol
+Data Modes & Spotting2 entries
 
-The engine describes what the radio can do; the interface subscribes to what it needs. Both upgrade independently.
+**Four concurrent TCI DAX IQ subscriptions**
 
-ships with transmit arbitration
+Several CW skimmers through one TCI server. Receivers on one panadapter share its IQ stream.
 
-CommittedEngine
+#4951
 
-#### Transmit arbitration and per-client authorisation
+**KiwiSDR directory from the CDN mirror**
 
-Exactly one client may key the transmitter, and each is authorised separately. Never lands after the protocol — always with it.
+The public-receiver browser reads its directory from the AetherSDR mirror, and stale data is advisory rather than fatal.
 
-ships with the protocol
+#5445, #5449
 
-CommittedAcross everything
+Core & Platform1 entry
 
-#### Honest capability reporting
+**Headless engine and packaging**
 
-A control that quietly stops matching the radio is worse than one that is plainly unavailable.
+Further work toward the engine that runs with no interface attached.
 
-in progress
+v26.9.1 Released, 29 Aug 2026 Globe maps, antenna control and operator polish
 
-**Next**after the above*2*
+Radios2 entries
 
-CommittedEngine
+**Radio-authoritative memories and signalling**
 
-#### Spectrum and audio across the network
+Memory contents and signalling follow the radio rather than a local guess.
 
-Shared memory on one machine, compressed frames over a link, so a remote interface gets the same waterfall as one sitting at the radio.
+**More accurate IC-9700 controls and telemetry**
 
-needs the protocol first
+Controls and readouts match what the radio actually reports.
 
-CommittedInterfaces
+Spectrum & Display1 entry
 
-#### A reference thin client
+**Optional globe projection for PSK Reporter**
 
-Part of the desktop, ported to speak the protocol — proof the boundary is complete. If a real interface can be built on it, so can any other.
+The reception map can be drawn on a globe instead of a flat projection.
 
-after the data plane
+#5273
 
-**Exploring**designed before built*3*
+Station Control1 entry
 
-TentativeInterfaces
+**Green Heron Everyware antenna control**
 
-#### A browser interface
+Rotator control from the station, alongside the existing peripherals.
 
-Once the protocol carries everything the desktop needs, this is an interface problem rather than a radio one.
+#5209
 
-follows the protocol
+Data Modes & Spotting1 entry
 
-TentativeInterfaces
+**RTTY decoder sensitivity**
 
-#### Two radios in one session
+The decoder copies weaker signals than it previously would.
 
-Needs decisions about audio routing, settings separation and which radio a transmit request means, before any of it is code.
+#5132
 
-design first
+Core & Platform1 entry
 
-PausedRadios
+**System Info gains Threads and Logs tabs**
 
-#### New radio families
+Diagnostics for support, without leaving the application.
 
-Four are written or requested. They wait until the split lands — see below for why, and why paused is not declined.
+#5246
 
-paused on purpose
+v26.8.4 Released, 22 Aug 2026 Evidence-backed Icom, client-timed HL2 CW, faster maps
+
+Radios1 entry
+
+**The radio's own mode vocabulary reaches the UI**
+
+Modes are read from the radio rather than mapped onto an assumed list.
+
+#5106
+
+Spectrum & Display1 entry
+
+**Faster PSK Reporter maps**
+
+The reception map redraws noticeably faster.
+
+Receive & Audio1 entry
+
+**Steadier audio and noise reduction**
+
+Fixes across the receive chain and the noise-reduction stages.
+
+Transmit & CW2 entries
+
+**CI-V CW text keying**
+
+Text keying over CI-V, sent as CWK.
+
+#5113
+
+**Client-timed CW on Hermes-Lite 2**
+
+Element timing is generated on the computer, where the keyer's schedule is known.
+
+Station Control1 entry
+
+**Steadier controllers, MIDI and TCI**
+
+Control-surface and TCI handling hold their state more reliably.
+
+v26.8.3 Released, 16 Aug 2026 The workspace canvas, an Icom command scheduler, a real BFO
+
+Radios3 entries
+
+**A CI-V command scheduler**
+
+Commands to Icom radios are paced rather than queued blindly.
+
+#5006
+
+**IC-7300MK2 remote controls and meters**
+
+Controls, metering and certification for the MK2.
+
+#4981
+
+**Ask the radio for its own CI-V address**
+
+The address is read from the radio instead of configured by hand.
+
+#4991
+
+Spectrum & Display3 entries
+
+**The workspace canvas**
+
+Panes arranged freely on a canvas, with persistence and a migration from the Classic layout.
+
+#4900
+
+**Named workspaces**
+
+Full recall, profile bindings and pop-out import.
+
+#4964
+
+**Additional canvas windows**
+
+More than one canvas window at a time.
+
+#4971
+
+Receive & Audio1 entry
+
+**A noise blanker and a real BFO for Hermes-Lite 2**
+
+Host-side noise blanking, and a BFO that places the passband where the marker is.
+
+Transmit & CW1 entry
+
+**The transmit voice chain moves to 48 kHz float**
+
+Higher rate and float precision through the whole voice path.
+
+Station Control1 entry
+
+**VK3AMP amplifiers**
+
+Support for the VK3AMP amplifier family.
+
+v26.8.2 Released, 9 Aug 2026 A third radio family: networked Icom
+
+Radios2 entries
+
+**Networked Icom**
+
+A third radio family, starting with the IC-705 over its network interface.
+
+**Notches and frequency calibration for Hermes-Lite 2**
+
+Manual notches, plus calibration of the radio's frequency reference.
+
+Transmit & CW1 entry
+
+**CW timing to spec**
+
+Element and gap timing measured against the specification rather than by feel.
+
+Station Control1 entry
+
+**SPE Expert amplifiers**
+
+Control and status for the SPE Expert range.
+
+Data Modes & Spotting1 entry
+
+**Three new spot overlays**
+
+More sources drawn over the panadapter.
+
+v26.8.1 Released, 2 Aug 2026 Hermes-Lite 2 grows up, settings move to SQLite
+
+Radios1 entry
+
+**Hermes-Lite 2 grows up**
+
+The experimental backend becomes usable day to day.
+
+Data Modes & Spotting1 entry
+
+**TCI PTT routing fixed**
+
+Transmit requests from TCI clients reach the right place.
+
+Core & Platform3 entries
+
+**The client settings store moves to SQLite**
+
+A durable store replacing the previous file format.
+
+RFC #4603
+
+**The interface follows what the radio can do**
+
+Controls are gated on capabilities the radio reports rather than on its model name.
+
+**Qt 6.8 across every build**
+
+One toolkit version on all three platforms.
+
+v26.7.4 Released, 26 Jul 2026 Demo mode, on-device speech-to-text, experimental Hermes-Lite 2
+
+Radios1 entry
+
+Experimental **Experimental Hermes-Lite 2**
+
+The first radio family behind the new backend boundary.
+
+Receive & Audio2 entries
+
+**Copy Assist**
+
+On-device speech-to-text over received audio. Nothing leaves the machine.
+
+**NR2 spectral noise reduction**
+
+A second noise-reduction stage alongside the existing ones.
+
+Core & Platform2 entries
+
+**The radio boundary**
+
+Every radio moves behind one internal interface, which is what makes a headless engine possible.
+
+**Demo mode**
+
+A synthetic radio with spectrum and audio, so the application can be explored with no hardware at all.
+
+v26.7.3 Released, 19 Jul 2026 Cross-needle metering and operating polish
+
+Radios1 entry
+
+**Radio, display and slice fidelity**
+
+State follows the radio more closely across display and slice controls.
+
+Station Control1 entry
+
+**Cross-needle meter**
+
+Forward power, reflected power and SWR read from one instrument.
+
+v26.7.2 Released, 12 Jul 2026 An MCP server, the backend seam, BNR on RTX 50-series
+
+Receive & Audio1 entry
+
+**BNR on RTX 50-series**
+
+NVIDIA broadband noise reduction running on the current generation.
+
+Data Modes & Spotting1 entry
+
+**D-STAR over ThumbDV**
+
+Local digital voice through a ThumbDV dongle.
+
+Automation & Agents1 entry
+
+**An MCP server for AI agents**
+
+The application exposes its own actions to agents over MCP.
+
+Core & Platform2 entries
+
+**The aetherd radio-backend seam**
+
+The first cut of the interface every radio now sits behind.
+
+**Searchable Radio Setup**
+
+Settings can be found by name rather than by hunting pages.
+
+v26.7.1 Released, 2 Jul 2026 The 3D stacked-trace spectrum
+
+Spectrum & Display2 entries
+
+**3D stacked-trace spectrum**
+
+Perspective FFT history with floor-anchored ridges, drawn on the GPU.
+
+**60 fps panadapters**
+
+The spectrum path reaches 60 frames per second.
+
+Receive & Audio1 entry
+
+**In-process NVIDIA BNR**
+
+Broadband noise reduction without a separate helper process.
+
+Transmit & CW1 entry
+
+**Transmit meter readouts**
+
+Numeric readouts alongside the transmit meters.
+
+Scroll sideways for earlier releases — the full history is in the changelog.
 
 #### Why new radios are paused
 

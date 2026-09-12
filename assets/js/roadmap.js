@@ -63,4 +63,16 @@
   window.addEventListener('hashchange', route);
   window.addEventListener('popstate', route);
   route();
+
+  // Expand / collapse every category in the release view. The accordions are
+  // native <details>, so they already work without this — these two buttons
+  // just save thirty-nine clicks.
+  var bulk = document.querySelectorAll('.rm-mini[data-cats]');
+  for (var b = 0; b < bulk.length; b++) {
+    bulk[b].addEventListener('click', function (ev) {
+      var open = ev.currentTarget.getAttribute('data-cats') === 'open';
+      var cats = document.querySelectorAll('details.rm-cat');
+      for (var c = 0; c < cats.length; c++) cats[c].open = open;
+    });
+  }
 }());

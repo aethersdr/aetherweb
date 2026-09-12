@@ -7,8 +7,8 @@ export const MD_MAP = {
   '/blog.md': { asset: '/blog.md', tokens: 33127 },
   '/lineage': { asset: '/lineage.md', tokens: 1994 },
   '/lineage.md': { asset: '/lineage.md', tokens: 1994 },
-  '/roadmap': { asset: '/roadmap.md', tokens: 960 },
-  '/roadmap.md': { asset: '/roadmap.md', tokens: 960 },
+  '/roadmap': { asset: '/roadmap.md', tokens: 2104 },
+  '/roadmap.md': { asset: '/roadmap.md', tokens: 2104 },
   '/supporters': { asset: '/supporters.md', tokens: 495 },
   '/supporters.md': { asset: '/supporters.md', tokens: 495 },
 };
