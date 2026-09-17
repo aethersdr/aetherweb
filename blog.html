@@ -134,6 +134,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#adaptive-throttle-cq-wpx-cw">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/adaptive-throttle-cq-wpx-cw-card.svg" alt="A cross-needle meter over an AetherSDR spectrum trace, for the CQ WPX CW station-notes post" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-09-17">September 17, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>4 min read</span>
+              </span>
+              <h3>Adaptive Throttle held the line at CQ WPX CW — and two more bugs died live, mid-contest</h3>
+              <p>1,048 QSOs, 4 bands, 73 DXCC entities, over 47 hours 40 minutes, run remote to KB8O on a link that was never fully reliable. Adaptive Throttle kept it from ever tearing down — and two more bugs, in the amp/tuner reconnect path and the PWR/SWR meters, got found and fixed live, mid-contest.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-9-1">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-9-1-card.svg" alt="v26.9.1 release art — the map goes round, drawn as an AetherSDR spectrum panel" />
@@ -601,6 +619,68 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="adaptive-throttle-cq-wpx-cw" tabindex="-1" aria-labelledby="h-adaptive-throttle-cq-wpx-cw" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/adaptive-throttle-cq-wpx-cw-hero.svg" alt="A cross-needle meter reading steady under load, over an AetherSDR spectrum trace — CQ WPX CW, 1,048 QSOs" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-09-17">September 17, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>4 min read</span>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>@chibondking (CJ, WT2P) operating the NW8S (KB8O) FlexRadio station remotely</span>
+        </span>
+        <h1 id="h-adaptive-throttle-cq-wpx-cw">Adaptive Throttle held the line at CQ WPX CW — and two more bugs died live, mid-contest</h1>
+
+        <div class="blog-body">
+          <p class="lede">CQ WPX CW this year was 1,048 QSOs, 4 bands, 73 DXCC entities, over 47 hours 40 minutes — run entirely on a FlexRadio in KB8O's shack in Ohio, from my desk in Illinois, over a link that was variable in its reliability (VPN, etc.). This is the post about why it held anyway, and about two bugs that only showed themselves under real contest load and got fixed while the clock was still running.</p>
+
+          <h2>At a glance</h2>
+
+          <ul>
+            <li><strong>QSOs:</strong> 1,048 (435 on 40m, 494 on 20m, 109 on 15m, 10 on 10m)</li>
+            <li><strong>Avg rate:</strong> 22/h</li>
+            <li><strong>Best hour:</strong> 95 Q</li>
+            <li><strong>Best 10 min:</strong> 25 Q (~150/h)</li>
+            <li><strong>DXCC / zones:</strong> 73 / 24</li>
+            <li><strong>Longest gap:</strong> 10h 43m</li>
+          </ul>
+
+          <h2>The link isn't the problem. Panic over the link is.</h2>
+
+          <p>Adaptive Throttle (#2829) didn't come out of this contest — it came out of getting fed up with AetherSDR bailing on a merely-congested link like it was a dead one. Before the fix, 5 missed pings (about 5 seconds) was enough to declare the connection gone, tear down every panadapter, and force a full state rebuild. SmartSDR doesn't do this; it leans on the link by dropping frame rate first. So that's what AT does: as the measured network-quality score steps down through Good → Fair → Poor, every owned panadapter (not just the active one) gets told to cut its FFT/waterfall rate — 15fps/150ms → 8fps/250ms → 4fps/500ms — before pings ever start failing. Once you're actually in Poor, the disconnect threshold itself extends from 5 missed pings to 15, on the theory that the throttle has already bought the link some room to recover. Lift the throttle and each panadapter's own configured fps/waterfall setting gets pushed back to the radio — nothing generic, no guessing at what it "should" be.</p>
+
+          <p>I proved this on a 0300 CWT sprint before WPX, running remote to KB8O over a genuinely marginal link — an hour of Good/15fps with one clean dip to Poor/4fps and a clean recovery, no disconnects. WPX was the real test. I don't have a screenshot with a timestamp on it — I was a little busy — but I watched the link step down to 8fps multiple times over the weekend, and at no point did I lose a panadapter or get kicked back to a rebuild. That's the whole point of the feature: it should be boring.</p>
+
+          <h2>Two bugs that only exist when you actually contest</h2>
+
+          <p>Adaptive Throttle covers the radio link. It has nothing to do with the amp, the tuner, or the antenna switch — and WPX is exactly the kind of run that finds the gaps between those systems.</p>
+
+          <p><strong>PGXL/TGXL/Antenna Genius would drop and just stay dropped.</strong> SmartSDR's own utilities for these devices reconnect on their own when a TCP hiccup happens over a remote link. AetherSDR's direct connections to them didn't — a drop meant a blank applet and a manual reconnect, every time, in the middle of a run. #3321 gives each of those connections a 5-second retry loop with a guard so it doesn't fight you if you disconnect on purpose, plus a fix for the case where the retry itself fails before the device comes back (Qt reports that as a different signal than a clean disconnect, and the first version of this patch didn't re-arm the timer for it — so it would try once and give up).</p>
+
+          <p><strong>The PWR/SWR meters were technically live and practically useless.</strong> During a run they updated so fast the numbers were just noise — you couldn't actually read what the amp was doing between calls. #3277 gives the forward-power gauge slow-release ballistics (30ms attack, 800ms release) so a brief TX burst stays visible instead of flickering past, and throttles the numeric labels to update at 10Hz while the gauge fill still animates at full rate. Small fix, but it's the difference between a meter you glance at and one you have to stare at.</p>
+
+          <p>Both of these got found and fixed inside the contest window, not after it. Pattern was the same each time: notice it live, describe the bug to Claude, have it build a local Windows executable, run that build in place at the operating position, confirm the fix actually holds — then push the PR once the contest itself wasn't the thing depending on it.</p>
+
+          <h2>Where that leaves it</h2>
+
+          <p>Adaptive Throttle got tested twice — once on purpose, once for real — and then just became part of the app. I've run it daily on every remote session from May through now, September, with no reason to touch it. The peripheral reconnect and metering fixes have been running solid for months too — not patches that happened to hold over one weekend, but mature parts of the app at this point. All three came out of the same loop: notice a real failure under real load, fix it, prove it, ship it.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>
