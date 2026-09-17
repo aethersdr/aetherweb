@@ -648,15 +648,16 @@ GLYPHS = {
 }
 
 
-def _release_svg(w, h, version, kicker, motif, wf, trace_peaks, layout):
+def _release_svg(w, h, version, kicker, motif, wf, trace_peaks, layout, aria=None):
     # crc32, not hash(): Python randomises string hashing per process, so this
     # seed used to change on every run and the "deterministic" claim only held
     # within a single invocation. The art committed before this fix was drawn
     # under the old seeding, which is why build_release leaves existing files
     # alone unless you ask for them back.
     rng = random.Random(zlib.crc32(version.encode("utf-8")))
+    aria = aria or f"AetherSDR {version} — {kicker}"
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
-         f'role="img" aria-label="AetherSDR {version} — {kicker}">']
+         f'role="img" aria-label="{aria}">']
     p.append(defs(w, h))
     p.append(f'  <rect width="{w}" height="{h}" fill="url(#bg)"/>')
     p.append(grid(w, h, 40 if w > 800 else 34))
@@ -693,6 +694,26 @@ def build_release(root, slug, version, kicker, motif, force=False):
     card = _release_svg(640, 560, version, kicker, motif,
                         wf=(96, 16), trace_peaks=[(0.34, .07, .52)],
                         layout=(320, 108, 58, 320, 296, 0.92, "middle"))
+    open(paths[0], "w", encoding="utf-8").write(hero)
+    open(paths[1], "w", encoding="utf-8").write(card)
+    return True
+
+
+def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=False):
+    """Same template as build_release, for a non-release post: the big text
+    is a headline rather than a version number, and the aria-label is
+    written out in full instead of the "AetherSDR vX.Y.Z" template."""
+    import os
+    paths = [os.path.join(root, f"{slug}-{crop}.svg") for crop in ("hero", "card")]
+    if not force and all(os.path.exists(p) for p in paths):
+        return False
+
+    hero = _release_svg(1200, 630, headline, kicker, motif,
+                        wf=(150, 20), trace_peaks=[(0.24, .06, .40), (0.71, .05, .62)],
+                        layout=(96, 214, 72, 916, 286, 1.05, "start"), aria=aria_hero)
+    card = _release_svg(640, 560, headline, kicker, motif,
+                        wf=(96, 16), trace_peaks=[(0.34, .07, .52)],
+                        layout=(320, 108, 46, 320, 296, 0.92, "middle"), aria=aria_card)
     open(paths[0], "w", encoding="utf-8").write(hero)
     open(paths[1], "w", encoding="utf-8").write(card)
     return True
@@ -737,3 +758,11 @@ if __name__ == "__main__":
         print(f"release art: drew {len(drawn)} x 2 crops -> {', '.join(drawn)}")
     else:
         print(f"release art: all {len(RELEASES)} posts already drawn (--force to redraw)")
+
+    print("hero/card", build_note(
+        root, "adaptive-throttle-cq-wpx-cw", "1,048 QSOs", "CQ WPX CW · Station notes",
+        "meter", force=force,
+        aria_hero="A cross-needle meter reading steady under load, over an AetherSDR "
+                  "spectrum trace — CQ WPX CW, 1,048 QSOs",
+        aria_card="A cross-needle meter over an AetherSDR spectrum trace, for the "
+                  "CQ WPX CW station-notes post"))
