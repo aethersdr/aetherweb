@@ -170,6 +170,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-9-2">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-9-2-card.svg" alt="v26.9.2 release art — four skimmers, one stream, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-09-06">September 6, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>6 min read</span>
+              </span>
+              <h3>v26.9.2: four skimmers on one stream, and two more ways to receive</h3>
+              <p>One Flex can now feed four CW skimmers through a single TCI server, experimental ANAN-G2 and RTL-SDR reception arrive, the SPE front panel and an LP-100A wattmeter come inside — and the KiwiSDR directory gets a mirror, so browsing receivers stops billing someone else’s volunteers.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-9-1">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-9-1-card.svg" alt="v26.9.1 release art — the map goes round, drawn as an AetherSDR spectrum panel" />
@@ -780,6 +798,91 @@
           <p><strong>Under the surface.</strong> The <code>IRadioBackend</code> threading and lifetime contract is now pinned by tests, ordinary RX slice lifecycle routes through the backend seam, and backends announce capability revisions with the capability surface frozen in CI. The headless engine gains capability-qualified local receive controls — mode, filter, audio gain and mute, panadapter centre and bandwidth — and stays observe-only unless you pass <code>--allow-local-control</code>; no transmit methods were added. Audio gains a typed producer PCM contract and a rate-aware engine. Several shutdown crashes in the spectrum and VFO menus are fixed, and firmware upload byte accounting now reports an unconfirmed outcome as unconfirmed.</p>
 
           <p>86 merged changes from 16 contributors, plus AetherClaude and one Dependabot update — including four first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.9.3">v26.9.3 on GitHub</a>.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-9-2" tabindex="-1" aria-labelledby="h-release-26-9-2" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-9-2-hero.svg" alt="v26.9.2 release art — four skimmers, one stream, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-09-06">September 6, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>6 min read</span>
+        </span>
+        <h1 id="h-release-26-9-2">v26.9.2: four skimmers on one stream, and two more ways to receive</h1>
+
+        <div class="blog-body">
+          <p class="lede">Sixty-seven merged changes, and most of them widen what you can listen with: four skimmers through one TCI server, two new experimental receive backends, two more pieces of station hardware brought inside the application — and a mirror for a directory that was never ours to lean on.</p>
+
+          <h2>Four skimmers, one stream</h2>
+
+          <p>AetherSDR now supports <strong>four concurrent TCI DAX IQ subscriptions</strong>, so a compatible Flex setup can feed several CW skimmers through a single TCI server instead of one.</p>
+
+          <p>The arithmetic is worth being precise about, because it decides how you set the station up. Receivers pointed at the same panadapter share that panadapter’s IQ stream — so four skimmers on one band cost you one stream. Four <em>independent</em> band spectra are a different thing: those need four panadapters. If what you want is a skimmer on 40, 20, 15 and 10 at once, that is the configuration to build.</p>
+
+          <p>This is the kind of capability that only shows its value at 0400 in a contest, when the thing you most want is to know which band is open without going to look.</p>
+
+          <h2>Two more ways to receive</h2>
+
+          <p>Two new backends arrive, both labelled <strong>experimental</strong> — which, as in the release that first used the word here, is a request for reports rather than a disclaimer.</p>
+
+          <p><strong>ANAN-G2 reception</strong> brings openHPSDR Protocol 2 discovery, a single receive path, spectrum and audio, with live tuning and zoom. This phase is receive-only; transmit is a later one, and the release does not pretend otherwise.</p>
+
+          <p><strong>RTL-SDR USB reception</strong> adds a single slice and panadapter with basic AM, FM, SSB and CW demodulation, on builds that carry the required RTL libraries. Availability varies by package, and selectable sharp passband filtering is not implemented yet. A twenty-dollar dongle is not going to behave like a Flex, and the point of supporting it is not to pretend it does — it is that the workstation you already know can drive it.</p>
+
+          <h2>The station, not just the radio</h2>
+
+          <p>Two more boxes on the desk come inside the application. The <strong>SPE floating front panel</strong> mirrors the amplifier’s LCD live and gives you guarded front-panel keys, so the amp’s own display no longer has to be within arm’s reach. <strong>TelePost LP-100A</strong> support displays the wattmeter’s readings over local serial or a serial-to-network proxy; this first version is read-only, which is the right place for a measurement instrument to start.</p>
+
+          <p>Around them: PGXL and TGXL startup synchronisation gives an honest initial status instead of a blank one, PA current appears when PTT originates at the radio rather than only from the client, the connection panel stays visible at startup, CTCSS choices are easier to read, and radio-specific settings and Flex-only zoom controls are gated to the backends that can actually implement them.</p>
+
+          <h2>A mirror for the Kiwi directory</h2>
+
+          <p>The public-receiver browser now reads its directory from an AetherSDR CDN mirror, and the Worker that maintains that mirror lives in the repository rather than in somebody’s account.</p>
+
+          <p>This is a small change with a principle under it. The world’s KiwiSDRs are run by volunteers, and so is the directory that lists them. An application that points every one of its users straight at that directory is quietly spending someone else’s bandwidth, and the more successful it gets, the more it spends. Mirroring is the polite version of popularity. Our thanks to the KiwiSDR team, who partnered with us to set it up.</p>
+
+          <p>The second half of it: stale directory data is now advisory rather than fatal. If the mirror falls behind, you get a note saying so and a list you can still browse — a degraded answer instead of an empty page.</p>
+
+          <h2>A radio’s own numbers</h2>
+
+          <p>The Icom work this cycle is a broad IC-7300MK2 control cleanup, and the shape of it is the same argument the last few releases have been making: the interface should follow the radio’s supported settings, ranges and native readback, not a plausible-looking approximation of them.</p>
+
+          <p>So CW speed uses the MK2’s actual 6–48 WPM range, and when capabilities change the slider and the numeric editor reconcile together without firing off an unintended command. CW pitch follows the radio’s 5 Hz steps, so button presses and readback agree instead of displaying intermediate values the radio cannot hold. TX bandwidth cutoff encoding is corrected, including the 300 Hz and 500 Hz low-cut selections. Squelch stays usable in CW and data modes and keeps its value across mode changes, rather than being treated as a voice-only control.</p>
+
+          <p>And where the backend cannot implement something — AGC threshold, AGC Off, AM carrier, VOX delay, unsupported repeater offset controls — it is disabled rather than decorative. Selecting an unavailable AGC mode is refused outright instead of silently substituting a different one, which is the failure mode worth removing: a control that quietly does something other than what it says.</p>
+
+          <p>Two details in the same section are worth pulling out. Tune in CW and CW-R is refused <em>before</em> changing power, generating a tone or requesting PTT — the refusal happens where it is still free. And meter readings preserve fractional watts at the radio’s own reporting resolution, with a note in the release that resolution is not accuracy. Reporting a number more precisely than you measured it is its own kind of lie.</p>
+
+          <p>All of these mappings stay model-specific on purpose, so correcting the MK2 does not impose MK2 behaviour on every other Icom. Alongside them, wire-based model identification replaces reliance on an editable network nickname, and an optional wake-on-connect — off by default, with profiles for the IC-705, IC-7300MK2 and IC-9700 — needs the radio’s network interface to stay reachable to work at all.</p>
+
+          <h2>Also in this release</h2>
+
+          <p><strong>CW.</strong> Client-side recordings capture the CW you sent rather than the microphone, CWX sidetone follows the keyer’s scheduled edges, the P/CW pane gains APF toggle and level controls, APF wheel input is ignored while APF is disabled, and CW settings stay stable on backends that don’t echo them back.</p>
+
+          <p><strong>Audio and Flex controls.</strong> Controller AGC-T input reaches the correct level control with AGC off, active-slice ALC and TX waveform meter routing are corrected, and Ulanzi TCI volume handling converts the wire’s dB values properly.</p>
+
+          <p><strong>Hermes-Lite 2.</strong> Power gauges use the appropriate 5 W scale, per-band gain survives startup and temporary overrides, and the HL2 IO Board gains band-following amplifier control. DSP setup is bounded and logged, with diagnostics that expose the actual DSP configuration and connection progress; TX FIFO status decoding follows the gateware, repeated ADC-overload warnings are rate-limited, and spectrum FFTW operations are serialised.</p>
+
+          <p><strong>The headless engine.</strong> aetherd Stage 3 groundwork adds the versioned protocol boundary, typed observations, per-session authorisation and an observe-only discovery catalogue. Authenticated radio control, transmit grants and a replacement desktop client are explicitly not part of this release.</p>
+
+          <p><strong>Packaging and project quality.</strong> Linux gains CPack DEB/RPM configuration and an optional system SQLite build; Homebrew header precedence and MinGW compatibility are corrected; Windows Store packaging gains fuller symbols, corrected upload handling and an explicit developer-flight submission workflow. The full test suite now runs on pushes to main, sanitizer configuration and suppressions are repaired, two previously unregistered tests join execution — and eight intermittent tests were removed rather than retried, because a test that fails at random teaches you nothing except to stop reading the results.</p>
+
+          <p>67 merged changes from 15 contributors and AetherClaude, plus two Dependabot updates, with four first-time contributors this cycle — including a first commit from <strong>Microsoft</strong> on the Windows Store publishing automation, and the KiwiSDR team’s help with the directory mirror. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.9.2">v26.9.2 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

@@ -637,6 +637,19 @@ GLYPHS = {
                 for cy, op, dash in ((-60, "1", ""),
                                      (0, ".45", ' stroke-dasharray="7 8"'),
                                      (60, ".45", ' stroke-dasharray="7 8"'))),
+    # One IQ stream, fanned out to four band spectra — multi-band skimming.
+    "skim": '<path d="M-84-70V70" stroke="currentColor" stroke-width="3.2" '
+            'stroke-linecap="round" opacity=".55"/>'
+            '<circle cx="-84" r="9" fill="currentColor"/>'
+            + "".join(
+                f'<path d="M-84 {y}h26" stroke="currentColor" stroke-width="2.4" '
+                f'stroke-linecap="round" opacity=".5"/>'
+                f'<circle cx="-58" cy="{y}" r="4.5" fill="currentColor" opacity=".8"/>'
+                f'<path d="M-58 {y}h{a}l9 {pk}l9 {-pk}h{122-a}" fill="none" '
+                f'stroke="currentColor" stroke-width="2.8" stroke-linejoin="round" '
+                f'stroke-linecap="round"/>'
+                for y, a, pk in ((-66, 22, -20), (-22, 60, -26),
+                                 (22, 96, -16), (66, 40, -22))),
     # A menu bar whose fourth item is open: the entries the radio can't
     # support stay dim rather than pretending.
     "toolbar": '<rect x="-98" y="-78" width="196" height="30" rx="9" fill="none" '
@@ -739,6 +752,7 @@ def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=
 
 RELEASES = [
     ("release-26-9-3", "v26.9.3", "The tools, first", "toolbar"),
+    ("release-26-9-2", "v26.9.2", "Four skimmers, one stream", "skim"),
     ("release-26-9-1", "v26.9.1", "The map goes round", "azimuth"),
     ("release-26-8-4", "v26.8.4", "Evidence, not assumption", "attest"),
     ("release-26-8-3", "v26.8.3", "The workspace canvas", "canvas"),

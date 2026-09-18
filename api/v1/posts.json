@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 21,
+  "count": 22,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -31,6 +31,16 @@
       "summary": "The menu bar is rebuilt around what operators actually reach for, PSK Reporter gains weather radar and night lights, and AetherModem becomes a WIDE1-1 fill-in digipeater — one that will never come back armed on its own.",
       "readingTime": "6 min read",
       "image": "https://www.aethersdr.com/assets/img/release-26-9-3-card.svg",
+      "pinned": false
+    },
+    {
+      "slug": "release-26-9-2",
+      "title": "v26.9.2: four skimmers on one stream, and two more ways to receive",
+      "url": "https://www.aethersdr.com/blog#release-26-9-2",
+      "published": "2026-09-06",
+      "summary": "One Flex can now feed four CW skimmers through a single TCI server, experimental ANAN-G2 and RTL-SDR reception arrive, the SPE front panel and an LP-100A wattmeter come inside — and the KiwiSDR directory gets a mirror, so browsing receivers stops billing someone else’s volunteers.",
+      "readingTime": "6 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-9-2-card.svg",
       "pinned": false
     },
     {
