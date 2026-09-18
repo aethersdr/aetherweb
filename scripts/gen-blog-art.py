@@ -637,6 +637,24 @@ GLYPHS = {
                 for cy, op, dash in ((-60, "1", ""),
                                      (0, ".45", ' stroke-dasharray="7 8"'),
                                      (60, ".45", ' stroke-dasharray="7 8"'))),
+    # A menu bar whose fourth item is open: the entries the radio can't
+    # support stay dim rather than pretending.
+    "toolbar": '<rect x="-98" y="-78" width="196" height="30" rx="9" fill="none" '
+               'stroke="currentColor" stroke-width="2" opacity=".32"/>'
+               '<rect x="-6" y="-78" width="34" height="30" rx="9" fill="currentColor" '
+               'opacity=".16"/>'
+               + "".join(
+                   f'<rect x="{x}" y="-67" width="{w}" height="7" rx="3.5" '
+                   f'fill="currentColor" opacity="{op}"/>'
+                   for x, w, op in ((-90, 18, ".45"), (-64, 22, ".45"), (-34, 22, ".45"),
+                                    (2, 22, "1"), (38, 18, ".45"), (64, 18, ".45")))
+               + '<rect x="-6" y="-42" width="98" height="104" rx="11" fill="none" '
+                 'stroke="currentColor" stroke-width="2.8"/>'
+               + "".join(
+                   f'<rect x="8" y="{y}" width="{w}" height="7" rx="3.5" '
+                   f'fill="currentColor" opacity="{op}"/>'
+                   for y, w, op in ((-26, 62, ".9"), (-6, 48, ".9"),
+                                    (14, 56, ".3"), (34, 40, ".3"))),
     # Cross-needle: the reading is where they intersect.
     "meter": '<path d="M-86 34a92 92 0 0 1 172 0" fill="none" stroke="currentColor" '
              'stroke-width="2.4" opacity=".45"/>'
@@ -720,6 +738,7 @@ def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=
 
 
 RELEASES = [
+    ("release-26-9-3", "v26.9.3", "The tools, first", "toolbar"),
     ("release-26-9-1", "v26.9.1", "The map goes round", "azimuth"),
     ("release-26-8-4", "v26.8.4", "Evidence, not assumption", "attest"),
     ("release-26-8-3", "v26.8.3", "The workspace canvas", "canvas"),

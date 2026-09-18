@@ -152,6 +152,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-9-3">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-9-3-card.svg" alt="v26.9.3 release art — the tools, first, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-09-13">September 13, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>6 min read</span>
+              </span>
+              <h3>v26.9.3: a Tools menu, and a digipeater that only arms when you say so</h3>
+              <p>The menu bar is rebuilt around what operators actually reach for, PSK Reporter gains weather radar and night lights, and AetherModem becomes a WIDE1-1 fill-in digipeater — one that will never come back armed on its own.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-9-1">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-9-1-card.svg" alt="v26.9.1 release art — the map goes round, drawn as an AetherSDR spectrum panel" />
@@ -681,6 +699,87 @@
           <h2>Where that leaves it</h2>
 
           <p>Adaptive Throttle got tested twice — once on purpose, once for real — and then just became part of the app. I've run it daily on every remote session from May through now, September, with no reason to touch it. The peripheral reconnect and metering fixes have been running solid for months too — not patches that happened to hold over one weekend, but mature parts of the app at this point. All three came out of the same loop: notice a real failure under real load, fix it, prove it, ship it.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-9-3" tabindex="-1" aria-labelledby="h-release-26-9-3" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-9-3-hero.svg" alt="v26.9.3 release art — the tools, first, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-09-13">September 13, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>6 min read</span>
+        </span>
+        <h1 id="h-release-26-9-3">v26.9.3: a Tools menu, and a digipeater that only arms when you say so</h1>
+
+        <div class="blog-body">
+          <p class="lede">Eighty-six merged changes, and the operator-facing half of them starts at the very top of the window: the menu bar is now organised around what you reach for while operating, rather than around where things happened to get built.</p>
+
+          <h2>Where things are</h2>
+
+          <p>The top level is now <strong>File · Settings · Profiles · Tools · View · Help</strong>. The operating tools that had scattered themselves across File, Settings, View and Help — PSK Reporter, Memory, Waveforms, Radio Health, the modem and KiwiSDR setup, the guarded tuner operations — collect under <strong>Tools</strong>, which sits ahead of <strong>View</strong> because you reach for them more often than you reach for display settings.</p>
+
+          <p>Nothing underneath changed: the same actions, the same handlers, the same shortcuts and lifecycle behaviour. What changed is where things are found, and that is worth a section of its own, because a menu bar is the map of an application and it is the one you read under time pressure — mid-contest, mid-QSO, with the band open and closing.</p>
+
+          <p>Radio-sensitive entries now start disabled and track connection and capability changes, which is the same thread that ran through the last release: the interface describes <em>your</em> radio, not the one we developed against. Entries that will key the transmitter — <code>Start SWR Scan…</code> and <code>Pre-tune ATU Bands…</code> — are marked as TX-keying, so you know that before you click rather than after. And Radio Setup keeps its Qt Preferences role, so macOS still files it where a Mac user expects to find it.</p>
+
+          <p>One removal is worth naming. Settings carried a placeholder loop that reported “not yet implemented” for actions that in fact worked perfectly well. That is the mirror image of the failure we wrote about last release — not a control that lies about succeeding, but one that lies about failing. It is the cheaper of the two mistakes, and it still sends an operator off looking for a workaround to a problem they didn’t have.</p>
+
+          <p>While the menu was open: <strong>View</strong> gains <strong>VFO Marker Size</strong> (Off, 1 px, 3 px) and <strong>VFO Filter Edge</strong> (Show, Hide) as global defaults, stored atomically as a single document. Changing either updates live VFOs without trampling per-slice overrides, and a missing or malformed value falls back to the historical 3 px marker with visible filter edges.</p>
+
+          <h2>Weather on the map, and the night side of the earth</h2>
+
+          <p>PSK Reporter maps gain two overlays that answer questions the spot data alone can’t. <strong>NOAA weather radar</strong>, with playback over recent frames, puts the storms that are making your noise where you can see them. <strong>NASA city lights</strong> adds a night-lights basemap — the darkness on that layer is the part of the world your signal is most likely to be getting through to.</p>
+
+          <p>Alongside them: a dark map style with brightness controls, map controls moved into a left sidebar instead of competing with the map itself, and NASA and NWS tile requests that retry on transient failure rather than leaving you with a blank layer and no explanation. On macOS, the GPU spectrum path no longer takes the map down with it — the map stays on a raster viewport.</p>
+
+          <h2>A digipeater you have to arm</h2>
+
+          <p>AetherModem gains an <strong>APRS WIDE1-1 fill-in digipeater</strong>. It substitutes MYCALL with the H bit set on the first matching unused hop, and it requires three things before it will do anything at all: the shared 1200-baud profile, a valid callsign, and explicit arming for this session.</p>
+
+          <p>That last requirement is the design decision, and it is deliberate that arming is <em>never</em> restored from settings. A fill-in digi is a courtesy to a shared channel when someone is sitting there, and a liability when nobody is. A station that comes back up armed after a reboot — after a power cut, after an update, at three in the morning — is transmitting on behalf of an operator who isn’t present. Making you arm it every session costs one click and removes that entire category of problem.</p>
+
+          <p>Wide-area WIDEn-N hop decrementing is not included, and that is also on purpose. Fill-in is the role a home station can fill responsibly; being a wide-area digi is a different commitment.</p>
+
+          <h2>Time on the waterfall</h2>
+
+          <p>The waterfall can now draw <strong>clock-aligned time markers</strong> — thin UTC-labelled lines at Off, 15 s, 30 s, 1, 5, 10 or 15 minute intervals, aligned to real clock boundaries rather than to whenever you happened to start the application. Off stays the default and the choice persists per panadapter slot.</p>
+
+          <p>The detail that makes them usable is that each marker is pinned to the rows it was captured against, and stays pinned through scrolling, pause and resize. A time label that drifts relative to the history it is labelling is worse than no label, because you will believe it.</p>
+
+          <p>In the same area, the <strong>Runtime Monitor Overview</strong> adds CPU Total, Max Thread, resident memory and GUI Tick Lag cards over 1 min, 5 min, 15 min and 1 h ranges, with charts for CPU, memory, the top five threads and tick lag — and one timeframe selector now shared across the Runtime Monitor tabs.</p>
+
+          <h2>Also in this release</h2>
+
+          <p><strong>Receivers.</strong> The <strong>Web-888</strong> joins the KiwiSDR receive path as its own receiver family: saved receivers keep their family across restarts, legacy entries default to KiwiSDR, and CSV import accepts an optional <code>RECEIVER_TYPE</code> field. The ANAN-G2 gains live DDC rate changes — a zoom notch no longer rebuilds the entire Protocol 2 session — plus multi-DDC encoding on the wire and DDC0 edge-droop compensation from an in-app calibration. RTL-SDR gains a bounded receiver lifecycle foundation.</p>
+
+          <p><strong>Digital modes.</strong> HF 300 decoding is corrected — the correlator lowpass was narrower than the tone shift — and back-to-back HDLC frames are handled. WSJT-X UDP spots land on the reporting instance’s band rather than another instance’s, a FreeDV Reporter double-click tunes and forces RADE, and the D-STAR tab hides itself on radios without waveform support.</p>
+
+          <p><strong>Receive DSP.</strong> NR2 keeps its noise estimate across the TX→RX edge instead of re-converging after every transmission, and the GPU FFT trace reports an honest width rather than a flattering one.</p>
+
+          <p><strong>Hermes-Lite 2.</strong> Stream-free telemetry reads the radio’s own telemetry when the IQ stream can’t supply it, TX:ALCGAIN publishes the gain the ALC is actually applying, and an RQST/ACK state machine keeps one request outstanding, echo-matched and quarantined. The SWR detector is linearized and its noise gate re-derived, the AGC ceiling is referred to the dB reference, and two stale documentation claims were corrected rather than left standing.</p>
+
+          <p><strong>CW, ATU and transmit.</strong> Break-in delay holds against the radio’s QSK-floor walk when the speed changes, CW keying and TUNE interlock in both directions, ATU tune failures appear in the status bar, a disabled Pre-tune explains why it is disabled, and the PortAudio CW sidetone sink compiles on Windows.</p>
+
+          <p><strong>Flex and Icom.</strong> Panadapter and slice capacity come from the radio rather than from a compiled-in assumption, manual squelch reconciles correctly after a band recall, Icom retains squelch intent and waterfall speed across restarts, and a refused tune no longer reads as a successful one.</p>
+
+          <p><strong>Under the surface.</strong> The <code>IRadioBackend</code> threading and lifetime contract is now pinned by tests, ordinary RX slice lifecycle routes through the backend seam, and backends announce capability revisions with the capability surface frozen in CI. The headless engine gains capability-qualified local receive controls — mode, filter, audio gain and mute, panadapter centre and bandwidth — and stays observe-only unless you pass <code>--allow-local-control</code>; no transmit methods were added. Audio gains a typed producer PCM contract and a rate-aware engine. Several shutdown crashes in the spectrum and VFO menus are fixed, and firmware upload byte accounting now reports an unconfirmed outcome as unconfirmed.</p>
+
+          <p>86 merged changes from 16 contributors, plus AetherClaude and one Dependabot update — including four first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.9.3">v26.9.3 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

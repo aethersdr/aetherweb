@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 19,
+  "count": 21,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,26 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "adaptive-throttle-cq-wpx-cw",
+      "title": "Adaptive Throttle held the line at CQ WPX CW — and two more bugs died live, mid-contest",
+      "url": "https://www.aethersdr.com/blog#adaptive-throttle-cq-wpx-cw",
+      "published": "2026-09-17",
+      "summary": "1,048 QSOs, 4 bands, 73 DXCC entities, over 47 hours 40 minutes, run remote to KB8O on a link that was never fully reliable. Adaptive Throttle kept it from ever tearing down — and two more bugs, in the amp/tuner reconnect path and the PWR/SWR meters, got found and fixed live, mid-contest.",
+      "readingTime": "4 min read",
+      "image": "https://www.aethersdr.com/assets/img/adaptive-throttle-cq-wpx-cw-card.svg",
+      "pinned": false
+    },
+    {
+      "slug": "release-26-9-3",
+      "title": "v26.9.3: a Tools menu, and a digipeater that only arms when you say so",
+      "url": "https://www.aethersdr.com/blog#release-26-9-3",
+      "published": "2026-09-13",
+      "summary": "The menu bar is rebuilt around what operators actually reach for, PSK Reporter gains weather radar and night lights, and AetherModem becomes a WIDE1-1 fill-in digipeater — one that will never come back armed on its own.",
+      "readingTime": "6 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-9-3-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-9-1",
