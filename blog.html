@@ -152,6 +152,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-9-4">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-9-4-card.svg" alt="v26.9.4 release art — the chain, in one window, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-09-20">September 20, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>8 min read</span>
+              </span>
+              <h3>v26.9.4: one window per chain, and the meters that passed every test</h3>
+              <p>AetherRX and AetherTX rebuild the receive and transmit chains into one window each, where the stage list <em>is</em> the chain and you drag it into order. WDSP 2.10 brings Neural Noise Reduction, precipitation goes worldwide — and two meters that agreed perfectly with a test tone turn out to have been badly wrong on speech.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-9-3">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-9-3-card.svg" alt="v26.9.3 release art — the tools, first, drawn as an AetherSDR spectrum panel" />
@@ -717,6 +735,101 @@
           <h2>Where that leaves it</h2>
 
           <p>Adaptive Throttle got tested twice — once on purpose, once for real — and then just became part of the app. I've run it daily on every remote session from May through now, September, with no reason to touch it. The peripheral reconnect and metering fixes have been running solid for months too — not patches that happened to hold over one weekend, but mature parts of the app at this point. All three came out of the same loop: notice a real failure under real load, fix it, prove it, ship it.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-9-4" tabindex="-1" aria-labelledby="h-release-26-9-4" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-9-4-hero.svg" alt="v26.9.4 release art — the chain, in one window, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-09-20">September 20, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>8 min read</span>
+        </span>
+        <h1 id="h-release-26-9-4">v26.9.4: one window per chain, and the meters that passed every test</h1>
+
+        <div class="blog-body">
+          <p class="lede">Ninety-seven merged changes. The receive and transmit chains are rebuilt into one window each, WDSP 2.10 arrives with Neural Noise Reduction behind it, and precipitation goes worldwide. Running underneath is a quieter theme: several meters in this release were reading confidently wrong, and the reason none of them was caught earlier is that they all agree with a steady test tone.</p>
+
+          <h2>One window per chain</h2>
+
+          <p><strong>AetherRX</strong> puts the whole receive chain in a single window, and every page in it reads the same way: switches along the top, the display beneath them, every knob in one row at the foot. Once you have learned one stage you have learned the shape of all of them.</p>
+
+          <p>The tab column down the left side is not a navigation aid — it <em>is</em> the chain. Each row carries an enable checkbox and a grip, and dragging a row rewrites the order the audio actually passes through. Stages are renamed to Gate, Compressor, Exciter and Final Output, and the old spellings still resolve, so nothing you saved stops opening.</p>
+
+          <p>Settings gains a profile library — save, load, import, export — that captures every stage’s parameters, its enablement, the chain order and the active NR method as one nested document. And the EQ page now draws the receive filter edges against the mode’s own width ladder; drag an edge and the slice retunes.</p>
+
+          <p><strong>AetherTX</strong> is the same shape for the transmit side — Gate, EQ, De-esser, Compressor, Tube, Exciter, Reverb, Final Output — with the stage column, the page frame and the profile machinery <em>shared</em> with AetherRX rather than copied into it. That is the part that decides whether these two windows still behave identically in a year.</p>
+
+          <p>A few things moved while the walls were down. BYPASS, Record and Play went into the Settings dialog’s Chain section. RN2 moved to the gate toolbar, which is where it actually acts. The compressor makeup became a focusable, keyboard-driven control that announces itself through accessibility. Channel-strip presets are retired — each saved one is split, once, into its transmit and receive halves the first time you open it. Panels stopped polling the engine while invisible, a tube attack knob that changed nothing at all is gone, and a stored chain that names a retired stage now keeps the rest of your order instead of resetting it.</p>
+
+          <h2>The meters that passed every test</h2>
+
+          <p>Two measurement bugs in this release share a root cause, and it is worth sitting with, because it is the kind of thing that survives a careful test plan.</p>
+
+          <p>The first: on both raw-IQ backends, the S-meter was reading WDSP’s decaying peak-hold rather than its average. On a steady carrier those two numbers agree <em>exactly</em> — which is why every test-tone check passed, for as long as anyone has been running them, while the band noise floor was reading 11 to 14 dB high.</p>
+
+          <p>The second: the TGXL was metered from <code>fwd</code>, which sampled the gaps between syllables. Voice at 60 W was reading about 10 W. It now meters from the device’s own <code>peak</code>, and both peripherals are polled at about 60 Hz while transmitting and 4 Hz while receiving.</p>
+
+          <p>A steady tone is the one signal that hides both faults. It has no gaps between syllables and no difference between its peak and its average, so it confirms a meter that cannot measure speech. Every test involved was passing and the instrument was still lying to the operator — which is the argument for testing with the thing you actually transmit.</p>
+
+          <p>In the same family: the HL2 S-meter no longer publishes the silence clocked in while transmit-muted, so the needle neither dives on key-down nor on unkey, and ADC RMS is measured about the mean, so converter DC can’t deflate the crest factor that distinguishes broadband noise from a carrier.</p>
+
+          <h2>WDSP 2.10, and a seventh way to fight noise</h2>
+
+          <p><strong>Neural Noise Reduction</strong> joins as the seventh client-side NR method, with its full ten-control surface and pinned default markers. It builds without DeepFilterNet, managed Kiwi sources are no longer silent under it, the selection survives a restart, and the stereo adapter is now told the real 192 ms end-to-end latency on the 24 kHz path with the default strength corrected to match WDSP.</p>
+
+          <p>It comes in with <strong>WDSP 2.10</strong>, which fixes an upstream use-after-free on the channel-open path. The refresh costs about 8.8 MB of resident memory per RX channel, because 2.10 instantiates NNR whether or not you use it. That number is in the release notes because it was measured and then judged acceptable, which is the only honest way to spend someone else’s memory.</p>
+
+          <p>NR2 also gains WDSP’s psychoacoustic post-processing — the residual-and-noise blend that fills the dead gaps between syllables, and which our port of <code>emnr.c</code> turned out never to have had. It ships off, exactly as upstream does. Alongside it, the minimum-phase FIR workspace — four <code>FFTW_PATIENT</code> plans per instance, 72 of them built and thrown away on a single channel open — is now built only when minimum phase is actually on.</p>
+
+          <h2>Modes the radio cannot transmit, declared</h2>
+
+          <p>The Hermes-Lite 2 took the largest share of this release, and one item in it is a genuine on-air fix rather than a convenience.</p>
+
+          <p>AM, SAM, DSB, FM, NFM, WBFM and DRM were all taking the upper-sideband branch of a phasing SSB modulator. Selecting AM and keying up did not produce AM — it put suppressed-carrier SSB on the air. Keying and TUNE now refuse in those modes, and the backend also publishes the modes it genuinely demodulates, so RTTY, DFM and DSTR stop silently falling back to USB.</p>
+
+          <p>The transmit level stack got the same treatment. The ALC now only ever reduces, and the Mic Level slider becomes the operator’s transmit level; the loop it replaces was applying up to 40 dB of upward makeup gain, lifting the room noise between your words along with your voice. Engine-generated audio keeps the level its generator chose, and the host-modulated WSPR beacon defaults to −3 dBFS instead of going out 18.6 dB down.</p>
+
+          <p>A <strong>WDSP TXA modulator</strong> is now the default, and the way it got there is worth recording: <code>CMakeLists.txt</code> carried the condition for flipping the flag, and the condition was an on-air test. ON8ST keyed it into a dummy load and then onto an antenna on 17 September, and that is what moved it. The in-tree phasing modulator remains one flag away, and its opposite-sideband suppression is now measured across the passband rather than asserted — 22 dB at 150 Hz on the DIGU/DIGL band, exactly the derived figure.</p>
+
+          <p>Also on the HL2: the dBm reference is derived rather than guessed — full scale is +3 dBm at the antenna at 0 dB LNA gain, from the AD9866 datasheet plus the input transformer and filter-board loss. The wideband bandscope is decoded and accounted for behind a duty-cycle gate that is off by default. Automatic RF gain drives on measured wideband headroom instead of the clip counter, and ships off until the +20 dB LNA default can be reconciled with the arming baseline — with a declined arm now explaining itself in the checkbox, on a card and through the accessible channel, because on a fresh install that refusal was the first thing a new operator met. And a zoom no longer silences the radio: pan-bandwidth chains are built on their own thread and installed in one turn, instead of rebuilding inline where EP2 pacing starves and the gateware watchdog halts the stream.</p>
+
+          <h2>Weather, worldwide</h2>
+
+          <p>The precipitation overlay that arrived for North America last release goes global. An opt-in <strong>LibreWXR</strong> layer carries worldwide precipitation, with independently selectable NOAA, ECCC and EUMETNET OPERA regional feeds behind it, an optional per-provider intensity legend, and default-off coverage shading drawn from 389 bundled sites. If you already had the weather overlay on, LibreWXR becomes your primary and NOAA stays selectable on its own.</p>
+
+          <h2>Also in this release</h2>
+
+          <p><strong>Copy Assist stops taking the app down.</strong> A GPU without room for the model now fails the load and retries on CPU instead of dereferencing null inside vendored whisper.cpp, the default tier reads free GPU memory before reaching for <code>large-v3-turbo</code>, a fault in device discovery or model load leaves flushed stage records in the log, and a model running slower than real time drops audio at a bounded backlog and tells you how many seconds it dropped rather than queueing forever.</p>
+
+          <p><strong>CW.</strong> An optional <strong>DeepFist</strong> receive backend lands behind a build flag that is off by default, with no model weights shipped; ggmorse remains the default and the sidetone decoder, and DeepFist invents no confidence, pitch or speed and does not feed callsign spotting. Separately, decoder parameter changes no longer race the decoding worker.</p>
+
+          <p><strong>Panadapter and GPU.</strong> Extended TNF mirrors a tracking notch through the waterfall, the FFT average slider reaches the model on raw-spectrum backends so it survives a pan rebuild, ANAN crops its true panadapter edge instead of fading it and regains its noise-floor auto-adjust, and selecting the discrete GPU on a hybrid-graphics laptop under Wayland works now that a GLX-only environment variable stops vetoing the saved choice.</p>
+
+          <p><strong>Amplifiers and tuners.</strong> The TGXL and PGXL gain front-panel presentations that lay out like the devices’ own panels — TUNE becomes STOP while a tune runs, the tuner’s alert channel shows as a banner, and the PGXL gains a drive meter from a <code>DRV</code> reading the radio had been relaying all along. The SPE LCD mirror stops blinking.</p>
+
+          <p><strong>Writes that stop lying.</strong> QSO recordings claim their filename with exclusive creation and never truncate an existing WAV; an incomplete write is reported and the recorder stops safely rather than advertising a broken file; recording is rate-aware. DVK uploads don’t queue duplicate bytes on partial socket drains, and a failed export preserves the existing file. The PMS mailbox writes atomically and says <code>SAVED</code> only when it did. And a healthy settings database is never quarantined over a permissions error — recovery now demands actual corruption evidence, and an unwritable store is detected at open rather than at your first save.</p>
+
+          <p><strong>Controls that explain themselves.</strong> A three-state doctrine — unavailable, inactive, active — and an availability registry mean an unsupported control stays visible, disabled, and carries the reason it is disabled. Nine Radio Setup surfaces now dim with reasons. It is the same thread as the greyed-out buttons two releases ago, with the missing half added: not just that a control can’t work, but why.</p>
+
+          <p><strong>Elsewhere.</strong> A Flex TCP disconnect mid-status-line no longer leaves a parser buffer for the next session to fabricate a response from; concurrent Icom Keychain reads coalesce, so a saved startup route raises one authorization prompt instead of three; ANAN-G2 ships DDC0 droop-correction defaults derived from the Saturn gateware, so an unswept radio gets a corrected FFT on first connect. The Windows CW sidetone defaults back to <code>QAudioSink</code>, and the PortAudio heap corruption behind the Windows connect crash — an upstream bug that frees a stack address while enumerating DAX endpoints — is patched at build time. And the headless engine gains credential-bound transmit grants behind an explicit <code>--allow-local-tx</code> and a vault authority that fails closed, with software PTT handoff hardware-tested on a FLEX-6700; startup stays disarmed.</p>
+
+          <p>97 merged changes from 13 contributors, AetherClaude and two Dependabot updates. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.9.4">v26.9.4 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

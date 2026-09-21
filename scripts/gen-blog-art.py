@@ -637,6 +637,23 @@ GLYPHS = {
                 for cy, op, dash in ((-60, "1", ""),
                                      (0, ".45", ' stroke-dasharray="7 8"'),
                                      (60, ".45", ' stroke-dasharray="7 8"'))),
+    # The signal chain as the interface: stage rows with grips and enables,
+    # one of them lifted out of the order and being dragged.
+    "chain": "".join(
+        f'<rect x="{-88 + dx}" y="{y}" width="176" height="32" rx="9" fill="none" '
+        f'stroke="currentColor" stroke-width="2.6" opacity="{op}"/>'
+        + "".join(
+            f'<circle cx="{-74 + dx + c*8}" cy="{y + 9 + r*7}" r="1.9" '
+            f'fill="currentColor" opacity="{op}"/>'
+            for c in range(2) for r in range(3))
+        + f'<rect x="{-50 + dx}" y="{y + 9}" width="14" height="14" rx="3.5" fill="none" '
+          f'stroke="currentColor" stroke-width="2.2" opacity="{op}"/>'
+          f'<rect x="{-24 + dx}" y="{y + 12}" width="{w}" height="7" rx="3.5" '
+          f'fill="currentColor" opacity="{op}"/>'
+        for y, w, dx, op in ((-76, 74, 0, ".55"), (-36, 56, 0, ".55"),
+                             (4, 88, 14, "1"), (44, 62, 0, ".55")))
+    + '<path d="M-88 40h176" stroke="currentColor" stroke-width="2.2" '
+      'stroke-dasharray="6 7" stroke-linecap="round" opacity=".7"/>',
     # One IQ stream, fanned out to four band spectra — multi-band skimming.
     "skim": '<path d="M-84-70V70" stroke="currentColor" stroke-width="3.2" '
             'stroke-linecap="round" opacity=".55"/>'
@@ -751,6 +768,7 @@ def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=
 
 
 RELEASES = [
+    ("release-26-9-4", "v26.9.4", "The chain, in one window", "chain"),
     ("release-26-9-3", "v26.9.3", "The tools, first", "toolbar"),
     ("release-26-9-2", "v26.9.2", "Four skimmers, one stream", "skim"),
     ("release-26-9-1", "v26.9.1", "The map goes round", "azimuth"),
