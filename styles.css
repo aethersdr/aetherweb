@@ -406,6 +406,8 @@ section.block { padding: 84px 0; }
 }
 .partner-card:hover { border-color: var(--line-hi); transform: translateY(-3px); }
 .partner-card.placeholder { border-style: dashed; opacity: 0.72; }
+/* A lone card on the last row sits in the middle column, not the left. */
+.partner-card.is-centered { grid-column: 2; }
 .partner-mark {
   flex: none;
   width: 48px; height: 48px; border-radius: 12px;
@@ -836,6 +838,7 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
   .stats { grid-template-columns: repeat(2, 1fr); }
   .built-grid { grid-template-columns: repeat(2, 1fr); }
   .partners-grid { grid-template-columns: repeat(2, 1fr); }
+  .partner-card.is-centered { grid-column: auto; }
   .bridge { grid-template-columns: 1fr; gap: 26px; }
   .spot { grid-template-columns: 1fr; gap: 26px; }
   .spot.rev .spot-text { order: 0; }
