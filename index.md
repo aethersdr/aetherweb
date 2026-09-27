@@ -12,7 +12,7 @@ AetherSDR is a native amateur-radio workstation for FlexRadio 6000, 8000, and Au
 
 [Download for your platform](#download) [What's New](https://github.com/aethersdr/AetherSDR/releases) [View source](https://github.com/aethersdr/AetherSDR)
 
-**v26.7.1** · latest release GPL v3 Qt6 · C++20 GPG-signed commits
+**v26.9.5** · latest release GPL v3 Qt6 · C++20 GPG-signed commits
 
 AetherSDR v26.6.5 — 40m · 3D stacked-trace panadapter
 

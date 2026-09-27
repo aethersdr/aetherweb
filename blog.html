@@ -152,6 +152,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-9-5">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-9-5-card.svg" alt="v26.9.5 release art — one antenna per ear, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-09-27">September 27, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>6 min read</span>
+              </span>
+              <h3>v26.9.5: split remembers your audio, and noise reduction learns left from right</h3>
+              <p>Split stops forgetting how you set up its audio and gains Monitor TX and one-touch offsets. Every noise-reduction method keeps your two ears apart, the ANAN-G2 gets a real panadapter and a moving S-meter, and the Hermes-Lite 2 hears 84 ms sooner.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-9-4">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-9-4-card.svg" alt="v26.9.4 release art — the chain, in one window, drawn as an AetherSDR spectrum panel" />
@@ -735,6 +753,81 @@
           <h2>Where that leaves it</h2>
 
           <p>Adaptive Throttle got tested twice — once on purpose, once for real — and then just became part of the app. I've run it daily on every remote session from May through now, September, with no reason to touch it. The peripheral reconnect and metering fixes have been running solid for months too — not patches that happened to hold over one weekend, but mature parts of the app at this point. All three came out of the same loop: notice a real failure under real load, fix it, prove it, ship it.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-9-5" tabindex="-1" aria-labelledby="h-release-26-9-5" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-9-5-hero.svg" alt="v26.9.5 release art — one antenna per ear, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-09-27">September 27, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>6 min read</span>
+        </span>
+        <h1 id="h-release-26-9-5">v26.9.5: split remembers your audio, and noise reduction learns left from right</h1>
+
+        <div class="blog-body">
+          <p class="lede">Fifty-two merged changes. Split stops forgetting how you set up its audio, every noise-reduction method keeps your left and right ears apart, and the ANAN-G2 takes the largest step since it arrived. The thread through much of it is the same one: two things the client had been quietly merging into one, finally treated as two.</p>
+
+          <h2>A split that remembers</h2>
+
+          <p>The transmit slice has always been born muted. On a single-receiver rig that is simply what happens, and every serious one ships a button to break the silence anyway — Icom's <code>XFC</code>, Kenwood's <code>TF-SET</code>, Yaesu's <code>TXW</code>. On a rig with a second receiver the convention flips: DX in one ear, the pileup in the other. AetherSDR is architecturally the second kind and was behaving like the first, so the standard pileup workflow cost four clicks and two pan drags on every single split.</p>
+
+          <p>Now you set it up once. Unmute the transmit slice, set its level, pan the two apart, and every later split comes back that way. What gets learned is deliberately narrow: the transmit slice's mute, level and pan, and the receive slice's pan if you moved it — and only from your own edits. A logger muting a slice over TCI, a CAT client or the radio's own status teaches it nothing, because a client that records the radio's state as the operator's preference and replays it is a client re-asserting state it does not own. End a split with the transmit slice muted and the arrangement is forgotten.</p>
+
+          <p>Alongside it: <strong>Monitor TX</strong>, the hold-to-listen equivalent of those three buttons, either soloing your transmit frequency or letting you hear both; and <strong>Split Up 1 / 5 / 10 kHz</strong>, the one-touch offsets every modern rig has had for years. Right-click the SPLIT badge and all of it is there, including a plain statement of what is being remembered and a way to forget it.</p>
+
+          <h2>Noise reduction, one ear at a time</h2>
+
+          <p>Four of the seven client-side NR methods — NR4, DFNR, NNR and BNR — were folding your stereo audio to mono, denoising the mono, and rebuilding stereo afterwards through a balance estimate with a time constant of about two seconds. The consequences were easy to miss one at a time and obvious together: a hard pan took about five seconds to land, and with diversity receive, both ears got the same blended antenna.</p>
+
+          <p>NR2 and macOS MNR were subtler. They kept each channel's waveform, but ran a single noise estimate over the mix — so two antennas, or two slices panned apart for split or SO2R, shared one compromise mask.</p>
+
+          <p>Every method now runs one instance per channel, the way RN2 always did. A pan is instant, and diversity keeps one antenna per ear. For BNR that means two NVIDIA effects rather than one batched across both streams; batching was tried, and it either crashed inside the SDK or leaked audio between the channels, so it is not used.</p>
+
+          <p>The chain windows gained live controls in the same release. <strong>AetherRX</strong> and <strong>AetherTX</strong> each get BYPASS, REC and PLAY at the foot of their stage column rather than buried in a settings dialog, and RX BYPASS now switches off whichever NR method is running and puts it back on release. Right-click AetherRX's PLAY and <strong>TX Playback</strong> transmits your last client-side recording over the active slice — capped at the same idle timeout that already bounds client recording, and ending with the transmitter released on any refusal or disconnect.</p>
+
+          <h2>The ANAN-G2 grows up</h2>
+
+          <p>The G2's panadapter had been one hand-rolled 1024-point FFT per display frame, keeping only the newest samples. At 192 ksps about 87% of the IQ never reached the display, and each frame was a single un-averaged periodogram — the grain you could see in the waterfall. It is now computed with WDSP's display analyzer, the same engine the openHPSDR desktop clients use for this radio family: a Kaiser-windowed FFT of at least 16384 points, averaged into output points with overlap sized so no IQ is thrown away, and FFT AVG and weighted averaging now actually drive it. A second change sizes it to your screen, so it returns one point per pixel instead of stretching 1024 across a wide panel.</p>
+
+          <p>One consequence is worth saying before you notice it. The G2 is not dBm-calibrated yet, and on the new analyzer a test tone reads about 7.4 dB lower than it did. If you saved a reference level or a waterfall black level for a G2, it will want re-trimming once.</p>
+
+          <p>The rest of the G2's receive side fills in around it: the S-meter moves, through arithmetic and ballistics now shared with the Hermes-Lite 2 so the two needles behave alike; the NB button runs WDSP's impulse blanker on the raw IQ; and RF Gain drives the ADC step attenuator from −31 to 0 dB, restored per radio. It remains receive-only.</p>
+
+          <h2>A Hermes-Lite 2 that hears sooner</h2>
+
+          <p>An HL2 operator reported losing about 0.17 s of receive audio after every unkey. Measured carefully, the audio was not lost at all. Every sample after the unmute is played; it is just delayed by the same roughly 130 ms every HL2 receive sample always is, because the RX bandpass was an 8192-tap linear-phase filter that delays everything by half its length.</p>
+
+          <p>So the fix pulls the latency itself. Outside CW the bandpass now runs at minimum phase — same length, same magnitude response, same notch depth — and receive audio comes back 44 ms after an unmute instead of 128. That is 84 ms less latency on all SSB, AM, FM and digital receive, not only after an unkey. CW keeps linear phase: through a narrow 300 Hz CW filter, minimum phase would raise the keying-edge overshoot from 5.8% to 19.6% and make the ring after each element audibly stronger.</p>
+
+          <p>Shipped with it: the receive unmute now waits out the transmit-to-receive turnaround, so the PA's own carrier stops reaching the demodulator as a +57 dB burst after every over. The two were held to land together, because the second on its own would have widened the post-unkey gap. And one change every HL2 operator on an affected profile will hear: an unvisited band now comes up at the +20 dB LNA default instead of a stuck value some profiles had carried forever — on the reporting station's, 26 dB hotter. Bands you have actually visited keep their gain.</p>
+
+          <h2>Also in this release</h2>
+
+          <p><strong>A meter that was never read.</strong> rigctl's <code>STRENGTH</code> handed every hamlib client on every backend — WSJT-X, N1MM, gpredict — a constant −57 dB, for as long as that code existed. It now reads the S-meter of the slice the client actually asked about.</p>
+
+          <p><strong>The IC-7300MK2 is supported.</strong> Over built-in Ethernet/RS-BA1, a radio identified by CI-V as an MK2 connects without the experimental badge or disclaimer. Every other Icom model keeps the experimental treatment; the approval was for this model, on this transport, and nothing wider.</p>
+
+          <p><strong>Decoders and TCI.</strong> CW, RTTY and AetherClock decode the selected slice's own audio — assign a DAX channel on a Flex and they hear that slice alone, independent of your speaker gain and mute — and retuning resets decoder state so text from the previous signal cannot publish. TCI streaming moves onto its own I/O thread, with every model access still on its owner.</p>
+
+          <p><strong>Elsewhere.</strong> One set of meter ballistics everywhere, SmartMTR's, instead of six overrides and five hand-rolled peak markers. A Window menu, with Minimal Mode moving to Ctrl+Shift+M so Command-M can minimise on macOS. The Glacier waterfall palette. Radio Setup follows the theme instead of drawing near-white on near-white under Default Light. The TGXL stops labelling ports with a trigger mode the protocol never reports. Contour Shuttle buttons decode from the right bytes. And both FFTW planners are serialized, WDSP's worker takes its input before it releases a blocked host, and the Flex wire classes move behind the backend directory — the first physical step of the backend relocation.</p>
+
+          <p>52 merged changes from 13 contributors, plus AetherClaude and one Dependabot update — including three first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.9.5">v26.9.5 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>
