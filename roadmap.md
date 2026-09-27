@@ -390,6 +390,156 @@ Core & Platform1 entry
 
 Further work toward the engine that runs with no interface attached.
 
+v26.9.3 Released, 13 Sep 2026 A Tools-first menu bar, live map overlays and APRS digipeating
+
+Station Control1 entry
+
+**A Tools-first menu bar**
+
+The operating tools gather under one Tools menu ahead of View. Shortcuts and behaviour are unchanged; only where things live moves.
+
+#5595
+
+Spectrum & Display2 entries
+
+**Clock-aligned waterfall time markers**
+
+UTC-labelled lines at 15 s to 15 minute intervals, pinned to the rows they were captured with. Off by default.
+
+#5538
+
+**Weather radar and night lights on PSK Reporter**
+
+NOAA radar with playback and the NASA city-lights basemap, with retry handling so a transient tile failure no longer blanks the layer.
+
+#5477 · #5479
+
+Data Modes & Spotting2 entries
+
+**APRS WIDE1-1 fill-in digipeater**
+
+An AetherModem tab that needs a valid callsign and explicit per-session arming, and never restores arming from settings.
+
+#5562
+
+**Web-888 as its own receiver family**
+
+Saved receivers keep their family, and an unchanged zoom is actually resent to the receiver.
+
+#5529 · #5530
+
+Core & Platform2 entries
+
+**The Runtime Monitor Overview**
+
+CPU, resident memory and GUI tick lag as cards and charts over 1 min to 1 h.
+
+#5427 · #5531
+
+**The backend seam, pinned by tests**
+
+The IRadioBackend threading and lifetime contract is pinned, and the capability surface is frozen in CI.
+
+#5573
+
+v26.9.4 Released, 20 Sep 2026 AetherRX and AetherTX, Neural Noise Reduction and worldwide precipitation
+
+Receive & Audio2 entries
+
+**AetherRX and AetherTX, one window each**
+
+The stage column is the chain: enable and drag each stage, with a profile library per side.
+
+#5805 · #5819
+
+**WDSP 2.10 and Neural Noise Reduction**
+
+NNR becomes the seventh client-side NR method, and NR2 gains WDSP’s psychoacoustic post-processing.
+
+#5686 · #5687 · #5703
+
+Spectrum & Display1 entry
+
+**Global precipitation on the PSK Reporter map**
+
+An opt-in LibreWXR overlay with NOAA, ECCC and EUMETNET OPERA regional backups and a per-provider legend.
+
+#5705
+
+Radios2 entries
+
+Experimental **The Hermes-Lite 2 transmits through WDSP**
+
+The TXA modulator is the default after on-air testing, the ALC only reduces, and modes it cannot transmit are declared.
+
+#5747 · #5779
+
+**S-meters that read the average**
+
+Both raw-IQ backends stop reading a decaying peak-hold that sat 11–14 dB above the noise floor.
+
+#5785
+
+Station Control1 entry
+
+**TGXL and PGXL front panels**
+
+Both 4O3A applets lay out like the device’s own panel, and the tuner is metered from its own peak while keyed.
+
+#5676 · #5694
+
+v26.9.5 Released, 27 Sep 2026 Split that remembers, stereo noise reduction and a fuller ANAN-G2
+
+Transmit & CW2 entries
+
+**Split remembers your audio**
+
+The transmit slice’s mute, level and pan come back on every split, with Monitor TX and Split Up 1 / 5 / 10 kHz.
+
+#5922
+
+**AetherRX and AetherTX live controls**
+
+BYPASS, REC and PLAY at the foot of each stage column, and TX Playback of the last recording.
+
+#5913
+
+Receive & Audio1 entry
+
+**Stereo noise reduction on every method**
+
+Left and right are denoised independently, so a pan is instant and diversity keeps one antenna per ear.
+
+#5971
+
+Radios3 entries
+
+Experimental **The ANAN-G2 panadapter, S-meter and noise blanker**
+
+WDSP’s display analyzer at one point per pixel, a moving S-meter, the impulse blanker and RF-gain attenuation.
+
+#5814 · #5818 · #5820 · #5824 · #5920
+
+Experimental **The Hermes-Lite 2 hears 84 ms sooner**
+
+Minimum-phase RX filtering outside CW, and no more PA carrier in the receiver after an unkey.
+
+#5954 · #5850
+
+**The IC-7300MK2 is supported**
+
+Over built-in Ethernet/RS-BA1 it connects without the experimental badge or disclaimer.
+
+#5871
+
+Station Control1 entry
+
+**A Window menu**
+
+The open windows with Minimize, Zoom, Full Screen and Bring All to Front. Minimal Mode moves to Ctrl+Shift+M.
+
+#5891
+
 Scroll sideways for earlier releases — the full history is in the changelog.
 
 Expand all deliverables

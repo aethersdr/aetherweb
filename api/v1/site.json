@@ -57,6 +57,6 @@
     "note": "Installer filenames carry the version, so resolve the exact asset from the GitHub latest-release API rather than constructing a URL.",
     "signatures": "Every release ships .asc signatures and SHA256SUMS.txt."
   },
-  "latestReleaseMentionedOnSite": "v26.7.1",
-  "postCount": 23
+  "latestReleaseMentionedOnSite": "v26.9.5",
+  "postCount": 24
 }

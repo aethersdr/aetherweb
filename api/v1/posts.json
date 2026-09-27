@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 23,
+  "count": 24,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -21,6 +21,16 @@
       "summary": "1,048 QSOs, 4 bands, 73 DXCC entities, over 47 hours 40 minutes, run remote to KB8O on a link that was never fully reliable. Adaptive Throttle kept it from ever tearing down — and two more bugs, in the amp/tuner reconnect path and the PWR/SWR meters, got found and fixed live, mid-contest.",
       "readingTime": "4 min read",
       "image": "https://www.aethersdr.com/assets/img/adaptive-throttle-cq-wpx-cw-card.svg",
+      "pinned": false
+    },
+    {
+      "slug": "release-26-9-5",
+      "title": "v26.9.5: split remembers your audio, and noise reduction learns left from right",
+      "url": "https://www.aethersdr.com/blog#release-26-9-5",
+      "published": "2026-09-27",
+      "summary": "Split stops forgetting how you set up its audio and gains Monitor TX and one-touch offsets. Every noise-reduction method keeps your two ears apart, the ANAN-G2 gets a real panadapter and a moving S-meter, and the Hermes-Lite 2 hears 84 ms sooner.",
+      "readingTime": "6 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-9-5-card.svg",
       "pinned": false
     },
     {

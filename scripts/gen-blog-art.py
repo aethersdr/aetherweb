@@ -693,6 +693,19 @@ GLYPHS = {
              '<circle cx="-78" cy="44" r="6" fill="currentColor"/>'
              '<circle cx="78" cy="44" r="6" fill="currentColor"/>'
              '<circle cx="0" cy="7" r="7" fill="none" stroke="currentColor" stroke-width="3"/>',
+    # Two channels either side of the centre, each with its own trace:
+    # left and right denoised apart, one antenna per ear.
+    "stereo": '<path d="M0-84V84" stroke="currentColor" stroke-width="2.2" '
+              'stroke-dasharray="6 7" stroke-linecap="round" opacity=".55"/>'
+              + "".join(
+                  f'<circle cx="{sx * 52}" cy="-70" r="7" fill="none" '
+                  f'stroke="currentColor" stroke-width="2.6"/>'
+                  f'<path d="M{sx * 12} 40h{sx * a}l{sx * 9} {pk}l{sx * 9} {-pk}'
+                  f'h{sx * (62 - a)}" fill="none" stroke="currentColor" '
+                  f'stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>'
+                  f'<path d="M{sx * 12} 62h{sx * 80}" stroke="currentColor" '
+                  f'stroke-width="2" stroke-linecap="round" opacity=".35"/>'
+                  for sx, a, pk in ((-1, 18, -64), (1, 40, -42))),
 }
 
 
@@ -768,6 +781,7 @@ def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=
 
 
 RELEASES = [
+    ("release-26-9-5", "v26.9.5", "One antenna per ear", "stereo"),
     ("release-26-9-4", "v26.9.4", "The chain, in one window", "chain"),
     ("release-26-9-3", "v26.9.3", "The tools, first", "toolbar"),
     ("release-26-9-2", "v26.9.2", "Four skimmers, one stream", "skim"),

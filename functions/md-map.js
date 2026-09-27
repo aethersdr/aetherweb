@@ -3,12 +3,12 @@
 export const MD_MAP = {
   '/': { asset: '/index.md', tokens: 3130 },
   '/index.md': { asset: '/index.md', tokens: 3130 },
-  '/blog': { asset: '/blog.md', tokens: 40863 },
-  '/blog.md': { asset: '/blog.md', tokens: 40863 },
+  '/blog': { asset: '/blog.md', tokens: 42803 },
+  '/blog.md': { asset: '/blog.md', tokens: 42803 },
   '/lineage': { asset: '/lineage.md', tokens: 1994 },
   '/lineage.md': { asset: '/lineage.md', tokens: 1994 },
-  '/roadmap': { asset: '/roadmap.md', tokens: 2738 },
-  '/roadmap.md': { asset: '/roadmap.md', tokens: 2738 },
-  '/supporters': { asset: '/supporters.md', tokens: 511 },
-  '/supporters.md': { asset: '/supporters.md', tokens: 511 },
+  '/roadmap': { asset: '/roadmap.md', tokens: 3589 },
+  '/roadmap.md': { asset: '/roadmap.md', tokens: 3589 },
+  '/supporters': { asset: '/supporters.md', tokens: 495 },
+  '/supporters.md': { asset: '/supporters.md', tokens: 495 },
 };
