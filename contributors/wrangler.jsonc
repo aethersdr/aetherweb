@@ -1,0 +1,18 @@
+// contributors.aethersdr.com: a mirror of the contributor leaderboard.
+// The source of truth is the AetherClaude dashboard
+// (dashboard.aethersdr.com/leaderboard); every 15 minutes this Worker copies
+// its page and standings into KV and serves them from there, so the mirror
+// keeps working when the dashboard host is unreachable.
+{
+  "name": "aethersdr-contributors",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "routes": [{ "pattern": "contributors.aethersdr.com", "custom_domain": true }],
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "kv_namespaces": [{ "binding": "SNAPSHOT", "id": "1be2436bca4f4034a694c7055e42dff3" }],
+  "vars": {
+    "SOURCE": "https://dashboard.aethersdr.com"
+  },
+  "observability": { "enabled": true }
+}

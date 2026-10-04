@@ -1,0 +1,44 @@
+name: Deploy contributors.aethersdr.com
+
+# The contributors mirror is a Cloudflare Worker (contributors/). Its page and
+# standings come from the AetherClaude dashboard every 15 minutes at runtime,
+# so this only runs when the Worker's own code or config changes.
+on:
+  push:
+    branches: [main]
+    paths: ['contributors/**', '.github/workflows/deploy-contributors.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contributors-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # A separate token from the Pages one: this needs Workers Scripts and
+      # Workers KV (account) plus Workers Routes and DNS on aethersdr.com.
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_CONTRIBUTORS_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check configuration
+        if: ${{ env.CF_TOKEN == '' }}
+        run: echo "::notice::CLOUDFLARE_CONTRIBUTORS_API_TOKEN not set — skipping deploy."
+
+      - name: Deploy the Worker
+        if: ${{ env.CF_TOKEN != '' }}
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_CONTRIBUTORS_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: contributors
+          command: deploy
+
+      - name: Check the mirror is serving
+        if: ${{ env.CF_TOKEN != '' }}
+        run: curl -fsS https://contributors.aethersdr.com/healthz

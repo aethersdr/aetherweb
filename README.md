@@ -115,6 +115,26 @@ Two things worth knowing before editing it:
   callsign. Only a *name* of "Guest" means anonymous. Keying on the slug
   credits 15 real supporters as "Anonymous".
 
+## contributors.aethersdr.com
+
+The contributor leaderboard (points for issues, PRs, reviews, merges and
+support, with weekly contributor, steward and backer awards) is produced by
+the AetherClaude agent's dashboard. `contributors/` is a small Cloudflare
+Worker that mirrors it at **contributors.aethersdr.com**:
+
+- Every 15 minutes (a cron trigger) it copies the leaderboard page and its
+  standings from `dashboard.aethersdr.com` into a KV namespace, validating
+  them first. A failed sync never replaces the last good copy.
+- Visitors are served only from KV, so the mirror keeps working when the
+  dashboard host is down; `/healthz` reports when it last synced.
+- The page isn't duplicated here: changes to the leaderboard reach the mirror
+  on the next sync. Only the back link is rewritten to point at this site.
+
+`.github/workflows/deploy-contributors.yml` deploys the Worker when
+`contributors/` changes, using the `CLOUDFLARE_CONTRIBUTORS_API_TOKEN` secret
+(Workers Scripts and Workers KV on the account; Workers Routes and DNS on
+`aethersdr.com`). Locally: `cd contributors && npx wrangler deploy`.
+
 ## Machine-readable surface
 
 The site publishes a sitemap, an RFC 9727 API catalog over a small read-only
