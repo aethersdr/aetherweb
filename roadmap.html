@@ -690,7 +690,7 @@
               </details>
             </div>
           </div>
-          <div class="rm-rel is-latest">
+          <div class="rm-rel">
             <div class="rm-rel-head">
               <span class="v">v26.9.2</span>
               <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 6 Sep 2026</span>
@@ -785,6 +785,304 @@
                   <div class="rm-feat">
                     <b>Headless engine and packaging</b>
                     <p>Further work toward the engine that runs with no interface attached.</p>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel">
+            <div class="rm-rel-head">
+              <span class="v">v26.9.3</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 13 Sep 2026</span>
+              <span class="rm-rel-sub">A Tools-first menu bar, live map overlays and APRS digipeating</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Interface</span><span class="rm-cat-n">3 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>A Tools-first menu bar</b>
+                    <p>The operating tools collect under one Tools menu, placed ahead of View.</p>
+                    <span class="rm-ref">#5595</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Clock-aligned waterfall time markers</b>
+                    <p>UTC-labelled lines pinned to the rows they were captured with. Off by default.</p>
+                    <span class="rm-ref">#5538</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Runtime Monitor Overview</b>
+                    <p>CPU, resident memory and GUI tick lag as cards and charts over 1 min to 1 h.</p>
+                    <span class="rm-ref">#5427, #5531</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-engine">
+                <summary>
+                  <span><span class="rm-cat-name">Data Modes &amp; Mapping</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>NOAA weather radar and NASA city lights</b>
+                    <p>Two PSK Reporter map layers, with radar playback and retry handling.</p>
+                    <span class="rm-ref">#5477, #5479</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>APRS WIDE1-1 fill-in digipeater</b>
+                    <p>Explicit per-session arming that is never restored from settings.</p>
+                    <span class="rm-ref">#5562</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Web-888 as its own receiver family</b>
+                    <p>The KiwiSDR receive path tells Web-888 apart and replays its waterfall setup.</p>
+                    <span class="rm-ref">#5530</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Backend contract pinned by tests</b>
+                    <p>The IRadioBackend threading and lifetime rules are tested, and capability bools are frozen.</p>
+                    <span class="rm-ref">#5573</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel">
+            <div class="rm-rel-head">
+              <span class="v">v26.9.4</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 20 Sep 2026</span>
+              <span class="rm-rel-sub">AetherRX and AetherTX as one window each, Neural Noise Reduction and global precipitation</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-all">
+                <summary>
+                  <span><span class="rm-cat-name">Audio &amp; DSP</span><span class="rm-cat-n">3 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>AetherRX and AetherTX, one window each</b>
+                    <p>The stage column is the chain: enable and drag each stage into order.</p>
+                    <span class="rm-ref">#5805, #5819</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>WDSP 2.10 and Neural Noise Reduction</b>
+                    <p>NNR joins as the seventh client-side NR method.</p>
+                    <span class="rm-ref">#5686, #5687</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>S-meter reads the average</b>
+                    <p>Raw-IQ backends stop reading a decaying peak-hold that sat 11–14 dB high.</p>
+                    <span class="rm-ref">#5785</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>The Hermes-Lite 2 transmits through WDSP</b>
+                    <p>The TXA modulator is the default, the ALC only reduces, and the dBm reference is derived.</p>
+                    <span class="rm-ref">#5747, #5779, #5753</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>ANAN-G2 droop correction from the gateware</b>
+                    <p>An unswept radio gets a corrected FFT on first connect.</p>
+                    <span class="rm-ref">#5549</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Station Control</span><span class="rm-cat-n">1 entry</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>TGXL and PGXL front panels</b>
+                    <p>Both 4O3A applets lay out like the device's own panel, and the tuner meters from its own peak.</p>
+                    <span class="rm-ref">#5676, #5694, #5845</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-engine">
+                <summary>
+                  <span><span class="rm-cat-name">Engine</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Global precipitation on the map</b>
+                    <p>An opt-in LibreWXR overlay with regional radar backups.</p>
+                    <span class="rm-ref">#5705</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>aetherd transmit grants</b>
+                    <p>Credential-bound TX grants with a qualified Flex PTT handoff. Startup stays disarmed.</p>
+                    <span class="rm-ref">#5830</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel">
+            <div class="rm-rel-head">
+              <span class="v">v26.9.5</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 27 Sep 2026</span>
+              <span class="rm-rel-sub">Split remembers your audio, the chain windows gain live controls and noise reduction goes stereo</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-all">
+                <summary>
+                  <span><span class="rm-cat-name">Audio &amp; Operating</span><span class="rm-cat-n">3 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Split remembers your audio arrangement</b>
+                    <p>With Monitor TX (Hold) and Split Up 1 / 5 / 10 kHz.</p>
+                    <span class="rm-ref">#5922</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>AetherRX and AetherTX live controls</b>
+                    <p>BYPASS, REC and PLAY at the foot of each stage column, and TX Playback.</p>
+                    <span class="rm-ref">#5913</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Stereo noise reduction on every method</b>
+                    <p>Each ear keeps its own antenna, and a pan lands instantly.</p>
+                    <span class="rm-ref">#5971</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">3 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>The Hermes-Lite 2 hears 84 ms sooner</b>
+                    <p>Minimum-phase receive filtering outside CW, and no PA carrier after an unkey.</p>
+                    <span class="rm-ref">#5954, #5850</span>
+                  </div>
+                  <div class="rm-feat">
+                    <span class="rm-flag">Experimental</span>
+                    <b>ANAN-G2 panadapter, S-meter and noise blanker</b>
+                    <p>WDSP's display analyzer at one point per pixel, plus RF-gain attenuation.</p>
+                    <span class="rm-ref">#5814, #5818, #5824</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>The IC-7300MK2 is supported</b>
+                    <p>Over built-in Ethernet/RS-BA1, with no experimental badge.</p>
+                    <span class="rm-ref">#5871</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Interface</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>A Window menu</b>
+                    <p>Open windows listed, with Minimize, Zoom and Full Screen.</p>
+                    <span class="rm-ref">#5891</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>One set of meter ballistics</b>
+                    <p>SmartMTR's attack and release everywhere.</p>
+                    <span class="rm-ref">#5847</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel is-latest">
+            <div class="rm-rel-head">
+              <span class="v">v26.10.1</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 4 Oct 2026</span>
+              <span class="rm-rel-sub">Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">4 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Every control works or says why not</b>
+                    <p>On a radio without a Flex command plane, each control reaches the radio, is dimmed with its reason, or refuses aloud.</p>
+                    <span class="rm-ref">#6044, #6049</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Hermes-Lite 2 squelch, APF, RIT/XIT and FFT AVG</b>
+                    <p>Plus a working AGC-off level and the CL1 external 10 MHz reference.</p>
+                    <span class="rm-ref">#5982, #6050, #6109, #5980, #5923</span>
+                  </div>
+                  <div class="rm-feat">
+                    <span class="rm-flag">Experimental</span>
+                    <b>ANAN-G2 receiver audio and speaker</b>
+                    <p>AF gain, mute and balance apply, and audio plays through the radio's own speaker.</p>
+                    <span class="rm-ref">#5992</span>
+                  </div>
+                  <div class="rm-feat">
+                    <span class="rm-flag">Experimental</span>
+                    <b>RTL-SDR confirmed receive state</b>
+                    <p>Changes publish only once the dongle confirms them, with capture browsing and finer zoom.</p>
+                    <span class="rm-ref">#5924</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Station Control</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>A CTR2 relay</b>
+                    <p>The CTR2 Proxy applet relays a CTR2-Max over Wi-Fi today. The USB host side is ready for the CTR2's firmware.</p>
+                    <span class="rm-ref">#6090, #6114, #6155</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Authenticated 4O3A accessories</b>
+                    <p>Direct TGXL, PGXL and Antenna Genius connections send their access code, under a new Peripherals page.</p>
+                    <span class="rm-ref">#6008, #6027</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-engine">
+                <summary>
+                  <span><span class="rm-cat-name">Core &amp; Platform</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Qt 6.12 everywhere</b>
+                    <p>Every binary and every source build, with a one-command Qt install. The macOS DMGs need 14.4.</p>
+                    <span class="rm-ref">#5842, #6055</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Receive controls behind the seam</b>
+                    <p>Typed backend requests replace 44 raw Flex commands above the seam.</p>
+                    <span class="rm-ref">#5907, #5919</span>
                   </div>
                 </div>
               </details>

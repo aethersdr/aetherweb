@@ -390,6 +390,226 @@ Core & Platform1 entry
 
 Further work toward the engine that runs with no interface attached.
 
+v26.9.3 Released, 13 Sep 2026 A Tools-first menu bar, live map overlays and APRS digipeating
+
+Interface3 entries
+
+**A Tools-first menu bar**
+
+The operating tools collect under one Tools menu, placed ahead of View.
+
+#5595
+
+**Clock-aligned waterfall time markers**
+
+UTC-labelled lines pinned to the rows they were captured with. Off by default.
+
+#5538
+
+**Runtime Monitor Overview**
+
+CPU, resident memory and GUI tick lag as cards and charts over 1 min to 1 h.
+
+#5427, #5531
+
+Data Modes & Mapping2 entries
+
+**NOAA weather radar and NASA city lights**
+
+Two PSK Reporter map layers, with radar playback and retry handling.
+
+#5477, #5479
+
+**APRS WIDE1-1 fill-in digipeater**
+
+Explicit per-session arming that is never restored from settings.
+
+#5562
+
+Radios2 entries
+
+**Web-888 as its own receiver family**
+
+The KiwiSDR receive path tells Web-888 apart and replays its waterfall setup.
+
+#5530
+
+**Backend contract pinned by tests**
+
+The IRadioBackend threading and lifetime rules are tested, and capability bools are frozen.
+
+#5573
+
+v26.9.4 Released, 20 Sep 2026 AetherRX and AetherTX as one window each, Neural Noise Reduction and global precipitation
+
+Audio & DSP3 entries
+
+**AetherRX and AetherTX, one window each**
+
+The stage column is the chain: enable and drag each stage into order.
+
+#5805, #5819
+
+**WDSP 2.10 and Neural Noise Reduction**
+
+NNR joins as the seventh client-side NR method.
+
+#5686, #5687
+
+**S-meter reads the average**
+
+Raw-IQ backends stop reading a decaying peak-hold that sat 11–14 dB high.
+
+#5785
+
+Radios2 entries
+
+**The Hermes-Lite 2 transmits through WDSP**
+
+The TXA modulator is the default, the ALC only reduces, and the dBm reference is derived.
+
+#5747, #5779, #5753
+
+**ANAN-G2 droop correction from the gateware**
+
+An unswept radio gets a corrected FFT on first connect.
+
+#5549
+
+Station Control1 entry
+
+**TGXL and PGXL front panels**
+
+Both 4O3A applets lay out like the device's own panel, and the tuner meters from its own peak.
+
+#5676, #5694, #5845
+
+Engine2 entries
+
+**Global precipitation on the map**
+
+An opt-in LibreWXR overlay with regional radar backups.
+
+#5705
+
+**aetherd transmit grants**
+
+Credential-bound TX grants with a qualified Flex PTT handoff. Startup stays disarmed.
+
+#5830
+
+v26.9.5 Released, 27 Sep 2026 Split remembers your audio, the chain windows gain live controls and noise reduction goes stereo
+
+Audio & Operating3 entries
+
+**Split remembers your audio arrangement**
+
+With Monitor TX (Hold) and Split Up 1 / 5 / 10 kHz.
+
+#5922
+
+**AetherRX and AetherTX live controls**
+
+BYPASS, REC and PLAY at the foot of each stage column, and TX Playback.
+
+#5913
+
+**Stereo noise reduction on every method**
+
+Each ear keeps its own antenna, and a pan lands instantly.
+
+#5971
+
+Radios3 entries
+
+**The Hermes-Lite 2 hears 84 ms sooner**
+
+Minimum-phase receive filtering outside CW, and no PA carrier after an unkey.
+
+#5954, #5850
+
+Experimental **ANAN-G2 panadapter, S-meter and noise blanker**
+
+WDSP's display analyzer at one point per pixel, plus RF-gain attenuation.
+
+#5814, #5818, #5824
+
+**The IC-7300MK2 is supported**
+
+Over built-in Ethernet/RS-BA1, with no experimental badge.
+
+#5871
+
+Interface2 entries
+
+**A Window menu**
+
+Open windows listed, with Minimize, Zoom and Full Screen.
+
+#5891
+
+**One set of meter ballistics**
+
+SmartMTR's attack and release everywhere.
+
+#5847
+
+v26.10.1 Released, 4 Oct 2026 Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories
+
+Radios4 entries
+
+**Every control works or says why not**
+
+On a radio without a Flex command plane, each control reaches the radio, is dimmed with its reason, or refuses aloud.
+
+#6044, #6049
+
+**Hermes-Lite 2 squelch, APF, RIT/XIT and FFT AVG**
+
+Plus a working AGC-off level and the CL1 external 10 MHz reference.
+
+#5982, #6050, #6109, #5980, #5923
+
+Experimental **ANAN-G2 receiver audio and speaker**
+
+AF gain, mute and balance apply, and audio plays through the radio's own speaker.
+
+#5992
+
+Experimental **RTL-SDR confirmed receive state**
+
+Changes publish only once the dongle confirms them, with capture browsing and finer zoom.
+
+#5924
+
+Station Control2 entries
+
+**A CTR2 relay**
+
+The CTR2 Proxy applet relays a CTR2-Max over Wi-Fi today. The USB host side is ready for the CTR2's firmware.
+
+#6090, #6114, #6155
+
+**Authenticated 4O3A accessories**
+
+Direct TGXL, PGXL and Antenna Genius connections send their access code, under a new Peripherals page.
+
+#6008, #6027
+
+Core & Platform2 entries
+
+**Qt 6.12 everywhere**
+
+Every binary and every source build, with a one-command Qt install. The macOS DMGs need 14.4.
+
+#5842, #6055
+
+**Receive controls behind the seam**
+
+Typed backend requests replace 44 raw Flex commands above the seam.
+
+#5907, #5919
+
 Scroll sideways for earlier releases — the full history is in the changelog.
 
 Expand all deliverables

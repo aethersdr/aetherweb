@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 23,
+  "count": 24,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-10-1",
+      "title": "v26.10.1: one Qt, every build",
+      "url": "https://www.aethersdr.com/blog#release-26-10-1",
+      "published": "2026-10-04",
+      "summary": "Every binary and every source build now uses the same Qt 6.12, installed with one command. On a radio without a Flex command plane, every control now either works or tells you why it can't. A CTR2-Max reaches the radio through AetherSDR, 4O3A accessories authenticate, and the Hermes-Lite 2 gains squelch, APF and RIT/XIT.",
+      "readingTime": "4 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-10-1-card.svg",
+      "pinned": false
     },
     {
       "slug": "adaptive-throttle-cq-wpx-cw",

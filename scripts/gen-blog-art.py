@@ -768,6 +768,7 @@ def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=
 
 
 RELEASES = [
+    ("release-26-10-1", "v26.10.1", "One Qt", "toolbar"),
     ("release-26-9-4", "v26.9.4", "The chain, in one window", "chain"),
     ("release-26-9-3", "v26.9.3", "The tools, first", "toolbar"),
     ("release-26-9-2", "v26.9.2", "Four skimmers, one stream", "skim"),

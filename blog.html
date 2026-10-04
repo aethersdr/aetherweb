@@ -134,6 +134,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-10-1">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-10-1-card.svg" alt="v26.10.1 release art — one qt, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-10-04">October 4, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>4 min read</span>
+              </span>
+              <h3>v26.10.1: one Qt, every build</h3>
+              <p>Every binary and every source build now uses the same Qt 6.12, installed with one command. On a radio without a Flex command plane, every control now either works or tells you why it can't. A CTR2-Max reaches the radio through AetherSDR, 4O3A accessories authenticate, and the Hermes-Lite 2 gains squelch, APF and RIT/XIT.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#adaptive-throttle-cq-wpx-cw">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/adaptive-throttle-cq-wpx-cw-card.svg" alt="A cross-needle meter over an AetherSDR spectrum trace, for the CQ WPX CW station-notes post" />
@@ -673,6 +691,61 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-10-1" tabindex="-1" aria-labelledby="h-release-26-10-1" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-10-1-hero.svg" alt="v26.10.1 release art — one qt, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-10-04">October 4, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>4 min read</span>
+        </span>
+        <h1 id="h-release-26-10-1">v26.10.1: one Qt, every build</h1>
+
+        <div class="blog-body">
+          <p class="lede">Ninety-five merged changes. The structural one is the shortest to describe: every AetherSDR binary and every source build now uses one Qt, 6.12, and getting it is one command. The operator-facing one is the longest: on a radio that doesn't speak Flex, every control now either does what it says or tells you why it can't.</p>
+
+          <h2>One Qt</h2>
+
+          <p>Until this release the releases shipped on Qt 6.8.3, while a source build would take any Qt from 6.8 up. Every newer API therefore needed a version guard, and CI compiled the whole tree a second time against 6.8 to keep those guards honest. Now the Windows, macOS and Linux binaries move to Qt 6.12.0 LTS, and source builds require 6.12 too.</p>
+
+          <p>Few distributions package 6.12 yet, so the Qt comes from <code>scripts/setup/setup-qt.sh</code> (<code>setup-qt.ps1</code> on Windows). It installs exactly the release Qt, plus qtkeychain, into a per-user cache that every checkout shares, and CMake finds it with no flags. It refuses before a 2 GB download when the machine can't run the result, and a failed reinstall leaves the working Qt in place. A single pin file is checked against every place the build names a Qt, so the version can't drift between a workflow and a Dockerfile again.</p>
+
+          <p>There is a cost, and it belongs in the release notes rather than in a support thread. <strong>Both macOS DMGs now require macOS 14.4</strong>, so an Intel Mac that can't run Sonoma stops receiving updates. Source builds are lost on Linux below glibc 2.34 (2.38 on aarch64), on architectures Qt publishes no binaries for, and on Macs below 14.5, until a Qt 6.12 reaches them some other way. Windows 10 stays supported: Qt says 6.12 is its last line to do so. That trade was made deliberately, against two Qt builds' worth of guards and CI.</p>
+
+          <h2>Work, or say why</h2>
+
+          <p>On a Hermes-Lite 2, an ANAN, an RTL-SDR dongle or an Icom, a whole class of controls used to take your input and silently do nothing. Their instruction was written for a Flex and thrown away before it reached the radio. A headphone slider moved and nothing changed. A CAT client was told <code>RPRT 0</code> for a step size that never landed. A REC button waited for a radio-side recorder that doesn't exist.</p>
+
+          <p>Every one of those controls is now one of three things. Where the radio can already do what you asked through another path, the control takes that path: CAT step sizes, band-stack recall of AGC and noise reduction, rigctl RF gain, and Radio Side recording, which now records on this computer. Where the radio has no such thing, the control is dimmed — never hidden — and its tooltip and its screen-reader description both give the reason. Everything else refuses before anything is sent, and says so once. Controls that <em>do</em> work no longer raise the "nothing was sent" notice either, so the next one that appears means it.</p>
+
+          <h2>Through AetherSDR, not around it</h2>
+
+          <p>A CTR2-Max controller can now reach the radio through AetherSDR's new <strong>CTR2 Proxy</strong> applet. It forwards every byte unchanged, as a client of its own, and never touches AetherSDR's transmit paths. It only ever targets the radio AetherSDR is connected to, and it stops the moment AetherSDR disconnects. Wi-Fi works with today's CTR2 firmware. The USB link's host side is done and has already carried the radio's status stream to development firmware; it waits on a CTR2 USB firmware release.</p>
+
+          <p>Direct connections to a TGXL, a PGXL or an Antenna Genius now authenticate with the device's access code, stored in the system keychain and bound to the address you typed it for. Radio Setup gains a Peripherals page with Add, Remove and a per-device auto-connect switch.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>The <strong>Hermes-Lite 2</strong> gains receive squelch referred to its LNA, the CW audio peaking filter, an AGC-off level that actually sets the gain, RIT and XIT per receiver, FFT AVG that genuinely averages, and the CL1 external 10 MHz reference. DIGU and DIGL now open with AGC off, and that is worth knowing on upgrade. The <strong>ANAN-G2</strong> applies each receiver's AF gain, mute and balance, and plays through its own speaker. <strong>RTL-SDR</strong> publishes only the receive state the dongle has confirmed. Underneath, the slice receive controls now travel behind the backend seam as typed requests, removing 44 raw Flex commands from above it.</p>
+
+          <p>95 merged changes from 12 contributors, plus AetherClaude. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.10.1">v26.10.1 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

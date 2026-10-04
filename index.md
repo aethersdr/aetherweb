@@ -12,7 +12,7 @@ AetherSDR is a native amateur-radio workstation for FlexRadio 6000, 8000, and Au
 
 [Download for your platform](#download) [What's New](https://github.com/aethersdr/AetherSDR/releases) [View source](https://github.com/aethersdr/AetherSDR)
 
-**v26.7.1** · latest release GPL v3 Qt6 · C++20 GPG-signed commits
+**v26.10.1** · latest release GPL v3 Qt6 · C++20 GPG-signed commits
 
 AetherSDR v26.6.5 — 40m · 3D stacked-trace panadapter
 
@@ -223,7 +223,7 @@ Call for contributors
 
 AetherSDR is developed in the open with Claude Code and a merge gate that treats every contributor — human or AI — the same. Bring a fix, a feature, a translation, a bug report, or a screenshot. You don't have to be a C++ developer to help.
 
-[Read the contributing guide](https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md) [Good first issues](https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) [Join Discussions](https://github.com/aethersdr/AetherSDR/discussions)
+[Read the contributing guide](https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md) [Good first issues](https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) [Join Discussions](https://github.com/aethersdr/AetherSDR/discussions) [Contributor standings](https://contributors.aethersdr.com/)
 
 **46** contributors and counting **~50** PRs merged / week **GPG-signed** commits **≥6** AI tools in the codebase **Qt6 · C++20** Not a dev? The in-app **lightbulb** files AI-assisted reports
 
