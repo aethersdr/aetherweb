@@ -44,7 +44,9 @@ jobs:
         if: ${{ env.CF_TOKEN != '' }}
         run: |
           for i in 1 2 3 4 5 6; do
-            got=$(curl -fsS https://contributors.aethersdr.com/healthz | python3 -c 'import json,sys; print(json.load(sys.stdin)["version"]["git_commit"])')
+            # The new version takes a few seconds to reach every edge; an older
+            # one may not report a version at all.
+            got=$(curl -fsS https://contributors.aethersdr.com/healthz | python3 -c 'import json,sys; print((json.load(sys.stdin).get("version") or {}).get("git_commit", ""))' || true)
             [ "$got" = "${{ github.sha }}" ] && { echo "serving $got"; exit 0; }
             sleep 10
           done
