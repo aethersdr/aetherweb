@@ -12,7 +12,12 @@
   "triggers": { "crons": ["*/15 * * * *"] },
   "kv_namespaces": [{ "binding": "SNAPSHOT", "id": "1be2436bca4f4034a694c7055e42dff3" }],
   "vars": {
-    "SOURCE": "https://dashboard.aethersdr.com"
+    "SOURCE": "https://dashboard.aethersdr.com",
+    // Overridden by CI with the commit being deployed; "local" means a
+    // deploy from a workstation.
+    "GIT_COMMIT": "local"
   },
+  // Lets /healthz report which deployed version is serving.
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "observability": { "enabled": true }
 }

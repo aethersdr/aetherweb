@@ -37,8 +37,15 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_CONTRIBUTORS_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: contributors
-          command: deploy
+          # Stamp the deployed version with this commit; /healthz reports it.
+          command: deploy --var GIT_COMMIT:${{ github.sha }}
 
-      - name: Check the mirror is serving
+      - name: Check the mirror is serving this commit
         if: ${{ env.CF_TOKEN != '' }}
-        run: curl -fsS https://contributors.aethersdr.com/healthz
+        run: |
+          for i in 1 2 3 4 5 6; do
+            got=$(curl -fsS https://contributors.aethersdr.com/healthz | python3 -c 'import json,sys; print(json.load(sys.stdin)["version"]["git_commit"])')
+            [ "$got" = "${{ github.sha }}" ] && { echo "serving $got"; exit 0; }
+            sleep 10
+          done
+          echo "::error::contributors.aethersdr.com reports $got, expected ${{ github.sha }}"; exit 1

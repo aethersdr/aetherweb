@@ -129,11 +129,20 @@ Worker that mirrors it at **contributors.aethersdr.com**:
   dashboard host is down; `/healthz` reports when it last synced.
 - The page isn't duplicated here: changes to the leaderboard reach the mirror
   on the next sync. Only the back link is rewritten to point at this site.
+- The dashboard asks for a sync (`POST /sync`, authenticated with a shared
+  `SYNC_TOKEN` Worker secret) whenever its standings change, so the mirror is
+  normally seconds behind; the 15-minute cron is the fallback.
+- `/healthz` reports what the mirror copied (a hash of the page and of the
+  standings, when, and why), any warnings, and the deployed version and git
+  commit. The dashboard compares that with its own every 5 minutes and raises
+  an alert when the mirror has drifted or stopped syncing.
 
 `.github/workflows/deploy-contributors.yml` deploys the Worker when
 `contributors/` changes, using the `CLOUDFLARE_CONTRIBUTORS_API_TOKEN` secret
 (Workers Scripts and Workers KV on the account; Workers Routes and DNS on
-`aethersdr.com`). Locally: `cd contributors && npx wrangler deploy`.
+`aethersdr.com`), stamps the deployed version with the commit, and checks the
+mirror reports that commit. Deploy only through it, so what serves is always
+what is in the repo; a workstation deploy shows `"git_commit": "local"`.
 
 ## Machine-readable surface
 
