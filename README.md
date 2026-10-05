@@ -122,16 +122,18 @@ support, with weekly contributor, steward and backer awards) is produced by
 the AetherClaude agent's dashboard. `contributors/` is a small Cloudflare
 Worker that mirrors it at **contributors.aethersdr.com**:
 
-- Every 15 minutes (a cron trigger) it copies the leaderboard page and its
-  standings from `dashboard.aethersdr.com` into a KV namespace, validating
-  them first. A failed sync never replaces the last good copy.
+- Every 15 minutes (a cron trigger) it checks the leaderboard page and its
+  standings on `dashboard.aethersdr.com`, validates them, and writes to a KV
+  namespace only what changed: KV writes are the scarce quota (1,000 a day on
+  the free plan). A failed sync never replaces the last good copy.
 - Visitors are served only from KV, so the mirror keeps working when the
   dashboard host is down; `/healthz` reports when it last synced.
 - The page isn't duplicated here: changes to the leaderboard reach the mirror
   on the next sync. Only the back link is rewritten to point at this site.
 - The dashboard asks for a sync (`POST /sync`, authenticated with a shared
-  `SYNC_TOKEN` Worker secret) whenever its standings change, so the mirror is
-  normally seconds behind; the 15-minute cron is the fallback.
+  `SYNC_TOKEN` Worker secret) when its standings change, at most every 10
+  minutes, so the mirror is at most about 10 minutes behind; the 15-minute
+  cron is the fallback. `synced_at` is when the copy last changed.
 - `/healthz` reports what the mirror copied (a hash of the page and of the
   standings, when, and why), any warnings, and the deployed version and git
   commit. The dashboard compares that with its own every 5 minutes and raises

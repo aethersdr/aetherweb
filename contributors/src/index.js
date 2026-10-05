@@ -1,17 +1,19 @@
 // contributors.aethersdr.com — a mirror of the AetherSDR contributor
-// leaderboard. The source dashboard asks for a sync whenever its standings
-// change (POST /sync), and a cron every 15 minutes syncs regardless. Each
-// sync copies the leaderboard page and its standings into KV after checking
-// them; requests are served from KV only, so the mirror stays up with the
-// last good copy when the source is unreachable. A failed sync never
-// overwrites a good copy. /healthz reports what was copied (hashes,
-// timestamps, warnings) and which Worker version is running, so the source
-// can verify the two haven't drifted.
+// leaderboard. The source dashboard asks for a sync when its standings
+// change (POST /sync, at most every 10 minutes), and a cron every 15 minutes
+// syncs too. Each sync checks the page and standings and writes to KV only
+// what changed (KV writes are the scarce quota); requests are served from KV
+// only, so the mirror stays up with the last good copy when the source is
+// unreachable. A failed sync never overwrites a good copy. /healthz reports
+// what was copied (hashes, timestamps, warnings) and which Worker version is
+// running, so the source can verify the two haven't drifted.
 
 const PAGE = 'page.html';
 const DATA = 'standings.json';
 const META = 'meta.json';
-const MIN_SYNC_GAP_MS = 30_000;   // /sync requests closer than this are skipped
+const MIN_SYNC_GAP_MS = 600_000;  // syncs closer than this to the last check are skipped
+const ERROR_REWRITE_MS = 3_600_000; // the same error is recorded again at most hourly
+let lastCheck = 0;                 // per isolate: when this copy last checked the source
 const BACK_LINK = '<a href="/">&larr; Dashboard</a>';
 const HEADERS = {
   'X-Content-Type-Options': 'nosniff',
@@ -32,6 +34,8 @@ function version(env) {
 async function sync(env, trigger) {
   const started = new Date().toISOString();
   const meta = (await env.SNAPSHOT.get(META, 'json')) || {};
+  if (trigger !== 'first-request' && Date.now() - lastCheck < MIN_SYNC_GAP_MS) return true;
+  lastCheck = Date.now();
   try {
     const [pageRes, dataRes] = await Promise.all([
       fetch(`${env.SOURCE}/leaderboard`, { cf: { cacheTtl: 0 } }),
@@ -55,19 +59,28 @@ async function sync(env, trigger) {
     } else {
       warnings.push('back link not found; the mirror links back to itself');
     }
-    await env.SNAPSHOT.put(PAGE, page);
-    await env.SNAPSHOT.put(DATA, data);
+    const pageHash = await sha256(sourcePage);
+    const contentHash = parsed.content_hash || await sha256(data);
+    const pageChanged = pageHash !== meta.page_sha256;
+    const dataChanged = contentHash !== meta.content_hash;
+    // Nothing new: no writes. synced_at is when the copy last changed.
+    if (!pageChanged && !dataChanged && !meta.last_error && JSON.stringify(warnings) === JSON.stringify(meta.warnings || [])) return true;
+    if (pageChanged) await env.SNAPSHOT.put(PAGE, page);
+    if (dataChanged || !(await env.SNAPSHOT.get(DATA, { cacheTtl: 60 }))) await env.SNAPSHOT.put(DATA, data);
     await env.SNAPSHOT.put(META, JSON.stringify({
       synced_at: started, trigger,
       collected_at: parsed.collected_at || null,
-      content_hash: parsed.content_hash || null,
-      page_sha256: await sha256(sourcePage),
+      content_hash: contentHash,
+      page_sha256: pageHash,
       bytes: data.length, warnings,
       last_error: null, last_error_at: meta.last_error_at || null,
     }));
     return true;
   } catch (e) {
-    await env.SNAPSHOT.put(META, JSON.stringify({ ...meta, last_error: String(e).slice(0, 300), last_error_at: started }));
+    const err = String(e).slice(0, 300);
+    if (err !== meta.last_error || !meta.last_error_at || Date.now() - Date.parse(meta.last_error_at) > ERROR_REWRITE_MS) {
+      await env.SNAPSHOT.put(META, JSON.stringify({ ...meta, last_error: err, last_error_at: started }));
+    }
     return false;
   }
 }
@@ -94,10 +107,7 @@ export default {
     if (url.pathname === '/sync') {
       if (request.method !== 'POST') return respond('Method not allowed', 'text/plain', {}, 405);
       if (!tokenMatches(request.headers.get('X-Sync-Token'), env.SYNC_TOKEN)) return respond('Forbidden', 'text/plain', {}, 403);
-      const meta = (await env.SNAPSHOT.get(META, 'json')) || {};
-      if (meta.synced_at && Date.now() - Date.parse(meta.synced_at) < MIN_SYNC_GAP_MS) {
-        return respond('{"status":"recent"}', 'application/json', {}, 202);
-      }
+      if (Date.now() - lastCheck < MIN_SYNC_GAP_MS) return respond('{"status":"recent"}', 'application/json', {}, 202);
       ctx.waitUntil(sync(env, 'push'));
       return respond('{"status":"syncing"}', 'application/json', {}, 202);
     }
@@ -127,7 +137,10 @@ export default {
     if (url.pathname === '/healthz') {
       const meta = (await env.SNAPSHOT.get(META, 'json')) || {};
       const age = meta.synced_at ? Math.round((Date.now() - Date.parse(meta.synced_at)) / 1000) : null;
-      return respond(JSON.stringify({ ...meta, age_seconds: age, healthy: age !== null && age < 3600,
+      // synced_at moves only when the copy changes, so health is "has a copy
+      // and no error since it", not its age.
+      const healthy = !!meta.synced_at && (!meta.last_error || meta.last_error_at < meta.synced_at);
+      return respond(JSON.stringify({ ...meta, age_seconds: age, healthy,
                                       version: version(env) }, null, 1),
                      'application/json', { 'Cache-Control': 'no-cache' });
     }
