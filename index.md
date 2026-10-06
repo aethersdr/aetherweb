@@ -245,6 +245,6 @@ Public ledger
 
 Every dollar in and out is visible on Open Collective — no black box
 
-[Sponsor on Open Collective](https://opencollective.com/aethersdr) [See the Contributor Logbook](https://contributors.aethersdr.com/) [See the public ledger](https://opencollective.com/aethersdr#category-BUDGET)
+[Sponsor on Open Collective](https://opencollective.com/aethersdr) [See the Contributor Logbook](https://contributors.aethersdr.com/leaderboard#all-time/backer) [See the public ledger](https://opencollective.com/aethersdr#category-BUDGET)
 
 Prefer to contribute gear instead? Controller hardware loans and donations for the device lab are just as welcome — [start a thread](https://github.com/aethersdr/AetherSDR/discussions).
