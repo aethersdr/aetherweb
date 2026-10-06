@@ -166,11 +166,11 @@ How AetherSDR is built
 
 Developed primarily through Claude Code and a mix of AI tools — with a human review gate on every commit. Nothing reaches `main` without it.
 
-~50
+~85
 
 Pull requests merged per week
 
-15k–30k
+48k+
 
 Lifetime downloads
 
@@ -225,13 +225,13 @@ AetherSDR is developed in the open with Claude Code and a merge gate that treats
 
 [Read the contributing guide](https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md) [Good first issues](https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) [Join Discussions](https://github.com/aethersdr/AetherSDR/discussions) [Contributor standings](https://contributors.aethersdr.com/)
 
-**46** contributors and counting **~50** PRs merged / week **GPG-signed** commits **≥6** AI tools in the codebase **Qt6 · C++20** Not a dev? The in-app **lightbulb** files AI-assisted reports
+**68** contributors and counting **~85** PRs merged / week **GPG-signed** commits **≥6** AI tools in the codebase **Qt6 · C++20** Not a dev? The in-app **lightbulb** files AI-assisted reports
 
 Sponsor AetherSDR
 
 ### Fuel the next release
 
-AetherSDR is free, GPL, and always will be. Sponsorship through [Open Collective](https://opencollective.com/aethersdr) directly drives the product forward — it funds the AI development subscriptions behind our ~50 merged PRs a week, and puts real control hardware on the test bench so knobs, dials, and decks work the day we ship them.
+AetherSDR is free, GPL, and always will be. Sponsorship through [Open Collective](https://opencollective.com/aethersdr) directly drives the product forward — it funds the AI development subscriptions behind our ~85 merged PRs a week, and puts real control hardware on the test bench so knobs, dials, and decks work the day we ship them.
 
 AI development
 
