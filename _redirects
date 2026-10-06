@@ -1,0 +1,6 @@
+# The supporter panadapter outgrew one spectrum; the Contributor Logbook
+# replaces it. Old links and bookmarks forward there.
+/supporters       https://contributors.aethersdr.com/ 301
+/supporters/      https://contributors.aethersdr.com/ 301
+/supporters.html  https://contributors.aethersdr.com/ 301
+/supporters.md    https://contributors.aethersdr.com/ 301

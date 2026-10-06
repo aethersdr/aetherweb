@@ -223,7 +223,7 @@ Call for contributors
 
 AetherSDR is developed in the open with Claude Code and a merge gate that treats every contributor — human or AI — the same. Bring a fix, a feature, a translation, a bug report, or a screenshot. You don't have to be a C++ developer to help.
 
-[Read the contributing guide](https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md) [Good first issues](https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) [Join Discussions](https://github.com/aethersdr/AetherSDR/discussions) [Contributor standings](https://contributors.aethersdr.com/)
+[Read the contributing guide](https://github.com/aethersdr/AetherSDR/blob/main/CONTRIBUTING.md) [Good first issues](https://github.com/aethersdr/AetherSDR/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) [Join Discussions](https://github.com/aethersdr/AetherSDR/discussions) [Contributor Logbook](https://contributors.aethersdr.com/)
 
 **68** contributors and counting **~85** PRs merged / week **GPG-signed** commits **≥6** AI tools in the codebase **Qt6 · C++20** Not a dev? The in-app **lightbulb** files AI-assisted reports
 
@@ -245,6 +245,6 @@ Public ledger
 
 Every dollar in and out is visible on Open Collective — no black box
 
-[Sponsor on Open Collective](https://opencollective.com/aethersdr) [See who's on the band](https://www.aethersdr.com/supporters.html) [See the public ledger](https://opencollective.com/aethersdr#category-BUDGET)
+[Sponsor on Open Collective](https://opencollective.com/aethersdr) [See the Contributor Logbook](https://contributors.aethersdr.com/) [See the public ledger](https://opencollective.com/aethersdr#category-BUDGET)
 
 Prefer to contribute gear instead? Controller hardware loans and donations for the device lab are just as welcome — [start a thread](https://github.com/aethersdr/AetherSDR/discussions).

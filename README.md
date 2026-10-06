@@ -77,7 +77,12 @@ Cloudflare Pages serves the page extensionless at **`/blog`** and 308-redirects
 Internal links keep the `blog.html` form on purpose — it resolves under
 `serve.py` locally and just costs one redirect hop in production.
 
-## The supporters page
+## The supporters page (retired)
+
+> Retired 2026-10-06: too many supporters to fit one spectrum. `_redirects`
+> sends `/supporters` (and `.html`/`.md`) to <https://contributors.aethersdr.com/>,
+> and the page is no longer deployed. The source and generator below stay in
+> the repo for reference.
 
 `/supporters` draws everyone who has funded the project as a signal on a
 panadapter — the more someone has given, the stronger their signal, spotted

@@ -41,7 +41,6 @@ PAGES = [
     ('blog.html', '/blog', '0.9', 'weekly'),
     ('lineage.html', '/lineage', '0.5', 'monthly'),
     ('roadmap.html', '/roadmap', '0.7', 'monthly'),
-    ('supporters.html', '/supporters', '0.6', 'weekly'),
 ]
 
 
