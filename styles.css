@@ -509,9 +509,9 @@ section.block { padding: 84px 0; }
   padding: 52px 44px;
 }
 .built-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 34px; }
-.built-item { text-align: left; }
-.built-item .k { font-size: 26px; font-weight: 760; letter-spacing: -0.02em; }
-.built-item .v { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.built-item { text-align: center; }
+.built-item .k { font-size: clamp(28px, 3.6vw, 38px); font-weight: 760; letter-spacing: -0.02em; }
+.built-item .v { color: var(--muted); font-size: 15px; margin-top: 4px; }
 .built-points { display: grid; gap: 12px; margin-top: 30px; }
 .built-points li { list-style: none; color: var(--ink-soft); font-size: 15px; padding-left: 28px; position: relative; }
 .built-points li::before {
