@@ -148,6 +148,20 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; font-weight:
 }
 .btn-ghost:hover { transform: translateY(-2px); border-color: var(--cyan); color: var(--ink); background: rgba(93,227,255,0.08); }
 .btn-sm { padding: 9px 16px; font-size: 14px; }
+/* Gold spark tracing the border of anything that leads to the Contributor
+   Logbook — the same effect as its award cards: a conic gradient rotated by
+   an animated angle, masked down to a 1.5px ring. */
+@property --spark { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes spark { to { --spark: 360deg; } }
+.btn-spark { position: relative; }
+.btn-spark::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: conic-gradient(from var(--spark), transparent 0deg 250deg, rgba(224,184,74,.25) 290deg, #ffd970 335deg, #fff6d8 350deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  filter: drop-shadow(0 0 4px rgba(255,217,112,.75));
+  animation: spark 5s linear infinite;
+}
 
 /* ---------- Nav ---------- */
 header.nav {
@@ -864,6 +878,7 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; padding: 46px
 @media (prefers-reduced-motion: reduce) {
   .lineage.js-reveal .ev { opacity: 1; transform: none; transition: none; }
   .readout-bar { transition: none; }
+  .btn-spark::before { animation: none; --spark: 300deg; }
 }
 
 /* ==========================================================================
