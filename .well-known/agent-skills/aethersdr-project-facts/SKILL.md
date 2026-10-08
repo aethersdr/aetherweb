@@ -13,7 +13,7 @@ around open interfaces so it works with the tools operators already run
 
 - Homepage: <https://www.aethersdr.com/>
 - Source: <https://github.com/aethersdr/AetherSDR>
-- User manual: <https://lu5dx.github.io/AetherSDRDocsEnglish/latest/>
+- User manual: <https://docs.aethersdr.com/>
 - Releases: <https://github.com/aethersdr/AetherSDR/releases>
 - License: **GPL-3.0-or-later**. Built with Qt6 and C++20; commits are GPG-signed.
 

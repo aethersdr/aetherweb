@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "sourceCode": "https://github.com/aethersdr/AetherSDR",
   "issues": "https://github.com/aethersdr/AetherSDR/issues",
-  "documentation": "https://lu5dx.github.io/AetherSDRDocsEnglish/latest/",
+  "documentation": "https://docs.aethersdr.com/",
   "releases": "https://github.com/aethersdr/AetherSDR/releases",
   "latestReleaseFeed": "https://api.github.com/repos/aethersdr/AetherSDR/releases/latest",
   "platforms": [

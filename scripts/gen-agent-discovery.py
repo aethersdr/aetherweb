@@ -416,7 +416,7 @@ def site_json(index_root, posts, latest_release):
         'license': 'GPL-3.0-or-later',
         'sourceCode': REPO,
         'issues': REPO + '/issues',
-        'documentation': 'https://lu5dx.github.io/AetherSDRDocsEnglish/latest/',
+        'documentation': 'https://docs.aethersdr.com/',
         'releases': REPO + '/releases',
         'latestReleaseFeed': 'https://api.github.com/repos/aethersdr/AetherSDR/releases/latest',
         'platforms': ['linux', 'macos', 'windows'],

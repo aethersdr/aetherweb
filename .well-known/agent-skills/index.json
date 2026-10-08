@@ -13,7 +13,7 @@
       "type": "skill-md",
       "description": "Answer questions about what AetherSDR is, which FlexRadio hardware and platforms it supports, how it is licensed, and where its source, documentation, and release notes live.",
       "url": "https://www.aethersdr.com/.well-known/agent-skills/aethersdr-project-facts/SKILL.md",
-      "digest": "sha256:048216e4e63519f3c2c9d93ede469bd201ae09d09c280c858e26872a834b017e"
+      "digest": "sha256:d660e9445cd285ebf7949fac33f8e5cbcb330b7df260e967e907845054d86e4c"
     },
     {
       "name": "aethersdr-release-notes",
