@@ -134,6 +134,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-10-2">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-10-2-card.svg" alt="v26.10.2 release art — behind cgnat, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-10-11">October 11, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>5 min read</span>
+              </span>
+              <h3>v26.10.2: the radio, from anywhere</h3>
+              <p>A Tailscale node that runs inside a FLEX-8000 or Aurora radio carries AetherSDR through CGNAT. The main window gets one title bar with a tab per radio, the user guide moves to docs.aethersdr.com, and the first windows take on the AetherSDR style guide.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-10-1">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-10-1-card.svg" alt="v26.10.1 release art — one qt, drawn as an AetherSDR spectrum panel" />
@@ -691,6 +709,65 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-10-2" tabindex="-1" aria-labelledby="h-release-26-10-2" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-10-2-hero.svg" alt="v26.10.2 release art — behind cgnat, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-10-11">October 11, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>5 min read</span>
+        </span>
+        <h1 id="h-release-26-10-2">v26.10.2: the radio, from anywhere</h1>
+
+        <div class="blog-body">
+          <p class="lede">One hundred and six merged changes, and the one that will matter most to some of you is the least visible: if your station sits behind carrier-grade NAT, AetherSDR can now reach it anyway, through a Tailscale node that runs inside the radio itself.</p>
+
+          <h2>The radio, from anywhere</h2>
+
+          <p>CGNAT is the quiet end of a lot of remote stations. Your provider hands you an address that is shared with hundreds of other customers, nothing can reach in, and port forwarding stops being an option you can buy your way out of. SmartLink works around it through a relay. A VPN works around it if you have a box at home to run one on.</p>
+
+          <p>The FLEX-8000 and Aurora radios already have a box at home to run one on: themselves. They run Docker waveform containers, so this release ships <code>flex-tailnet-shim</code>, a small Tailscale node that installs into the radio as a waveform. It joins your tailnet and passes the SmartSDR control connection and the VITA-49 streams through to the radio, so AetherSDR on a laptop on the other side of the world connects as though it were on the LAN. Install it from <strong>Waveforms → Install… → Remote Access (Tailscale)</strong>. AetherSDR downloads a pinned image and checks it against a pinned size and SHA-256 before it goes anywhere near the radio. <strong>Configure…</strong> then opens a window for the auth key, the machine name and an allowlist of who may connect.</p>
+
+          <p>Two decisions are worth explaining. First, the shim closes the radio connection the moment a client goes away. That is how the radio knows to unkey anything that client owned, and a tunnel that kept a dead session alive would be a tunnel that could leave a transmitter keyed. Second, it checks every caller against your allowlist, and that includes the 4O3A station devices it can share as subnet routes. Saving a narrower list ends the connections it now refuses, but only on a definite refusal: a lookup that times out keeps you connected rather than dropping everyone on the list.</p>
+
+          <p>A tailnet carries 1280-byte packets, and VITA-49 sized for an ordinary LAN does not fit. That was the "connects, but no panadapter and no audio" report from a station behind a travel router. AetherSDR now caps its network MTU at 1200 whenever either end of the connection has a tailnet address. It never rewrites the value you saved, so the next LAN connection gets it back. Network Diagnostics gains a Remote Link view showing the tunnel's path, its round-trip time and where any packet loss happens: before the tunnel or inside it.</p>
+
+          <h2>One bar, and a style to grow into</h2>
+
+          <p>The main window now has a single 52 px title bar on all three platforms. It holds the menu, a tab for each radio you know about, the audio controls and the window controls. The separate heartbeat lamp is gone: the radio tab's own dot pulses, and if the link drops unexpectedly it turns red and says "link lost" in words until you deal with it. On Windows and Linux the menus live behind a ☰ button. macOS keeps its system menu bar and its traffic lights. If the new chrome does not suit your window manager, <strong>View → Frameless Window</strong> is still the way out.</p>
+
+          <p>Alongside it, AetherSDR now has a written style guide, and the first windows have moved onto it: About, AetherRX, AetherTX, AetherModem, AetherGPS, Connect to Radio, AGC-T Calibration and the PSK Reporter map, now called AetherMap. They drop the title bar, close with Esc, and can be dragged from anywhere empty. The panadapter is the first surface inside the main window to follow, with a transparent header that lets the spectrum run to the top of the pan. This is deliberately one surface at a time. The final step, flipping the app's base colors to the canon, comes last, once everything that would look wrong after it has been moved.</p>
+
+          <h2>A manual you can find</h2>
+
+          <p>The user guide has left the GitHub wiki. Search engines never indexed the wiki, and it had drifted five months behind the app. It now lives in the repository and is published at <a href="https://docs.aethersdr.com">docs.aethersdr.com</a>. There is a Stable version for this release and a Next version that tracks development, plus a printable PDF manual signed with each release. More than a hundred of its screenshots come from a real radio on a real band, with addresses, serials and locations redacted. Because the docs now change in the same pull request as the behavior they describe, they should stop drifting.</p>
+
+          <p>The site also hosts a <strong>Log Analyzer</strong>. Drop a log or a support bundle onto it and it points at known problems, each linked to its fix. It runs entirely in your browser and uploads nothing. The app's Help menu links to all three.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>The <strong>Digital Voice Keyer</strong> imports any WAV: it converts the file to the radio's 24 kHz mono, so a clip no longer plays at half speed, and slot names keep their spaces. Two new panadapter sliders, <strong>FFT Smooth</strong> and <strong>FFT De-comb</strong>, shape the trace across frequency and are off by default. De-comb turns a voice's harmonic comb into its envelope, so it keeps the peak level instead of averaging it away. TCI now announces every tune start and stop, which an external tuner controller needs. Copy Assist can transcribe from the audio before noise reduction, and on one recorded ragchew that cut its error rate by a third.</p>
+
+          <p><strong>RTL-SDR</strong> gains WFM stereo, live PPM adjustment and per-receiver squelch, meters and audio feeds, and every official package now includes it. The <strong>Hermes-Lite 2</strong> and the <strong>ANAN-G2</strong> now remember where you left them across a restart. Two HL2 level changes are worth knowing on upgrade. Receive audio is 12 dB quieter, because it now leaves the DSP at unity. CW is sent 6 dB stronger at the same drive, matching TUNE. Four IC-7300MK2 control defects are fixed, and <code>radiocert</code> gained the checks that would have caught them. Windows builds are now Authenticode-signed, the installer ships its own firewall rules, and every release keeps its debug symbols, so a crash in a shipped build can be traced.</p>
+
+          <p>106 merged changes from 15 contributors, plus AetherClaude — including one first-time contributor this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.10.2">v26.10.2 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

@@ -667,6 +667,18 @@ GLYPHS = {
                 f'stroke-linecap="round"/>'
                 for y, a, pk in ((-66, 22, -20), (-22, 60, -26),
                                  (22, 96, -16), (66, 40, -22))),
+    # Two stations joined by an arch that passes over a wall: the radio
+    # reached from anywhere, through the carrier's NAT rather than around it.
+    "tunnel": '<path d="M-100 40H100" stroke="currentColor" stroke-width="2" '
+              'stroke-dasharray="6 7" opacity=".35"/>'
+              '<rect x="-8" y="-6" width="16" height="46" rx="3" fill="currentColor" opacity=".22"/>'
+              '<path d="M-70 26C-70-62 70-62 70 26" fill="none" stroke="currentColor" '
+              'stroke-width="4" stroke-linecap="round"/>'
+              '<path d="M-70 26C-70-40 70-40 70 26" fill="none" stroke="currentColor" '
+              'stroke-width="2" stroke-linecap="round" opacity=".4"/>'
+              '<circle cx="-70" cy="26" r="13" fill="currentColor"/>'
+              '<circle cx="70" cy="26" r="13" fill="none" stroke="currentColor" stroke-width="4"/>'
+              '<circle cx="70" cy="26" r="4" fill="currentColor"/>',
     # A menu bar whose fourth item is open: the entries the radio can't
     # support stay dim rather than pretending.
     "toolbar": '<rect x="-98" y="-78" width="196" height="30" rx="9" fill="none" '
@@ -768,6 +780,7 @@ def build_note(root, slug, headline, kicker, motif, aria_hero, aria_card, force=
 
 
 RELEASES = [
+    ("release-26-10-2", "v26.10.2", "Behind CGNAT", "tunnel"),
     ("release-26-10-1", "v26.10.1", "One Qt", "toolbar"),
     ("release-26-9-4", "v26.9.4", "The chain, in one window", "chain"),
     ("release-26-9-3", "v26.9.3", "The tools, first", "toolbar"),

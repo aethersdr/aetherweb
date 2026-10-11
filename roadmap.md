@@ -554,6 +554,74 @@ SmartMTR's attack and release everywhere.
 
 #5847
 
+v26.10.2 Released, 11 Oct 2026 A unified title bar, a user guide at docs.aethersdr.com and remote operation over CGNAT
+
+Interface4 entries
+
+**One title bar with radio tabs**
+
+Menu, a tab per radio with its link state, audio and window controls in one 52 px bar on every platform.
+
+#6198
+
+**The canon windows**
+
+About, AetherRX, AetherTX, AetherModem, AetherMap, AetherGPS, Connect to Radio and the panadapter header on the AetherSDR style guide.
+
+#6227, #6334, #6339, #6340, #6386
+
+**docs.aethersdr.com**
+
+The user guide with Stable and Next versions, a signed PDF manual and a browser-side Log Analyzer.
+
+#6286, #6294
+
+**DVK import, FFT Smooth and De-comb**
+
+Any WAV imports to the keyer; two trace-shaping sliders on the panadapter.
+
+#6247, #6371
+
+Radios3 entries
+
+Experimental **RTL-SDR WFM stereo and multi-receiver delivery**
+
+Stereo broadcast FM, live PPM, per-receiver squelch, meters and audio feeds, in every official package.
+
+#5973, #6082, #6083
+
+**Hermes-Lite 2 and ANAN-G2 remember where you left them**
+
+Receivers, setpoints, TUNE power, FFT settings, frequency, mode and step restored per radio.
+
+#6259, #6129
+
+**IC-7300MK2 control fixes**
+
+COMP, squelch, front-end interlock and a measured SQL line, with radiocert checks for each class.
+
+#6174, #6175, #6183, #6184, #6205
+
+Core & Platform3 entries
+
+**Remote over CGNAT**
+
+An in-radio Tailscale node for FLEX-8000 and Aurora, with the MTU capped to fit the tunnel.
+
+#6273, #6318, #6319
+
+**Signed Windows builds**
+
+Authenticode on every exe and DLL, shipped firewall rules and a Windows Firewall diagnostics page.
+
+#6307, #6289
+
+**Clean sanitizer runs**
+
+Both weekly sanitizer lanes ran clean for the first time this cycle.
+
+#6173, #6208
+
 v26.10.1 Released, 4 Oct 2026 Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories
 
 Radios4 entries

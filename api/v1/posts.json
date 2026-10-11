@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 24,
+  "count": 25,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-10-2",
+      "title": "v26.10.2: the radio, from anywhere",
+      "url": "https://www.aethersdr.com/blog#release-26-10-2",
+      "published": "2026-10-11",
+      "summary": "A Tailscale node that runs inside a FLEX-8000 or Aurora radio carries AetherSDR through CGNAT. The main window gets one title bar with a tab per radio, the user guide moves to docs.aethersdr.com, and the first windows take on the AetherSDR style guide.",
+      "readingTime": "5 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-10-2-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-10-1",
