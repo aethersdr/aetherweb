@@ -38,6 +38,19 @@ export const personas = [
     ],
   },
   {
+    id: 'ragchewer', name: 'The Rag Chewer', color: '#ff8a65',
+    tagline: 'Long QSOs, round tables and the Sunday net',
+    look: { desk: 'studio', shots: ['audio', 'stack3d'], antenna: 'dipole', lean: 0.32, phones: false },
+    who: 'Here for the conversation, not the exchange: the Sunday-morning round table on 75 m, the regulars who know each other’s voices, QSOs that sail past the thirty minutes the ARRL Rag Chewers’ Club asks for.[[arrl-rcc]] This one’s shack looks like a podcast studio — a Shure SM7B on a boom arm, an audio interface, studio monitors instead of headphones, and a chair that leans back.',
+    needs: [
+      'Transmit audio that sounds like them — warm, even, no sibilance — from a broadcast mic that wants 60 dB of clean gain.[[shure-sm7b-gain]]',
+      'Receive audio comfortable enough for an hour on speakers: less hiss, strong and weak stations levelled.',
+      'Ride out the fading on a long-haul QSO.',
+      'A clean signal when the amplifier is on.',
+      'Know who just joined, and when the net starts.',
+    ],
+  },
+  {
     id: 'portable', name: 'The Park Hunter & Activator', color: '#ffd166',
     tagline: 'POTA from the shack and from the picnic table',
     look: { desk: 'picnic', shots: ['stack3d'], antenna: 'endfed' },

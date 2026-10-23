@@ -45,27 +45,73 @@ function radio(color, w = 11) {
   return grp;
 }
 
-// A seated operator: low-poly, edge-lit, wearing headphones.
-function operator(color) {
+// A seated operator: low-poly, edge-lit, wearing headphones unless the
+// station has speakers. `lean` tips the chair back and the upper body with it.
+function operator(color, { lean = 0, phones = true } = {}) {
   const grp = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({ color: 0x0f1c2c, roughness: 0.6, metalness: 0.2, emissive: new THREE.Color(color), emissiveIntensity: 0.12 });
   const part = (geo) => edged(geo, color, { mat, opacity: 0.7 });
   const chairSeat = box(7, 1, 7, color, { opacity: 0.5 }); chairSeat.position.set(0, 7, 0); grp.add(chairSeat);
-  const chairBack = box(7, 9, 1, color, { opacity: 0.5 }); chairBack.position.set(0, 12, 3.6); grp.add(chairBack);
   const chairPost = cyl(0.4, 0.4, 6, color); chairPost.position.set(0, 3.5, 0); grp.add(chairPost);
   const hips = part(new THREE.BoxGeometry(5.4, 2.4, 5)); hips.position.set(0, 8.8, 0.4); grp.add(hips);
-  const torso = part(new THREE.CylinderGeometry(2.4, 2.8, 8, 8)); torso.position.set(0, 14, 0.8); torso.rotation.x = -0.12; grp.add(torso);
-  const head = part(new THREE.IcosahedronGeometry(2.1, 1)); head.position.set(0, 20.2, 0.1); grp.add(head);
-  const phones = new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.35, 8, 20, Math.PI), new THREE.MeshBasicMaterial({ color, toneMapped: false }));
-  phones.position.set(0, 20.4, 0.1); grp.add(phones);
+  // Everything above the hips pivots back together.
+  const upper = new THREE.Group();
+  upper.position.set(0, 8.8, 0.4);
+  upper.rotation.x = lean;
+  grp.add(upper);
+  const at = (o, x, y, z) => { o.position.set(x, y - 8.8, z - 0.4); upper.add(o); return o; };
+  at(box(7, 9, 1, color, { opacity: 0.5 }), 0, 12, 3.6);
+  const torso = at(part(new THREE.CylinderGeometry(2.4, 2.8, 8, 8)), 0, 14, 0.8); torso.rotation.x = -0.12;
+  at(part(new THREE.IcosahedronGeometry(2.1, 1)), 0, 20.2, 0.1);
+  if (phones) at(new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.35, 8, 20, Math.PI), new THREE.MeshBasicMaterial({ color, toneMapped: false })), 0, 20.4, 0.1);
   [-1, 1].forEach((s) => {
-    const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.7, 12), new THREE.MeshBasicMaterial({ color, toneMapped: false }));
-    cup.rotation.z = Math.PI / 2; cup.position.set(s * 2.4, 20.2, 0.1); grp.add(cup);
+    if (phones) { const cup = at(new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.7, 12), new THREE.MeshBasicMaterial({ color, toneMapped: false })), s * 2.4, 20.2, 0.1); cup.rotation.z = Math.PI / 2; }
     const thigh = part(new THREE.BoxGeometry(1.9, 1.8, 6)); thigh.position.set(s * 1.4, 8.6, -2.6); grp.add(thigh);
     const shin = part(new THREE.BoxGeometry(1.7, 7, 1.7)); shin.position.set(s * 1.4, 4.4, -5.4); grp.add(shin);
-    const upper = part(new THREE.BoxGeometry(1.5, 5.5, 1.5)); upper.position.set(s * 3.2, 14.6, -0.4); upper.rotation.x = 0.5; grp.add(upper);
-    const fore = part(new THREE.BoxGeometry(1.4, 1.4, 5.5)); fore.position.set(s * 3, 12.2, -4.2); grp.add(fore);
+    if (lean) {
+      // Leaning back: elbows down, hands folded on the stomach.
+      const arm = at(part(new THREE.BoxGeometry(1.5, 5.5, 1.5)), s * 3.2, 14.4, 0.6); arm.rotation.z = s * 0.12;
+      const fore = at(part(new THREE.BoxGeometry(4, 1.4, 1.4)), s * 1.6, 11.8, -1.6); fore.rotation.y = s * 0.35;
+    } else {
+      const arm = at(part(new THREE.BoxGeometry(1.5, 5.5, 1.5)), s * 3.2, 14.6, -0.4); arm.rotation.x = 0.5;
+      at(part(new THREE.BoxGeometry(1.4, 1.4, 5.5)), s * 3, 12.2, -4.2);
+    }
   });
+  return grp;
+}
+
+// A box from a to b (station-local), for boom arms and rods.
+function rod(a, b, t, color) {
+  const A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), d = B.clone().sub(A);
+  const m = box(t, t, d.length(), color);
+  m.position.copy(A).addScaledVector(d, 0.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), d.normalize());
+  return m;
+}
+
+// A broadcast dynamic mic on a boom arm (SM7B-style: a fat body in a yoke,
+// big windscreen), clamped to the desk at `clamp`, aimed at the mouth.
+function boomMic(color, clamp, mouth) {
+  const grp = new THREE.Group();
+  const [cx, cy, cz] = clamp, [mx, my, mz] = mouth;
+  const mic = [mx, my - 0.4, mz - 5.4];           // body centre, a hand's width from the face
+  const elbow = [cx + (mx - cx) * 0.35, my + 9, cz + (mz - cz) * 0.3];
+  const yokeTop = [mic[0], mic[1] + 2.6, mic[2] - 0.6];
+  grp.add(rod([cx, cy, cz], [cx, cy + 3, cz], 0.9, color));
+  grp.add(rod([cx, cy + 3, cz], elbow, 0.55, color));
+  grp.add(rod(elbow, yokeTop, 0.5, color));
+  const body = cyl(1.25, 1.25, 4.4, color, 14); body.rotation.x = Math.PI / 2; body.position.set(...mic); grp.add(body);
+  const screen = cyl(1.55, 1.55, 2.2, color, 14); screen.rotation.x = Math.PI / 2; screen.position.set(mic[0], mic[1], mic[2] + 3.2); grp.add(screen);
+  [-1, 1].forEach((s) => grp.add(rod([mic[0] + s * 1.6, mic[1], mic[2]], [mic[0] + s * 0.5, yokeTop[1], yokeTop[2]], 0.35, color)));
+  return grp;
+}
+
+// A studio monitor speaker, front facing +z: woofer and tweeter rings.
+function speaker(color) {
+  const grp = new THREE.Group();
+  grp.add(box(5, 7.5, 5.5, color));
+  const ring = (r, y) => { const m = new THREE.Mesh(new THREE.RingGeometry(r * 0.72, r, 24), new THREE.MeshBasicMaterial({ color, toneMapped: false, transparent: true, opacity: 0.85 })); m.position.set(0, y, 2.8); grp.add(m); };
+  ring(1.9, -1.2); ring(0.8, 2.3);
   return grp;
 }
 
@@ -93,6 +139,10 @@ function antenna(kind, color) {
   } else if (kind === 'endfed') {
     grp.add(line([[0, 0, 0], [0, 26, 0]])); // telescoping mast
     grp.add(line([[0, 26, 0], [-18, 14, -10], [-40, 2, -18]], 0.8));
+  } else if (kind === 'dipole') {
+    // An inverted V for 75 m: one mast, two long legs sloping away.
+    grp.add(line([[0, 0, 0], [0, 44, 0]]));
+    grp.add(line([[14, 5, -40], [0, 44, 0], [14, 5, 34]], 0.8));   // legs recede from the camera
   } else if (kind === 'hex') {
     grp.add(line([[0, 0, 0], [0, 40, 0]]));
     for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2, b = ((i + 1) / 6) * Math.PI * 2; grp.add(line([[0, 40, 0], [Math.cos(a) * 14, 38, Math.sin(a) * 14], [Math.cos(b) * 14, 38, Math.sin(b) * 14]], 0.6)); }
@@ -121,6 +171,18 @@ function dress(grp, look, color) {
     const post = cyl(0.6, 0.6, 11, color); post.position.set(0, 5.5, -3); grp.add(post);
     const lap = screen(look.shots[0], 12, color); lap.position.set(0, 16, -5); lap.rotation.set(-0.2, 0, 0); grp.add(lap);
     const cup = cyl(1, 0.8, 2.4, color, 12); cup.position.set(6, 12.6, -1); grp.add(cup);
+  } else if (look.desk === 'studio') {
+    desk(44, 14);
+    mon(look.shots[0], -7.5, 14, -0.1); mon(look.shots[1] || look.shots[0], 7.5, 14, 0.1);
+    [-1, 1].forEach((s) => { const sp = speaker(color); sp.position.set(s * 18, 15.6, -4); sp.rotation.y = -s * 0.4; grp.add(sp); });
+    const iface = box(6, 1.6, 4, color); iface.position.set(9, 12.4, 0.5); grp.add(iface);
+    [-1.5, 0.5].forEach((x) => { const k = cyl(0.6, 0.6, 0.6, color, 12); k.position.set(9 + x, 13.5, 0.8); grp.add(k); });
+    const mug = cyl(1, 0.85, 2.4, color, 12); mug.position.set(-12, 12.8, 1); grp.add(mug);
+    // The mouth of the leaning operator, worked out from the figure's pivot.
+    const lean = look.lean || 0, opZ = 7, r = 20.2 - 0.8 - 8.8;
+    grp.add(boomMic(color, [-20, 11.6, -4], [0, 8.8 + r * Math.cos(lean), opZ + 0.4 + r * Math.sin(lean) - 2.1]));
+    const onAir = labelSprite('ON AIR', { height: 2.2, color: '#ff6b5e', border: 'rgba(255,107,94,0.6)' });
+    onAir.position.set(0, 31.5, -8); onAir.userData.hideInScenario = true; grp.add(onAir);
   } else {
     desk(32, 13);
     mon(look.shots[0], look.shots.length > 1 ? -7.5 : 0, look.shots.length > 1 ? 15 : 22, look.shots.length > 1 ? -0.12 : 0);
@@ -128,7 +190,7 @@ function dress(grp, look, color) {
     rig(12, 9);
   }
   // The operator faces the hub (-z), screens in front of them.
-  const op = operator(color);
+  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false });
   op.position.set(0, look.desk === 'picnic' ? -1 : 0, look.desk === 'picnic' ? 8 : 7);
   grp.add(op);
   const ant = antenna(look.antenna, color);
@@ -218,7 +280,9 @@ export function createStations(engine, personas, onSelect) {
     const hit = new THREE.Mesh(new THREE.CylinderGeometry(46, 46, 60, 16), new THREE.MeshBasicMaterial({ visible: false }));
     hit.position.y = 28;
     grp.add(hit);
-    const st = { persona: p, group: grp, angle: a, rim, halo, label, hover: false, active: false };
+    const extras = [];
+    grp.traverse((o) => { if (o.userData.hideInScenario) extras.push(o); });
+    const st = { persona: p, group: grp, angle: a, rim, halo, label, extras, hover: false, active: false };
     engine.addPickable(hit, {
       kind: 'persona', id: p.id, title: p.name,
       onClick: () => onSelect(p.id),
@@ -239,7 +303,7 @@ export function createStations(engine, personas, onSelect) {
   return {
     root, list,
     byId: (id) => list.find((s) => s.persona.id === id),
-    setActive(id, { label = true } = {}) { list.forEach((s) => { s.active = s.persona.id === id; s.label.visible = !(s.active && !label); }); },
+    setActive(id, { label = true } = {}) { list.forEach((s) => { s.active = s.persona.id === id; s.label.visible = !(s.active && !label); s.extras.forEach((o) => { o.visible = s.label.visible; }); }); },
     // Over-the-shoulder view toward the hub, in world space.
     view(id, variant = 'shoulder') {
       const s = this.byId(id);

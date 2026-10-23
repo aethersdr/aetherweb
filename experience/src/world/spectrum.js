@@ -87,6 +87,14 @@ const PROFILES = {
       return [cw(0.3, 0.22, 6, 1, 0.5), ft8(0.55, 0.18, 2), ft8(0.57, 0.14, 3), ssb(0.8, 0.3, 4)];
     },
   },
+  ragchew: {
+    label: '3.9 MHz · 75 m phone round tables', floor: 0.04,
+    make() {
+      // Round tables: several stations take turns on one frequency, each at
+      // its own strength, with slow fading (QSB). Plus a couple of lone QSOs.
+      return [roundtable(0.2, [1.0, 0.45, 0.7, 0.28], 1), roundtable(0.47, [0.8, 0.55, 0.35], 2), roundtable(0.71, [0.6, 0.9], 3), ssb(0.88, 0.32, 7)];
+    },
+  },
   digital: {
     label: '20 m · FT8, FT4, JS8, RTTY and FreeDV side by side', floor: 0.035,
     make() {
@@ -117,6 +125,17 @@ function ft8(c, amp, seed, cycle = 15) {
     const active = hash(cyc * 13 + seed) > 0.35 && ph > 0.4 && ph < cycle * 0.85;
     const wob = Math.sin(t * 6.28 * 6.25 + seed) * 0.0007;
     return active ? amp * g(u, c + wob, 0.0012) : 0;
+  };
+}
+function roundtable(c, amps, seed, turn = 7) {
+  return (u, t) => {
+    if (u < c - 0.017 || u > c + 0.017) return 0;
+    const k = t / turn + seed * 1.37, who = Math.floor(k) % amps.length;
+    if (k % 1 < 0.07) return 0;                      // the gap between overs
+    const fade = 0.6 + 0.4 * Math.sin(t * 0.4 + who * 2.1 + seed);
+    const syll = 0.5 + 0.5 * Math.sin(t * (7 + who) + Math.sin(t * 3.1 + who) * 2);
+    const shape = g(u, c, 0.0068) * (0.7 + 0.3 * Math.sin(u * 1400 + t * 20 + who));
+    return (0.35 + 0.4 * syll) * amps[who] * fade * shape;
   };
 }
 function ssb(c, amp, seed, dx = false) {

@@ -263,8 +263,11 @@ function viewScenario(id, mode) {
   const links = W.links || [];
   const linkTypes = [...new Set(links.map((l) => l[2]))];
   // Modeled metrics, derived from the workflow as written (see Sources → Method).
+  // Hardware boxes appear in the scene but aren't programs, and a link that
+  // touches one isn't a hand-off between programs.
+  const hw = (i) => W.tools[i].os === 'hardware';
   const m = {
-    without: [W.tools.length, links.length, W.steps.length],
+    without: [W.tools.filter((t) => t.os !== 'hardware').length, links.filter(([a, b]) => !hw(a) && !hw(b)).length, W.steps.length],
     with: [A.programs ?? 1, A.handoffs ?? 0, A.steps.length],
   };
   const others = scenarios.filter((x) => x.persona === s.persona && x.id !== s.id);

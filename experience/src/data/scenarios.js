@@ -221,6 +221,70 @@ export const scenarios = [
     caveat: 'Needs a hardware AMBE vocoder; software AMBE is deliberately excluded because of patents.[[blog-release-26-7-2]]',
   },
 
+  // ======================================================== rag chewer
+  {
+    id: 'ragchew-studio', persona: 'ragchewer', usecase: 'ragchew', band: 'ragchew',
+    title: 'An SM7B on the air, sounding like the studio',
+    hook: 'A broadcast mic and a full channel strip — without a plugin host and a chain of virtual cables.',
+    setup: 'Sunday-morning round table on 75 m. The mic is a Shure SM7B on a boom — a low-output dynamic that Shure says needs about 60 dB of clean preamp gain,[[shure-sm7b-gain]] so it goes through an audio interface into the computer rather than into the radio’s mic jack. The goal is audio the regulars notice: warm, even, no sibilance, no hiss between words.',
+    features: ['aethertx', 'aetherial', 'aethervoice', 'meters', 'native'],
+    without: {
+      summary: 'Processing a computer mic for a Flex usually means a Windows plugin host and virtual audio routing into SmartSDR’s PC mic input — getting a station mic into the Windows mic input is, in one member’s words, “the difficulty”.[[flex-voicekeyer-thread]]',
+      tools: [T('Inline booster', 'gain for a preamp short of 60 dB', 'hardware', 'meter'), T('Audio interface', 'XLR in, USB to the PC', 'hardware', 'meter'), T('Voicemeeter Potato', 'mixer · ASIO insert to a VST host', 'Windows', 'cable'), T('VST plugins', 'gate · EQ · de-esser · compressor', 'Windows', 'wave'), T('Virtual audio cable', 'into the Windows mic input', 'Windows', 'cable'), T('SmartSDR', 'mic source PC · TX EQ · PROC', 'Windows', 'wave')],
+      links: [[0, 1, 'audio'], [1, 2, 'usb'], [2, 3, 'audio'], [2, 4, 'audio'], [4, 5, 'audio']],
+      steps: ['Give the SM7B its 60 dB: an interface that reaches it, or an inline booster in front.[[shure-sm7b-gain]]', 'Install Voicemeeter Potato and patch its ASIO insert to a VST host for the plugin chain.[[vb-potato-insert]]', 'Build the chain from separate plugins: gate, EQ, de-esser, compressor (common practice).', 'Route the result through a virtual cable to the Windows default mic, and set SmartSDR’s mic source to PC.[[flex-voicekeyer-thread]]', 'Tune SmartSDR’s own TX EQ and speech processor on top (common practice).', 'Ask someone on the air how it sounds (common practice).'],
+      pains: ['Two Windows audio programs and a virtual cable before the radio hears the mic (common practice).', 'No way to hear your processed audio without keying up and asking (common practice).'],
+    },
+    with: {
+      shot: 'audio', programs: 1, handoffs: 0,
+      summary: 'AetherTX is the studio channel strip, built in. The SM7B goes through the interface into AetherSDR with the mic source set to PC, and the whole chain runs on your computer before the audio reaches the radio.[[docs-aetherial-audio,blog-release-26-9-4]]',
+      steps: ['Set the microphone source to PC; the MIC light confirms AetherTX is in the path.[[docs-aetherial-audio]]', 'Gate with the RN2 mic noise reducer — no hiss between words.[[docs-aetherial-audio]]', 'Parametric EQ against a live mic spectrum, with an optional reference target curve.[[docs-aetherial-audio]]', 'Split-band de-esser, then a compressor with Drive and Phase for more average power at the same peak.[[docs-aetherial-audio,blog-release-26-5-3]]', 'A touch of Tube and the AetherVoice exciter for warmth and presence; Final Output scopes what goes out.[[docs-aetherial-audio]]', 'REC / PLAY: record 30 s of processed audio and listen back — without keying the radio.[[docs-aetherial-audio]]', 'Save it as a profile: one for the net, one for DX, one per mic.[[docs-aetherial-audio]]'],
+      gains: ['One program instead of a plugin host, plugins, a virtual cable and SmartSDR’s TX settings.', 'Hear your own processed audio before the regulars do.[[docs-aetherial-audio]]', 'TX audio is 48 kHz float end to end.[[aether-changelog]]', 'Linux, macOS or Windows.[[aether-readme]]'],
+    },
+    caveat: 'A mic in the radio’s own jack bypasses AetherTX — the chain processes the PC mic. The user guide lists known issues: the default chain can leave output well below rated power until you raise Trim, and the PC source can be silent after startup until you switch to BAL and back.[[docs-aetherial-audio]]',
+  },
+  {
+    id: 'ragchew-listen', persona: 'ragchewer', usecase: 'ragchew', band: 'ragchew',
+    title: 'An hour on 75 m, on the desk speakers',
+    hook: 'Fading, hiss, one booming station and one in the noise — on speakers, not headphones.',
+    setup: 'A round table of four on 3.9 MHz. One station is booming, one is down in the noise and fading, and the conversation will run well past the ARRL Rag Chewers’ Club’s thirty minutes.[[arrl-rcc]] The operator is leaning back, listening on studio monitors — so the audio has to be comfortable, not just readable.',
+    features: ['aetherrx', 'nr-engines', 'diversity', 'copy-assist', 'qrz', 'netsched'],
+    without: {
+      summary: 'The radio’s own noise reduction and AGC, the AF gain under your hand, an outboard DSP speaker if you have one, and a browser for lookups. Diversity is a radio feature, so SmartSDR offers it too.[[docs-diversity-and-esc]]',
+      tools: [T('SmartSDR', 'radio NR · AGC · AF gain', 'Windows', 'wave'), T('Outboard DSP speaker', 'more noise reduction, in a box', 'hardware', 'meter'), T('QRZ.com', 'who just joined?', 'browser'), T('Calendar reminder', 'Sunday net, 3.9 MHz', '', 'list')],
+      links: [[0, 1, 'audio']],
+      steps: ['Radio NR and NB on the slice; ride the AF gain as stations come and go (common practice).', 'For more, an outboard DSP speaker in the audio line (common practice).', 'Diversity from a dual-SCU radio with the DIV_ESC licence.[[docs-diversity-and-esc]]', 'Look each new call up on QRZ.com in a browser (common practice).', 'A phone reminder for next week’s net, and the frequency typed in by hand (common practice).'],
+      pains: ['Nothing levels the booming station against the weak one: your hand on the AF gain is the compressor (common practice).', 'Hiss between overs gets tiring over an hour on speakers (common practice).'],
+    },
+    with: {
+      shot: 'audio', programs: 1, handoffs: 0,
+      summary: 'AetherRX shapes the receive audio on your computer, after the radio’s own DSP: noise reduction first, then gate, EQ and a gentle compressor, saved as a profile.[[docs-aetherial-audio]]',
+      steps: ['AetherNR runs first — pick from seven engines, per slice.[[docs-aetherial-audio,aether-readme]]', 'Gate in Expander mode “knocks down inter-syllable hiss on a noisy band without the pumping of a hard gate.”[[docs-aetherial-audio]]', 'Compressor at 1.5:1–2:1 “evens out strength differences … so you are not riding the AF gain.”[[docs-aetherial-audio]]', 'EQ to “pull harshness out of bright stations”; a little Tube or AetherVoice on the thin one.[[docs-aetherial-audio]]', 'DIV on the slice: a second receiver listens on another antenna, and ESC steers the combination.[[docs-diversity-and-esc]]', 'Copy Assist runs a live transcript under the waterfall; a QRZ card shows who just joined.[[blog-release-26-7-4,docs-callsign-lookup]]', 'The Net Scheduler reminds you next Sunday and tunes frequency, mode and filter in one click.[[docs-net-scheduler]]'],
+      gains: ['Levelled, quieter audio you can listen to for an hour.', 'BYPASS any time to compare with the raw radio audio.[[docs-aetherial-audio]]', 'Copy Assist’s pre-NR transcription cut its error rate by a third on one recorded ragchew.[[blog-release-26-10-2]]'],
+    },
+    caveat: 'Diversity needs a dual-SCU FlexRadio, two antennas and the DIV_ESC licence (SmartSDR+); it isn’t offered on other radio families.[[docs-diversity-and-esc]] Copy Assist is an aid — don’t log callsigns from it — and isn’t in the Intel macOS build.[[blog-release-26-7-4,docs-copy-assist]]',
+  },
+  {
+    id: 'ragchew-amp', persona: 'ragchewer', usecase: 'ragchew', band: 'ragchew',
+    title: 'Clean with the amplifier on',
+    hook: 'Processed SSB through a linear, and a signal the stations next door won’t notice.',
+    setup: 'Net control is a long way off tonight, so the amplifier is on. FlexRadio’s SmartSignal adaptive pre-distortion samples the transmitted signal and corrects it, aimed at a cleaner signal, especially on SSB — and from SmartSDR 4.2.17 it can sample an external amplifier’s output.[[flex-apd]]',
+    features: ['apd', 'aethertx', 'amps', 'meters'],
+    without: {
+      summary: 'APD is a FLEX-8000 radio feature, set up in SmartSDR with a sampler jumper from the amplifier; the amplifier has its own control utility.[[flex-apd]]',
+      tools: [T('SmartSDR', 'TX · APD settings tab', 'Windows', 'wave'), T('Amplifier utility', 'Power Genius XL control', 'Windows', 'meter'), T('Sampler jumper', 'amp −60 dB port → radio RXA/XVTA', 'hardware', 'cable')],
+      links: [[1, 0, 'net']],
+      steps: ['Run a BNC jumper from the PGXL’s −60 dB sampling port to the radio’s RXA or XVTA input.[[flex-apd]]', 'In SmartSDR’s APD settings, pick that port — or INTERNAL without the amp.[[flex-apd]]', 'Calibrate with the amplifier in OPERATE.[[flex-apd]]', 'Watch the amplifier in its own utility (common practice).'],
+      pains: ['SmartSignal APD runs only on FLEX-8000 radios, not the FLEX-6000.[[flex-apd]]', 'Radio, amplifier and audio processing in separate windows (common practice).'],
+    },
+    with: {
+      shot: 'stack3d', programs: 1, handoffs: 0,
+      summary: 'AetherSDR drives the radio’s own APD — the same radio feature — beside AetherTX and the amplifier applet, on Linux, macOS or Windows.[[docs-tx-controls,docs-amplifiers]]',
+      steps: ['The APD button in TX Controls, with Active / Cal / Avail lights; Active means a correction is on air for this antenna, frequency and power.[[docs-tx-controls]]', 'External APD (FLEX-8000, firmware 4.2.18+): pick the sampler input so the radio trains against the amplifier’s output, not its own PA.[[docs-tx-controls]]', 'The sampler is set per TX antenna in Radio Setup → APD.[[docs-radio-setup]]', 'The Power Genius XL in the same window; the forward-power gauge reads to 2,000 W with it.[[docs-amplifiers,docs-tx-controls]]', 'AetherTX’s compressor has its own brickwall limiter, and Final Output scopes what goes out.[[docs-aetherial-audio]]'],
+      gains: ['Processing, APD status and the amplifier in one place.', 'APD controls on Linux and macOS as well as Windows.[[docs-tx-controls,aether-readme]]'],
+    },
+    caveat: 'APD is the radio’s feature, not AetherSDR’s: it needs a FLEX-8000-series radio, and External APD needs firmware 4.2.18 or later.[[flex-apd,docs-tx-controls]]',
+  },
   // ======================================================== portable
   {
     id: 'pota-hunt', persona: 'portable', usecase: 'portable', band: 'quiet',

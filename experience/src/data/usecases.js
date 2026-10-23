@@ -59,6 +59,15 @@ export const usecases = [
     ],
   },
   {
+    id: 'ragchew', name: 'Rag chewing & nets', color: '#ff8a65', band: 'ragchew',
+    tagline: 'Long conversations, round tables, the weekly net',
+    about: 'A conversation, not an exchange. Rag chews run long — the ARRL Rag Chewers’ Club is for a contact of at least thirty minutes[[arrl-rcc]] — and nets meet on the same frequency at the same time every week. On phone that makes audio the whole game: how you sound, and how comfortably you can listen for an hour.',
+    facts: [
+      { value: '30 min', text: 'the minimum contact for the ARRL Rag Chewers’ Club.[[arrl-rcc]]' },
+      { value: '60 dB', text: 'the clean preamp gain Shure recommends for the SM7B broadcast mic — more than many interfaces give.[[shure-sm7b-gain]]' },
+    ],
+  },
+  {
     id: 'remote', name: 'Remote operation', color: '#7db7ff', band: 'mixed',
     tagline: 'Your station, from anywhere',
     about: 'Operating the home station over the internet — from the office, a hotel, or a laptop in another room. Flex radios do this with SmartLink; the client software has to run on whatever computer you have with you.[[flex-8600]] CW over the internet is sensitive to latency and dropouts.[[remote-cw-3830,flex-cw-latency]]',

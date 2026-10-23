@@ -51,13 +51,13 @@ Evidence comes from headless Firefox render probes at 390×844, 1280×720,
 
 | # | Criterion | Result | Evidence |
 |---|-----------|--------|----------|
-| 1 | Truthful | **Pass** | 132 sources; `npm run check` resolves every `[[cite]]`; uncited prices removed; support tiers quoted at README level; *Modeled* badge on every count; assumptions in-app. |
+| 1 | Truthful | **Pass** | 139 sources; `npm run check` resolves every `[[cite]]`; uncited prices removed; support tiers quoted at README level; *Modeled* badge on every count; assumptions in-app. |
 | 2 | The real app | **Pass** | Four real screenshots are the workbench "with" screen, the hub wall and the station monitors. |
-| 3 | The operators | **Pass** | 7 stations (SO2R desk + stacked yagis, DX shack + beam, FT8 shack + hex, picnic table + end-fed, café laptop, accessible shack, experimenter bench), each with a seated operator. |
+| 3 | The operators | **Pass** | 8 stations (SO2R desk + stacked yagis, DX shack + beam, FT8 shack + hex, rag chewer’s podcast-style studio with a boom-mounted SM7B and desk speakers, picnic table + end-fed, café laptop, accessible shack, experimenter bench), each with a seated operator. |
 | 4 | Three ways in | **Pass** | Operators / Use cases / Features tabs; every view cross-links; hash routes for every view, including `/with`. |
 | 5 | Benefit you can feel | **Pass** | Windows + typed cables fold into the screenshot; metrics show "2 from 6"; side-by-side steps; flip with the switch or W. |
 | 6 | Every Aether feature | **Pass** | All 16 Aether components are in the atlas and in at least one scenario (check output: none unused); roadmap item labelled. |
-| 7 | Speaks ham | **Pass** | Run/S&P, SO2R, split "up 5", Assisted, FT8 cycles and DT; band re-tuned per scenario (CW contest, FT8 sub-band, split pileup, RTTY, quiet). |
+| 7 | Speaks ham | **Pass** | Run/S&P, SO2R, split "up 5", Assisted, FT8 cycles and DT; band re-tuned per scenario (CW contest, FT8 sub-band, split pileup, RTTY, 75 m round tables, quiet). |
 | 8 | Smooth | **Partly measured** | Draw calls cut from 610 to 193 per frame at home (87 at a station); DPR ≤ 1.5; bloom at half resolution; paused when hidden; 0.9 MB gzipped. **fps not measured** (headless uses software GL) — check on a real laptop. |
 | 9 | Accessible & robust | **Pass** | All text is DOM; keyboard (← → W Esc T); focus moves on navigation; `aria-current`/`aria-pressed`; reduced motion = cuts (probed); WebGL disabled shows all text + a note (probed); file:// works (probed); 31 probe runs with zero console errors. |
 | 10 | Crafted | **Pass** | Probed at 390×844 (strip + sheet), 1280×720, 1440×900, 2560×1440; camera centres the scene between the panels. |

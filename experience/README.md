@@ -1,8 +1,8 @@
 # AetherSDR — The Station, Explored
 
 An interactive 3D tour of AetherSDR for contesters, DXers and digital-mode
-operators. Seven operators on a ring around a live band; 19 scenarios, each
-shown **without** and **with** AetherSDR; 51 features (16 Aether components)
+operators. Eight operators on a ring around a live band; 22 scenarios, each
+shown **without** and **with** AetherSDR; 52 features (16 Aether components)
 in an atlas. Navigate by operator, use case or feature. Every claim is cited;
 modeled data is labelled.
 

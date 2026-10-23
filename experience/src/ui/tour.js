@@ -7,6 +7,7 @@ const STOPS = [
   { go: '#/scenario/contest-so2r', dwell: 9, flip: 4.5, say: 'A <b>contester</b> running two bands at once. Watch the separate programs and virtual links fold into one AetherSDR window.' },
   { go: '#/scenario/dx-split', dwell: 9, flip: 4.5, say: 'A <b>DXer</b> chasing a split pileup — hearing the DX and the callers at the same time.' },
   { go: '#/scenario/ft8-multiband', dwell: 9, flip: 4.5, say: 'The <b>digital-mode</b> operator: FT8 on more than one band without a stack of decoder copies, ports, and virtual cables.' },
+  { go: '#/scenario/ragchew-studio', dwell: 9, flip: 4.5, say: 'The <b>rag chewer</b>: an SM7B through <b>AetherTX</b> — the plugin host, virtual cable and guesswork fold into one channel strip, and <b>AetherRX</b> makes an hour on speakers easy.' },
   { go: '#/scenario/pota-hunt', dwell: 8, flip: 4, say: 'A <b>park hunter</b> working activators straight from spots.' },
   { go: '#/scenario/remote-anywhere', dwell: 8, flip: 4, say: 'The <b>remote</b> operator: the home station from a laptop on any OS.' },
   { go: '#/features', dwell: 7, say: 'Everything that makes it possible, as an atlas — every <b>Aether</b> component, with sources.' },

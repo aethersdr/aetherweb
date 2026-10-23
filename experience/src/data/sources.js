@@ -151,5 +151,13 @@ export const sources = {
   'aetherclaude': s('AetherClaude — the project’s triage/implement/review agent', 'https://github.com/ten9876/aetherclaude', 'github.com/ten9876'),
   'gh-api-stats': s('GitHub API snapshot — merged PRs, contributors, release downloads', 'https://github.com/aethersdr/AetherSDR/pulls?q=is%3Apr+is%3Amerged', 'github.com', 'queried 2026-10-23'),
   'jjflex': s('FlexRadio community — JJFlexRadio accessible Windows client', 'https://community.flexradio.com/discussion/comment/20626771', 'community.flexradio.com', 'forum post'),
+  // ---- rag chewing & studio audio
+  'arrl-rcc': s('ARRL — Rag Chewers’ Club (a contact of at least thirty minutes)', 'https://www.arrl.org/rag-chewers-club', 'arrl.org'),
+  'shure-sm7b-gain': s('Shure — SM7B output level and preamp gain specifications (60 dB recommended)', 'https://service.shure.com/articles/en_US/Knowledge/sm7-output-level-and-preamp-gain-specifications', 'shure.com', 'Shure knowledge base, read via search summary'),
+  'vb-potato-insert': s('VB-Audio forum — Voicemeeter Potato ASIO insert for a VST host (admin reply)', 'https://forum.vb-audio.com/viewtopic.php?p=4442', 'forum.vb-audio.com', 'forum post'),
+  'flex-voicekeyer-thread': s('FlexRadio community — “The NEW Voice Keyer WORKS!” (station mic vs Windows mic input, DAX TX)', 'https://community.flexradio.com/discussion/comment/15544514/', 'community.flexradio.com', 'forum thread, member posts'),
+  'flex-apd': s('FlexRadio helpdesk — Configuring SmartSignal APD for FLEX-8000 and the Power Genius XL', 'https://helpdesk.flexradio.com/hc/en-us/articles/49290951647899-Configuring-SmartSignal-APD-for-FlexRadio-8000-and-the-Power-Genius-XL-Amplifier', 'helpdesk.flexradio.com'),
+  'docs-tx-controls': s('AetherSDR user guide — TX Controls (APD, External APD)', 'https://docs.aethersdr.com/tx-controls', 'docs.aethersdr.com'),
+  'docs-radio-setup': s('AetherSDR user guide — Radio Setup (APD sampler per TX antenna)', 'https://docs.aethersdr.com/radio-setup', 'docs.aethersdr.com'),
   'sdr-a11y': s('SWLing — SDRs for the visually impaired listener', 'https://swling.com/blog/2015/03/software-defined-receivers-sdrs-for-the-visually-impaired-listener', 'swling.com', 'anecdote'),
 };

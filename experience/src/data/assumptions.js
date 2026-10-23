@@ -9,9 +9,10 @@ export const method = [
 export const assumptions = [
   'Operators are archetypes built from the research, not real people, and are not testimonials.',
   'The “without AetherSDR” workflow is the common FlexRadio + Windows workflow documented by FlexRadio and its community; individual stations vary, and experienced operators may have streamlined theirs.',
-  'Program, hand-off and step counts are counted from the workflows as written here — they are modeled, not measured. A program is a separate application that must be run and configured; a hand-off is a virtual audio, virtual serial/CAT, network or keying link between two programs.',
+  'Program, hand-off and step counts are counted from the workflows as written here — they are modeled, not measured. A program is a separate application that must be run and configured; a hand-off is a virtual audio, virtual serial/CAT, network or keying link between two programs. Hardware (a booster, an interface, a second radio) is drawn in the scene but not counted as a program, and links to it are not counted as hand-offs.',
   'The “with AetherSDR” counts keep every program AetherSDR does not replace: contest loggers (e.g. N1MM Logger+) and decoders (e.g. WSJT-X) are still counted.',
   'Unsourced workflow steps describe common practice and are marked “(common practice)” where they appear.',
+  'The Rag Chewer’s studio-style shack (broadcast mic, audio interface, desk speakers) is one style of rag-chew station, chosen to show the audio features; plenty of rag chewers use the radio’s own mic and a headset.',
   'Prices are US list or dealer prices seen on 23 October 2026 and change often.',
   'Support levels for radios other than FlexRadio are quoted exactly as the AetherSDR and Aether-gate READMEs state them (supported, early, experimental, receive-only, bridge).',
   'The live band at the centre of the world, the program windows and the cables are illustrations. Program windows are schematic, not screenshots of those products. The four screenshots of AetherSDR are real, taken from the project website.',
