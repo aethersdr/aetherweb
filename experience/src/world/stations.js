@@ -262,7 +262,7 @@ function dress(grp, look, color) {
     }));
     water.rotation.x = -Math.PI / 2; water.position.y = 0.05; water.userData.live = true; grp.add(water);
     anims.push((t) => { water.material.uniforms.uTime.value = t; });
-    const sand = new THREE.Mesh(new THREE.SphereGeometry(30, 40, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#c9a66b', roughness: 1, emissive: '#3a2a12', emissiveIntensity: 0.6, transparent: true, opacity: 0.15, depthWrite: false }));
+    const sand = new THREE.Mesh(new THREE.SphereGeometry(30, 40, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#c9a66b', roughness: 1, emissive: '#3a2a12', emissiveIntensity: 0.6, transparent: true, opacity: 0.3, depthWrite: false }));
     sand.scale.set(1, 0.09, 0.85); sand.position.set(2, 0, 2); sand.userData.live = true; grp.add(sand);
 
     const wood = new THREE.MeshStandardMaterial({ color: '#7a5634', roughness: 0.9, emissive: '#2a1a0c', emissiveIntensity: 0.5 });
