@@ -1,0 +1,73 @@
+/* 3D stage + hero spectrum. Loaded by stage-v1/index.js only when WebGL runs,
+   so nothing here affects the plain page. */
+
+/* ---- Scroll-page mode: spectrum behind the hero copy ---- */
+.hero.has-3d { overflow: hidden; }
+.hero.has-3d > .hero-grid { position: relative; z-index: 1; }
+canvas.hero-3d {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;
+  pointer-events: none; opacity: 0; transition: opacity 1.6s ease;
+  /* Fade out before the product screenshot so the two never fight. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 78%);
+}
+canvas.hero-3d.on, #stage-gl.on { opacity: 1; }
+
+/* ---- Stage mode ---- */
+html.stage-on, html.stage-on body { height: 100%; overflow: hidden; }
+html.stage-on body::before, html.stage-on body::after { display: none; }
+html.stage-on header.nav { position: fixed; top: 0; left: 0; right: 0; }
+
+#stage-gl {
+  position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0;
+  opacity: 0; transition: opacity 1.2s ease;
+}
+#stage-panels {
+  position: fixed; inset: 0; z-index: 1;
+  perspective: 1600px; perspective-origin: 50% 45%;
+  pointer-events: none;
+}
+.stage-panel {
+  position: absolute; inset: 0; box-sizing: border-box; padding-top: 66px;
+  overflow-y: auto; overscroll-behavior: contain; outline: none;
+  pointer-events: auto; transform-origin: 50% 50%; backface-visibility: hidden;
+  scrollbar-width: thin; scrollbar-color: rgba(120, 190, 230, 0.25) transparent;
+  /* Leaving: turn away and recede, then hide once out of sight. */
+  transition: transform 0.95s cubic-bezier(0.65, 0, 0.25, 1), opacity 0.7s ease,
+              filter 0.95s ease, visibility 0s linear 0.95s;
+}
+.stage-inner {
+  min-height: 100%; box-sizing: border-box; padding: 24px 0 56px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.stage-panel.is-current {
+  opacity: 1; visibility: visible; transform: none; filter: none;
+  /* Arriving: settle in from the side. */
+  transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.8s ease,
+              filter 1s ease, visibility 0s;
+}
+.stage-panel.to-left, .stage-panel.to-right { opacity: 0; visibility: hidden; pointer-events: none; filter: blur(6px); }
+/* Panels sit on the inside of the ring, so each one faces the middle. */
+.stage-panel.to-left  { transform: translate3d(-36%, 0, -560px) rotateY(42deg); }
+.stage-panel.to-right { transform: translate3d(36%, 0, -560px) rotateY(-42deg); }
+.stage-panel.no-anim { transition: none !important; }
+
+#stage-rail {
+  position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 40;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.stage-dot {
+  width: 9px; height: 9px; padding: 0; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--line-hi); background: transparent;
+  transition: height 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.stage-dot:hover, .stage-dot:focus-visible { border-color: var(--cyan); }
+.stage-dot.on { height: 26px; background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 12px rgba(93, 227, 255, 0.6); }
+
+.stage-exit, .stage-enter {
+  position: fixed; right: 18px; bottom: 18px; z-index: 40;
+  font: 500 12px/1 var(--font); color: var(--muted); cursor: pointer;
+  padding: 8px 13px; border-radius: 999px; border: 1px solid var(--line);
+  background: rgba(6, 11, 19, 0.6); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.stage-exit:hover, .stage-enter:hover { color: var(--ink); border-color: var(--line-hi); }
