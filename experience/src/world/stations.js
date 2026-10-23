@@ -8,7 +8,7 @@
 
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, solarTexture } from './textures.js';
+import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture } from './textures.js';
 
 export const RING = 300;
 
@@ -244,7 +244,7 @@ function dress(grp, look, color) {
     });
     pileup(grp, anims, { dx: 'XX9ZZ  UP 5', color: look.color || '#ffb547' });
   } else if (look.desk === 'island') {
-    // A DXpedition on a sandbar: lagoon, sand mound, palm, tent; crates for a
+    // A DXpedition on a sandbar: lagoon, sand mound, palm; crates for a
     // desk and a seat; solar panels charging a battery that runs the radio;
     // a portable hex beam on a tripod.
     const water = new THREE.Mesh(new THREE.CircleGeometry(45.5, 64), new THREE.ShaderMaterial({
@@ -262,7 +262,7 @@ function dress(grp, look, color) {
     }));
     water.rotation.x = -Math.PI / 2; water.position.y = 0.05; water.userData.live = true; grp.add(water);
     anims.push((t) => { water.material.uniforms.uTime.value = t; });
-    const sand = new THREE.Mesh(new THREE.SphereGeometry(30, 40, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#c9a66b', roughness: 1, emissive: '#3a2a12', emissiveIntensity: 0.6 }));
+    const sand = new THREE.Mesh(new THREE.SphereGeometry(30, 40, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#c9a66b', roughness: 1, emissive: '#3a2a12', emissiveIntensity: 0.6, transparent: true, opacity: 0.2, depthWrite: false }));
     sand.scale.set(1, 0.09, 0.85); sand.position.set(2, 0, 2); sand.userData.live = true; grp.add(sand);
 
     const wood = new THREE.MeshStandardMaterial({ color: '#7a5634', roughness: 0.9, emissive: '#2a1a0c', emissiveIntensity: 0.5 });
@@ -283,14 +283,16 @@ function dress(grp, look, color) {
     const mic = cyl(0.5, 0.5, 2.2, color, 8); mic.position.set(5, base + 9.5 + 1.1, -0.5); grp.add(mic);
 
     // Power: two panels on A-frames, a battery, and cables.
-    const solar = solarTexture();
     [[-30, -4], [-30, 9]].forEach(([x, z]) => {
       const panel = new THREE.Group();
-      const face = new THREE.Mesh(new THREE.PlaneGeometry(12, 7.5), new THREE.MeshBasicMaterial({ map: solar, color: 0xbfc8d6, toneMapped: false, side: THREE.DoubleSide }));
-      panel.add(face);
-      const frame = box(12.4, 7.9, 0.4, color); frame.position.z = -0.25; panel.add(frame);
+      // Wireframe: the frame and the cell grid, 8 × 4.
+      const seg = [];
+      for (let k = 0; k <= 8; k++) { const x = -6 + k * 1.5; seg.push(x, -3.75, 0, x, 3.75, 0); }
+      for (let k = 0; k <= 4; k++) { const y = -3.75 + k * 1.875; seg.push(-6, y, 0, 6, y, 0); }
+      const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(seg, 3));
+      panel.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9 })));
       panel.position.set(x, base + 4.6, z); panel.rotation.set(-1.05, 0.9, 0, 'YXZ'); grp.add(panel);
-      const leg = box(0.5, 5.5, 0.5, color); leg.position.set(x + 2.6, base + 2.7, z); leg.rotation.z = 0.35; grp.add(leg);
+      grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x + 3.6, base, z - 1.5), new THREE.Vector3(x + 1.6, base + 4.6, z), new THREE.Vector3(x + 3.6, base, z + 1.5)]), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.8 })));
     });
     const batt = box(5, 3.6, 3.5, color); batt.position.set(-17, base + 1.8, 3); grp.add(batt);
     [[-1.3, '#ff5a5a'], [1.3, '#1d1d1d']].forEach(([dx, col]) => { const tm = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.7, 8), new THREE.MeshBasicMaterial({ color: col, toneMapped: false })); tm.position.set(-17 + dx, base + 3.95, 3); grp.add(tm); });
@@ -301,7 +303,7 @@ function dress(grp, look, color) {
     // Feedline from the hex beam to the radio.
     cable([[24, base + 1, 14], [20, base + 0.3, 6], [15, base + 2, 0], [14, base + 10.5, -1]]);
 
-    // A palm tree and a small tent.
+    // A palm tree.
     const palm = new THREE.Group(); palm.userData.live = true;
     const trunkPts = []; for (let k = 0; k <= 10; k++) trunkPts.push(new THREE.Vector3(Math.sin(k / 10 * 1.2) * 4, k * 3.2, 0));
     const trunk = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(trunkPts), 20, 0.9, 6), new THREE.MeshStandardMaterial({ color: '#6b4a2c', roughness: 1, emissive: '#2a1a0c', emissiveIntensity: 0.6 }));
@@ -313,7 +315,6 @@ function dress(grp, look, color) {
       palm.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 12, 0.45, 4), new THREE.MeshBasicMaterial({ color: '#2b7d45', toneMapped: false })));
     }
     palm.position.set(-25, base - 0.5, -9); palm.scale.setScalar(0.85); grp.add(palm);
-    const tent = edged(new THREE.ConeGeometry(7, 7, 4), color, { opacity: 0.8 }); tent.position.set(-12, base + 3.5, 18); tent.rotation.y = Math.PI / 4; grp.add(tent);
 
     pileup(grp, anims, { dx: 'XX9ZZ  QRZ?', color: look.color || '#5de3ff', y: 37, z: -12 });
   } else if (look.desk === 'picnic') {

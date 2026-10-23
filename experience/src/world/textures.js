@@ -188,23 +188,6 @@ export function loggerTexture({ title, band, mode, accent = '#ffb547', seed = 1 
   return canvasTexture(c);
 }
 
-// A solar panel: dark blue cells on a silver frame.
-export function solarTexture() {
-  const c = document.createElement('canvas');
-  c.width = 256; c.height = 160;
-  const g = c.getContext('2d');
-  g.fillStyle = '#9aa6b5'; g.fillRect(0, 0, 256, 160);
-  for (let r = 0; r < 4; r++) for (let k = 0; k < 8; k++) {
-    const x = 6 + k * 31, y = 6 + r * 37;
-    const grd = g.createLinearGradient(x, y, x + 29, y + 35);
-    grd.addColorStop(0, '#1f3f7a'); grd.addColorStop(1, '#0d1f45');
-    g.fillStyle = grd; g.fillRect(x, y, 29, 35);
-    g.strokeStyle = 'rgba(170,200,255,0.25)'; g.lineWidth = 1;
-    g.beginPath(); g.moveTo(x + 14.5, y); g.lineTo(x + 14.5, y + 35); g.stroke();
-  }
-  return canvasTexture(c);
-}
-
 // A spiral notepad page: ruled lines and scribbled calls.
 export function notepadTexture() {
   const c = document.createElement('canvas');
