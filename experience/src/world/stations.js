@@ -8,7 +8,7 @@
 
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture } from './textures.js';
+import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, solarTexture } from './textures.js';
 
 export const RING = 300;
 
@@ -49,12 +49,14 @@ function radio(color, w = 11) {
 // station has speakers. `lean` tips the chair back and the upper body with it.
 // `reach` (two x positions) puts the hands on the desk in front: the
 // contester's keyboard and paddle. `mic` adds a headset boom.
-function operator(color, { lean = 0, phones = true, reach = null, mic = false } = {}) {
+function operator(color, { lean = 0, phones = true, reach = null, mic = false, chair = true } = {}) {
   const grp = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({ color: 0x0f1c2c, roughness: 0.6, metalness: 0.2, emissive: new THREE.Color(color), emissiveIntensity: 0.12 });
   const part = (geo) => edged(geo, color, { mat, opacity: 0.7 });
-  const chairSeat = box(7, 1, 7, color, { opacity: 0.5 }); chairSeat.position.set(0, 7, 0); grp.add(chairSeat);
-  const chairPost = cyl(0.4, 0.4, 6, color); chairPost.position.set(0, 3.5, 0); grp.add(chairPost);
+  if (chair) {
+    const chairSeat = box(7, 1, 7, color, { opacity: 0.5 }); chairSeat.position.set(0, 7, 0); grp.add(chairSeat);
+    const chairPost = cyl(0.4, 0.4, 6, color); chairPost.position.set(0, 3.5, 0); grp.add(chairPost);
+  }
   const hips = part(new THREE.BoxGeometry(5.4, 2.4, 5)); hips.position.set(0, 8.8, 0.4); grp.add(hips);
   // Everything above the hips pivots back together.
   const upper = new THREE.Group();
@@ -62,7 +64,7 @@ function operator(color, { lean = 0, phones = true, reach = null, mic = false } 
   upper.rotation.x = lean;
   grp.add(upper);
   const at = (o, x, y, z) => { o.position.set(x, y - 8.8, z - 0.4); upper.add(o); return o; };
-  at(box(7, 9, 1, color, { opacity: 0.5 }), 0, 12, 3.6);
+  if (chair) at(box(7, 9, 1, color, { opacity: 0.5 }), 0, 12, 3.6);
   const torso = at(part(new THREE.CylinderGeometry(2.4, 2.8, 8, 8)), 0, 14, 0.8); torso.rotation.x = -0.12;
   at(part(new THREE.IcosahedronGeometry(2.1, 1)), 0, 20.2, 0.1);
   const glow = new THREE.MeshBasicMaterial({ color, toneMapped: false });
@@ -167,11 +169,36 @@ function antenna(kind, color) {
     // An inverted V for 75 m: one mast, two long legs sloping away.
     grp.add(line([[0, 0, 0], [0, 44, 0]]));
     grp.add(line([[14, 5, -40], [0, 44, 0], [14, 5, 34]], 0.8));   // legs recede from the camera
+  } else if (kind === 'hexport') {
+    // A portable hex beam: tripod, push-up mast, spreaders and wire.
+    for (let i = 0; i < 3; i++) { const a = (i / 3) * Math.PI * 2; grp.add(line([[Math.cos(a) * 6, 0, Math.sin(a) * 6], [0, 9, 0]])); }
+    grp.add(line([[0, 0, 0], [0, 28, 0]]));
+    for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2; grp.add(line([[0, 25, 0], [Math.cos(a) * 12, 28, Math.sin(a) * 12]], 0.6)); }
+    const hex = [];
+    for (let i = 0; i <= 6; i++) { const a = (i / 6) * Math.PI * 2; hex.push([Math.cos(a) * 12, 28, Math.sin(a) * 12]); }
+    grp.add(line(hex, 0.8));
   } else if (kind === 'hex') {
     grp.add(line([[0, 0, 0], [0, 40, 0]]));
     for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2, b = ((i + 1) / 6) * Math.PI * 2; grp.add(line([[0, 40, 0], [Math.cos(a) * 14, 38, Math.sin(a) * 14], [Math.cos(b) * 14, 38, Math.sin(b) * 14]], 0.6)); }
   }
   return grp;
+}
+
+// A pile-up over the station: the DX, and a wall of callers flickering in
+// and out. Placeholder calls only; hidden while a scenario is open.
+function pileup(grp, anims, { dx, color, y = 39, z = -9 }) {
+  const calls = ['XX1ABC', 'XX5KZ', 'XX2DEF', 'XX7RT', 'XX3MNO', 'XX4WB', 'XX8JQ', 'XX6PL'];
+  const top = labelSprite(dx, { height: 3.4, color: '#ffffff', border: 'rgba(255,255,255,0.6)', mono: true });
+  top.position.set(0, y, z); top.userData.hideInScenario = true; grp.add(top);
+  const callers = calls.map((c, i) => {
+    const sp = labelSprite(c, { height: 2.6, color, mono: true });
+    sp.position.set(-27 + (i % 4) * 16 + (i > 3 ? 8 : 0), y - (i > 3 ? 9 : 4.5), z + 1 - (i % 3) * 2.5);
+    sp.material.opacity = 0; sp.userData.hideInScenario = true; grp.add(sp); return sp;
+  });
+  anims.push((t) => {
+    callers.forEach((sp, i) => { const k = Math.max(0, Math.sin(t * (2.3 + i * 0.37) + i * 1.9)); sp.material.opacity = k * k; });
+    top.material.opacity = 0.75 + 0.25 * Math.sin(t * 1.3);
+  });
 }
 
 // Per-persona dressing. `look` comes from the persona data.
@@ -215,20 +242,80 @@ function dress(grp, look, color) {
       hands[0].position.y = 12.75 + Math.abs(Math.sin(t * 17)) * 0.35;           // typing a call
       hands[1].position.x = 6.5 + Math.sin(t * 38) * Math.max(0, Math.sin(t * 2.7)) * 0.3;   // keying bursts
     });
-    // The pile-up: the DX and a wall of callers flickering above the desk.
-    // Placeholder calls only.
-    const calls = ['XX1ABC', 'XX5KZ', 'XX2DEF', 'XX7RT', 'XX3MNO', 'XX4WB', 'XX8JQ', 'XX6PL'];
-    const dx = labelSprite('XX9ZZ  UP 5', { height: 3.4, color: '#ffffff', border: 'rgba(255,255,255,0.6)', mono: true });
-    dx.position.set(0, 39, -9); dx.userData.hideInScenario = true; grp.add(dx);
-    const callers = calls.map((c, i) => {
-      const sp = labelSprite(c, { height: 2.6, color: look.color || '#ffb547', mono: true });
-      sp.position.set(-27 + (i % 4) * 16 + (i > 3 ? 8 : 0), i > 3 ? 30 : 34.5, -8 - (i % 3) * 2.5);
-      sp.material.opacity = 0; sp.userData.hideInScenario = true; grp.add(sp); return sp;
+    pileup(grp, anims, { dx: 'XX9ZZ  UP 5', color: look.color || '#ffb547' });
+  } else if (look.desk === 'island') {
+    // A DXpedition on a sandbar: lagoon, sand mound, palm, tent; crates for a
+    // desk and a seat; solar panels charging a battery that runs the radio;
+    // a portable hex beam on a tripod.
+    const water = new THREE.Mesh(new THREE.CircleGeometry(45.5, 64), new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false,
+      uniforms: { uTime: { value: 0 } },
+      vertexShader: 'varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+      fragmentShader: `uniform float uTime; varying vec2 vP;
+        void main(){
+          float r = length(vP);
+          float w = sin(r * 0.7 - uTime * 1.2) * 0.6 + sin(vP.x * 0.22 + uTime * 0.5) * sin(vP.y * 0.27 - uTime * 0.4) * 0.4;
+          float crest = smoothstep(0.7, 1.0, w);
+          vec3 c = mix(vec3(0.01, 0.05, 0.09), vec3(0.03, 0.16, 0.22), smoothstep(46.0, 26.0, r)) + crest * vec3(0.05, 0.14, 0.17);
+          gl_FragColor = vec4(c, 0.9);
+        }`,
+    }));
+    water.rotation.x = -Math.PI / 2; water.position.y = 0.05; water.userData.live = true; grp.add(water);
+    anims.push((t) => { water.material.uniforms.uTime.value = t; });
+    const sand = new THREE.Mesh(new THREE.SphereGeometry(30, 40, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#c9a66b', roughness: 1, emissive: '#3a2a12', emissiveIntensity: 0.6 }));
+    sand.scale.set(1, 0.09, 0.85); sand.position.set(2, 0, 2); sand.userData.live = true; grp.add(sand);
+
+    const wood = new THREE.MeshStandardMaterial({ color: '#7a5634', roughness: 0.9, emissive: '#2a1a0c', emissiveIntensity: 0.5 });
+    const crate = (w, h, d, x, y, z, ry = 0) => {
+      const c = edged(new THREE.BoxGeometry(w, h, d), '#e0b07a', { mat: wood, opacity: 0.7 });
+      c.position.set(x, y, z); c.rotation.y = ry; c.userData.live = true; grp.add(c);
+      // slats
+      const sl = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([-0.33, 0.33].flatMap((k) => [new THREE.Vector3(-w / 2, h * k, d / 2 + 0.02), new THREE.Vector3(w / 2, h * k, d / 2 + 0.02)])), new THREE.LineBasicMaterial({ color: '#e0b07a', transparent: true, opacity: 0.5 }));
+      c.add(sl); return c;
+    };
+    const base = 2.2;                                     // the sand's height under the station
+    crate(13, 6.5, 9, -1, base + 3.25, -3);               // the desk: two crates stacked
+    crate(11, 3, 8, -1.5, base + 8, -3.2, 0.06);
+    crate(8, 9.4, 7, 13, base + 4.7, -3, -0.12);          // a taller crate for the radio
+    crate(6.5, 6.6, 6.5, 0, base + 3.3, 7);              // the seat
+    const lap = screen(look.shots[0], 11, color); lap.position.set(-1.5, base + 9.5 + 3.6, -4.5); lap.rotation.set(-0.22, 0, 0); grp.add(lap);
+    const r = radio(color, 8); r.position.set(13, base + 9.4 + 2.1, -3.4); grp.add(r);
+    const mic = cyl(0.5, 0.5, 2.2, color, 8); mic.position.set(5, base + 9.5 + 1.1, -0.5); grp.add(mic);
+
+    // Power: two panels on A-frames, a battery, and cables.
+    const solar = solarTexture();
+    [[-30, -4], [-30, 9]].forEach(([x, z]) => {
+      const panel = new THREE.Group();
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(12, 7.5), new THREE.MeshBasicMaterial({ map: solar, color: 0xbfc8d6, toneMapped: false, side: THREE.DoubleSide }));
+      panel.add(face);
+      const frame = box(12.4, 7.9, 0.4, color); frame.position.z = -0.25; panel.add(frame);
+      panel.position.set(x, base + 4.6, z); panel.rotation.set(-1.05, 0.9, 0, 'YXZ'); grp.add(panel);
+      const leg = box(0.5, 5.5, 0.5, color); leg.position.set(x + 2.6, base + 2.7, z); leg.rotation.z = 0.35; grp.add(leg);
     });
-    anims.push((t) => {
-      callers.forEach((sp, i) => { const k = Math.max(0, Math.sin(t * (2.3 + i * 0.37) + i * 1.9)); sp.material.opacity = k * k; });
-      dx.material.opacity = 0.75 + 0.25 * Math.sin(t * 1.3);
-    });
+    const batt = box(5, 3.6, 3.5, color); batt.position.set(-17, base + 1.8, 3); grp.add(batt);
+    [[-1.3, '#ff5a5a'], [1.3, '#1d1d1d']].forEach(([dx, col]) => { const tm = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.7, 8), new THREE.MeshBasicMaterial({ color: col, toneMapped: false })); tm.position.set(-17 + dx, base + 3.95, 3); grp.add(tm); });
+    const cable = (pts) => { const c = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(...p))); grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(c.getPoints(24)), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9 }))); };
+    cable([[-27, base + 2, -3], [-23, base + 0.3, 0], [-18.5, base + 3.6, 2.5]]);
+    cable([[-27, base + 2, 8], [-22, base + 0.3, 6], [-18.5, base + 3.6, 3.5]]);
+    cable([[-15.5, base + 3.6, 3], [-5, base + 0.3, 6], [8, base + 0.3, 2], [12, base + 9.4, -0.2]]);
+    // Feedline from the hex beam to the radio.
+    cable([[24, base + 1, 14], [20, base + 0.3, 6], [15, base + 2, 0], [14, base + 10.5, -1]]);
+
+    // A palm tree and a small tent.
+    const palm = new THREE.Group(); palm.userData.live = true;
+    const trunkPts = []; for (let k = 0; k <= 10; k++) trunkPts.push(new THREE.Vector3(Math.sin(k / 10 * 1.2) * 4, k * 3.2, 0));
+    const trunk = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(trunkPts), 20, 0.9, 6), new THREE.MeshStandardMaterial({ color: '#6b4a2c', roughness: 1, emissive: '#2a1a0c', emissiveIntensity: 0.6 }));
+    palm.add(trunk);
+    const crown = trunkPts[10];
+    for (let k = 0; k < 7; k++) {
+      const a = (k / 7) * Math.PI * 2, pts = [];
+      for (let u = 0; u <= 8; u++) { const d = u * 1.4; pts.push(new THREE.Vector3(crown.x + Math.cos(a) * d, crown.y + 1.2 - (d * d) * 0.09, Math.sin(a) * d)); }
+      palm.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 12, 0.45, 4), new THREE.MeshBasicMaterial({ color: '#2b7d45', toneMapped: false })));
+    }
+    palm.position.set(-25, base - 0.5, -9); palm.scale.setScalar(0.85); grp.add(palm);
+    const tent = edged(new THREE.ConeGeometry(7, 7, 4), color, { opacity: 0.8 }); tent.position.set(-12, base + 3.5, 18); tent.rotation.y = Math.PI / 4; grp.add(tent);
+
+    pileup(grp, anims, { dx: 'XX9ZZ  QRZ?', color: look.color || '#5de3ff', y: 37, z: -12 });
   } else if (look.desk === 'picnic') {
     const top = box(30, 1, 13, color); top.position.set(0, 10, -2); grp.add(top);
     [-1, 1].forEach((s) => { const bench = box(30, 0.8, 4, color, { opacity: 0.6 }); bench.position.set(0, 6, -2 + s * 10); grp.add(bench); const a = box(1, 10, 12, color, { opacity: 0.5 }); a.position.set(s * 12, 5, -2); grp.add(a); });
@@ -259,11 +346,12 @@ function dress(grp, look, color) {
     rig(12, 9);
   }
   // The operator faces the hub (-z), screens in front of them.
-  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false, reach: look.reach || null, mic: !!look.reach });
-  op.position.set(0, look.desk === 'picnic' ? -1 : 0, look.desk === 'picnic' ? 8 : 7);
+  const island = look.desk === 'island';
+  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false, reach: look.reach || null, mic: !!look.reach, chair: !island });
+  op.position.set(0, look.desk === 'picnic' ? -1 : island ? 2.2 - 0.6 : 0, look.desk === 'picnic' ? 8 : 7);
   grp.add(op);
   const ant = antenna(look.antenna, color);
-  ant.position.set(36, 0, 14);
+  ant.position.set(...(island ? [24, 2, 15] : [36, 0, 14]));
   grp.add(ant);
 }
 

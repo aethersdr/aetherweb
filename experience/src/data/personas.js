@@ -17,7 +17,7 @@ export const personas = [
   {
     id: 'dxer', name: 'The DXer', color: '#5de3ff',
     tagline: 'Rare entities, split pileups, weak signals',
-    look: { desk: 'shack', shots: ['multislice', 'stack3d'], antenna: 'yagi' },
+    look: { desk: 'island', shots: ['multislice'], antenna: 'hexport', color: '#5de3ff' },
     who: 'Chases DXCC entities and DXpeditions. Knows the drill: listen first, find where the DX is listening, call once, at the right moment.[[split-art,ari-dxped]] Fights an urban noise floor that measured well above the ITU-R reference in a Dutch study,[[noise-twente]] on a declining Solar Cycle 25.[[sc25-peak]]',
     needs: [
       'Hear the DX and the pileup together, and know exactly where they will transmit.',

@@ -53,7 +53,7 @@ Evidence comes from headless Firefox render probes at 390×844, 1280×720,
 |---|-----------|--------|----------|
 | 1 | Truthful | **Pass** | 139 sources; `npm run check` resolves every `[[cite]]`; uncited prices removed; *Modeled* badge on every count; assumptions in-app. |
 | 2 | The real app | **Pass** | Four real screenshots are the workbench "with" screen, the hub wall and the station monitors. |
-| 3 | The operators | **Pass** | 8 stations (SO2R battle station — four screens with two loggers, notepad, paddle, a hunched operator and a flickering pile-up — under stacked yagis, DX shack + beam, FT8 shack + hex, rag chewer’s podcast-style studio with a boom-mounted SM7B and desk speakers, picnic table + end-fed, café laptop, accessible shack, experimenter bench), each with a seated operator. |
+| 3 | The operators | **Pass** | 8 stations (SO2R battle station — four screens with two loggers, notepad, paddle, a hunched operator and a flickering pile-up — under stacked yagis; a DXpedition on a sandbar — crates, solar panels and battery, portable hex beam, and the pile-up calling XX9ZZ; FT8 shack + hex, rag chewer’s podcast-style studio with a boom-mounted SM7B and desk speakers, picnic table + end-fed, café laptop, accessible shack, experimenter bench), each with a seated operator. |
 | 4 | Three ways in | **Pass** | Operators / Use cases / Features tabs; every view cross-links; hash routes for every view, including `/with`. |
 | 5 | Benefit you can feel | **Pass** | Windows + typed cables fold into the screenshot; metrics show "2 from 6"; side-by-side steps; flip with the switch or W. |
 | 6 | Every Aether feature | **Pass** | All 16 Aether components are in the atlas and in at least one scenario (check output: none unused); roadmap item labelled. |
