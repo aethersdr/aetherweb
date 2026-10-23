@@ -8,7 +8,7 @@
 
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture } from './textures.js';
+import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, digitalDeskTexture } from './textures.js';
 
 export const RING = 300;
 
@@ -321,6 +321,16 @@ function dress(grp, look, color) {
     palm.position.set(-25, base - 0.5, -9); palm.scale.setScalar(0.85); grp.add(palm);
 
     pileup(grp, anims, { dx: 'XX9ZZ  QRZ?', color: look.color || '#5de3ff', y: 37, z: -12 });
+  } else if (look.desk === 'digital') {
+    // One big screen, four apps: GridTracker2, WSJT-X, AetherSDR, OpsLog.
+    desk(40, 14);
+    const quad = digitalDeskTexture(look.shots[0]);
+    const big = screen(quad, 34, color);
+    big.traverse((o) => { if (o.material && o.material.map === quad) o.material.color.setScalar(0.82); });   // keep the light apps out of the bloom
+    big.position.set(0, 11.6 + 2.5 + 34 * 0.29 + 2.6, -6.8); big.rotation.x = -0.05; grp.add(big);
+    rig(15, 8);
+    const kb = box(11, 0.6, 3.6, color); kb.position.set(-2, 11.9, 0.8); grp.add(kb);
+    const mouse = box(1.4, 0.6, 2.2, color); mouse.position.set(6, 11.9, 1); grp.add(mouse);
   } else if (look.desk === 'picnic') {
     const top = box(30, 1, 13, color); top.position.set(0, 10, -2); grp.add(top);
     [-1, 1].forEach((s) => { const bench = box(30, 0.8, 4, color, { opacity: 0.6 }); bench.position.set(0, 6, -2 + s * 10); grp.add(bench); const a = box(1, 10, 12, color, { opacity: 0.5 }); a.position.set(s * 12, 5, -2); grp.add(a); });

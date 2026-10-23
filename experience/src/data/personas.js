@@ -28,7 +28,7 @@ export const personas = [
   {
     id: 'digital', name: 'The Digital-Mode Operator', color: '#8ef7a8',
     tagline: 'FT8, FT4, JS8, packet, RADE — often at once',
-    look: { desk: 'shack', shots: ['multislice'], antenna: 'hex' },
+    look: { desk: 'digital', shots: ['multislice'], antenna: 'hex', phones: false },
     who: 'FT8 by breakfast, packet by lunch, a RADE QSO in the evening. FT8 passed 60% of Club Log activity by 2021,[[clublog-ft8]] and digital was the only mode that grew at Field Day 2025.[[fd-2025]] Every mode means another program — and another virtual audio cable and CAT port.[[flex-wsjtx-multi]]',
     needs: [
       'Audio and rig control for decoders without a stack of virtual cables and ports.',

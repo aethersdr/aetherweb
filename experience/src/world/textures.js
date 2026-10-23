@@ -188,6 +188,182 @@ export function loggerTexture({ title, band, mode, accent = '#ffb547', seed = 1 
   return canvasTexture(c);
 }
 
+// The digital-mode operator's big screen, in four quadrants laid out like
+// the real apps: GridTracker2 (top left), WSJT-X (top right), AetherSDR
+// (bottom left, the real screenshot) and OpsLog (bottom right). Schematic,
+// with placeholder calls only.
+export function digitalDeskTexture(shotKey) {
+  const W = 2048, H = 1188, QW = W / 2, QH = H / 2;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  const rnd = mulberry(4242);
+  const L = 'ABCDEFGHJKLMNOPRSTUVWYZ';
+  const call = () => 'XX' + Math.floor(rnd() * 10) + L[Math.floor(rnd() * L.length)] + L[Math.floor(rnd() * L.length)] + (rnd() > 0.5 ? L[Math.floor(rnd() * L.length)] : '');
+  const grid4 = () => 'ABCDEFGHIJKLMNOPQR'[Math.floor(rnd() * 18)] + 'ABCDEFGHIJKLMNOPQR'[Math.floor(rnd() * 18)] + Math.floor(rnd() * 10) + Math.floor(rnd() * 10);
+  const titleBar = (x, y, w, text, dark = true) => {
+    g.fillStyle = dark ? '#1f1f1f' : '#a8a8a8'; g.fillRect(x, y, w, 30);
+    g.fillStyle = dark ? '#d8d8d8' : '#333'; g.font = `500 17px ${FONT}`; g.textBaseline = 'middle'; g.textAlign = 'left';
+    g.fillText(text, x + 12, y + 16, w - 24);
+  };
+  const T = (txt, x, y, font, col, align = 'left') => { g.font = font; g.fillStyle = col; g.textAlign = align; g.fillText(txt, x, y); g.textAlign = 'left'; };
+
+  // ---------------- top left: GridTracker2
+  {
+    const x0 = 0, y0 = 0;
+    titleBar(x0, y0, QW, 'GridTracker2 [Band: 20m Mode: FT8 Layer: Grids]  Worked 180 Confirmed 164');
+    const mx = x0, my = y0 + 30, mw = QW * 0.72, mh = QH - 30;
+    g.fillStyle = '#4f7f99'; g.fillRect(mx, my, mw, mh);                       // ocean
+    const land = (pts, col) => { g.fillStyle = col; g.beginPath(); pts.forEach(([u, v], i) => (i ? g.lineTo : g.moveTo).call(g, mx + u * mw, my + v * mh)); g.closePath(); g.fill(); };
+    land([[0.04, 0.2], [0.16, 0.13], [0.32, 0.11], [0.46, 0.07], [0.6, 0.09], [0.71, 0.16], [0.8, 0.27], [0.77, 0.36], [0.72, 0.45], [0.69, 0.54], [0.64, 0.6], [0.66, 0.7], [0.61, 0.64], [0.53, 0.63], [0.47, 0.71], [0.43, 0.8], [0.37, 0.78], [0.31, 0.67], [0.23, 0.56], [0.17, 0.43], [0.12, 0.31], [0.05, 0.27]], '#8f8a70');
+    land([[0.53, 0.84], [0.64, 0.82], [0.73, 0.9], [0.71, 1], [0.57, 1]], '#8f8a70');
+    land([[0.7, 0.04], [0.85, 0.02], [0.89, 0.12], [0.78, 0.19]], '#a9adb2');
+    g.strokeStyle = 'rgba(40,40,40,0.5)'; g.lineWidth = 2; g.beginPath(); g.arc(mx + mw * 0.38, my + mh * 0.48, mh * 0.38, 0, 7); g.stroke();
+    g.beginPath(); g.arc(mx + mw * 0.38, my + mh * 0.48, mh * 0.7, 0, 7); g.stroke();
+    for (let i = 0; i < 120; i++) {                                              // worked grid squares
+      const u = 0.24 + rnd() * 0.44, v = 0.3 + rnd() * 0.32;
+      if (u > 0.62 && v > 0.55) continue;
+      const k = rnd();
+      g.fillStyle = k > 0.93 ? 'rgba(80,200,80,0.85)' : k > 0.86 ? 'rgba(240,230,60,0.85)' : k > 0.8 ? 'rgba(60,80,230,0.8)' : 'rgba(225,50,50,0.8)';
+      g.fillRect(mx + u * mw, my + v * mh, 16, 14);
+      g.strokeStyle = 'rgba(60,0,0,0.6)'; g.lineWidth = 1; g.strokeRect(mx + u * mw, my + v * mh, 16, 14);
+    }
+    g.fillStyle = 'rgba(0,0,0,0.75)'; g.fillRect(mx + 30, my + 10, 300, 28);
+    T('3.499, -78.662  3897mi  123°  FJ03QL', mx + 40, my + 25, `600 16px ${FONT}`, '#fff');
+    // control panel
+    const px = mx + mw, pw = QW - mw;
+    g.fillStyle = '#000'; g.fillRect(px, my, pw, mh);
+    g.strokeStyle = '#4a4a4a'; g.strokeRect(px + 8, my + 8, pw - 16, 78);
+    T('GridTracker2', px + pw / 2, my + 28, `700 18px ${FONT}`, '#fff', 'center');
+    T('14.074.000 Hz (20m)  FT8', px + pw / 2, my + 52, `600 15px ${FONT}`, '#ffd23f', 'center');
+    T('16:30:32 UTC', px + pw / 2, my + 74, `500 14px ${FONT}`, '#ddd', 'center');
+    g.fillStyle = '#1fa31f'; g.fillRect(px + 8, my + 96, pw - 16, 26); T('RECEIVE', px + pw / 2, my + 110, `700 16px ${FONT}`, '#fff', 'center');
+    for (let i = 0; i < 12; i++) { const h = 6 + rnd() * 40; g.fillStyle = i === 9 ? '#4f6dff' : '#e03030'; g.fillRect(px + 22 + i * 18, my + 180 - h, 10, h); }
+    [['Rx Calls', '338'], ['QSO', '2831'], ['Rx DXCC', '58'], ['QSL', '2506']].forEach(([k, v], i) => {
+      T(k, px + 20 + (i % 2) * 130, my + 210 + Math.floor(i / 2) * 28, `500 15px ${FONT}`, '#fff');
+      g.fillStyle = '#1730c8'; g.fillRect(px + 92 + (i % 2) * 130, my + 197 + Math.floor(i / 2) * 28, 44, 22);
+      T(v, px + 114 + (i % 2) * 130, my + 213 + Math.floor(i / 2) * 28, `600 14px ${FONT}`, '#fff', 'center');
+    });
+    T('Map View Filters', px + pw / 2, my + 286, `700 15px ${FONT}`, '#fff', 'center');
+    [['Band', 'Auto'], ['Mode', 'Auto'], ['Prop', 'Mixed'], ['Data', 'Logbook & Live']].forEach(([k, v], i) => {
+      T(k, px + 24, my + 316 + i * 28, `500 15px ${FONT}`, '#ffd23f');
+      g.fillStyle = '#1730c8'; g.fillRect(px + 92, my + 302 + i * 28, pw - 112, 22); T(v, px + 100, my + 318 + i * 28, `500 14px ${FONT}`, '#fff');
+    });
+    const icons = ['#1e88e5', '#fbc02d', '#8e24aa', '#43a047', '#9e9e9e', '#fb8c00', '#00acc1', '#e53935', '#5e35b1', '#3949ab'];
+    for (let i = 0; i < 10; i++) { g.fillStyle = icons[i]; g.beginPath(); g.arc(px + 36 + (i % 5) * 46, my + 450 + Math.floor(i / 5) * 46, 17, 0, 7); g.fill(); }
+  }
+
+  // ---------------- top right: WSJT-X (light theme, as in the manual)
+  {
+    const x0 = QW, y0 = 0;
+    g.fillStyle = '#838383'; g.fillRect(x0, y0, QW, QH);
+    titleBar(x0, y0, QW, 'WSJT-X   v2.7.0   by K1JT, G4WJS, K9AN, and IV3NWV', false);
+    // Wide Graph
+    const wy = y0 + 34, wh = 120;
+    g.fillStyle = '#979797'; g.fillRect(x0 + 8, wy, QW - 16, 22);
+    for (let f = 500; f <= 3000; f += 500) { const x = x0 + 8 + (f / 3200) * (QW - 16); T(String(f), x, wy + 15, `500 14px ${FONT}`, '#222', 'center'); }
+    for (let yy = 0; yy < 56; yy += 2) for (let xx = 0; xx < QW - 16; xx += 4) {
+      const v = rnd(); g.fillStyle = v > 0.985 ? '#e7e047' : v > 0.6 ? '#1a3bb0' : '#0d1f7a'; g.fillRect(x0 + 8 + xx, wy + 22 + yy, 4, 2);
+    }
+    for (let i = 0; i < 14; i++) {                                               // FT8 signals in the waterfall
+      const x = x0 + 30 + rnd() * (QW - 70), hot = rnd() > 0.75;
+      g.fillStyle = hot ? '#e8251f' : '#3fbf6a'; g.fillRect(x, wy + 22 + rnd() * 20, 12, 30);
+      if (hot) { g.fillStyle = '#f5d33a'; g.fillRect(x + 3, wy + 34, 6, 10); }
+    }
+    g.fillStyle = '#05054a'; g.fillRect(x0 + 8, wy + 78, QW - 16, 42);
+    g.strokeStyle = '#3cff5a'; g.lineWidth = 2; g.beginPath();
+    for (let xx = 0; xx < QW - 16; xx += 4) { const yv = wy + 112 - Math.pow(rnd(), 5) * 30; xx ? g.lineTo(x0 + 8 + xx, yv) : g.moveTo(x0 + 8, yv); }
+    g.stroke();
+    // Band Activity / Rx Frequency
+    const ty = wy + wh + 10, half = (QW - 24) / 2;
+    [['Band Activity', 0], ['Rx Frequency', 1]].forEach(([name, k]) => {
+      const bx = x0 + 8 + k * (half + 8);
+      T(name, bx + half / 2, ty + 16, `500 18px ${FONT}`, '#111', 'center');
+      g.fillStyle = '#7d7d7d'; g.fillRect(bx, ty + 28, half, 26);
+      T('UTC   dB   DT Freq   Message', bx + 10, ty + 42, `500 15px ${MONO}`, '#111');
+      g.fillStyle = '#979797'; g.fillRect(bx, ty + 58, half, 270);
+    });
+    for (let i = 0; i < 13; i++) {
+      const y = ty + 72 + i * 20, cq = rnd() > 0.72, me = !cq && rnd() > 0.86;
+      if (cq || me) { g.fillStyle = cq ? '#3fa34a' : '#b8454a'; g.fillRect(x0 + 9, y - 10, half - 2, 19); }
+      const db = String(Math.round(-20 + rnd() * 30)).padStart(3), dt = (rnd() * 0.8 - 0.2).toFixed(1).padStart(4), fq = String(Math.floor(300 + rnd() * 2600)).padStart(4);
+      const msg = cq ? `CQ ${call()} ${grid4()}` : me ? `XX0AA ${call()} -${String(Math.floor(rnd() * 20)).padStart(2, '0')}` : `${call()} ${call()} ${rnd() > 0.5 ? 'RR73' : grid4()}`;
+      T(`163030 ${db} ${dt} ${fq} ~  ${msg}`, x0 + 14, y + 1, `500 14px ${MONO}`, '#111');
+    }
+    [0, 1].forEach((i) => { const y = ty + 72 + i * 20; g.fillStyle = '#b8454a'; g.fillRect(x0 + 16 + half + 1, y - 10, half - 2, 19); T(`163030 -1${i + 2}  0.1 1${i}48 ~  XX0AA ${call()} R-1${i}`, x0 + 22 + half, y + 1, `500 14px ${MONO}`, '#111'); });
+    // controls
+    const cy = ty + 338;
+    ['Log QSO', 'Stop', 'Monitor', 'Erase', 'Decode', 'Enable Tx', 'Halt Tx', 'Tune'].forEach((b, i) => {
+      const bx = x0 + 10 + i * 124; g.fillStyle = b === 'Monitor' ? '#3fa34a' : b === 'Enable Tx' ? '#b8454a' : '#b8b8b8';
+      g.fillRect(bx, cy, 116, 26); g.strokeStyle = '#999'; g.lineWidth = 1; g.strokeRect(bx, cy, 116, 26);
+      T(b, bx + 58, cy + 14, `500 14px ${FONT}`, '#111', 'center');
+    });
+    g.fillStyle = '#000'; g.fillRect(x0 + 10, cy + 36, 300, 46);
+    T('14.074 000', x0 + 160, cy + 60, `700 30px ${MONO}`, '#6af06a', 'center');
+    T('20m', x0 + 340, cy + 60, `600 22px ${FONT}`, '#111');
+  }
+
+  // ---------------- bottom left: AetherSDR (the real screenshot, drawn when it loads)
+  const tex = canvasTexture(c);
+  {
+    const x0 = 0, y0 = QH;
+    g.fillStyle = '#0b111b'; g.fillRect(x0, y0, QW, QH);
+    titleBar(x0, y0, QW, 'AetherSDR');
+    const img = new Image();
+    img.onload = () => {
+      const s2 = Math.min(QW / img.width, (QH - 30) / img.height), w = img.width * s2, h = img.height * s2;
+      g.drawImage(img, x0 + (QW - w) / 2, y0 + 30 + (QH - 30 - h) / 2, w, h);
+      tex.needsUpdate = true;
+    };
+    img.src = SHOTS[shotKey].src;
+  }
+
+  // ---------------- bottom right: OpsLog (dark, Log4OM-style entry strip)
+  {
+    const x0 = QW, y0 = QH;
+    g.fillStyle = '#14171c'; g.fillRect(x0, y0, QW, QH);
+    titleBar(x0, y0, QW, 'OpsLog — XX0AA');
+    const ey = y0 + 40;
+    g.fillStyle = '#1d222a'; g.fillRect(x0 + 8, ey, QW - 16, 92);
+    [['Callsign', 'XX9ZZ', 150], ['RST S', '-12', 70], ['RST R', '-08', 70], ['Name', 'Pat', 110], ['Grid', 'FN31', 90], ['Band', '20m', 70], ['Mode', 'FT8', 70], ['Freq', '14.074', 110]].reduce((x, [k, v, w]) => {
+      T(k, x, ey + 18, `500 13px ${FONT}`, '#8fa1b8');
+      g.fillStyle = k === 'Callsign' ? '#2a3d5c' : '#262c36'; g.fillRect(x, ey + 26, w, 34);
+      T(v, x + 8, ey + 44, k === 'Callsign' ? `700 20px ${MONO}` : `500 17px ${MONO}`, k === 'Callsign' ? '#ffd23f' : '#e6edf5');
+      return x + w + 12;
+    }, x0 + 18);
+    T('Pat · Example, ST · CQ 5 · ITU 8 · NA', x0 + 18, ey + 80, `500 14px ${FONT}`, '#8fa1b8');
+    // worked-before matrix
+    const bands = ['160', '80', '40', '30', '20', '17', '15', '12', '10', '6'], modes = ['CW', 'SSB', 'DIG'];
+    const wx = x0 + 18, wy = ey + 108;
+    T('Worked before', wx, wy, `600 14px ${FONT}`, '#cfd8e3');
+    bands.forEach((b, i) => T(b, wx + 60 + i * 34 + 15, wy + 22, `500 12px ${FONT}`, '#8fa1b8', 'center'));
+    modes.forEach((m, r) => { T(m, wx, wy + 44 + r * 26, `500 13px ${FONT}`, '#8fa1b8'); bands.forEach((b, i) => { const k = rnd(); g.fillStyle = k > 0.6 ? '#2e7d32' : k > 0.35 ? '#c79100' : '#2a3038'; g.fillRect(wx + 60 + i * 34, wy + 32 + r * 26, 30, 20); }); });
+    // great-circle map + cluster
+    const gx = x0 + 440, gy = ey + 104, gr = 92;
+    g.fillStyle = '#0e2238'; g.beginPath(); g.arc(gx + gr, gy + gr, gr, 0, 7); g.fill();
+    g.strokeStyle = 'rgba(120,170,220,0.35)'; g.lineWidth = 1;
+    for (let k = 1; k < 4; k++) { g.beginPath(); g.arc(gx + gr, gy + gr, gr * k / 4, 0, 7); g.stroke(); }
+    for (let k = 0; k < 12; k++) { const a = k * Math.PI / 6; g.beginPath(); g.moveTo(gx + gr, gy + gr); g.lineTo(gx + gr + Math.cos(a) * gr, gy + gr + Math.sin(a) * gr); g.stroke(); }
+    g.strokeStyle = '#ffd23f'; g.lineWidth = 3; g.beginPath(); g.moveTo(gx + gr, gy + gr); g.lineTo(gx + gr + 70, gy + gr - 50); g.stroke();
+    const cx = x0 + 650;
+    T('DX Cluster', cx, gy + 4, `600 14px ${FONT}`, '#cfd8e3');
+    for (let i = 0; i < 8; i++) { const y = gy + 26 + i * 21; T(`${(14074 + rnd() * 3).toFixed(1)}  ${call().padEnd(7)} FT8`, cx, y, `500 13px ${MONO}`, i === 2 ? '#ff6a6a' : '#cfd8e3'); }
+    // recent QSOs
+    const ry = y0 + 330;
+    g.fillStyle = '#262c36'; g.fillRect(x0 + 8, ry, QW - 16, 26);
+    T('Date        Time   Call       Band  Mode  RST S RST R  Grid  Country', x0 + 16, ry + 14, `600 14px ${MONO}`, '#cfd8e3');
+    for (let i = 0; i < 9; i++) {
+      const y = ry + 44 + i * 24;
+      g.fillStyle = i % 2 ? '#181c22' : '#1c2128'; g.fillRect(x0 + 8, y - 12, QW - 16, 24);
+      T(`2026-10-23  16${String(29 - i * 3).padStart(2, '0')}   ${call().padEnd(9)}  20m   FT8   -${String(5 + Math.floor(rnd() * 15)).padStart(2, '0')}   -${String(5 + Math.floor(rnd() * 15)).padStart(2, '0')}   ${grid4()}`, x0 + 16, y + 1, `500 14px ${MONO}`, '#e6edf5');
+    }
+  }
+  // quadrant dividers
+  g.fillStyle = '#05080d'; g.fillRect(QW - 3, 0, 6, H); g.fillRect(0, QH - 3, W, 6);
+  tex.needsUpdate = true;
+  return tex;
+}
+
 // A spiral notepad page: ruled lines and scribbled calls.
 export function notepadTexture() {
   const c = document.createElement('canvas');
