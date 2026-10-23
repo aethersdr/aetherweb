@@ -214,6 +214,16 @@ and `index.html` points at the new folder.
 | Remove the 3D layer entirely | Delete that script tag (and its comment) |
 | Roll back completely | `git revert <the "3D homepage" commit>`; the tag `pre-3d-homepage` marks the last commit before it |
 
+## 3D experience (`/experience/`)
+
+An interactive three.js tour of AetherSDR by operator, use case and feature,
+with every scenario shown with and without AetherSDR. Source and build notes
+are in [`experience/README.md`](experience/README.md); the deploy workflow
+builds it with npm and stages it at `/experience/`, and `/tour` redirects
+there. It's linked from the top nav and footer. To take it down, delete the
+*Build the experience* step and the `experience/dist-site` copy in
+`deploy.yml`.
+
 ## Local preview
 
 ```bash

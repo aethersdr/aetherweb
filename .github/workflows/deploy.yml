@@ -45,6 +45,16 @@ jobs:
           git --no-pager diff --stat -- sitemap.xml api .well-known \
             index.md blog.md lineage.md functions _routes.json || true
 
+      # The 3D experience at /experience/ is built from experience/ (Vite +
+      # three.js). To take it down, delete this step and the cp line for
+      # experience/dist-site below.
+      - name: Build the experience
+        if: ${{ env.CF_TOKEN != '' }}
+        working-directory: experience
+        run: |
+          npm ci
+          npm run build:site
+
       # Stage only the files the site actually serves — keep serve.py,
       # scripts/, dist/, README, and CI config out of the public deployment.
       # _headers, _routes.json and functions/ are consumed by Pages rather than
@@ -57,6 +67,7 @@ jobs:
           cp -R robots.txt sitemap.xml index.md blog.md lineage.md roadmap.md _site/
           cp -R api .well-known functions _routes.json firmware _site/
           [ -f _redirects ] && cp _redirects _site/ || true
+          cp -R experience/dist-site _site/experience
           echo "Staged:" && find _site -maxdepth 3 -type f | sort
 
       # First run creates the project; later runs no-op (hence continue-on-error).

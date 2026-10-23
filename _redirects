@@ -4,3 +4,7 @@
 /supporters/      https://contributors.aethersdr.com/ 301
 /supporters.html  https://contributors.aethersdr.com/ 301
 /supporters.md    https://contributors.aethersdr.com/ 301
+
+# Short link for the 3D experience.
+/tour   /experience/ 301
+/tour/  /experience/ 301

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AetherSDR — The Station, Explored</title>
+  <meta name="description" content="An interactive 3D tour of AetherSDR for contesters, DXers, and digital-mode operators: every scenario with and without AetherSDR, by operator, use case, or feature. Sources cited; modeled data labelled." />
+  <meta name="color-scheme" content="dark" />
+  <link rel="canonical" href="https://www.aethersdr.com/experience/" />
+</head>
+<body>
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="top">
+    <a class="brand" href="#/" aria-label="AetherSDR Experience — home">
+      <img id="brand-logo" alt="" width="30" height="30" />
+      <span>Aether<b>SDR</b> <i>The Station, Explored</i></span>
+    </a>
+    <nav class="axes" aria-label="Explore by">
+      <a href="#/operators" data-axis="operators"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Operators</a>
+      <a href="#/usecases" data-axis="usecases"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h3l3-8 4 16 3-8h5"/></svg>Use cases</a>
+      <a href="#/features" data-axis="features"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>Features</a>
+    </nav>
+    <div class="tools">
+      <button id="tour-btn" type="button" title="Guided tour (T)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Tour</span></button>
+      <a href="#/sources" class="ghost" title="Sources, method and assumptions">Sources</a>
+      <a href="https://www.aethersdr.com/" class="ghost home-link" title="Back to aethersdr.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg><span>aethersdr.com</span></a>
+    </div>
+  </header>
+
+  <aside id="index" class="index" aria-label="Browse"></aside>
+  <main id="detail" class="detail" tabindex="-1"></main>
+
+  <div id="tip" class="tip" role="tooltip" hidden></div>
+  <div id="tour-bar" class="tour-bar" hidden>
+    <div class="tour-caption" id="tour-caption"></div>
+    <div class="tour-ctrl">
+      <button type="button" id="tour-prev" aria-label="Previous stop">‹</button>
+      <span id="tour-step"></span>
+      <button type="button" id="tour-next" aria-label="Next stop">›</button>
+      <button type="button" id="tour-stop">End tour</button>
+    </div>
+  </div>
+  <div class="keys" aria-hidden="true">← → browse · W with/without · Esc back · T tour</div>
+  <noscript><p class="noscript">This experience needs JavaScript. Visit <a href="https://www.aethersdr.com/">aethersdr.com</a>.</p></noscript>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
