@@ -51,7 +51,7 @@ Evidence comes from headless Firefox render probes at 390×844, 1280×720,
 
 | # | Criterion | Result | Evidence |
 |---|-----------|--------|----------|
-| 1 | Truthful | **Pass** | 139 sources; `npm run check` resolves every `[[cite]]`; uncited prices removed; support tiers quoted at README level; *Modeled* badge on every count; assumptions in-app. |
+| 1 | Truthful | **Pass** | 139 sources; `npm run check` resolves every `[[cite]]`; uncited prices removed; *Modeled* badge on every count; assumptions in-app. |
 | 2 | The real app | **Pass** | Four real screenshots are the workbench "with" screen, the hub wall and the station monitors. |
 | 3 | The operators | **Pass** | 8 stations (SO2R desk + stacked yagis, DX shack + beam, FT8 shack + hex, rag chewer’s podcast-style studio with a boom-mounted SM7B and desk speakers, picnic table + end-fed, café laptop, accessible shack, experimenter bench), each with a seated operator. |
 | 4 | Three ways in | **Pass** | Operators / Use cases / Features tabs; every view cross-links; hash routes for every view, including `/with`. |

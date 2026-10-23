@@ -28,7 +28,6 @@ export const scenarios = [
       steps: ['Open AetherSDR — Linux, macOS or Windows — with two pans and colour-coded slices A and B.[[aether-readme,docs-multi-slice-operation]]', 'Point N1MM+ at AetherSDR’s built-in CAT ports. No SmartSDR CAT install.[[docs-cat-control]]', 'SpotHub draws cluster, RBN (rate-limited) and N1MM+ spots on the pans, coloured dupe, needed multiplier and CQ.[[docs-spothub,blog-release-26-8-2]]', 'Want four bands skimmed? One TCI server feeds four skimmers.[[blog-release-26-9-2]]', 'The mini-pan floats over the logger; CWX macros sit on F1–F12.[[blog-release-26-8-2,docs-cwx-panel]]'],
       gains: ['One radio client instead of SmartSDR + SmartSDR CAT + DAX, and one place for every spot.', 'The 3D stacked trace shows the band filling as the contest starts.[[blog-release-26-7-1]]', 'Amplifier, tuner and antenna switch in the same window.[[docs-amplifiers]]'],
     },
-    caveat: 'AetherSDR doesn’t replace the logger. N1MM+ is Windows-only; on Linux or macOS it runs under Wine or in a VM, or you choose another logger.[[n1mm-wine]] Skimmer spots put you in the Assisted category.[[cqww-rules]]',
   },
   {
     id: 'contest-ssb', persona: 'contester', usecase: 'contesting', band: 'pileup',
@@ -49,7 +48,6 @@ export const scenarios = [
       steps: ['Record twelve messages of up to 30 s from your PC mic — or import WAVs.[[rel-26-10-3,blog-release-26-10-2]]', 'F-keys follow the mode: DVK in voice, CWX in CW.[[docs-dvk-panel]]', 'AetherTX: split-band de-esser, compressor, AetherVoice and PAPR processing for more average power at the same peak.[[blog-release-26-5-3,docs-aetherial-audio]]', 'Watch compression and SWR on SmartMTR meters.[[docs-meters]]'],
       gains: ['The local keyer needs no subscription and works on any radio AetherSDR can transmit on.[[rel-26-10-3]]', 'The old de-esser “was costing you 30 watts” of forward power on voice — rewritten in v26.5.3.[[blog-release-26-5-3]]'],
     },
-    caveat: 'Repeat / auto-CQ for the local keyer is listed as a follow-up, not shipped yet.[[rel-26-10-3]]',
   },
   {
     id: 'contest-prep', persona: 'contester', usecase: 'integration', band: 'contest',
@@ -70,7 +68,6 @@ export const scenarios = [
       steps: ['Run AetherSweep: a 1 W carrier stepped in 20 kHz increments across the band, inside the band plan with a guard.[[docs-aethersweep]]', 'Read the SWR curve on the panadapter — resonance and the bandwidth under 1.5 and 2.0 — and export CSV.[[docs-aethersweep]]', 'It refuses to run while a Power Genius XL is in OPERATE.[[docs-aethersweep]]'],
       gains: ['No disconnecting; the measurement happens through the real feedline and the real radio.'],
     },
-    caveat: 'AetherSweep transmits a carrier: it asks for licence confirmation, excludes 60 m, and other amplifiers must be put in standby by hand.[[docs-aethersweep]]',
   },
 
   // ======================================================== DXer
@@ -113,7 +110,6 @@ export const scenarios = [
       steps: ['Pick from seven NR engines per slice — spectral NR2, RNNoise, NR4, neural NNR and DFNR, GPU BNR, MNR on macOS.[[aether-readme]]', 'Order the receive chain in AetherRX — NR, gate, EQ, compressor — and A/B it with BYPASS.[[blog-release-26-9-4,rel-26-9-5]]', 'Use diversity and ESC beamforming on a two-SCU radio.[[docs-diversity-and-esc]]', 'Open a KiwiSDR or Web-888 inside AetherSDR and auto-align it with your radio.[[blog-release-26-6-5,docs-kiwisdr-and-web-888]]', 'Read the CW with DeepFist or DeepCW, built for weak and hand-sent signals.[[blog-release-26-9-4,rel-26-10-3]]'],
       gains: ['The right NR for the signal in front of you, per slice.', 'Diversity across continents with a public receiver, lined up in audio and waterfall.[[blog-release-26-6-5]]'],
     },
-    caveat: 'BNR needs an NVIDIA RTX GPU on Linux or Windows; MNR is macOS-only; diversity needs a two-SCU radio and its licence. CQ WW doesn’t allow remote receivers, so keep the Kiwi for DXing.[[aether-readme,docs-diversity-and-esc,cqww-rules]]',
   },
   {
     id: 'dx-path', persona: 'dxer', usecase: 'dxing', band: 'mixed',
@@ -156,7 +152,6 @@ export const scenarios = [
       steps: ['Open two slices in AetherSDR, one per band.[[docs-multi-slice-operation]]', 'Point each WSJT-X at an AetherSDR CAT port (or TCI) and a built-in DAX channel — no SmartSDR CAT, no DAX install.[[docs-cat-control,docs-dax-virtual-audio]]', 'Two instances on TCI no longer steal each other’s TX slice (v26.8.1).[[blog-release-26-8-1]]', 'SpotHub’s WSJT-X tab paints decodes on the right band — CQ, CQ POTA and Calling Me in their own colours.[[docs-wsjt-x-integration]]', 'AetherClock checks your clock offset against WWV, off the air.[[docs-aetherclock-and-gps]]'],
       gains: ['The same setup on Linux, macOS — no extra audio driver — and Windows.[[aether-readme]]', 'Decodes on the panadapter, not only in a list.[[docs-wsjt-x-integration]]'],
     },
-    caveat: 'WSJT-X (or JTDX) is still the decoder. AetherSDR replaces the radio-side plumbing around it, not the decoder.',
   },
   {
     id: 'packet-aprs', persona: 'digital', usecase: 'datamodes', band: 'digital',
@@ -197,7 +192,6 @@ export const scenarios = [
       steps: ['Select RADE on the slice; the neural encoder and decoder run in AetherSDR.[[docs-rade-digital-voice]]', 'Double-click a station in FreeDV Reporter to tune and switch to RADE.[[blog-release-26-9-3]]', 'Shape the received voice in AetherRX like any other.[[docs-aetherial-audio]]'],
       gains: ['No virtual cables, no separate codec program.'],
     },
-    caveat: 'ARRL reports a downloadable RADE module for certain FlexRadio models too — a radio-side option.[[arrl-rade]] The −2 dB SNR figure is FreeDV’s own claim.[[freedv-rade]]',
   },
   {
     id: 'dstar', persona: 'digital', usecase: 'digivoice', band: 'digital',
@@ -218,7 +212,6 @@ export const scenarios = [
       steps: ['Plug in a ThumbDV or DV3000U hardware AMBE vocoder.[[docs-d-star-thumbdv]]', 'Receive and transmit DV with headers, callsigns, repeater routing and short messages from the Flex.[[blog-release-26-7-2]]', 'AetherModem’s D-STAR page handles station and routing.[[blog-release-26-7-2]]'],
       gains: ['D-STAR on the radio you already own.'],
     },
-    caveat: 'Needs a hardware AMBE vocoder; software AMBE is deliberately excluded because of patents.[[blog-release-26-7-2]]',
   },
 
   // ======================================================== rag chewer
@@ -241,7 +234,6 @@ export const scenarios = [
       steps: ['Set the microphone source to PC; the MIC light confirms AetherTX is in the path.[[docs-aetherial-audio]]', 'Gate with the RN2 mic noise reducer — no hiss between words.[[docs-aetherial-audio]]', 'Parametric EQ against a live mic spectrum, with an optional reference target curve.[[docs-aetherial-audio]]', 'Split-band de-esser, then a compressor with Drive and Phase for more average power at the same peak.[[docs-aetherial-audio,blog-release-26-5-3]]', 'A touch of Tube and the AetherVoice exciter for warmth and presence; Final Output scopes what goes out.[[docs-aetherial-audio]]', 'REC / PLAY: record 30 s of processed audio and listen back — without keying the radio.[[docs-aetherial-audio]]', 'Save it as a profile: one for the net, one for DX, one per mic.[[docs-aetherial-audio]]'],
       gains: ['One program instead of a plugin host, plugins, a virtual cable and SmartSDR’s TX settings.', 'Hear your own processed audio before the regulars do.[[docs-aetherial-audio]]', 'TX audio is 48 kHz float end to end.[[aether-changelog]]', 'Linux, macOS or Windows.[[aether-readme]]'],
     },
-    caveat: 'A mic in the radio’s own jack bypasses AetherTX — the chain processes the PC mic. The user guide lists known issues: the default chain can leave output well below rated power until you raise Trim, and the PC source can be silent after startup until you switch to BAL and back.[[docs-aetherial-audio]]',
   },
   {
     id: 'ragchew-listen', persona: 'ragchewer', usecase: 'ragchew', band: 'ragchew',
@@ -262,7 +254,6 @@ export const scenarios = [
       steps: ['AetherNR runs first — pick from seven engines, per slice.[[docs-aetherial-audio,aether-readme]]', 'Gate in Expander mode “knocks down inter-syllable hiss on a noisy band without the pumping of a hard gate.”[[docs-aetherial-audio]]', 'Compressor at 1.5:1–2:1 “evens out strength differences … so you are not riding the AF gain.”[[docs-aetherial-audio]]', 'EQ to “pull harshness out of bright stations”; a little Tube or AetherVoice on the thin one.[[docs-aetherial-audio]]', 'DIV on the slice: a second receiver listens on another antenna, and ESC steers the combination.[[docs-diversity-and-esc]]', 'Copy Assist runs a live transcript under the waterfall; a QRZ card shows who just joined.[[blog-release-26-7-4,docs-callsign-lookup]]', 'The Net Scheduler reminds you next Sunday and tunes frequency, mode and filter in one click.[[docs-net-scheduler]]'],
       gains: ['Levelled, quieter audio you can listen to for an hour.', 'BYPASS any time to compare with the raw radio audio.[[docs-aetherial-audio]]', 'Copy Assist’s pre-NR transcription cut its error rate by a third on one recorded ragchew.[[blog-release-26-10-2]]'],
     },
-    caveat: 'Diversity needs a dual-SCU FlexRadio, two antennas and the DIV_ESC licence (SmartSDR+); it isn’t offered on other radio families.[[docs-diversity-and-esc]] Copy Assist is an aid — don’t log callsigns from it — and isn’t in the Intel macOS build.[[blog-release-26-7-4,docs-copy-assist]]',
   },
   {
     id: 'ragchew-amp', persona: 'ragchewer', usecase: 'ragchew', band: 'ragchew',
@@ -283,7 +274,6 @@ export const scenarios = [
       steps: ['The APD button in TX Controls, with Active / Cal / Avail lights; Active means a correction is on air for this antenna, frequency and power.[[docs-tx-controls]]', 'External APD (FLEX-8000, firmware 4.2.18+): pick the sampler input so the radio trains against the amplifier’s output, not its own PA.[[docs-tx-controls]]', 'The sampler is set per TX antenna in Radio Setup → APD.[[docs-radio-setup]]', 'The Power Genius XL in the same window; the forward-power gauge reads to 2,000 W with it.[[docs-amplifiers,docs-tx-controls]]', 'AetherTX’s compressor has its own brickwall limiter, and Final Output scopes what goes out.[[docs-aetherial-audio]]'],
       gains: ['Processing, APD status and the amplifier in one place.', 'APD controls on Linux and macOS as well as Windows.[[docs-tx-controls,aether-readme]]'],
     },
-    caveat: 'APD is the radio’s feature, not AetherSDR’s: it needs a FLEX-8000-series radio, and External APD needs firmware 4.2.18 or later.[[flex-apd,docs-tx-controls]]',
   },
   // ======================================================== portable
   {
@@ -321,11 +311,10 @@ export const scenarios = [
     },
     with: {
       shot: 'stack3d', programs: 2, handoffs: 0, keeps: 'your activation logger',
-      summary: 'AetherSDR talks to the IC-705 over its network link — early support, with receive, scope, transmit and FT8 working.',
+      summary: 'AetherSDR talks to the IC-705 over its network link, with receive, scope, transmit and FT8.',
       steps: ['Connect AetherSDR to the IC-705 over its network link: receive, scope, transmit and FT8.[[aether-readme,docs-supported-radios]]', 'Read the grid square and clock offset from AetherGPS and AetherClock.[[docs-aetherclock-and-gps]]', 'Same app on macOS, Linux or Windows.[[aether-readme]]'],
       gains: ['A big panadapter for the activation, on the laptop you already carry.'],
     },
-    caveat: 'Networked Icom support is labelled early. The IC-7300MK2 is the supported Icom (since v26.9.5); unrecognised Icom models get no scope and no transmit.[[aether-readme,rel-26-9-5]]',
   },
 
   // ======================================================== remote
@@ -348,7 +337,6 @@ export const scenarios = [
       steps: ['Open AetherSDR natively on macOS, Linux or Windows and connect over SmartLink.[[docs-smartlink-setup]]', 'Behind CGNAT with a FLEX-8000 or Aurora? A Tailscale node runs inside the radio — no box at home.[[blog-release-26-10-2]]', 'If the client vanishes, the shim drops the radio connection — a dead tunnel can’t leave TX keyed.[[blog-release-26-10-2]]', 'Adaptive Throttle lowers the frame rate on a weak link instead of disconnecting.[[blog-adaptive-throttle-cq-wpx-cw]]'],
       gains: ['Free and open on every desktop OS.[[aether-readme]]', 'No VPN appliance at home.[[blog-release-26-10-2]]'],
     },
-    caveat: 'SmartLink availability follows the radio’s SmartSDR licence; the in-radio Tailscale path is for FLEX-8000 and Aurora radios.[[flex-ssdr-win,blog-release-26-10-2]]',
   },
   {
     id: 'remote-contest', persona: 'remote', usecase: 'remote', usecases: ['contesting'], band: 'contest',
@@ -369,7 +357,6 @@ export const scenarios = [
       steps: ['Adaptive Throttle: 15 → 8 → 4 fps as the link degrades; the disconnect threshold stretches to 15 missed pings.[[blog-adaptive-throttle-cq-wpx-cw]]', 'Proven in CQ WPX CW: 1,048 QSOs run remotely, Illinois to Ohio.[[blog-adaptive-throttle-cq-wpx-cw]]', 'Power Genius, Tuner Genius and Antenna Genius in the same window.[[docs-amplifiers]]', 'A Lynovation CTR2-Max front panel rides AetherSDR’s route through the CTR2 Proxy.[[docs-ctr2-proxy]]'],
       gains: ['The session survives a bad patch.', 'One client for radio, amp, tuner, switch and front panel.'],
     },
-    caveat: 'For high-speed CW over the internet, keying at the radio end is still the advice in the community.[[flex-cw-latency]]',
   },
 
   // ======================================================== accessible
@@ -412,7 +399,6 @@ export const scenarios = [
       steps: ['Turn on Copy Assist: a live transcript under the waterfall, colour-coded by confidence.[[blog-release-26-7-4]]', 'It runs locally with whisper.cpp; nothing leaves your computer unless you configure a remote endpoint.[[docs-copy-assist]]', 'Transcribe pre-NR audio for fewer errors — a third fewer on one recorded ragchew.[[blog-release-26-10-2]]', 'For CW, three decoders give you a text channel too.[[docs-cw-decoder]]'],
       gains: ['Words on screen for what you’re hearing, in real time.'],
     },
-    caveat: 'Don’t log callsigns from the transcript — the release notes say so. Copy Assist isn’t in the Intel macOS build.[[blog-release-26-7-4,aether-readme]]',
   },
 
   // ======================================================== experimenter
@@ -431,11 +417,10 @@ export const scenarios = [
     },
     with: {
       shot: 'audio', programs: 1, handoffs: 0,
-      summary: 'AetherSDR’s experimental Hermes-Lite 2 backend brings transmit, the NR engines and the decoders to the HL2.',
-      steps: ['Connect AetherSDR to the HL2 (experimental): four receivers, and transmit — SSB, AM and FM voice with ALC.[[aether-readme]]', 'CW and RTTY decoding and AX.25 packet on the HL2.[[aether-readme]]', 'The same NR engines and AetherRX you’d use on a Flex.[[aether-readme]]', 'Band switching with filters, a wideband bandscope and an external 10 MHz reference.[[aether-readme]]'],
+      summary: 'AetherSDR’s Hermes-Lite 2 backend brings transmit, the NR engines and the decoders to the HL2.',
+      steps: ['Connect AetherSDR to the HL2: four receivers, and transmit — SSB, AM and FM voice with ALC.[[aether-readme]]', 'CW and RTTY decoding and AX.25 packet on the HL2.[[aether-readme]]', 'The same NR engines and AetherRX you’d use on a Flex.[[aether-readme]]', 'Band switching with filters, a wideband bandscope and an external 10 MHz reference.[[aether-readme]]'],
       gains: ['One client across the HL2 and a Flex, on any OS.'],
     },
-    caveat: 'Hermes-Lite 2 support is experimental. PureSignal and the full feature set of dedicated HL2 clients aren’t claimed.[[aether-readme]]',
   },
   {
     id: 'station-automation', persona: 'experimenter', usecase: 'integration', band: 'mixed',
@@ -476,6 +461,5 @@ export const scenarios = [
       steps: ['Run Aether-gate next to the rigs — a Raspberry Pi image or Docker.[[aether-gate]]', 'It presents the IC-9700 over LAN, or a hamlib Kenwood plus an SDR dongle, to AetherSDR as a Flex, panadapter included.[[aether-gate]]', 'Receive and control from the AetherSDR you use for the Flex.[[aether-gate]]'],
       gains: ['One panadapter UI across makes.'],
     },
-    caveat: 'Aether-gate calls itself very young. Proven: IC-9700 over LAN, IC-7300 over USB (receive and control), Kenwood TS-450S. Transmit is its next planned feature, with an early guarded path on Icom LAN only; the Windows build lacks Kenwood/Yaesu CAT. Many rigs in its design table are plans, not support.[[aether-gate,aether-gate-support]]',
   },
 ];

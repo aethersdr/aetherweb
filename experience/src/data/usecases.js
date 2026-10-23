@@ -28,7 +28,7 @@ export const usecases = [
     tagline: 'The mode that took over the bands',
     about: 'FT8 trades conversation for sensitivity: 15-second transmit/receive cycles, a 50 Hz-wide signal, and decodes far below the noise. It needs the PC clock within ±1 second of UTC, and on a FlexRadio it is normally wired up with virtual audio (DAX) and a virtual CAT port per program.[[wsjtx-guide,flex-wsjtx-help]]',
     facts: [
-      { value: '>60%', text: 'of Club Log activity was FT8 by March 2021 (nearly 85% on 6 m). Club Log share is not on-air share.[[clublog-ft8]]' },
+      { value: '>60%', text: 'of Club Log activity was FT8 by March 2021 (nearly 85% on 6 m).[[clublog-ft8]]' },
       { value: '15%', text: 'FT8’s share in its launch year, 2017 — 4.8 M of 32 M Club Log QSOs.[[arrl-ft8-2017]]' },
       { value: '24%', text: 'of ARRL Field Day 2025 QSOs were digital — the only mode category that grew.[[fd-2025]]' },
     ],

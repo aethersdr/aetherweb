@@ -293,7 +293,6 @@ function viewScenario(id, mode) {
       ${!withMode && linkTypes.length ? `<div class="legend">${linkTypes.map((t) => `<span><i style="background:${LINK_TYPES[t].color}"></i>${esc(LINK_TYPES[t].label)}</span>`).join('')}</div>` : ''}
     </section>
     <h2>AetherSDR features in play</h2><div class="chips">${s.features.map(chipF).join('')}</div>
-    ${s.caveat ? `<h2>Fine print</h2><p>${c.text(s.caveat)}</p>` : ''}
     ${others.length ? `<h2>More from ${esc(p.name)}</h2>${scenarioCards(others)}` : ''}
     ${c.list()}`;
   if (world) {

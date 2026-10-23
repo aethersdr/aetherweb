@@ -91,7 +91,7 @@ export const personas = [
     needs: [
       'One polished client across their radios, on their OS.',
       'Hooks for automation that can’t key the transmitter by accident.',
-      'Honest labels: what’s supported, early, experimental, or bridged.',
+      'One client that grows with every radio they bring home.',
     ],
   },
 ];

@@ -14,7 +14,5 @@ export const assumptions = [
   'Unsourced workflow steps describe common practice and are marked “(common practice)” where they appear.',
   'The Rag Chewer’s studio-style shack (broadcast mic, audio interface, desk speakers) is one style of rag-chew station, chosen to show the audio features; plenty of rag chewers use the radio’s own mic and a headset.',
   'Prices are US list or dealer prices seen on 23 October 2026 and change often.',
-  'Support levels for radios other than FlexRadio are quoted exactly as the AetherSDR and Aether-gate READMEs state them (supported, early, experimental, receive-only, bridge).',
   'The live band at the centre of the world, the program windows and the cables are illustrations. Program windows are schematic, not screenshots of those products. The four screenshots of AetherSDR are real, taken from the project website.',
-  'One screenshot (hero) is labelled v26.6.5 in its title bar while showing the 3D stacked trace that shipped in v26.7.1; it is presumably a pre-release build.',
 ];
