@@ -290,9 +290,10 @@ function dress(grp, look, color) {
       for (let k = 0; k <= 8; k++) { const x = -6 + k * 1.5; seg.push(x, -3.75, 0, x, 3.75, 0); }
       for (let k = 0; k <= 4; k++) { const y = -3.75 + k * 1.875; seg.push(-6, y, 0, 6, y, 0); }
       const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(seg, 3));
-      panel.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9 })));
-      // A faint dark-blue backing so the grid reads as cells.
-      const back = new THREE.Mesh(new THREE.PlaneGeometry(12, 7.5), new THREE.MeshBasicMaterial({ color: '#071a3c', transparent: true, opacity: 0.8, side: THREE.DoubleSide, depthWrite: false }));
+      const grid = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.4 }));
+      grid.userData.live = true; panel.add(grid);   // keep its own dimmer colour
+      // A solid dark-blue backing so the grid reads as cells.
+      const back = new THREE.Mesh(new THREE.PlaneGeometry(12, 7.5), new THREE.MeshBasicMaterial({ color: '#0e2f6a', side: THREE.DoubleSide }));
       back.position.z = -0.05; panel.add(back);
       panel.position.set(x, base + 4.6, z); panel.rotation.set(-1.05, 0.9, 0, 'YXZ'); grp.add(panel);
       grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x + 3.6, base, z - 1.5), new THREE.Vector3(x + 1.6, base + 4.6, z), new THREE.Vector3(x + 3.6, base, z + 1.5)]), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.8 })));
