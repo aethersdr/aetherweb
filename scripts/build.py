@@ -59,15 +59,6 @@ def main():
     if n != 1:
         raise SystemExit(f"expected 1 webmcp script tag to strip, found {n}")
 
-    # Drop the 3D layer too: it's an ES module that imports three.js by
-    # relative path, which can't resolve from a data: URI.
-    html, n = re.subn(
-        r'\s*(?:<!-- 3D layer\..*?-->\s*)?<script type="module" src="assets/js/stage-v[0-9]+/index\.js[^"]*"[^>]*></script>',
-        "", html, flags=re.S,
-    )
-    if n != 1:
-        raise SystemExit(f"expected 1 3D-layer script tag to strip, found {n}")
-
     # Embed every referenced asset (src="assets/..." and content="assets/...").
     def repl(match):
         attr, path = match.group(1), match.group(2)
