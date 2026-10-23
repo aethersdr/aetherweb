@@ -8,7 +8,7 @@
 
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { labelSprite, shotTexture, glowTexture } from './textures.js';
+import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture } from './textures.js';
 
 export const RING = 300;
 
@@ -24,7 +24,7 @@ const box = (w, h, d, color, o) => edged(new THREE.BoxGeometry(w, h, d), color, 
 const cyl = (rt, rb, h, color, seg = 10) => edged(new THREE.CylinderGeometry(rt, rb, h, seg), color);
 
 function screen(shot, w, color) {
-  const tex = shotTexture(shot);
+  const tex = typeof shot === 'string' ? shotTexture(shot) : shot;
   const h = w * 0.58;
   const grp = new THREE.Group();
   const bezel = box(w + 1.2, h + 1.2, 0.8, color);
@@ -47,7 +47,9 @@ function radio(color, w = 11) {
 
 // A seated operator: low-poly, edge-lit, wearing headphones unless the
 // station has speakers. `lean` tips the chair back and the upper body with it.
-function operator(color, { lean = 0, phones = true } = {}) {
+// `reach` (two x positions) puts the hands on the desk in front: the
+// contester's keyboard and paddle. `mic` adds a headset boom.
+function operator(color, { lean = 0, phones = true, reach = null, mic = false } = {}) {
   const grp = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({ color: 0x0f1c2c, roughness: 0.6, metalness: 0.2, emissive: new THREE.Color(color), emissiveIntensity: 0.12 });
   const part = (geo) => edged(geo, color, { mat, opacity: 0.7 });
@@ -63,12 +65,34 @@ function operator(color, { lean = 0, phones = true } = {}) {
   at(box(7, 9, 1, color, { opacity: 0.5 }), 0, 12, 3.6);
   const torso = at(part(new THREE.CylinderGeometry(2.4, 2.8, 8, 8)), 0, 14, 0.8); torso.rotation.x = -0.12;
   at(part(new THREE.IcosahedronGeometry(2.1, 1)), 0, 20.2, 0.1);
-  if (phones) at(new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.35, 8, 20, Math.PI), new THREE.MeshBasicMaterial({ color, toneMapped: false })), 0, 20.4, 0.1);
+  const glow = new THREE.MeshBasicMaterial({ color, toneMapped: false });
+  if (phones) at(new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.35, 8, 20, Math.PI), glow), 0, 20.4, 0.1);
+  // A limb (or boom) from a to b, in the operator's own unrotated frame.
+  const limb = (a, b, t, m = null) => {
+    const A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), d = B.clone().sub(A);
+    const geo = new THREE.BoxGeometry(t, t, d.length());
+    const o = m ? new THREE.Mesh(geo, m) : part(geo);
+    at(o, ...A.clone().addScaledVector(d, 0.5).toArray());
+    o.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), d.normalize());
+    return o;
+  };
+  if (mic) { limb([-2.5, 19.9, 0.1], [-1.6, 18.6, -1.6], 0.28, glow); limb([-1.6, 18.6, -1.6], [-0.3, 18.5, -2.2], 0.28, glow); }
+  // Where a hand at desk height (y 12.4, 1.5 in front of the desk edge)
+  // sits in the unrotated frame, given the lean.
+  const handAt = (x) => {
+    const y1 = 12.4 - 8.8, z1 = (1.5 - 7) - 0.4, c = Math.cos(lean), sn = Math.sin(lean);
+    return [x, 8.8 + y1 * c + z1 * sn, 0.4 - y1 * sn + z1 * c];
+  };
   [-1, 1].forEach((s) => {
     if (phones) { const cup = at(new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.7, 12), new THREE.MeshBasicMaterial({ color, toneMapped: false })), s * 2.4, 20.2, 0.1); cup.rotation.z = Math.PI / 2; }
     const thigh = part(new THREE.BoxGeometry(1.9, 1.8, 6)); thigh.position.set(s * 1.4, 8.6, -2.6); grp.add(thigh);
     const shin = part(new THREE.BoxGeometry(1.7, 7, 1.7)); shin.position.set(s * 1.4, 4.4, -5.4); grp.add(shin);
-    if (lean) {
+    if (reach) {
+      // Hunched over the desk: shoulder, elbow out and down, hand on the gear.
+      const hand = handAt(reach[(s + 1) / 2]), sh = [s * 3.1, 17.3, 0.4];
+      const elbow = [s * 3.9 + (hand[0] - s * 3.1) * 0.25, 13.6, -1.0];
+      limb(sh, elbow, 1.5); limb(elbow, hand, 1.4);
+    } else if (lean) {
       // Leaning back: elbows down, hands folded on the stomach.
       const arm = at(part(new THREE.BoxGeometry(1.5, 5.5, 1.5)), s * 3.2, 14.4, 0.6); arm.rotation.z = s * 0.12;
       const fore = at(part(new THREE.BoxGeometry(4, 1.4, 1.4)), s * 1.6, 11.8, -1.6); fore.rotation.y = s * 0.35;
@@ -156,10 +180,55 @@ function dress(grp, look, color) {
   const mon = (shot, x, w = 16, rot = 0) => { const s = screen(shot, w, color); s.position.set(x, 11.6 + 2.5 + w * 0.29 + 2.6, -6.5); s.rotation.y = rot; s.rotation.x = -0.05; grp.add(s); return s; };
   const rig = (x, w) => { const r = radio(color, w); r.position.set(x, 13.8, -4); grp.add(r); };
 
+  const anims = grp.userData.anims = [];
   if (look.desk === 'contest') {
-    desk(40, 14);
-    mon(look.shots[0], -9.5, 17, -0.18); mon(look.shots[1] || look.shots[0], 9.5, 17, 0.18);
-    rig(-11, 10); rig(11, 10);
+    desk(56, 15);
+    // Four screens in an arc: a logger at each end (run radio, S&P radio),
+    // AetherSDR in the middle.
+    const arc = [[-21.6, 0.42, -3.4], [-7.6, 0.1, -6.5], [7.6, -0.1, -6.5], [21.6, -0.42, -3.4]];
+    const faces = [
+      loggerTexture({ title: 'Contest log — Radio 1', band: '40 m', mode: 'RUN', seed: 3 }),
+      look.shots[0], look.shots[1] || look.shots[0],
+      loggerTexture({ title: 'Contest log — Radio 2', band: '20 m', mode: 'S&P', accent: '#5de3ff', seed: 8 }),
+    ];
+    arc.forEach(([x, rot, z], i) => { const m = mon(faces[i], x, 13.5, rot); m.position.z = z; });
+    rig(-13.6, 8.5); rig(13.6, 8.5);
+    const kb = box(11, 0.6, 3.6, color); kb.position.set(-3.5, 11.9, 0.6); grp.add(kb);
+    const paddle = box(2.4, 0.8, 3, color); paddle.position.set(6.5, 12, 1.2); grp.add(paddle);
+    [-0.35, 0.35].forEach((x) => { const lever = box(0.25, 1.6, 1.2, color); lever.position.set(6.5 + x, 13.1, 0.4); grp.add(lever); });
+    // Notepad and pencil.
+    const pad = new THREE.Mesh(new THREE.PlaneGeometry(5, 7), new THREE.MeshBasicMaterial({ map: notepadTexture(), color: 0x8a8a8a, toneMapped: false }));
+    pad.rotation.set(-Math.PI / 2, 0, 0.35); pad.position.set(-15, 11.66, 1.4); grp.add(pad);
+    const pencil = new THREE.Group();
+    const wood = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 5.6, 6), new THREE.MeshBasicMaterial({ color: '#f5c542', toneMapped: false }));
+    const tip = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.7, 6), new THREE.MeshBasicMaterial({ color: '#3a2f25', toneMapped: false }));
+    tip.position.y = -3.15; tip.rotation.x = Math.PI; pencil.add(wood, tip);
+    pencil.rotation.set(0, 0, Math.PI / 2); pencil.rotation.y = 0.9; pencil.position.set(-14.2, 11.9, 2.2); grp.add(pencil);
+    const can = cyl(0.85, 0.85, 3, color, 12); can.position.set(18, 13.1, 3); grp.add(can);
+    // The hands: live, so they can key the paddle and hammer the keyboard.
+    const handMat = new THREE.MeshStandardMaterial({ color: 0x0f1c2c, roughness: 0.6, emissive: new THREE.Color(color), emissiveIntensity: 0.35 });
+    const hands = [[-3.5, 12.75, 1.4], [6.5, 13.0, 1.9]].map((pos) => {
+      const h = edged(new THREE.BoxGeometry(1.5, 0.9, 1.9), color, { mat: handMat });
+      h.position.set(...pos); h.userData.live = true; grp.add(h); return h;
+    });
+    anims.push((t) => {
+      hands[0].position.y = 12.75 + Math.abs(Math.sin(t * 17)) * 0.35;           // typing a call
+      hands[1].position.x = 6.5 + Math.sin(t * 38) * Math.max(0, Math.sin(t * 2.7)) * 0.3;   // keying bursts
+    });
+    // The pile-up: the DX and a wall of callers flickering above the desk.
+    // Placeholder calls only.
+    const calls = ['XX1ABC', 'XX5KZ', 'XX2DEF', 'XX7RT', 'XX3MNO', 'XX4WB', 'XX8JQ', 'XX6PL'];
+    const dx = labelSprite('XX9ZZ  UP 5', { height: 3.4, color: '#ffffff', border: 'rgba(255,255,255,0.6)', mono: true });
+    dx.position.set(0, 39, -9); dx.userData.hideInScenario = true; grp.add(dx);
+    const callers = calls.map((c, i) => {
+      const sp = labelSprite(c, { height: 2.6, color: look.color || '#ffb547', mono: true });
+      sp.position.set(-27 + (i % 4) * 16 + (i > 3 ? 8 : 0), i > 3 ? 30 : 34.5, -8 - (i % 3) * 2.5);
+      sp.material.opacity = 0; sp.userData.hideInScenario = true; grp.add(sp); return sp;
+    });
+    anims.push((t) => {
+      callers.forEach((sp, i) => { const k = Math.max(0, Math.sin(t * (2.3 + i * 0.37) + i * 1.9)); sp.material.opacity = k * k; });
+      dx.material.opacity = 0.75 + 0.25 * Math.sin(t * 1.3);
+    });
   } else if (look.desk === 'picnic') {
     const top = box(30, 1, 13, color); top.position.set(0, 10, -2); grp.add(top);
     [-1, 1].forEach((s) => { const bench = box(30, 0.8, 4, color, { opacity: 0.6 }); bench.position.set(0, 6, -2 + s * 10); grp.add(bench); const a = box(1, 10, 12, color, { opacity: 0.5 }); a.position.set(s * 12, 5, -2); grp.add(a); });
@@ -190,7 +259,7 @@ function dress(grp, look, color) {
     rig(12, 9);
   }
   // The operator faces the hub (-z), screens in front of them.
-  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false });
+  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false, reach: look.reach || null, mic: !!look.reach });
   op.position.set(0, look.desk === 'picnic' ? -1 : 0, look.desk === 'picnic' ? 8 : 7);
   grp.add(op);
   const ant = antenna(look.antenna, color);
@@ -208,7 +277,9 @@ function mergeProps(props, color) {
   const rel = (o) => inv.clone().multiply(o.matrixWorld);
   const lines = [], solids = [], figures = [], dead = [];
   let figureMat = null;
+  const live = (o) => { for (; o && o !== props; o = o.parent) if (o.userData.live) return true; return false; };
   props.traverse((o) => {
+    if (live(o)) return;
     if (o.isLineSegments || o.isLine) {
       let g = o.geometry.clone().applyMatrix4(rel(o));
       if (!o.isLineSegments) {           // strip -> segment pairs
@@ -282,7 +353,7 @@ export function createStations(engine, personas, onSelect) {
     grp.add(hit);
     const extras = [];
     grp.traverse((o) => { if (o.userData.hideInScenario) extras.push(o); });
-    const st = { persona: p, group: grp, angle: a, rim, halo, label, extras, hover: false, active: false };
+    const st = { persona: p, group: grp, angle: a, rim, halo, label, extras, anims: props.userData.anims || [], hover: false, active: false };
     engine.addPickable(hit, {
       kind: 'persona', id: p.id, title: p.name,
       onClick: () => onSelect(p.id),
@@ -297,6 +368,7 @@ export function createStations(engine, personas, onSelect) {
       const want = s.active ? 0.07 : s.hover ? 0.06 : 0.0;
       s.halo.material.opacity += (want - s.halo.material.opacity) * (1 - Math.exp(-5 * dt));
       s.rim.material.opacity = 0.55 + 0.35 * Math.sin(t * 2 + s.angle * 3) * (s.active ? 1 : 0.4);
+      for (const f of s.anims) f(t);
     }
   });
 

@@ -131,6 +131,78 @@ export function toolWindowTexture({ name, role, os = '', kind = 'list', accent =
   return canvasTexture(c);
 }
 
+// A contest logger window for the station monitors: entry line with the call
+// being typed, the recent log, a band map, and a rate meter. Schematic, with
+// placeholder calls only — it stands for "a logger", not a product.
+export function loggerTexture({ title, band, mode, accent = '#ffb547', seed = 1 }) {
+  const W = 800, H = 460;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  const rnd = mulberry(seed * 7919);
+  const L = 'ABCDEFGHJKLMNOPQRSTUVWXYZ';
+  const call = () => 'XX' + Math.floor(rnd() * 10) + L[Math.floor(rnd() * 25)] + L[Math.floor(rnd() * 25)] + (rnd() > 0.4 ? L[Math.floor(rnd() * 25)] : '');
+  g.fillStyle = '#0d141f'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#1d2738'; g.fillRect(0, 0, W, 46);
+  g.fillStyle = '#eaf2fb'; g.font = `650 24px ${FONT}`; g.textBaseline = 'middle';
+  g.fillText(title, 16, 24);
+  g.fillStyle = accent; g.font = `700 22px ${MONO}`; g.textAlign = 'right';
+  g.fillText(`${band} · ${mode}`, W - 16, 24); g.textAlign = 'left';
+  // entry line
+  g.fillStyle = '#16233a'; g.fillRect(14, 60, 500, 58);
+  g.strokeStyle = accent; g.lineWidth = 3; g.strokeRect(14, 60, 500, 58);
+  g.fillStyle = '#fff'; g.font = `700 34px ${MONO}`;
+  const typing = call().slice(0, 4);
+  g.fillText(typing, 30, 90);
+  const tw = g.measureText(typing).width;
+  g.fillStyle = accent; g.fillRect(32 + tw, 72, 14, 36);
+  g.fillStyle = '#8598b4'; g.font = `500 22px ${MONO}`; g.fillText('599  14', 330, 90);
+  // log rows
+  g.font = `500 20px ${MONO}`;
+  for (let i = 0; i < 9; i++) {
+    const y = 146 + i * 32;
+    g.fillStyle = i % 2 ? 'rgba(133,152,180,0.06)' : 'rgba(133,152,180,0.12)'; g.fillRect(14, y - 14, 500, 30);
+    g.fillStyle = '#9fb3cc';
+    const mm = String(59 - i * 2).padStart(2, '0');
+    g.fillText(`23${mm}`, 24, y + 1);
+    g.fillStyle = '#eaf2fb'; g.fillText(call().padEnd(8), 110, y + 1);
+    g.fillStyle = '#9fb3cc'; g.fillText(`599 ${String(3 + Math.floor(rnd() * 37)).padStart(2, '0')}`, 260, y + 1);
+    if (rnd() > 0.7) { g.fillStyle = '#ffd166'; g.fillText('MULT', 400, y + 1); }
+  }
+  // band map
+  g.fillStyle = '#0b111b'; g.fillRect(530, 60, 256, 330);
+  g.strokeStyle = 'rgba(133,152,180,0.35)'; g.lineWidth = 2; g.strokeRect(530, 60, 256, 330);
+  g.font = `500 18px ${MONO}`;
+  for (let i = 0; i < 11; i++) {
+    const y = 82 + i * 29;
+    const f = (band === '20 m' ? 14000 : 7000) + 4 + i * 3 + Math.floor(rnd() * 3);
+    g.fillStyle = '#5d6f88'; g.fillText(`${f}.${Math.floor(rnd() * 10)}`, 540, y);
+    const k = rnd();
+    g.fillStyle = k > 0.75 ? '#ff6b5e' : k > 0.45 ? '#ffd166' : '#8ef7a8';
+    g.fillText(call(), 650, y);
+  }
+  // rate meter
+  g.fillStyle = '#16233a'; g.fillRect(14, 420, 772, 30);
+  g.fillStyle = accent; g.fillRect(14, 420, 772 * 0.72, 30);
+  g.fillStyle = '#05080d'; g.font = `700 20px ${MONO}`; g.fillText(`RATE ${110 + Math.floor(rnd() * 60)}/h`, 26, 436);
+  return canvasTexture(c);
+}
+
+// A spiral notepad page: ruled lines and scribbled calls.
+export function notepadTexture() {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 360;
+  const g = c.getContext('2d');
+  g.fillStyle = '#f2ead3'; g.fillRect(0, 0, 256, 360);
+  g.strokeStyle = 'rgba(80,120,190,0.45)'; g.lineWidth = 2;
+  for (let y = 50; y < 360; y += 26) { g.beginPath(); g.moveTo(0, y); g.lineTo(256, y); g.stroke(); }
+  g.strokeStyle = 'rgba(210,70,70,0.6)'; g.beginPath(); g.moveTo(36, 0); g.lineTo(36, 360); g.stroke();
+  g.fillStyle = '#2a2f3a'; g.font = `italic 600 24px ${FONT}`;
+  ['XX9ZZ up 5?', '14.195 / 14.200', 'QSX 14.201', 'mult! 40m', 'dupe XX1AB'].forEach((t, i) => g.fillText(t, 46, 44 + i * 52));
+  g.strokeStyle = '#2a2f3a'; g.lineWidth = 3; g.beginPath(); g.moveTo(46, 74); g.lineTo(200, 66); g.stroke();
+  return canvasTexture(c);
+}
+
 function mulberry(a) {
   return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }

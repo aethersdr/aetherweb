@@ -5,7 +5,7 @@ export const personas = [
   {
     id: 'contester', name: 'The Contester', color: '#ffb547',
     tagline: 'Rate, multipliers, two radios, 48 hours',
-    look: { desk: 'contest', shots: ['multislice', 'stack3d'], antenna: 'stack' },
+    look: { desk: 'contest', shots: ['multislice', 'stack3d'], antenna: 'stack', lean: -0.24, reach: [-3.5, 6.5], color: '#ffb547' },
     who: 'Lives for CQ WW, WPX and Field Day weekends. Runs on one band while searching and pouncing on another, measures success in QSOs per hour, and has spent more time configuring software than they’d like to admit. In CQ WW CW 2025, Assisted single-op entries outnumbered Unassisted 3,112 to 2,260.[[cqww-cw-2025]]',
     needs: [
       'See two bands at once and switch focus without thinking.',
