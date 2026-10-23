@@ -8,7 +8,7 @@
 
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, digitalDeskTexture, menuTexture } from './textures.js';
+import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, digitalDeskTexture, menuTexture, pcbTexture, readoutTexture } from './textures.js';
 
 export const RING = 300;
 
@@ -357,6 +357,65 @@ function dress(grp, look, color) {
     rig(15, 8);
     const kb = box(11, 0.6, 3.6, color); kb.position.set(-2, 11.9, 0.8); grp.add(kb);
     const mouse = box(1.4, 0.6, 2.2, color); mouse.position.set(6, 11.9, 1); grp.add(mouse);
+  } else if (look.desk === 'bench') {
+    // The experimenter's workbench: a wide desk, one small monitor in the back
+    // corner, a soldering station, and circuit boards everywhere.
+    desk(56, 20);
+    const m = mon(look.shots[0], -21, 11, 0.5); m.position.z = -8.5;
+    // Soldering station: base with a readout and a knob, coil holder, iron,
+    // sponge, solder spool, and a wisp of flux smoke.
+    const base = box(7, 3.4, 5, color); base.position.set(16, 13.3, -6); grp.add(base);
+    const readout = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 1.4), new THREE.MeshBasicMaterial({ map: readoutTexture('350°C'), toneMapped: false }));
+    readout.position.set(15, 13.9, -3.48); grp.add(readout);
+    const knob = cyl(0.8, 0.8, 0.6, color, 14); knob.rotation.x = Math.PI / 2; knob.position.set(18.3, 13.4, -3.3); grp.add(knob);
+    const sponge = new THREE.Mesh(new THREE.BoxGeometry(3, 0.8, 2.4), new THREE.MeshBasicMaterial({ color: '#6e5a1c', toneMapped: false })); sponge.position.set(12, 12.0, -1); grp.add(sponge);
+    // the holder: a wire coil on a stand, tilted up toward the back
+    const A = new THREE.Vector3(19, 12.6, 1.2), B = new THREE.Vector3(22.5, 15.4, -1.8), ax = B.clone().sub(A), len = ax.length(); ax.normalize();
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), ax);
+    const coil = [];
+    for (let k = 0; k <= 80; k++) { const u = k / 80, a = u * Math.PI * 2 * 7, r = 0.6 + u * 0.5; coil.push(new THREE.Vector3(Math.cos(a) * r, Math.sin(a) * r, u * len).applyQuaternion(q).add(A)); }
+    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(coil), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.85 })));
+    const stand = box(3, 0.5, 3, color); stand.position.set(20.5, 11.85, 0); grp.add(stand);
+    const tipEnd = A.clone().addScaledVector(ax, -1.6);
+    const handle = cyl(0.42, 0.5, len + 1.5, color, 10); handle.position.copy(A.clone().addScaledVector(ax, len * 0.55)); handle.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), ax); grp.add(handle);
+    const tip = new THREE.Mesh(new THREE.ConeGeometry(0.22, 1.8, 8), new THREE.MeshBasicMaterial({ color: '#d0d4da', toneMapped: false }));
+    tip.position.copy(A.clone().addScaledVector(ax, -0.7)); tip.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), ax); grp.add(tip);
+    const cord = new THREE.CatmullRomCurve3([B.clone().addScaledVector(ax, 1.2), new THREE.Vector3(24, 12.2, -3), new THREE.Vector3(19.5, 12.0, -6.5)]);
+    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(cord.getPoints(20)), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.7 })));
+    const spool = cyl(1.3, 1.3, 1.2, color, 16); spool.position.set(9, 12.2, -5); grp.add(spool);
+    const wire = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.28, 6, 20), new THREE.MeshBasicMaterial({ color: '#6c727b', toneMapped: false })); wire.rotation.x = Math.PI / 2; wire.position.set(9, 12.9, -5); grp.add(wire);
+    const smoke = [0, 1].map((k) => {
+      const pts = []; for (let u = 0; u <= 10; u++) pts.push(new THREE.Vector3(Math.sin(u * 0.8 + k * 2.5) * 0.3, u * 0.4, 0));
+      const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: '#cfd6df', transparent: true, opacity: 0.4 }));
+      l.position.copy(tipEnd); l.userData.live = true; grp.add(l); return l;
+    });
+    anims.push((t) => smoke.forEach((l, k) => { const ph = (t * 0.35 + k / 2) % 1; l.position.y = tipEnd.y + ph * 2.2; l.material.opacity = 0.45 * Math.sin(ph * Math.PI); l.rotation.y = t * 0.3 + k * 2; }));
+    // The radio, cover off: chassis walls and front panel, and inside the
+    // main board, a finned heatsink, toroids, capacitors and a coax run.
+    const rx = new THREE.Group(); rx.position.set(1, 11.6, -6.5); grp.add(rx);
+    const pan = box(12, 0.3, 8, color); pan.position.y = 0.15; rx.add(pan);
+    const front = box(12, 4.4, 0.4, color); front.position.set(0, 2.2, 4); rx.add(front);
+    const disp = new THREE.Mesh(new THREE.PlaneGeometry(5, 2.2), new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(0.7), toneMapped: false })); disp.position.set(-2.4, 2.4, 4.21); rx.add(disp);
+    const vfo = cyl(1.2, 1.2, 0.8, color, 16); vfo.rotation.x = Math.PI / 2; vfo.position.set(3.3, 2.2, 4.5); rx.add(vfo);
+    const back = box(12, 4.4, 0.3, color); back.position.set(0, 2.2, -3.85); rx.add(back);
+    [-1, 1].forEach((k) => { const side = box(0.3, 4.4, 8, color); side.position.set(k * 5.85, 2.2, 0); rx.add(side); });
+    const mainBoard = new THREE.Mesh(new THREE.PlaneGeometry(11, 7.2), new THREE.MeshBasicMaterial({ map: pcbTexture(21, ''), color: 0xbdbdbd, toneMapped: false }));
+    mainBoard.rotation.x = -Math.PI / 2; mainBoard.position.set(0, 0.45, -0.1); rx.add(mainBoard);
+    for (let k = 0; k < 8; k++) { const fin = box(0.18, 2.4, 3, color); fin.position.set(1.5 + k * 0.5, 1.6, -2); rx.add(fin); }
+    [[-3.5, -1.5], [-2, -2.2], [-3.2, 0.8]].forEach(([x, z]) => { const t = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.25, 8, 16), new THREE.MeshBasicMaterial({ color: '#b5653a', toneMapped: false })); t.rotation.x = Math.PI / 2; t.position.set(x, 0.75, z); rx.add(t); });
+    [[-0.5, 1.6, '#2b4fa8'], [0.4, 1.6, '#2b4fa8'], [-1.4, 2.2, '#222'], [4.5, 1.8, '#222']].forEach(([x, z, col]) => { const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 1.2, 10), new THREE.MeshBasicMaterial({ color: col, toneMapped: false })); cap.position.set(x, 1.05, z); rx.add(cap); });
+    const coax = new THREE.CatmullRomCurve3([new THREE.Vector3(-4.5, 0.8, 3.2), new THREE.Vector3(-1, 1.2, 0.5), new THREE.Vector3(4.6, 0.9, -1), new THREE.Vector3(4.8, 1.5, -3.6)]);
+    rx.add(new THREE.Mesh(new THREE.TubeGeometry(coax, 20, 0.16, 6), new THREE.MeshBasicMaterial({ color: '#202020', toneMapped: false })));
+    const cover = box(12.2, 0.3, 8.2, color); cover.position.set(-12, 11.95, -8); cover.rotation.y = 0.25; grp.add(cover);
+    [-1, 1].forEach((k) => { const lip = box(0.3, 1.2, 8.2, color); lip.position.set(-12 + k * 5.9 * Math.cos(0.25), 12.5, -8 - k * 5.9 * Math.sin(0.25)); lip.rotation.y = 0.25; grp.add(lip); });
+    // Circuit boards scattered across the desk.
+    [[-10, 0.6, -2, 7, 4.8, 'HL2'], [-1, -0.4, 2.5, 6, 4, ''], [15, 0.25, 4.5, 5, 3.4, 'RX'], [-14, -0.9, 4.5, 4.5, 3.1, ''], [9, 1.2, 3.2, 4, 2.8, ''], [-17, 1.9, -2.5, 5.5, 3.8, 'PA']].forEach(([x, ry, z, w, d, label], i) => {
+      const board = new THREE.Group();
+      const core = box(w, 0.25, d, color, { opacity: 0.4 }); board.add(core);
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: pcbTexture(i + 3, label), color: 0xbdbdbd, toneMapped: false }));
+      face.rotation.x = -Math.PI / 2; face.position.y = 0.14; board.add(face);
+      board.position.set(x, 11.75 + i * 0.01, z); board.rotation.y = ry; grp.add(board);
+    });
   } else if (look.desk === 'picnic') {
     const top = box(30, 1, 13, color); top.position.set(0, 10, -2); grp.add(top);
     [-1, 1].forEach((s) => { const bench = box(30, 0.8, 4, color, { opacity: 0.6 }); bench.position.set(0, 6, -2 + s * 10); grp.add(bench); const a = box(1, 10, 12, color, { opacity: 0.5 }); a.position.set(s * 12, 5, -2); grp.add(a); });

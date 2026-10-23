@@ -86,7 +86,7 @@ export const personas = [
   {
     id: 'experimenter', name: 'The Experimenter', color: '#c9a7ff',
     tagline: 'Hermes-Lite 2, Icom, dongles, automation',
-    look: { desk: 'shack', shots: ['audio', 'claude'], antenna: 'vertical' },
+    look: { desk: 'bench', shots: ['audio'], antenna: 'vertical' },
     who: 'Owns more than one kind of radio — a $269 open-hardware Hermes-Lite 2,[[hl2-price,hl2-home]] an Icom, an RTL-SDR — runs Home Assistant in the shack, and reads source code for fun.',
     needs: [
       'One polished client across their radios, on their OS.',

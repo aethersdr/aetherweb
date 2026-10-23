@@ -382,6 +382,43 @@ export function menuTexture() {
   return canvasTexture(c);
 }
 
+// A circuit board: solder mask, copper traces, pads, chips and silkscreen.
+export function pcbTexture(seed = 1, label = '') {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 176;
+  const g = c.getContext('2d');
+  const rnd = mulberry(seed * 977);
+  g.fillStyle = '#17603a'; g.fillRect(0, 0, 256, 176);
+  g.strokeStyle = '#c9a24a'; g.lineWidth = 3; g.lineCap = 'round';
+  for (let i = 0; i < 26; i++) {
+    let x = 10 + rnd() * 236, y = 10 + rnd() * 156;
+    g.beginPath(); g.moveTo(x, y);
+    for (let k = 0; k < 3; k++) { if (rnd() > 0.5) x = 10 + rnd() * 236; else y = 10 + rnd() * 156; g.lineTo(x, y); }
+    g.stroke();
+    g.fillStyle = '#d8b25a'; g.beginPath(); g.arc(x, y, 4, 0, 7); g.fill();
+  }
+  for (let i = 0; i < 4; i++) {
+    const w = 28 + rnd() * 34, h = 18 + rnd() * 22, x = 14 + rnd() * (220 - w), y = 14 + rnd() * (140 - h);
+    g.fillStyle = '#151515'; g.fillRect(x, y, w, h);
+    g.fillStyle = '#bfbfbf'; for (let k = 4; k < w - 2; k += 6) { g.fillRect(x + k, y - 4, 2, 4); g.fillRect(x + k, y + h, 2, 4); }
+  }
+  g.strokeStyle = '#e8e8e8'; g.lineWidth = 2; g.strokeRect(4, 4, 248, 168);
+  for (const [x, y] of [[12, 12], [244, 12], [12, 164], [244, 164]]) { g.fillStyle = '#d8b25a'; g.beginPath(); g.arc(x, y, 5, 0, 7); g.fill(); g.fillStyle = '#0b2a18'; g.beginPath(); g.arc(x, y, 2.5, 0, 7); g.fill(); }
+  if (label) { g.fillStyle = '#f2f2f2'; g.font = `700 22px ${MONO}`; g.fillText(label, 16, 160); }
+  return canvasTexture(c);
+}
+
+// The soldering station's temperature readout.
+export function readoutTexture(text) {
+  const c = document.createElement('canvas');
+  c.width = 160; c.height = 64;
+  const g = c.getContext('2d');
+  g.fillStyle = '#120404'; g.fillRect(0, 0, 160, 64);
+  g.fillStyle = '#ff4a3a'; g.font = `700 40px ${MONO}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText(text, 80, 34);
+  return canvasTexture(c);
+}
+
 // A spiral notepad page: ruled lines and scribbled calls.
 export function notepadTexture() {
   const c = document.createElement('canvas');
