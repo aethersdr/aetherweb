@@ -8,7 +8,7 @@
 
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, digitalDeskTexture } from './textures.js';
+import { labelSprite, shotTexture, glowTexture, loggerTexture, notepadTexture, digitalDeskTexture, menuTexture } from './textures.js';
 
 export const RING = 300;
 
@@ -73,7 +73,13 @@ function operator(color, { lean = 0, phones = true, reach = null, mic = false, c
   const grp = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({ color: 0x0f1c2c, roughness: 0.6, metalness: 0.2, emissive: new THREE.Color(color), emissiveIntensity: 0.12 });
   const part = (geo) => edged(geo, color, { mat, opacity: 0.7 });
-  if (chair) {
+  if (chair === 'bistro') {
+    // A café chair: round seat, four thin legs, a hoop back.
+    const seat = cyl(3.4, 3.4, 0.6, color, 16); seat.position.set(0, 7.2, 0.4); grp.add(seat);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([x, z]) => { const leg = cyl(0.22, 0.22, 7, color, 6); leg.position.set(x * 2.3, 3.5, 0.4 + z * 2.3); leg.rotation.set(-z * 0.08, 0, x * 0.08); grp.add(leg); });
+    const hoop = new THREE.Mesh(new THREE.TorusGeometry(3, 0.22, 6, 20, Math.PI), solid); hoop.position.set(0, 10.4, 3.6); grp.add(hoop);
+    hoop.add(new THREE.LineSegments(new THREE.EdgesGeometry(hoop.geometry, 25), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.8 })));
+  } else if (chair) {
     const chairSeat = box(7, 1, 7, color, { opacity: 0.5 }); chairSeat.position.set(0, 7, 0); grp.add(chairSeat);
     const chairPost = cyl(0.4, 0.4, 6, color); chairPost.position.set(0, 3.5, 0); grp.add(chairPost);
   }
@@ -84,7 +90,7 @@ function operator(color, { lean = 0, phones = true, reach = null, mic = false, c
   upper.rotation.x = lean;
   grp.add(upper);
   const at = (o, x, y, z) => { o.position.set(x, y - 8.8, z - 0.4); upper.add(o); return o; };
-  if (chair) at(box(7, 9, 1, color, { opacity: 0.5 }), 0, 12, 3.6);
+  if (chair === true) at(box(7, 9, 1, color, { opacity: 0.5 }), 0, 12, 3.6);
   const torso = at(part(new THREE.CylinderGeometry(2.4, 2.8, 8, 8)), 0, 14, 0.8); torso.rotation.x = -0.12;
   at(part(new THREE.IcosahedronGeometry(2.1, 1)), 0, 20.2, 0.1);
   const glow = new THREE.MeshBasicMaterial({ color, toneMapped: false });
@@ -358,10 +364,64 @@ function dress(grp, look, color) {
     const batt = box(4, 3, 3, color); batt.position.set(9, 12, -4); grp.add(batt);
     rig(-8, 7);
   } else if (look.desk === 'cafe') {
+    // A coffee shop: a bistro table with the laptop and a coffee, a counter
+    // with an espresso machine and a chalkboard menu, pendant lamps, a window,
+    // another table and a plant.
     const top = cyl(9, 9, 0.8, color, 20); top.position.set(0, 11, -3); grp.add(top);
     const post = cyl(0.6, 0.6, 11, color); post.position.set(0, 5.5, -3); grp.add(post);
-    const lap = screen(look.shots[0], 12, color); lap.position.set(0, 16, -5); lap.rotation.set(-0.2, 0, 0); grp.add(lap);
-    const cup = cyl(1, 0.8, 2.4, color, 12); cup.position.set(6, 12.6, -1); grp.add(cup);
+    const foot = cyl(3.5, 3.5, 0.5, color, 16); foot.position.set(0, 0.25, -3); grp.add(foot);
+    const lap = laptop(look.shots[0], 12, color); lap.position.set(-0.5, 11.4, -2); grp.add(lap);
+    const saucer = cyl(1.7, 1.5, 0.25, color, 16); saucer.position.set(6.4, 11.55, 0); grp.add(saucer);
+    const cup = cyl(1.05, 0.8, 2.2, color, 14); cup.position.set(6.4, 12.8, 0); grp.add(cup);
+    const handle = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.18, 6, 12), solid); handle.position.set(7.55, 12.9, 0); handle.rotation.y = Math.PI / 2; grp.add(handle);
+    const coffee = new THREE.Mesh(new THREE.CircleGeometry(0.95, 14), new THREE.MeshBasicMaterial({ color: '#3b2414', toneMapped: false })); coffee.rotation.x = -Math.PI / 2; coffee.position.set(6.4, 13.85, 0); grp.add(coffee);
+    const steam = [0, 1, 2].map((k) => {
+      const pts = []; for (let u = 0; u <= 10; u++) pts.push(new THREE.Vector3(Math.sin(u * 0.9 + k * 2) * 0.35, u * 0.45, 0));
+      const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: '#e8f1ff', transparent: true, opacity: 0.5 }));
+      l.position.set(6.4 + (k - 1) * 0.45, 14, 0); l.userData.live = true; grp.add(l); return l;
+    });
+    anims.push((t) => steam.forEach((l, k) => { const ph = (t * 0.45 + k / 3) % 1; l.position.y = 14 + ph * 2.5; l.material.opacity = 0.55 * Math.sin(ph * Math.PI); l.rotation.y = t * 0.4 + k; }));
+
+    // The counter along the left, espresso machine, menu board.
+    const counter = box(7, 10, 34, color); counter.position.set(-32, 5, -4); grp.add(counter);
+    const topSlab = box(8.4, 0.6, 35, color); topSlab.position.set(-32, 10.3, -4); grp.add(topSlab);
+    const machine = box(5, 4.6, 7, color); machine.position.set(-32, 12.9, -10); grp.add(machine);
+    [-2, 0, 2].forEach((z) => { const g1 = cyl(0.35, 0.35, 1.4, color, 6); g1.position.set(-29.3, 12, -10 + z); g1.rotation.z = Math.PI / 2; grp.add(g1); });
+    const grinder = cyl(1.2, 1.6, 4, color, 10); grinder.position.set(-32, 12.6, -2); grp.add(grinder);
+    [0, 1, 2].forEach((k) => { const c = cyl(0.8, 0.65, 1.6, color, 10); c.position.set(-31 + k * 0.1, 11.4, 5 + k * 2.2); grp.add(c); });
+    const menu = new THREE.Mesh(new THREE.PlaneGeometry(13, 8.6), new THREE.MeshBasicMaterial({ map: menuTexture(), color: 0xb8b8b8, toneMapped: false }));
+    menu.position.set(-35.4, 24, -4); menu.rotation.y = Math.PI / 2; grp.add(menu);
+
+    // Pendant lamps over the table and the counter.
+    [[0, -3], [-32, -10], [-32, 4]].forEach(([x, z]) => {
+      grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, 44, z), new THREE.Vector3(x, 33, z)]), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.6 })));
+      const shade = edged(new THREE.ConeGeometry(2.2, 2.4, 14, 1, true), color, { opacity: 0.8 }); shade.position.set(x, 32, z); grp.add(shade);
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 8), new THREE.MeshBasicMaterial({ color: '#ffe2a8', toneMapped: false })); bulb.position.set(x, 30.9, z); grp.add(bulb);
+    });
+
+    // A window on the right: frame and mullions.
+    const win = [];
+    const wx = 33, y0 = 8, y1 = 32, z0 = -20, z1 = 6;
+    for (const z of [z0, (z0 + z1) / 2, z1]) win.push(wx, y0, z, wx, y1, z);
+    for (const y of [y0, (y0 + y1) / 2, y1]) win.push(wx, y, z0, wx, y, z1);
+    const wg = new THREE.BufferGeometry(); wg.setAttribute('position', new THREE.Float32BufferAttribute(win, 3));
+    grp.add(new THREE.LineSegments(wg, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.7 })));
+    const glass = new THREE.Mesh(new THREE.PlaneGeometry(z1 - z0, y1 - y0), new THREE.MeshBasicMaterial({ color: '#0d2236', transparent: true, opacity: 0.45, side: THREE.DoubleSide, depthWrite: false }));
+    glass.position.set(wx + 0.05, (y0 + y1) / 2, (z0 + z1) / 2); glass.rotation.y = Math.PI / 2; glass.userData.live = true; grp.add(glass);
+    const sill = box(2, 1, z1 - z0 + 2, color); sill.position.set(wx - 0.5, y0 - 0.5, (z0 + z1) / 2); grp.add(sill);
+
+    // Another table, empty but for a cup, and a plant.
+    const t2 = cyl(6, 6, 0.7, color, 18); t2.position.set(18, 11, -18); grp.add(t2);
+    const p2 = cyl(0.5, 0.5, 11, color); p2.position.set(18, 5.5, -18); grp.add(p2);
+    const c2 = cyl(0.9, 0.7, 2, color, 12); c2.position.set(19.5, 12.4, -17); grp.add(c2);
+    const pot = cyl(2.6, 2, 5, color, 12); pot.position.set(24, 2.5, 18); grp.add(pot);
+    const leaves = new THREE.Group(); leaves.userData.live = true;
+    for (let k = 0; k < 9; k++) {
+      const a = (k / 9) * Math.PI * 2, pts = [];
+      for (let u = 0; u <= 6; u++) { const d = u * 0.9; pts.push(new THREE.Vector3(Math.cos(a) * d, 5 + u * 1.6 - (d * d) * 0.12, Math.sin(a) * d)); }
+      leaves.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 8, 0.35, 4), new THREE.MeshBasicMaterial({ color: '#2b7d45', toneMapped: false })));
+    }
+    leaves.position.set(24, 0, 18); grp.add(leaves);
   } else if (look.desk === 'studio') {
     desk(44, 14);
     mon(look.shots[0], -7.5, 14, -0.1); mon(look.shots[1] || look.shots[0], 7.5, 14, 0.1);
@@ -382,7 +442,7 @@ function dress(grp, look, color) {
   }
   // The operator faces the hub (-z), screens in front of them.
   const island = look.desk === 'island';
-  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false, reach: look.reach || null, mic: !!look.reach, chair: !island });
+  const op = operator(color, { lean: look.lean || 0, phones: look.phones !== false, reach: look.reach || null, mic: !!look.reach, chair: island ? false : look.desk === 'cafe' ? 'bistro' : true });
   op.position.set(0, look.desk === 'picnic' ? -1 : island ? 2.2 - 0.6 : 0, look.desk === 'picnic' ? 8 : 7);
   grp.add(op);
   const ant = antenna(look.antenna, color);

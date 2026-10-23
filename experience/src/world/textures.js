@@ -364,6 +364,24 @@ export function digitalDeskTexture(shotKey) {
   return tex;
 }
 
+// A café chalkboard menu.
+export function menuTexture() {
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 340;
+  const g = c.getContext('2d');
+  g.fillStyle = '#5a3d24'; g.fillRect(0, 0, 512, 340);
+  g.fillStyle = '#1b2421'; g.fillRect(14, 14, 484, 312);
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = '#f3efe2'; g.font = `700 46px ${FONT}`; g.fillText('COFFEE', 256, 58);
+  g.font = `500 28px ${FONT}`;
+  [['Espresso', '3'], ['Latte', '4'], ['Cappuccino', '4'], ['Cold brew', '5']].forEach(([k, v], i) => {
+    g.textAlign = 'left'; g.fillStyle = '#e8e3d3'; g.fillText(k, 60, 120 + i * 40);
+    g.textAlign = 'right'; g.fillStyle = '#ffd166'; g.fillText(v, 452, 120 + i * 40);
+  });
+  g.textAlign = 'center'; g.fillStyle = '#8ef7e6'; g.font = `700 32px ${FONT}`; g.fillText('FREE Wi-Fi', 256, 292);
+  return canvasTexture(c);
+}
+
 // A spiral notepad page: ruled lines and scribbled calls.
 export function notepadTexture() {
   const c = document.createElement('canvas');
