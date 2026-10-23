@@ -11,7 +11,7 @@ const KEY = 'aethersdr.view';
 const hero = document.querySelector('.hero');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const saveData = navigator.connection && navigator.connection.saveData;
-const tag = document.querySelector('script[src*="stage-v1/index.js"]');
+const tag = document.querySelector('script[type="module"][data-mode]');
 const mode = (tag && tag.dataset.mode) || 'stage';
 const roomy = matchMedia('(min-width: 1000px) and (min-height: 600px) and (pointer: fine)').matches;
 

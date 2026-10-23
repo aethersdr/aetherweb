@@ -37,9 +37,18 @@ html.stage-on header.nav { position: fixed; top: 0; left: 0; right: 0; }
               filter 0.95s ease, visibility 0s linear 0.95s;
 }
 .stage-inner {
-  min-height: 100%; box-sizing: border-box; padding: 24px 0 56px;
+  min-height: 100%; box-sizing: border-box; padding: 20px 0 32px;
   display: flex; flex-direction: column; justify-content: center;
 }
+/* Each panel is centred on its own screen, so the scrolling page's section
+   spacing (some of it inline) only wastes height here. */
+html.stage-on .stage-inner > section,
+html.stage-on .stage-inner > section.block { padding-top: 0 !important; padding-bottom: 0 !important; }
+html.stage-on .stage-inner > footer.foot { padding-top: 24px; }
+html.stage-on .hero-grid { gap: 24px; }
+/* The product shot shares its page with the stats row: fit what's left. */
+html.stage-on .hero-shot { margin-top: 0; width: fit-content; max-width: 100%; justify-self: center; }
+html.stage-on .hero-shot img { width: auto; max-width: 100%; max-height: calc(100vh - 66px - 52px - 44px - 260px); margin: 0 auto; }
 .stage-panel.is-current {
   opacity: 1; visibility: visible; transform: none; filter: none;
   /* Arriving: settle in from the side. */
@@ -51,6 +60,13 @@ html.stage-on header.nav { position: fixed; top: 0; left: 0; right: 0; }
 .stage-panel.to-left  { transform: translate3d(-36%, 0, -560px) rotateY(42deg); }
 .stage-panel.to-right { transform: translate3d(36%, 0, -560px) rotateY(-42deg); }
 .stage-panel.no-anim { transition: none !important; }
+
+.stage-cont {
+  align-self: center; margin-bottom: 18px;
+  font: 600 11.5px/1 var(--font); letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan);
+  padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line-hi); background: rgba(93, 227, 255, 0.06);
+}
+.stage-cont b { color: var(--muted); font-weight: 600; margin-left: 6px; }
 
 #stage-rail {
   position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 40;

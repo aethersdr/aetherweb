@@ -19,7 +19,7 @@ assets/img/           Optimized screenshots, logo, and 3D-spectrum visuals
 assets/js/blog.js     Blog card-index <-> post routing
 assets/js/webmcp.js   WebMCP tools — the site's actions, exposed to agents
 assets/js/supporters.js  The supporter spectrum: live ledger, S-meter scaling, canvas
-assets/js/stage-v1/   The 3D homepage — see "3D homepage" below
+assets/js/stage-v2/   The 3D homepage — see "3D homepage" below
 functions/            Cloudflare Pages Function: Accept: text/markdown handling
 api/, .well-known/    Machine-readable surface (generated — see docs/)
 serve.py              Tiny local static server (python3 serve.py → :4321)
@@ -192,21 +192,25 @@ flies the camera out, round, and in while the section itself turns out and
 the next turns in. The hero station is a live, synthetic stacked-trace
 panadapter. Phones, touch screens, reduced-motion visitors, and browsers
 without WebGL2 get the ordinary scrolling page (with the spectrum behind the
-hero where WebGL2 is available). The page's HTML is untouched — the stage
+hero where WebGL2 is available). A section taller than the window is split
+into pages at runtime (`paginate.js`) — between grid rows or blocks, never
+through a card — and each page is its own stop, re-cut when the window
+resizes. The page's HTML is untouched — the stage
 only rearranges it at runtime — so crawlers, `index.md`, and WebMCP see the
 same page as before.
 
-Code: `assets/js/stage-v1/` (entry `index.js`), with three.js r170 vendored
+Code: `assets/js/stage-vN/` (entry `index.js`; currently `stage-v2`), with three.js r170 vendored
 at `assets/js/vendor/three-r170.module.min.js` — the CSP allows no CDNs.
 `/assets/*` is cached for a year as immutable, so changes go in a new
-versioned folder (`stage-v2/`) rather than editing these files in place.
+versioned folder (`stage-v3/`, …) rather than editing the live one in place,
+and `index.html` points at the new folder.
 
 **Turning it down or off** — from least to most:
 
 | What | How |
 |---|---|
 | One visitor opts out | The *Scroll view* button, bottom-right (remembered per browser; *3D view* brings it back) |
-| Keep the hero spectrum, drop 3D navigation | In `index.html`, set `data-mode="hero"` on the `stage-v1/index.js` script tag |
+| Keep the hero spectrum, drop 3D navigation | In `index.html`, set `data-mode="hero"` on the `stage-vN/index.js` script tag |
 | Remove the 3D layer entirely | Delete that script tag (and its comment) |
 | Roll back completely | `git revert <the "3D homepage" commit>`; the tag `pre-3d-homepage` marks the last commit before it |
 

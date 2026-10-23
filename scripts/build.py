@@ -62,7 +62,7 @@ def main():
     # Drop the 3D layer too: it's an ES module that imports three.js by
     # relative path, which can't resolve from a data: URI.
     html, n = re.subn(
-        r'\s*(?:<!-- 3D layer\..*?-->\s*)?<script type="module" src="assets/js/stage-v1/index\.js[^"]*"[^>]*></script>',
+        r'\s*(?:<!-- 3D layer\..*?-->\s*)?<script type="module" src="assets/js/stage-v[0-9]+/index\.js[^"]*"[^>]*></script>',
         "", html, flags=re.S,
     )
     if n != 1:
