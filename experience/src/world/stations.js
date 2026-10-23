@@ -36,6 +36,26 @@ function screen(shot, w, color) {
   return grp;
 }
 
+// A laptop: keyboard deck with a key grid, and a lid hinged at the back edge,
+// tipped back, showing the real app.
+function laptop(shot, w, color) {
+  const grp = new THREE.Group();
+  const h = w * 0.58, d = h * 0.95;
+  const deck = box(w + 0.8, 0.5, d, color); deck.position.set(0, 0.25, 0); grp.add(deck);
+  const keys = [];
+  for (let r = 0; r <= 4; r++) { const z = -d / 2 + 0.8 + r * (d * 0.55 / 4); keys.push(-w / 2 + 0.6, 0.52, z, w / 2 - 0.6, 0.52, z); }
+  for (let k = 0; k <= 12; k++) { const x = -w / 2 + 0.6 + k * ((w - 1.2) / 12); keys.push(x, 0.52, -d / 2 + 0.8, x, 0.52, -d / 2 + 0.8 + d * 0.55); }
+  const kg = new THREE.BufferGeometry(); kg.setAttribute('position', new THREE.Float32BufferAttribute(keys, 3));
+  grp.add(new THREE.LineSegments(kg, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.45 })));
+  const pad = box(w * 0.28, 0.1, d * 0.22, color); pad.position.set(0, 0.55, d / 2 - d * 0.16); grp.add(pad);
+  const lid = new THREE.Group();
+  lid.position.set(0, 0.5, -d / 2); lid.rotation.x = -0.28; grp.add(lid);
+  const bezel = box(w + 0.8, h + 0.8, 0.35, color); bezel.position.y = (h + 0.8) / 2; lid.add(bezel);
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: typeof shot === 'string' ? shotTexture(shot) : shot, toneMapped: false }));
+  face.position.set(0, (h + 0.8) / 2, 0.2); lid.add(face);
+  return grp;
+}
+
 function radio(color, w = 11) {
   const grp = new THREE.Group();
   const body = box(w, 4.2, 8, color); grp.add(body);
@@ -334,7 +354,7 @@ function dress(grp, look, color) {
   } else if (look.desk === 'picnic') {
     const top = box(30, 1, 13, color); top.position.set(0, 10, -2); grp.add(top);
     [-1, 1].forEach((s) => { const bench = box(30, 0.8, 4, color, { opacity: 0.6 }); bench.position.set(0, 6, -2 + s * 10); grp.add(bench); const a = box(1, 10, 12, color, { opacity: 0.5 }); a.position.set(s * 12, 5, -2); grp.add(a); });
-    const lap = screen(look.shots[0], 11, color); lap.position.set(0, 15.5, -5); lap.rotation.set(-0.25, 0, 0); grp.add(lap);
+    const lap = laptop(look.shots[0], 13, color); lap.position.set(0, 10.5, -1.5); grp.add(lap);
     const batt = box(4, 3, 3, color); batt.position.set(9, 12, -4); grp.add(batt);
     rig(-8, 7);
   } else if (look.desk === 'cafe') {
