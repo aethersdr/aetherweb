@@ -40,7 +40,7 @@ export const personas = [
   {
     id: 'ragchewer', name: 'The Rag Chewer', color: '#ff8a65',
     tagline: 'Long QSOs, round tables and the Sunday net',
-    look: { desk: 'studio', shots: ['audio', 'stack3d'], antenna: 'dipole', lean: 0.32, phones: false },
+    look: { desk: 'studio', shots: ['audio', 'stack3d'], antenna: 'none', lean: 0.32, phones: false, scale: 1.35 },
     who: 'Here for the conversation, not the exchange: the Sunday-morning round table on 75 m, the regulars who know each other’s voices, QSOs that sail past the thirty minutes the ARRL Rag Chewers’ Club asks for.[[arrl-rcc]] This one’s shack looks like a podcast studio — a Shure SM7B on a boom arm, an audio interface, studio monitors instead of headphones, and a chair that leans back.',
     needs: [
       'Transmit audio that sounds like them — warm, even, no sibilance — from a broadcast mic that wants 60 dB of clean gain.[[shure-sm7b-gain]]',

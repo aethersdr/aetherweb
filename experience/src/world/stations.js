@@ -580,6 +580,7 @@ export function createStations(engine, personas, onSelect) {
     grp.add(props);
     dress(props, p.look, p.color);
     mergeProps(props, color);
+    props.scale.setScalar(p.look.scale || 1);   // a station can be drawn larger than life
 
     const label = labelSprite(p.name, { height: 7, sub: p.tagline, color: p.color });
     label.position.set(0, 48, 0);
@@ -623,14 +624,16 @@ export function createStations(engine, personas, onSelect) {
       const s = this.byId(id);
       const m = s.group.matrixWorld;
       s.group.updateMatrixWorld();
-      const local = variant === 'wide' ? [[42, 50, 100], [0, 20, -8]] : [[10, 50, 76], [0, 38, -48]];
+      const up = ((s.persona.look.scale || 1) - 1) * 24;   // a larger station lifts the view with it
+      const local = variant === 'wide' ? [[42, 50 + up, 100], [0, 20 + up, -8]] : [[10, 50 + up, 76], [0, 38 + up, -48]];
       return { pos: new THREE.Vector3(...local[0]).applyMatrix4(m), tgt: new THREE.Vector3(...local[1]).applyMatrix4(m) };
     },
     // Where a scenario's workbench floats: above and in front of the desk.
     benchFrame(id) {
       const s = this.byId(id);
       s.group.updateMatrixWorld();
-      return s.group.matrixWorld.clone().multiply(new THREE.Matrix4().makeTranslation(0, 40, -48));
+      const up = ((s.persona.look.scale || 1) - 1) * 24;
+      return s.group.matrixWorld.clone().multiply(new THREE.Matrix4().makeTranslation(0, 40 + up, -48));
     },
   };
 }
