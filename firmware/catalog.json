@@ -8,6 +8,10 @@
       "description": "FlexRadio front panel firmware for the Lynovation CTR2-Max, installed beside its stock firmware. Needs a unit registered with CTR2-Max firmware v1.02.00m or later.",
       "releases": [
         {
+          "version": "0.9.7",
+          "package": "https://github.com/aethersdr/AetherCTR2/releases/download/v0.9.7/aetherctr2-0.9.7.asdr"
+        },
+        {
           "version": "0.9.6",
           "package": "https://github.com/aethersdr/AetherCTR2/releases/download/v0.9.6/aetherctr2-0.9.6.asdr"
         },
