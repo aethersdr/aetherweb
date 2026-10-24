@@ -618,6 +618,8 @@ export function createStations(engine, personas, onSelect) {
   return {
     root, list,
     byId: (id) => list.find((s) => s.persona.id === id),
+    // Light several stations at once (the use-case view), labels on.
+    setLit(ids) { const set = new Set(ids); list.forEach((s) => { s.active = set.has(s.persona.id); s.label.visible = true; s.extras.forEach((o) => { o.visible = true; }); }); },
     setActive(id, { label = true } = {}) { list.forEach((s) => { s.active = s.persona.id === id; s.label.visible = !(s.active && !label); s.extras.forEach((o) => { o.visible = s.label.visible; }); }); },
     // Over-the-shoulder view toward the hub, in world space.
     view(id, variant = 'shoulder') {

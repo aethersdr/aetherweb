@@ -17,6 +17,8 @@ import { createHub } from './world/hub.js';
 import { createStations } from './world/stations.js';
 import { createWorkbench, LINK_TYPES } from './world/workbench.js';
 import { createAtlas } from './world/atlas.js';
+import { createBandStage } from './world/bandstage.js';
+import { onband } from './data/onband.js';
 import { SHOTS, LOGO } from './world/textures.js';
 import { personas, usecases, features, categories, scenarios, sources, assumptions, method } from './data/index.js';
 import { createTour } from './ui/tour.js';
@@ -55,6 +57,7 @@ function startWorld() {
   const stations = createStations(engine, personas, (id) => go(`#/operators/${id}`));
   engine.scene.add(stations.root);
   const bench = createWorkbench(engine);
+  const stage = createBandStage(engine, hub, stations);
   const atlas = createAtlas(engine, features, categories, (id) => go(`#/features/${id}`));
   engine.onUpdate((t, dt, warp) => sky.update(t, dt, engine.camera.position, warp));
 
@@ -70,7 +73,7 @@ function startWorld() {
   engine.start();
   const o = hub.overview();
   engine.flyTo(o.pos, o.tgt, { dur: 3.2, lift: 0 });
-  return { engine, sky, hub, stations, bench, atlas };
+  return { engine, sky, hub, stations, bench, atlas, stage };
 }
 
 function frame(view) {
@@ -196,21 +199,32 @@ function viewUsecases(id) {
   }
   const c = citer();
   const sc = scenarios.filter((s) => s.usecase === u.id || (s.usecases || []).includes(u.id));
+  const who = [...new Set(sc.map((s) => s.persona))];
+  const legend = onband[u.id] || [];
   detailEl.innerHTML = `
     <div class="eyebrow" style="color:${u.color}">Use case</div>
     <h1>${esc(u.name)}</h1>
     <p class="lead">${c.text(u.about)}</p>
-    ${u.facts && u.facts.length ? `<h2>By the numbers</h2><div class="facts">${u.facts.map((f) => `<div class="fact"><b>${esc(f.value)}</b>${c.text(f.text)}</div>`).join('')}</div>` : ''}
+    ${legend.length ? `<h2>On the band</h2><ul class="onband">${legend.map((l) => `<li tabindex="0" data-key="${l.key}"><i class="dot" style="background:${l.color};color:${l.color}"></i><div><b>${esc(l.title)}</b><span>${esc(l.text)}</span></div></li>`).join('')}<li tabindex="0" data-key="who"><i class="dot" style="background:${u.color};color:${u.color}"></i><div><b>Who works this way</b><span>The light paths run out to ${who.length === 1 ? 'the operator' : `the ${who.length} operators`} on the ring.</span></div></li></ul><p class="modeled-note">The band is modeled; the annotations ride on its signals.</p>` : ''}
+    ${u.facts && u.facts.length ? `<h2>By the numbers</h2><div class="facts">${u.facts.map((f, i) => `<div class="fact" tabindex="0" data-key="fact-${i}"><b>${esc(f.value)}</b>${c.text(f.text)}</div>`).join('')}</div>` : ''}
     <h2>Scenarios</h2>${scenarioCards(sc)}
     <h2>Operators</h2><div class="chips">${[...new Set(sc.map((s) => s.persona))].map(chipP).join('')}</div>
     ${c.list()}`;
+  // Hovering (or focusing) a legend line or a number lights its twin on the band.
+  detailEl.querySelectorAll('[data-key]').forEach((el) => {
+    const on = () => world && world.stage.highlight(el.dataset.key), off = () => world && world.stage.highlight(null);
+    el.addEventListener('mouseenter', on); el.addEventListener('focus', on);
+    el.addEventListener('mouseleave', off); el.addEventListener('blur', off);
+  });
   if (world) {
     world.bench.hide();
     world.atlas.focus(null);
     const first = sc[0];
     world.hub.setBand(u.band || (first && first.band) || 'mixed');
-    world.stations.setActive(first ? first.persona : null);
-    frame(world.hub.close());
+    world.stations.setLit(who);
+    const view = world.stage.set(u, who);
+    frame(view || world.hub.close());
+    world.hub.dimWall(true);
   }
 }
 
@@ -363,6 +377,7 @@ function render() {
   route = { ...r, from: r.name === 'scenario' ? lastAxis === 'features' ? 'operators' : lastAxis : null };
   document.body.classList.toggle('home', r.name === 'home');
   detailEl.classList.remove('gone');
+  if (world && !(r.name === 'usecases' && r.id)) world.stage.set(null);
   if (r.name === 'home') viewHome();
   else if (r.name === 'operators') viewOperators(r.id);
   else if (r.name === 'usecases') viewUsecases(r.id);

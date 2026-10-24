@@ -198,7 +198,7 @@ export function createSpectrum() {
   })));
 
   let profile = PROFILES.mixed, signals = profile.make();
-  let row = 0, acc = 0;
+  let row = 0, acc = 0, now = 0;
   function pushTrace(t) {
     row = (row + 1) % ROWS;
     const base = row * BINS;
@@ -224,7 +224,21 @@ export function createSpectrum() {
       return true;
     },
     setPixelScale(v) { uPx.value = v; },
+    // The live signal level at u (0..1 across the span), without the noise
+    // floor — so overlays can sit on, and react to, the modelled signals.
+    sample(u, t = now) { let v = 0; for (const s of signals) { const x = s(u, t); if (x > v) v = x; } return v; },
+    // Local maxima above `min`, as [{u, v}], scanning `n` points.
+    peaks(min = 0.25, n = 360, t = now) {
+      const out = []; let a = 0, b = this.sample(0, t);
+      for (let i = 1; i < n; i++) {
+        const c = this.sample(i / (n - 1), t);
+        if (b > min && b >= a && b > c) out.push({ u: (i - 1) / (n - 1), v: b });
+        a = b; b = c;
+      }
+      return out;
+    },
     update(t, dt) {
+      now = t;
       acc += dt * RATE;
       while (acc >= 1) { pushTrace(t); acc -= 1; }
       uniforms.uFrac.value = acc;

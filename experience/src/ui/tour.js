@@ -11,7 +11,7 @@ const STOPS = [
   { go: '#/scenario/pota-hunt', dwell: 8, flip: 4, say: 'A <b>park hunter</b> working activators straight from spots.' },
   { go: '#/scenario/remote-anywhere', dwell: 8, flip: 4, say: 'The <b>remote</b> operator: the home station from a laptop on any OS.' },
   { go: '#/features', dwell: 7, say: 'Everything that makes it possible, as an atlas — every <b>Aether</b> component, with sources.' },
-  { go: '#/usecases/contesting', dwell: 7, say: 'Or come in through a use case, with the numbers behind it.' },
+  { go: '#/usecases/contesting', dwell: 10, say: 'Or come in through a use case: the band explains itself, with the numbers behind it.' },
   { go: '#/', dwell: 5, say: 'Explore by operator, use case, or feature — every view links to the others. <b>Press T</b> to replay.' },
 ];
 

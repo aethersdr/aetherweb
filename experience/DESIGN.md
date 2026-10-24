@@ -62,6 +62,16 @@ Evidence comes from headless Firefox render probes at 390×844, 1280×720,
 | 9 | Accessible & robust | **Pass** | All text is DOM; keyboard (← → W Esc T); focus moves on navigation; `aria-current`/`aria-pressed`; reduced motion = cuts (probed); WebGL disabled shows all text + a note (probed); file:// works (probed); 31 probe runs with zero console errors. |
 | 10 | Crafted | **Pass** | Probed at 390×844 (strip + sheet), 1280×720, 1440×900, 2560×1440; camera centres the scene between the panels. |
 
+## Use cases view — the band explains itself
+
+Picking a use case retunes the live band and annotates it in 3D: slice
+cursors, brackets, spots and decodes that pop on the modelled signals
+(sampled from `spectrum.js`, not hard-coded), the use case's numbers rising
+as glass monoliths, and light paths out to the operators who work this way.
+The panel's *On the band* legend is the same content as DOM text (so it
+works without WebGL); hovering a line lights its twin in 3D. Code:
+`world/bandstage.js`, copy: `data/onband.js`.
+
 ## Research
 
 The cited research briefs are in `research/`: ham operating use cases,

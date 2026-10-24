@@ -216,3 +216,13 @@ body.home .keys { display: none; }
   .axes a { padding: 6px 6px; font-size: 12px; }
   .tools a, .tools button { padding: 6px 7px; font-size: 12px; }
 }
+
+/* Use cases: the "On the band" legend, linked to the annotations in 3D. */
+.onband { list-style: none; margin: 6px 0 4px; padding: 0; display: grid; gap: 6px; }
+.onband li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.02); cursor: default; transition: border-color 0.2s, background 0.2s; }
+.onband li:hover, .onband li:focus { border-color: var(--line-hi); background: rgba(255, 255, 255, 0.05); outline: none; }
+.onband .dot { flex: none; width: 9px; height: 9px; margin-top: 6px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+.onband b { display: block; font-size: 14px; }
+.onband span { display: block; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.fact[data-key] { transition: border-color 0.2s, background 0.2s; }
+.fact[data-key]:hover, .fact[data-key]:focus { outline: none; border-color: var(--line-hi); }
