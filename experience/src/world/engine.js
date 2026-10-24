@@ -33,7 +33,7 @@ export function createEngine(canvas) {
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(512, 512), 0.5, 0.45, 0.3);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(512, 512), 0.5, 0.45, 0.6);   // threshold 0.6: only real highlights glow, not label text
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 

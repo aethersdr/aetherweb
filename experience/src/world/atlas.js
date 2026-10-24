@@ -30,7 +30,7 @@ export function createAtlas(engine, features, categories, onSelect) {
     ring.rotation.x = (k % 2 ? 1 : -1) * (0.18 + k * 0.05);
     ring.rotation.z = (k % 3 - 1) * 0.12;
     root.add(ring);
-    const orbit = new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 6, 160), new THREE.MeshBasicMaterial({ color: cat.color, transparent: true, opacity: 0.5, toneMapped: false }));
+    const orbit = new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 6, 160), new THREE.MeshBasicMaterial({ color: new THREE.Color(cat.color).multiplyScalar(0.55), transparent: true, opacity: 0.35, depthWrite: false, toneMapped: false }));
     orbit.rotation.x = Math.PI / 2;
     ring.add(orbit);
     const spin = new THREE.Group();
@@ -46,6 +46,7 @@ export function createAtlas(engine, features, categories, onSelect) {
       halo.scale.set(9, 9, 1);
       node.add(halo);
       const label = labelSprite(f.name, { height: f.aether ? 4.2 : 3.2, color: f.aether ? '#eaf2fb' : '#c4d4e8', sub: f.status === 'roadmap' ? 'roadmap' : null, subColor: '#f0a35e', bg: 'rgba(6,11,19,0.6)', border: f.aether ? cat.color : 'rgba(120,190,230,0.25)' });
+      label.material.color.setScalar(0.62);   // under the bloom threshold, so the text stays crisp
       label.position.y = f.aether ? 6.5 : 5.5;
       node.add(label);
       const hit = new THREE.Mesh(new THREE.SphereGeometry(6, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
