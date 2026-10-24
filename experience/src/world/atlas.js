@@ -30,7 +30,7 @@ export function createAtlas(engine, features, categories, onSelect) {
     ring.rotation.x = (k % 2 ? 1 : -1) * (0.18 + k * 0.05);
     ring.rotation.z = (k % 3 - 1) * 0.12;
     root.add(ring);
-    const orbit = new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 6, 160), new THREE.MeshBasicMaterial({ color: cat.color, transparent: true, opacity: 0.35, toneMapped: false }));
+    const orbit = new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 6, 160), new THREE.MeshBasicMaterial({ color: cat.color, transparent: true, opacity: 0.5, toneMapped: false }));
     orbit.rotation.x = Math.PI / 2;
     ring.add(orbit);
     const spin = new THREE.Group();
@@ -71,7 +71,7 @@ export function createAtlas(engine, features, categories, onSelect) {
       const s = n.node.scale.x + (want - n.node.scale.x) * (1 - Math.exp(-6 * dt));
       n.node.scale.setScalar(s);
       n.label.material.opacity = focusIds && !focusIds.has(n.feature.id) ? 0.35 : 1;
-      n.halo.material.opacity = (n.active ? 0.5 : n.hover ? 0.35 : 0.16) * (0.85 + 0.15 * Math.sin(t * 3 + n.node.position.x));
+      n.halo.material.opacity = (n.active ? 0.5 : n.hover ? 0.35 : 0.16) * (0.85 + 0.05 * Math.sin(t * 1.5 + n.node.position.x));
     });
   });
 
