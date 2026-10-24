@@ -30,7 +30,7 @@ export function createAtlas(engine, features, categories, onSelect) {
     ring.rotation.x = (k % 2 ? 1 : -1) * (0.18 + k * 0.05);
     ring.rotation.z = (k % 3 - 1) * 0.12;
     root.add(ring);
-    const orbit = new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 6, 160), new THREE.MeshBasicMaterial({ color: new THREE.Color(cat.color).multiplyScalar(0.55), transparent: true, opacity: 0.35, depthWrite: false, toneMapped: false }));
+    const orbit = new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 6, 160), new THREE.MeshBasicMaterial({ color: new THREE.Color(cat.color).multiplyScalar(0.55), transparent: true, opacity: 0.15, depthWrite: false, toneMapped: false }));
     orbit.rotation.x = Math.PI / 2;
     ring.add(orbit);
     const spin = new THREE.Group();
