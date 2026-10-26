@@ -3,10 +3,10 @@
 export const MD_MAP = {
   '/': { asset: '/index.md', tokens: 3147 },
   '/index.md': { asset: '/index.md', tokens: 3147 },
-  '/blog': { asset: '/blog.md', tokens: 43627 },
-  '/blog.md': { asset: '/blog.md', tokens: 43627 },
+  '/blog': { asset: '/blog.md', tokens: 46000 },
+  '/blog.md': { asset: '/blog.md', tokens: 46000 },
   '/lineage': { asset: '/lineage.md', tokens: 1994 },
   '/lineage.md': { asset: '/lineage.md', tokens: 1994 },
-  '/roadmap': { asset: '/roadmap.md', tokens: 4220 },
-  '/roadmap.md': { asset: '/roadmap.md', tokens: 4220 },
+  '/roadmap': { asset: '/roadmap.md', tokens: 4846 },
+  '/roadmap.md': { asset: '/roadmap.md', tokens: 4846 },
 };

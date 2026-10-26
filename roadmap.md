@@ -18,7 +18,7 @@ Expand all categories
 
 Collapse all categories
 
-10 releases · 57 entries · newest on the right
+17 releases · 114 entries · newest on the right
 
 v26.7.1 Released, 2 Jul 2026 The 3D stacked-trace spectrum
 
@@ -554,6 +554,62 @@ SmartMTR's attack and release everywhere.
 
 #5847
 
+v26.10.1 Released, 4 Oct 2026 Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories
+
+Radios4 entries
+
+**Every control works or says why not**
+
+On a radio without a Flex command plane, each control reaches the radio, is dimmed with its reason, or refuses aloud.
+
+#6044, #6049
+
+**Hermes-Lite 2 squelch, APF, RIT/XIT and FFT AVG**
+
+Plus a working AGC-off level and the CL1 external 10 MHz reference.
+
+#5982, #6050, #6109, #5980, #5923
+
+Experimental **ANAN-G2 receiver audio and speaker**
+
+AF gain, mute and balance apply, and audio plays through the radio's own speaker.
+
+#5992
+
+Experimental **RTL-SDR confirmed receive state**
+
+Changes publish only once the dongle confirms them, with capture browsing and finer zoom.
+
+#5924
+
+Station Control2 entries
+
+**A CTR2 relay**
+
+The CTR2 Proxy applet relays a CTR2-Max over Wi-Fi today. The USB host side is ready for the CTR2's firmware.
+
+#6090, #6114, #6155
+
+**Authenticated 4O3A accessories**
+
+Direct TGXL, PGXL and Antenna Genius connections send their access code, under a new Peripherals page.
+
+#6008, #6027
+
+Core & Platform2 entries
+
+**Qt 6.12 everywhere**
+
+Every binary and every source build, with a one-command Qt install. The macOS DMGs need 14.4.
+
+#5842, #6055
+
+**Receive controls behind the seam**
+
+Typed backend requests replace 44 raw Flex commands above the seam.
+
+#5907, #5919
+
 v26.10.2 Released, 11 Oct 2026 A unified title bar, a user guide at docs.aethersdr.com and remote operation over CGNAT
 
 Interface4 entries
@@ -622,61 +678,119 @@ Both weekly sanitizer lanes ran clean for the first time this cycle.
 
 #6173, #6208
 
-v26.10.1 Released, 4 Oct 2026 Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories
+v26.10.3 Released, 18 Oct 2026 SmartSDR 4.3 controls, the DeepCW decoder and Auto squelch that stays with its slice
+
+Radios2 entries
+
+**SmartSDR 4.3 controls**
+
+Radio-owned Auto AGC-T, DSP parameter reset, PTT Mic Override and per-band RCA off/TUNE, gated by firmware, hardware and license.
+
+#6508, #6509, #6524, #6445
+
+Experimental **HL2 AM/DSB/FM and RTL SSB/CW/AM/SAM**
+
+TXA adds the HL2 transmit modes; RTL adds receive DSP and selected-decoder audio.
+
+#5977, #6432
+
+Receive & Audio3 entries
+
+**DeepCW**
+
+A neural CW receive decoder beside DeepFist and ggmorse, with pinned upstream model downloads on first use.
+
+#6300
+
+**Auto squelch stays with its slice**
+
+Twelve corrections: per-slice Auto intent and margin, own-pan noise floors and preserved manual thresholds.
+
+#6464
+
+**Local voice recordings**
+
+Twelve 30-second PC-microphone slots with preview, import/export and F1–F12 playback.
+
+#6292
+
+Station Control1 entries
+
+**Elecraft station panels**
+
+KPA500, KAT500 and KXPA100/KXAT100 over serial or raw TCP, with Advanced maintenance.
+
+#5991, #6452, #6475
+
+v26.10.4 Released, 25 Oct 2026 SmartSDR 4.3 Noise Floor Range and CW profiles, an update check and Updates window, and new station hardware
 
 Radios4 entries
 
-**Every control works or says why not**
+**SmartSDR 4.3, continued**
 
-On a radio without a Flex command plane, each control reaches the radio, is dimmed with its reason, or refuses aloud.
+Noise Floor Range, CW profiles, APD state and unsigned amplifier/tuner meter handles.
 
-#6044, #6049
+#6660, #6668, #6659, #6658
 
-**Hermes-Lite 2 squelch, APF, RIT/XIT and FFT AVG**
+**Retina pan cap**
 
-Plus a working AGC-off level and the CL1 external 10 MHz reference.
+A pan is never requested wider than 3840 pixels, so a FLEX-8600 on 4.3.16 keeps its display output.
 
-#5982, #6050, #6109, #5980, #5923
+#6728
 
-Experimental **ANAN-G2 receiver audio and speaker**
+**Icom SCROLL-F panadapter**
 
-AF gain, mute and balance apply, and audio plays through the radio's own speaker.
+The IC-7300MK2, IC-705 and IC-9700 pan tunes in place and scrolls at its margins.
 
-#5992
+#6688
 
-Experimental **RTL-SDR confirmed receive state**
+Experimental **ANAN-G2 band-pass filters**
 
-Changes publish only once the dongle confirms them, with capture browsing and finer zoom.
+The receive filter bank follows the tuned frequency, and the speaker amplifier mutes on its own.
 
-#5924
+#6673
+
+Interface2 entries
+
+**Updates window and update check**
+
+A check at launch, at most once a day, that lights an UPDATE badge, and File → Update... with the download and radio firmware.
+
+#6715, #6717, #6718
+
+**Touch gestures**
+
+Pinch-zoom, press-and-hold right-click and kinetic scrolling on touch screens.
+
+#6772
 
 Station Control2 entries
 
-**A CTR2 relay**
+**RF-KIT RF2K-S**
 
-The CTR2 Proxy applet relays a CTR2-Max over Wi-Fi today. The USB host side is ready for the CTR2's firmware.
+An amplifier applet over the RF2K-S REST API.
 
-#6090, #6114, #6155
+#6596
 
-**Authenticated 4O3A accessories**
+**CTR2 relay over USB**
 
-Direct TGXL, PGXL and Antenna Genius connections send their access code, under a new Peripherals page.
+Lynovation's CTR2-Max firmware v1.02.00+ relays over USB, with a wide-report link for devices that offer it.
 
-#6008, #6027
+#6698, #6713
 
 Core & Platform2 entries
 
-**Qt 6.12 everywhere**
+**HTTPS on upgraded Windows installs**
 
-Every binary and every source build, with a one-command Qt install. The macOS DMGs need 14.4.
+The installer clears a stale Qt TLS plugin that disabled every HTTPS connection.
 
-#5842, #6055
+#6687
 
-**Receive controls behind the seam**
+**Typed slice and panadapter lifecycle**
 
-Typed backend requests replace 44 raw Flex commands above the seam.
+Slice lifecycle, split routing and panadapter/waterfall control behind typed backend requests.
 
-#5907, #5919
+#6619, #6621, #6628
 
 Scroll sideways for earlier releases — the full history is in the changelog.
 

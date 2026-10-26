@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 25,
+  "count": 27,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,26 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-10-4",
+      "title": "v26.10.4: SmartSDR 4.3, continued",
+      "url": "https://www.aethersdr.com/blog#release-26-10-4",
+      "published": "2026-10-25",
+      "summary": "Noise Floor Range, CW profiles and APD from SmartSDR 4.3.16, and a fix for a Retina panadapter that could stop a FLEX-8600's display for every client. AetherSDR now checks for its own updates and opens one window for the release and the radio's firmware.",
+      "readingTime": "5 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-10-4-card.svg",
+      "pinned": false
+    },
+    {
+      "slug": "release-26-10-3",
+      "title": "v26.10.3: SmartSDR 4.3 and an AI CW decoder",
+      "url": "https://www.aethersdr.com/blog#release-26-10-3",
+      "published": "2026-10-18",
+      "summary": "Auto AGC-T, DSP parameter reset, per-band TUNE suppression and PTT Mic Override arrive for SmartSDR 4.3, the DeepCW neural decoder joins the CW panel, and Auto squelch finally stays with its own slice.",
+      "readingTime": "3 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-10-3-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-10-2",

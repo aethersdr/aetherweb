@@ -135,6 +135,42 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-10-4">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-10-4-card.svg" alt="v26.10.4 release art — 4.3, continued, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-10-25">October 25, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>5 min read</span>
+              </span>
+              <h3>v26.10.4: SmartSDR 4.3, continued</h3>
+              <p>Noise Floor Range, CW profiles and APD from SmartSDR 4.3.16, and a fix for a Retina panadapter that could stop a FLEX-8600's display for every client. AetherSDR now checks for its own updates and opens one window for the release and the radio's firmware.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a class="blog-card" href="#release-26-10-3">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-10-3-card.svg" alt="v26.10.3 release art — smartsdr 4.3, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-10-18">October 18, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>3 min read</span>
+              </span>
+              <h3>v26.10.3: SmartSDR 4.3 and an AI CW decoder</h3>
+              <p>Auto AGC-T, DSP parameter reset, per-band TUNE suppression and PTT Mic Override arrive for SmartSDR 4.3, the DeepCW neural decoder joins the CW panel, and Auto squelch finally stays with its own slice.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-10-2">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-10-2-card.svg" alt="v26.10.2 release art — behind cgnat, drawn as an AetherSDR spectrum panel" />
@@ -710,6 +746,110 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-10-4" tabindex="-1" aria-labelledby="h-release-26-10-4" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-10-4-hero.svg" alt="v26.10.4 release art — 4.3, continued, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-10-25">October 25, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>5 min read</span>
+        </span>
+        <h1 id="h-release-26-10-4">v26.10.4: SmartSDR 4.3, continued</h1>
+
+        <div class="blog-body">
+          <p class="lede">Seventy-two merged changes. The one you will notice first is small and sits in the title bar: when a new release is out, AetherSDR now tells you, once, quietly, and then leaves you alone. The one that matters most if you run SmartSDR 4.3 is that a wide panadapter on a Retina screen can no longer stop your radio's display for every client connected to it.</p>
+
+          <h2>SmartSDR 4.3, continued</h2>
+
+          <p>v26.10.3 brought the first SmartSDR 4.3 controls. This release fills in more of what 4.3.16 changed. The headline is <strong>Noise Floor Range</strong>: how far the measured noise floor may move before the Auto FFT floor repositions the panadapter. At high zoom the old fixed tolerance made the trace hunt up and down. The radio now lets you widen it from 0 to 10 dB, and AetherSDR has an <strong>NF Range</strong> slider under FFT Floor to set it. It shows the value the pan reports and sends a new one only when you let go, click or press a key, so a drag does not flood the radio. It stays dimmed, with the reason in its tooltip, until the radio is a FLEX-8000 or Aurora on 4.3.16 or later, the SmartSDR+ license is confirmed and the pan has reported its value. The radio owns the setting; AetherSDR stores nothing and never re-sends it.</p>
+
+          <p>SmartSDR's new <strong>CW profiles</strong> now appear and can be loaded, created, deleted and reset. Amplifier and tuner meters whose handles sit above <code>0x80000000</code> are read as the unsigned numbers they are, which is what kept PGXL meters falling off the amplifier panel and TGXL meters landing on it. APD follows the radio's own state, and an equalizer status counts only for the transmit slice, antenna, frequency and power it was reported for. SmartCAT and rigctld learn 4.3's split FreeDV modes, so a logger no longer reads a FreeDV slice as USB and switches it out of FreeDV.</p>
+
+          <p>The fix that needed the most care is the smallest diff. A FLEX-8600 on 4.3.16 accepts a panadapter of 4093 pixels or more and then sends no spectrum or waterfall to <em>any</em> client until it is rebooted. SmartSDR froze alongside AetherSDR. A Retina display asks for double the pan's width, so any pan wider than about 2,047 points tripped it. Bisection on the radio put the last working width at 4092. AetherSDR now never asks for more than 3840, which leaves margin for models and firmware nobody has measured yet.</p>
+
+          <h2>An update check that stays out of the way</h2>
+
+          <p>Fifteen seconds after launch, at most once a day, AetherSDR asks GitHub whether there is a newer release. If there is, an <strong>UPDATE</strong> pill lights beside the wordmark. Nothing pops up, and "up to date" or a failed lookup stays silent. A failed attempt counts toward the daily wait, so a blocking proxy costs one request a day, not one per launch. You can skip a release, and a skipped release never lights the badge. Store-managed installs never show it, because the Store does the updating.</p>
+
+          <p>Clicking the badge, or <strong>File → Update...</strong>, opens the new Updates window. It shows the release and its chapters, and <strong>Get AetherSDR</strong> opens the download built for your computer. Radio firmware has moved here too, out of Radio Setup: FlexRadio's published releases in one lane per major line, the installed one outlined and the newest in your radio's own line preselected. A v3 radio is offered v3, never v4. Install checks the download against FlexRadio's own MD5 before anything reaches the radio, and if that checksum cannot be fetched, it stops and asks again.</p>
+
+          <p>Underneath, every release now publishes a signed manifest and per-file patches, and on Windows the app can already stage a verified update and swap it in after it exits, rolling back if the new version fails its check. None of that is switched on yet. The button that starts it is the next step, and this release deliberately ships the parts it depends on first, each one tested against a real install.</p>
+
+          <h2>New hardware, and an Icom panadapter that holds still</h2>
+
+          <p>The <strong>RF-KIT RF2K-S</strong> joins the amplifier list, talking to the amplifier's REST API: power, SWR, temperature, supply, tuner state, OPERATE/STANDBY and a confirmed error reset. It was tested on an RF2K-S; other RF-KIT models are untested. On the IC-7300MK2, IC-705 and IC-9700, the panadapter now runs in the radio's SCROLL-F mode, so clicking and dragging tune the VFO without moving the window, which is how a Flex pan has always behaved. Center and Fixed remain selectable. The <strong>ANAN-G2</strong> can now select its receive band-pass filters as it tunes and mute its own speaker amplifier. The CTR2-Max relays over USB with Lynovation's firmware from v1.02.00, and a negotiated wide-report link carries seven times the data for devices that offer it.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>If you upgraded a Windows install that dates from before May, HTTPS should work again. An old installer left a Qt 6.7 TLS plugin behind that cannot load under Qt 6.12, and it silently disabled SmartLink, update checks, QRZ, FreeDV Reporter and every model download. The installer now clears the Qt plugin folders on upgrade. Touch screens get pinch-zoom on the panadapter, press-and-hold for a right-click and kinetic scrolling, aimed at the Maestro's front panel. TCI no longer leaves the radio's transmit DAX flag on after a digital-mode session, which left the next microphone transmission unmodulated. A host firewall that drops unsolicited UDP no longer leaves a LAN connection with no spectrum or audio. Underneath, slice lifecycle, split routing and panadapter control moved behind typed backend requests, another step in the headless-engine work.</p>
+
+          <p>72 merged changes from 13 contributors, plus one Dependabot update — including two first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.10.4">v26.10.4 on GitHub</a>.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-10-3" tabindex="-1" aria-labelledby="h-release-26-10-3" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-10-3-hero.svg" alt="v26.10.3 release art — smartsdr 4.3, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-10-18">October 18, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>3 min read</span>
+        </span>
+        <h1 id="h-release-26-10-3">v26.10.3: SmartSDR 4.3 and an AI CW decoder</h1>
+
+        <div class="blog-body">
+          <p class="lede">Eighty merged changes, and the biggest group of them answers a firmware release: SmartSDR 4.3 shipped controls that AetherSDR could not reach, and now most of them can. Alongside it, a third CW decoder joins the panel, and this one is a neural network.</p>
+
+          <h2>SmartSDR 4.3</h2>
+
+          <p>Four controls arrive, each one gated on the firmware, hardware and license that make it real. <strong>Auto AGC-T</strong> lets the radio set the AGC threshold itself: an A button on the RX applet and an Auto button in the slice's Audio tab, with older firmware and other radios keeping manual behavior and saying why. <strong>DSP parameter Reset</strong> asks the firmware for its defaults, but only when you choose a target and press Reset. Nothing resets on selection, reconnect or startup, and AetherSDR never guesses what the defaults are.</p>
+
+          <p><strong>RCA off/TUNE</strong> moves TUNE suppression of the transmit outputs onto the radio, per band, in TX Band Settings. This one needs your attention after upgrading: on 4.3 the radio owns the setting whether a box is checked or not, old client-side preferences are not carried over, and an unchecked box means no suppression. Review each band. <strong>PTT Mic Override</strong> exposes the radio's own setting, so hardware PTT can use the analog microphone under the documented Multi-Flex conditions. The setting itself never keys the transmitter.</p>
+
+          <h2>A neural CW decoder</h2>
+
+          <p><strong>DeepCW</strong> joins DeepFist and ggmorse as a receive decoder, on Apple Silicon, Linux and Windows builds with ONNX Runtime. The models are not bundled: they download from their upstream sources on first use, checked against pinned sizes and hashes. Only the decoder you select runs. DeepCW commits its text five seconds behind the live edge, so what you read does not change after it appears. ggmorse stays the default and the transmit decoder, and Intel Macs keep ggmorse alone.</p>
+
+          <h2>Squelch that stays with its slice</h2>
+
+          <p>Twelve Auto squelch corrections share one cause: the setting belonged to the applet, not the slice. Selecting a different slice could switch squelch on for one you had left off, or stop Auto on the one you had left running. A CW or FT8 receiver could keep showing a squelch line its mode cannot use. Each slice now owns its Auto setting and margin, each pan measures its own noise floor and draws only its own slice's line, and a manual threshold survives a trip through Auto or a data mode.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>The voice keyer records locally: twelve 30-second slots from the PC microphone, with preview, import and export, alongside the radio's own recordings. Elecraft <strong>KPA500</strong>, <strong>KAT500</strong> and <strong>KXPA100</strong> panels join the station controls over serial or raw TCP, and the original SPE Expert 1K-FA is supported. The Hermes-Lite 2 transmits AM, DSB and simplex FM through WDSP, and RTL-SDR receives SSB, CW, AM and synchronous AM. SpotHub, Radio Setup and AetherControl move onto the AetherSDR style guide, and more desktop controls move behind the typed backend seam.</p>
+
+          <p>80 merged changes from 14 contributors, plus two Dependabot updates — including one first-time contributor this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.10.3">v26.10.3 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

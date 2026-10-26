@@ -132,7 +132,7 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
             Collapse all categories
           </button>
-          <span class="rm-count">10 releases · 57 entries · newest on the right</span>
+          <span class="rm-count">17 releases · 114 entries · newest on the right</span>
         </div>
 
         <div class="rm-rels">
@@ -1014,7 +1014,82 @@
               </details>
             </div>
           </div>
-          <div class="rm-rel is-latest">
+          <div class="rm-rel">
+            <div class="rm-rel-head">
+              <span class="v">v26.10.1</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 4 Oct 2026</span>
+              <span class="rm-rel-sub">Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">4 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Every control works or says why not</b>
+                    <p>On a radio without a Flex command plane, each control reaches the radio, is dimmed with its reason, or refuses aloud.</p>
+                    <span class="rm-ref">#6044, #6049</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Hermes-Lite 2 squelch, APF, RIT/XIT and FFT AVG</b>
+                    <p>Plus a working AGC-off level and the CL1 external 10 MHz reference.</p>
+                    <span class="rm-ref">#5982, #6050, #6109, #5980, #5923</span>
+                  </div>
+                  <div class="rm-feat">
+                    <span class="rm-flag">Experimental</span>
+                    <b>ANAN-G2 receiver audio and speaker</b>
+                    <p>AF gain, mute and balance apply, and audio plays through the radio's own speaker.</p>
+                    <span class="rm-ref">#5992</span>
+                  </div>
+                  <div class="rm-feat">
+                    <span class="rm-flag">Experimental</span>
+                    <b>RTL-SDR confirmed receive state</b>
+                    <p>Changes publish only once the dongle confirms them, with capture browsing and finer zoom.</p>
+                    <span class="rm-ref">#5924</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Station Control</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>A CTR2 relay</b>
+                    <p>The CTR2 Proxy applet relays a CTR2-Max over Wi-Fi today. The USB host side is ready for the CTR2's firmware.</p>
+                    <span class="rm-ref">#6090, #6114, #6155</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Authenticated 4O3A accessories</b>
+                    <p>Direct TGXL, PGXL and Antenna Genius connections send their access code, under a new Peripherals page.</p>
+                    <span class="rm-ref">#6008, #6027</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-engine">
+                <summary>
+                  <span><span class="rm-cat-name">Core &amp; Platform</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Qt 6.12 everywhere</b>
+                    <p>Every binary and every source build, with a one-command Qt install. The macOS DMGs need 14.4.</p>
+                    <span class="rm-ref">#5842, #6055</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Receive controls behind the seam</b>
+                    <p>Typed backend requests replace 44 raw Flex commands above the seam.</p>
+                    <span class="rm-ref">#5907, #5919</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel">
             <div class="rm-rel-head">
               <span class="v">v26.10.2</span>
               <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 11 Oct 2026</span>
@@ -1100,9 +1175,73 @@
           </div>
           <div class="rm-rel">
             <div class="rm-rel-head">
-              <span class="v">v26.10.1</span>
-              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 4 Oct 2026</span>
-              <span class="rm-rel-sub">Controls on every radio either work or say why not, a CTR2 relay and authenticated 4O3A accessories</span>
+              <span class="v">v26.10.3</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 18 Oct 2026</span>
+              <span class="rm-rel-sub">SmartSDR 4.3 controls, the DeepCW decoder and Auto squelch that stays with its slice</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>SmartSDR 4.3 controls</b>
+                    <p>Radio-owned Auto AGC-T, DSP parameter reset, PTT Mic Override and per-band RCA off/TUNE, gated by firmware, hardware and license.</p>
+                    <span class="rm-ref">#6508, #6509, #6524, #6445</span>
+                  </div>
+                  <div class="rm-feat">
+                    <span class="rm-flag">Experimental</span>
+                    <b>HL2 AM/DSB/FM and RTL SSB/CW/AM/SAM</b>
+                    <p>TXA adds the HL2 transmit modes; RTL adds receive DSP and selected-decoder audio.</p>
+                    <span class="rm-ref">#5977, #6432</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Receive &amp; Audio</span><span class="rm-cat-n">3 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>DeepCW</b>
+                    <p>A neural CW receive decoder beside DeepFist and ggmorse, with pinned upstream model downloads on first use.</p>
+                    <span class="rm-ref">#6300</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Auto squelch stays with its slice</b>
+                    <p>Twelve corrections: per-slice Auto intent and margin, own-pan noise floors and preserved manual thresholds.</p>
+                    <span class="rm-ref">#6464</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Local voice recordings</b>
+                    <p>Twelve 30-second PC-microphone slots with preview, import/export and F1–F12 playback.</p>
+                    <span class="rm-ref">#6292</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-all">
+                <summary>
+                  <span><span class="rm-cat-name">Station Control</span><span class="rm-cat-n">1 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Elecraft station panels</b>
+                    <p>KPA500, KAT500 and KXPA100/KXAT100 over serial or raw TCP, with Advanced maintenance.</p>
+                    <span class="rm-ref">#5991, #6452, #6475</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel is-latest">
+            <div class="rm-rel-head">
+              <span class="v">v26.10.4</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 25 Oct 2026</span>
+              <span class="rm-rel-sub">SmartSDR 4.3 Noise Floor Range and CW profiles, an update check and Updates window, and new station hardware</span>
             </div>
             <div class="rm-cats">
               <details open class="rm-cat rm-a-radio">
@@ -1112,44 +1251,61 @@
                 </summary>
                 <div class="rm-feats">
                   <div class="rm-feat">
-                    <b>Every control works or says why not</b>
-                    <p>On a radio without a Flex command plane, each control reaches the radio, is dimmed with its reason, or refuses aloud.</p>
-                    <span class="rm-ref">#6044, #6049</span>
+                    <b>SmartSDR 4.3, continued</b>
+                    <p>Noise Floor Range, CW profiles, APD state and unsigned amplifier/tuner meter handles.</p>
+                    <span class="rm-ref">#6660, #6668, #6659, #6658</span>
                   </div>
                   <div class="rm-feat">
-                    <b>Hermes-Lite 2 squelch, APF, RIT/XIT and FFT AVG</b>
-                    <p>Plus a working AGC-off level and the CL1 external 10 MHz reference.</p>
-                    <span class="rm-ref">#5982, #6050, #6109, #5980, #5923</span>
+                    <b>Retina pan cap</b>
+                    <p>A pan is never requested wider than 3840 pixels, so a FLEX-8600 on 4.3.16 keeps its display output.</p>
+                    <span class="rm-ref">#6728</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Icom SCROLL-F panadapter</b>
+                    <p>The IC-7300MK2, IC-705 and IC-9700 pan tunes in place and scrolls at its margins.</p>
+                    <span class="rm-ref">#6688</span>
                   </div>
                   <div class="rm-feat">
                     <span class="rm-flag">Experimental</span>
-                    <b>ANAN-G2 receiver audio and speaker</b>
-                    <p>AF gain, mute and balance apply, and audio plays through the radio's own speaker.</p>
-                    <span class="rm-ref">#5992</span>
-                  </div>
-                  <div class="rm-feat">
-                    <span class="rm-flag">Experimental</span>
-                    <b>RTL-SDR confirmed receive state</b>
-                    <p>Changes publish only once the dongle confirms them, with capture browsing and finer zoom.</p>
-                    <span class="rm-ref">#5924</span>
+                    <b>ANAN-G2 band-pass filters</b>
+                    <p>The receive filter bank follows the tuned frequency, and the speaker amplifier mutes on its own.</p>
+                    <span class="rm-ref">#6673</span>
                   </div>
                 </div>
               </details>
               <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Interface</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Updates window and update check</b>
+                    <p>A check at launch, at most once a day, that lights an UPDATE badge, and File → Update... with the download and radio firmware.</p>
+                    <span class="rm-ref">#6715, #6717, #6718</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Touch gestures</b>
+                    <p>Pinch-zoom, press-and-hold right-click and kinetic scrolling on touch screens.</p>
+                    <span class="rm-ref">#6772</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-all">
                 <summary>
                   <span><span class="rm-cat-name">Station Control</span><span class="rm-cat-n">2 entries</span></span>
                   <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                 </summary>
                 <div class="rm-feats">
                   <div class="rm-feat">
-                    <b>A CTR2 relay</b>
-                    <p>The CTR2 Proxy applet relays a CTR2-Max over Wi-Fi today. The USB host side is ready for the CTR2's firmware.</p>
-                    <span class="rm-ref">#6090, #6114, #6155</span>
+                    <b>RF-KIT RF2K-S</b>
+                    <p>An amplifier applet over the RF2K-S REST API.</p>
+                    <span class="rm-ref">#6596</span>
                   </div>
                   <div class="rm-feat">
-                    <b>Authenticated 4O3A accessories</b>
-                    <p>Direct TGXL, PGXL and Antenna Genius connections send their access code, under a new Peripherals page.</p>
-                    <span class="rm-ref">#6008, #6027</span>
+                    <b>CTR2 relay over USB</b>
+                    <p>Lynovation's CTR2-Max firmware v1.02.00+ relays over USB, with a wide-report link for devices that offer it.</p>
+                    <span class="rm-ref">#6698, #6713</span>
                   </div>
                 </div>
               </details>
@@ -1160,14 +1316,14 @@
                 </summary>
                 <div class="rm-feats">
                   <div class="rm-feat">
-                    <b>Qt 6.12 everywhere</b>
-                    <p>Every binary and every source build, with a one-command Qt install. The macOS DMGs need 14.4.</p>
-                    <span class="rm-ref">#5842, #6055</span>
+                    <b>HTTPS on upgraded Windows installs</b>
+                    <p>The installer clears a stale Qt TLS plugin that disabled every HTTPS connection.</p>
+                    <span class="rm-ref">#6687</span>
                   </div>
                   <div class="rm-feat">
-                    <b>Receive controls behind the seam</b>
-                    <p>Typed backend requests replace 44 raw Flex commands above the seam.</p>
-                    <span class="rm-ref">#5907, #5919</span>
+                    <b>Typed slice and panadapter lifecycle</b>
+                    <p>Slice lifecycle, split routing and panadapter/waterfall control behind typed backend requests.</p>
+                    <span class="rm-ref">#6619, #6621, #6628</span>
                   </div>
                 </div>
               </details>
