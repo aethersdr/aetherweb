@@ -135,6 +135,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-11-1">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-11-1-card.svg" alt="v26.11.1 release art — updates, installed, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-11-01">November 1, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>5 min read</span>
+              </span>
+              <h3>v26.11.1: an app that updates itself</h3>
+              <p>Install update now works on Windows, macOS and Linux: the new release is downloaded, checked and swapped in as AetherSDR exits. Remote Access signs a radio in to your tailnet with a QR code and reaches FLEX-6000 radios, and AetherLab turns a RigExpert Stick Pro into an experimental network analyzer.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-10-4">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-10-4-card.svg" alt="v26.10.4 release art — 4.3, continued, drawn as an AetherSDR spectrum panel" />
@@ -746,6 +764,59 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-11-1" tabindex="-1" aria-labelledby="h-release-26-11-1" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-11-1-hero.svg" alt="v26.11.1 release art — updates, installed, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-11-01">November 1, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>5 min read</span>
+        </span>
+        <h1 id="h-release-26-11-1">v26.11.1: an app that updates itself</h1>
+
+        <div class="blog-body">
+          <p class="lede">Forty-four merged changes, and most of the work behind the biggest of them happened before this release: v26.10.4 shipped the update check, the signed manifest and the code that stages an update. This release adds the button. On Windows, on macOS and on Linux, <strong>Install update</strong> downloads the new release, checks it and swaps it in as AetherSDR exits.</p>
+
+          <h2>Install update, on every platform</h2>
+
+          <p>Open <strong>File → Update...</strong> when a newer release is out and the primary button now reads <strong>Install update</strong>. It downloads the release with a progress bar you can cancel, then offers <strong>Restart to update</strong>; if you would rather keep operating, the update installs the next time you quit. The title-bar badge says <strong>RESTART TO UPDATE</strong> until it does. On the next launch the status bar says, for ten seconds, whether the update took or was rolled back, and a release that rolled back is never downloaded again. Nothing is handed over while radio firmware is being written.</p>
+
+          <p>Each platform swaps differently, because each one breaks differently. On Windows a small helper replaces the install after AetherSDR exits, checks the new copy and restores the old one if it fails. On macOS the new app bundle has to pass <code>codesign</code> against the same Developer ID team as the running app before it is swapped in, and the previous bundle is kept. The DAX audio driver is still a manual install from the disk image, and the Updates window says so when a release changes it. On Linux, an install made with <code>AetherSDR --install</code> lives under your home directory, so it can update without root; a staged release must pass a self-test before it becomes current, and one previous release is kept. If you run the AppImage, <strong>Install for updates</strong> in the same window moves you to that install in one click.</p>
+
+          <p>Where an in-place update cannot work, AetherSDR does not try one. A Store install updates through the Store. A copy in Program Files that you cannot write to, a Mac copy running straight from the disk image, or a copy in <code>/Applications</code> on an account that isn't an administrator keeps <strong>Get AetherSDR</strong>, and the window says why. Every release now also carries signed Linux and macOS tarballs, which is what the update manifest points at. One honest caveat: the first update this machinery performs for real is from this release to the next one.</p>
+
+          <h2>Remote Access reaches the FLEX-6000</h2>
+
+          <p>Putting a radio on a tailnet used to mean generating an auth key and pasting it in. Now <strong>Configure…</strong> shows a QR code: scan it with your phone, sign in to Tailscale, approve the radio, and the window turns to "On your tailnet". Access follows your tailnet's own rules, so the separate access list in the window is gone. The same Remote Access now installs on <strong>FLEX-6000</strong> radios as a legacy waveform, with no container support needed. That package is compressed and keeps its logs in RAM, because a 6400 or 6700 has only 13–17 MB free for it. One tester has it running on a FLEX-6400, but the install path from AetherSDR has not yet been run end to end against a 6000, and we would rather say that than imply otherwise. Older installs get an <strong>Update</strong> button when a newer shim is available.</p>
+
+          <p>The Waveforms window learns two more things. On SmartSDR 4.3.16 and later, <strong>Environment…</strong> edits a container's environment variables and recreates it; values are hidden from logs, support bundles and bridge screenshots. And an optional checkbox installs a 63 KB radio health agent that shows the radio's free storage, memory and CPU, refreshed every five seconds. It accepts no commands and answers only local addresses.</p>
+
+          <h2>AetherLab</h2>
+
+          <p>AetherLab is a new workspace that drives a <strong>RigExpert Stick Pro</strong> over USB as a vector network analyzer: SWR, return loss, impedance, and series and parallel R, X, L and C, from 100 kHz to 600 MHz, with markers and a JSON session you can save. It is experimental, and its hardware sweeps have been qualified on one Stick Pro 108 on macOS. Because it puts RF on an antenna port, it asks for an explicit Connect and a confirmation that the analyzer is isolated before every sweep. It also does not inhibit your radio's transmitter, so keep the two apart.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>Callsign Lookup, FreeDV Reporter, Net Scheduler and Memory Channels move into canon workspaces, and MQTT Settings, Keyboard Shortcuts, Ulanzi Dial mapping and the Reset Settings confirmation into canon dialogs. Destructive questions now default to Cancel, and Return in the shortcut filter no longer clears a key's binding. The TCI server announces protocol 2.1, answers the sample type by name and takes squelch in dB; a client that still sends 0–100 squelch levels is no longer understood. A lapsed SmartSDR+ subscription no longer takes CW Autotune's Once and Loop away. Late FFT packets no longer cost the frame being built, the adaptive frame-rate cap is no longer saved on the radio as your own rates, and SmartLink connects to a Flex after a session on another radio family. The KAT500 recovers from Tune and WAIT on a tuner whose idle forward reading isn't exactly zero.</p>
+
+          <p>44 merged changes from 11 contributors — including two first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.11.1">v26.11.1 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

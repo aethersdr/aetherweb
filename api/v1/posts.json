@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 27,
+  "count": 28,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-11-1",
+      "title": "v26.11.1: an app that updates itself",
+      "url": "https://www.aethersdr.com/blog#release-26-11-1",
+      "published": "2026-11-01",
+      "summary": "Install update now works on Windows, macOS and Linux: the new release is downloaded, checked and swapped in as AetherSDR exits. Remote Access signs a radio in to your tailnet with a QR code and reaches FLEX-6000 radios, and AetherLab turns a RigExpert Stick Pro into an experimental network analyzer.",
+      "readingTime": "5 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-11-1-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-10-4",

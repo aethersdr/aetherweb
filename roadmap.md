@@ -792,6 +792,64 @@ Slice lifecycle, split routing and panadapter/waterfall control behind typed bac
 
 #6619, #6621, #6628
 
+v26.11.1 Released, 1 Nov 2026 Install update on Windows, macOS and Linux
+
+Interface2 entries
+
+**Install update**
+
+Download, check and swap in the new release as AetherSDR exits, on Windows, macOS and Linux.
+
+#6777, #6927, #6810, #6925
+
+**More canon windows**
+
+Callsign Lookup, FreeDV Reporter, Net Scheduler, Memory Channels and four dialogs.
+
+#6753, #6757, #6762, #6931
+
+Radios2 entries
+
+**Remote Access on FLEX-6000, QR sign-in**
+
+A QR code signs the radio in to a tailnet; FLEX-6000 radios install it as a legacy waveform.
+
+#6932, #6945, #6951
+
+**Container environments and radio health**
+
+Edit a SmartSDR 4.3 container's variables; see the radio's storage, memory and CPU.
+
+#6949, #6950
+
+Station Control2 entries
+
+**AetherLab**
+
+An experimental vector network analyzer workspace for the RigExpert Stick Pro.
+
+#6481
+
+**KAT500 recovery**
+
+Tune, Cancel and WAIT recover on a tuner whose idle forward reading is not zero.
+
+#6695
+
+Core & Platform2 entries
+
+**Signed release tarballs**
+
+Every release carries signed Linux and macOS tarballs named in the update manifest.
+
+#6891, #6930
+
+**TCI 2.1**
+
+Protocol 2.1, sample types by name, squelch in dB, split, RIT/XIT and AGC events.
+
+#6861, #6860, #6857, #6858
+
 Scroll sideways for earlier releases — the full history is in the changelog.
 
 Expand all deliverables
