@@ -850,6 +850,64 @@ Protocol 2.1, sample types by name, squelch in dB, split, RIT/XIT and AGC events
 
 #6861, #6860, #6857, #6858
 
+v26.11.2 Released, 8 Nov 2026 Bug fixes and polish
+
+Radios2 entries
+
+**Hermes-Lite 2 controls that refuse**
+
+MON, VOX, Two Tone and supply telemetry dimmed with a reason on every route; keying only inside a session.
+
+#6893, #6923, #6942, #6944
+
+**NTP time sources**
+
+Manage the radio’s SmartSDR 4.3.16 NTP sources from Radio Setup.
+
+#6954
+
+Interface2 entries
+
+**Windows Snap and macOS fullscreen**
+
+Title-bar drag Snaps again on Windows; no empty strip in macOS fullscreen.
+
+#6830, #7008
+
+**More canon windows**
+
+Theme Editor, Support & Diagnostics and the Help guides.
+
+#7058, #7053, #7050
+
+Station Control2 entries
+
+**TCI and OTRSP**
+
+TCI 2.1 units, Line Out recording, and OTRSP slice focus for contest loggers.
+
+#6958, #6856, #6862, #6622
+
+**Accessory fixes**
+
+TGXL port names, LP-100A data, the flat SWR bar and the transverter ATU lockout.
+
+#6709, #6795, #6739, #7016
+
+Core & Platform2 entries
+
+**Typed backend controls**
+
+CW, radio administration and band-stack recall behind typed requests.
+
+#6646, #6853, #6867
+
+**WDSP 2.11 and render pacing**
+
+WDSP moves to 2.11; the waterfall redraws with the FFT.
+
+#6997, #6915
+
 Scroll sideways for earlier releases — the full history is in the changelog.
 
 Expand all deliverables

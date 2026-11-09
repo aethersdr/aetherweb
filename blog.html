@@ -135,6 +135,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-11-2">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-11-2-card.svg" alt="v26.11.2 release art — fixes and polish, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-11-08">November 8, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>4 min read</span>
+              </span>
+              <h3>v26.11.2: small fixes while the team was away</h3>
+              <p>A quieter release: the Hermes-Lite 2 stops offering controls it can't honor, TCI replies line up with the 2.1 specification, Windows Snap works from the title bar again, and a long list of accessory and import fixes. It's also the first release v26.11.1 can install from inside the app.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-11-1">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-11-1-card.svg" alt="v26.11.1 release art — updates, installed, drawn as an AetherSDR spectrum panel" />
@@ -764,6 +782,55 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-11-2" tabindex="-1" aria-labelledby="h-release-26-11-2" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-11-2-hero.svg" alt="v26.11.2 release art — fixes and polish, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-11-08">November 8, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>4 min read</span>
+        </span>
+        <h1 id="h-release-26-11-2">v26.11.2: small fixes while the team was away</h1>
+
+        <div class="blog-body">
+          <p class="lede">Much of the core team has been away for the last week, so this one is small by design: seventy-nine merged changes, most of them fixes, from fifteen contributors who kept going in the meantime. It's also the first release that v26.11.1 can install from inside the app, so if you're on v26.11.1, <strong>File → Update...</strong> and <strong>Install update</strong> are all it takes.</p>
+
+          <h2>A Hermes-Lite 2 that says no</h2>
+
+          <p>The biggest group of fixes is on the Hermes-Lite 2, and they share a theme: a control the radio can't serve should say so, not look live and do nothing. MON and VOX are now dimmed with their reason, and refused the same way from TCI, rigctl, keyboard shortcuts and MIDI, so a logger gets a clear "not supported" instead of silence. Two Tone TUNE refuses on a radio without a two-tone generator, the supply-voltage gauge dims on a radio that reports no supply telemetry, and a panadapter center outside the radio's range stops at its edge.</p>
+
+          <p>Transmit got the same care. A key now reaches the radio only while a session is running, and it doesn't survive a stop or a reconnect, so you key again after the link comes back. The transmit chain is shorter and its queue is primed, so an over no longer drops to keyed zeros partway through. The trade is about 12 ms more delay at the start of an over. The gateware version now reads as major.minor, which tells the SquareSDR boards apart.</p>
+
+          <h2>TCI, CAT and contest software</h2>
+
+          <p>More TCI replies follow the 2.1 specification: <code>agc_gain</code> is in dB, <code>rx_volume</code> takes a channel and a level in dB, and the receive meter reads correctly. A client that still sends the old units will need updating. TCI clients can now record the playback mix as Line Out, silent during transmit unless you ask otherwise. Contest loggers gain OTRSP over the existing CAT ports, so two slices on one radio can follow the logger's RX focus and TX selection.</p>
+
+          <h2>Windows, macOS and the small things</h2>
+
+          <p>On Windows, dragging the title bar to a screen edge Snaps the window again. On macOS, fullscreen no longer leaves an empty strip above the controls. Theme Editor, Support &amp; Diagnostics and the Help guides join the canon look. The TGXL's antenna buttons take the tuner's own port names, the LP-100A applet stops flashing NO DATA when AetherSDR is its only poller, the PGXL and TGXL SWR bar no longer looks pegged at idle, and ADIF import accepts the standard typed fields. FLEX-8000 and Aurora radios on SmartSDR 4.3.16 can manage their NTP time sources from Radio Setup, and with TX on a transverter output the internal ATU controls are locked out, since that tuner isn't in the path.</p>
+
+          <h2>Underneath</h2>
+
+          <p>CW, radio administration and band-stack recall moved behind typed backend requests, another step in separating the engine from the window, and WDSP moved to 2.11. The waterfall and SmartMTR labels now redraw with the FFT instead of on timers of their own, which cut panadapter renders by about 40% on a FLEX-8600.</p>
+
+          <p>79 merged changes from 15 contributors, plus two Dependabot updates — including two first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.11.2">v26.11.2 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

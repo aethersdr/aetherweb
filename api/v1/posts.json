@@ -1,6 +1,6 @@
 {
   "site": "https://www.aethersdr.com/blog",
-  "count": 28,
+  "count": 29,
   "note": "Posts are routed client-side; the canonical URL of a post is the blog page plus its slug fragment.",
   "posts": [
     {
@@ -12,6 +12,16 @@
       "readingTime": "8 min read",
       "image": "https://www.aethersdr.com/assets/img/first-contribution-card.svg",
       "pinned": true
+    },
+    {
+      "slug": "release-26-11-2",
+      "title": "v26.11.2: small fixes while the team was away",
+      "url": "https://www.aethersdr.com/blog#release-26-11-2",
+      "published": "2026-11-08",
+      "summary": "A quieter release: the Hermes-Lite 2 stops offering controls it can't honor, TCI replies line up with the 2.1 specification, Windows Snap works from the title bar again, and a long list of accessory and import fixes. It's also the first release v26.11.1 can install from inside the app.",
+      "readingTime": "4 min read",
+      "image": "https://www.aethersdr.com/assets/img/release-26-11-2-card.svg",
+      "pinned": false
     },
     {
       "slug": "release-26-11-1",
