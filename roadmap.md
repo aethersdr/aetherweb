@@ -18,7 +18,7 @@ Expand all categories
 
 Collapse all categories
 
-17 releases · 114 entries · newest on the right
+18 releases · 122 entries · newest on the right
 
 v26.7.1 Released, 2 Jul 2026 The 3D stacked-trace spectrum
 
@@ -907,6 +907,64 @@ CW, radio administration and band-stack recall behind typed requests.
 WDSP moves to 2.11; the waterfall redraws with the FFT.
 
 #6997, #6915
+
+v26.11.3 Released, 15 Nov 2026 A connection workspace with Locations and operator profiles
+
+Radios2 entries
+
+**The Hermes-Lite 2 is Supported**
+
+Board id 6 on gateware 74 in the desktop app, with ANT or RF1 transmit output.
+
+#7262, #7097, #7098
+
+**IC-7610, IC-7760 and IC-7851**
+
+Experimental shared dual-receiver support; transmit not yet qualified on hardware.
+
+#6912
+
+Interface2 entries
+
+**Connection workspace**
+
+Locations, operator profiles, SmartLink accounts, recent-radio shortcuts and a confirmed handoff.
+
+#6885, #6889
+
+**Keyboard and MIDI actions**
+
+Dozens of new actions from one registry, without moving a saved binding.
+
+#7285
+
+Station Control2 entries
+
+**AetherTX leads with Tube**
+
+Gate and de-esser retired; a look-ahead brickwall limiter on by default.
+
+#7348, #7355
+
+**NTP and GPS**
+
+NTP setup redesigned; AetherGPS shares the radio’s gpsd on the LAN.
+
+#7253, #7271
+
+Core & Platform2 entries
+
+**Typed Flex status**
+
+Every Flex status line through one fenced ingress, as typed observations.
+
+#7183, #6878, #6884
+
+**aetherd remote clients and the update server**
+
+Receive-only remote clients with pairing; updates from updates.aethersdr.com.
+
+#7287, #7351
 
 Scroll sideways for earlier releases — the full history is in the changelog.
 

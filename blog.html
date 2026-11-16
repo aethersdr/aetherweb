@@ -135,6 +135,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-11-3">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-11-3-card.svg" alt="v26.11.3 release art — locations and operators, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-11-15">November 15, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>4 min read</span>
+              </span>
+              <h3>v26.11.3: more radios, fewer surprises</h3>
+              <p>The Hermes-Lite 2 is Supported, three dual-receiver Icom models arrive as experimental, and connecting to any of them moves into one workspace with Locations and operator profiles. AetherTX gets simpler and safer, and the updater learns a second home.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-11-2">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-11-2-card.svg" alt="v26.11.2 release art — fixes and polish, drawn as an AetherSDR spectrum panel" />
@@ -782,6 +800,63 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-11-3" tabindex="-1" aria-labelledby="h-release-26-11-3" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-11-3-hero.svg" alt="v26.11.3 release art — locations and operators, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-11-15">November 15, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>4 min read</span>
+        </span>
+        <h1 id="h-release-26-11-3">v26.11.3: more radios, fewer surprises</h1>
+
+        <div class="blog-body">
+          <p class="lede">A hundred and fifty-four merged changes, and most of them push in one direction: more radios that AetherSDR can drive, each one labeled for exactly what has been proven on it. The Hermes-Lite 2 is now Supported. Three dual-receiver Icom models arrive as experimental. And however many radios you own, connecting to them now happens in one place.</p>
+
+          <h2>One place to connect</h2>
+
+          <p>The connection window is now a workspace. Radios are saved under <strong>Locations</strong>: Home to start, with POTA, Club, Cabin and RV offered as names when you add another. A saved radio keeps everything that got you to it, including the network interface, Icom ports, credentials and the low-bandwidth setting, and startup auto-connect uses the same record. <strong>Operators…</strong> holds operator profiles, so two people sharing a station each get their own audio and layout. <strong>Accounts…</strong> manages SmartLink accounts.</p>
+
+          <p>One behavior changed on purpose. Connecting to a radio you found nearby or through SmartLink no longer saves it. <strong>Save selected radio to location</strong> does, so trying a friend's radio doesn't add it to your list. The title bar keeps two recent-radio shortcuts and a drawer with the rest, and switching radios is now a handoff you confirm. It never relabels the session you're on.</p>
+
+          <h2>The Hermes-Lite 2 is Supported</h2>
+
+          <p>The HL2 moves from experimental to Supported in the desktop application, for board id 6 over Ethernet with gateware 74. That scope is narrow on purpose. aetherd, other gateware, other boards and the wider Hermes-Lite family keep their current label until they have the same evidence. Windows still needs a posted <code>radiocert</code> run before it's certified.</p>
+
+          <p>The release adds what a supported radio needs. You can transmit from the onboard PA on ANT, or from RF1 with the PA off. RF1's drive starts at zero and is kept apart from ANT's band memories. On RF1 the power and SWR gauges say "not measured" instead of showing a reassuring 0 W and 1.0. The transmit DSP block is halved, which changes transmit timing on every HL2. A key pressed right after an over is no longer refused while cleanup finishes. Restarts keep each mode's own transmit passband, and receiver B keeps its sideband across a reconnect.</p>
+
+          <h2>Three more Icoms, labeled honestly</h2>
+
+          <p>The IC-7610, IC-7760 and IC-7851 arrive through one shared MAIN/SUB path: two panadapters at each model's native scope width, with separate receiver state and audio. Everything we can vouch for came from an IC-7851, receiving and selecting the TX receiver with PTT off. Transmit is enabled on all three but hasn't been qualified on RF, and the IC-7610 and IC-7760 still need someone with the radio to confirm them. That's why they're experimental. If you own one, a <code>radiocert</code> run is the most useful thing you can send us. Scope-capable Icoms also gain Band and Segment Zoom.</p>
+
+          <h2>A simpler transmit chain</h2>
+
+          <p>AetherTX loses its gate and de-esser. The gate confused most people who opened it, and RN2, the RNNoise mic denoiser, already keeps room noise out of the pauses with nothing to set. A misconfigured de-esser quietly cost transmit power. Tube now leads the chain, and the final limiter is a look-ahead brickwall, on by default at −0.5 dB. It sees a peak 1.5 ms early and turns down ahead of it instead of letting the first samples through. If you had the TX gate on, RN2 is switched on in its place, and a chain order you chose yourself is kept.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>Dozens of new actions can be bound to a key and a MIDI control: slices, panadapters, memories, antennas, filter widths, RIT and XIT, RF power and the ATU, all declared once so no saved binding moves. Left and right Ctrl, Shift and Alt bind separately for keyboard paddles. NTP setup is redesigned around ten server tabs and a live dashboard, and AetherGPS can show a sky view from the radio's own GPS. AetherWSPR records on a FLEX-6000, keeps its slice muted and leaves your DAX channels alone. Seven more windows join the canon look. Underneath, every Flex status line now arrives through one fenced path as a typed observation, and aetherd gains receive-only remote clients with pairing.</p>
+
+          <p>The updater can now fetch from updates.aethersdr.com as well as GitHub. Nothing moves yet: this release's page keeps every file. From v26.11.4 the signatures, symbol archives and Store upload move to updates.aethersdr.com, and the release page carries only what people download.</p>
+
+          <p>154 merged changes from 15 contributors, plus AetherClaude and nine Dependabot updates — including one first-time contributor this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.11.3">v26.11.3 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>
