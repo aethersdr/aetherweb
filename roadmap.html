@@ -132,7 +132,7 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
             Collapse all categories
           </button>
-          <span class="rm-count">18 releases · 122 entries · newest on the right</span>
+          <span class="rm-count">19 releases · 130 entries · newest on the right</span>
         </div>
 
         <div class="rm-rels">
@@ -1491,7 +1491,7 @@
               </details>
             </div>
           </div>
-          <div class="rm-rel is-latest">
+          <div class="rm-rel">
             <div class="rm-rel-head">
               <span class="v">v26.11.3</span>
               <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 15 Nov 2026</span>
@@ -1567,6 +1567,87 @@
                     <b>aetherd remote clients and the update server</b>
                     <p>Receive-only remote clients with pairing; updates from updates.aethersdr.com.</p>
                     <span class="rm-ref">#7287, #7351</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="rm-rel is-latest">
+            <div class="rm-rel-head">
+              <span class="v">v26.11.4</span>
+              <span class="rm-rel-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>Released, 22 Nov 2026</span>
+              <span class="rm-rel-sub">PureSignal on the Hermes-Lite 2</span>
+            </div>
+            <div class="rm-cats">
+              <details open class="rm-cat rm-a-radio">
+                <summary>
+                  <span><span class="rm-cat-name">Radios</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>PureSignal on the Hermes-Lite 2</b>
+                    <p>Adaptive predistortion, with an applet and a feedback-range warning.</p>
+                    <span class="rm-ref">#7018, #7087</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>An HL2 receiver that survives its own TX</b>
+                    <p>Keyed gain capped at +8 dB with PureSignal off; running DC removal; NR and ANF.</p>
+                    <span class="rm-ref">#7401, #7405, #7423</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-all">
+                <summary>
+                  <span><span class="rm-cat-name">Station Control</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>Host transmit time-out</b>
+                    <p>On by default at 180 s; bounds this station's transmissions and latches.</p>
+                    <span class="rm-ref">#7404</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>TX off delay</b>
+                    <p>Holds a phone-mode unkey so the speech tail airs.</p>
+                    <span class="rm-ref">#7059</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-iface">
+                <summary>
+                  <span><span class="rm-cat-name">Interface</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>WSJT-X Rx/Tx markers</b>
+                    <p>Each instance's offsets as live brackets on the panadapter and waterfall.</p>
+                    <span class="rm-ref">#6999</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>Copy Assist live preview</b>
+                    <p>Provisional text while the model decodes.</p>
+                    <span class="rm-ref">#7223</span>
+                  </div>
+                </div>
+              </details>
+              <details class="rm-cat rm-a-engine">
+                <summary>
+                  <span><span class="rm-cat-name">Core &amp; Platform</span><span class="rm-cat-n">2 entries</span></span>
+                  <svg class="rm-cat-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div class="rm-feats">
+                  <div class="rm-feat">
+                    <b>TCI IQ and the extension set</b>
+                    <p>IQ from the HL2 and an opt-in set of AetherSDR controls.</p>
+                    <span class="rm-ref">#6859, #7185</span>
+                  </div>
+                  <div class="rm-feat">
+                    <b>A 14-file release page</b>
+                    <p>Signatures, symbols and the Store upload move to updates.aethersdr.com.</p>
+                    <span class="rm-ref">#7356</span>
                   </div>
                 </div>
               </details>

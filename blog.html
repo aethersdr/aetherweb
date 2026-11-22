@@ -135,6 +135,24 @@
             </div>
           </a>
 
+          <a class="blog-card" href="#release-26-11-4">
+            <div class="blog-card-media">
+              <img width="640" height="560" src="assets/img/release-26-11-4-card.svg" alt="v26.11.4 release art — puresignal, drawn as an AetherSDR spectrum panel" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-meta">
+                <time datetime="2026-11-22">November 22, 2026</time>
+                <span class="sep" aria-hidden="true">·</span>
+                <span>4 min read</span>
+              </span>
+              <h3>v26.11.4: PureSignal comes to the Hermes-Lite 2</h3>
+              <p>Adaptive predistortion on the HL2, a transmit time-out that covers every way of keying, WSJT-X's Rx and Tx frequencies on the panadapter, and a release page that carries only what you download.</p>
+              <span class="blog-more">Read post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg>
+              </span>
+            </div>
+          </a>
+
           <a class="blog-card" href="#release-26-11-3">
             <div class="blog-card-media">
               <img width="640" height="560" src="assets/img/release-26-11-3-card.svg" alt="v26.11.3 release art — locations and operators, drawn as an AetherSDR spectrum panel" />
@@ -800,6 +818,55 @@
             pick an issue, and open the pull request. If you get stuck at any point,
             <a href="https://github.com/aethersdr/AetherSDR/discussions" target="_blank" rel="noopener">start a discussion</a> —
             asking early is not an imposition here, it's the tradition. 73.</p>
+        </div>
+
+        <a class="blog-back blog-back-end" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+      </div>
+    </article>
+
+    <article class="blog-post" data-post="release-26-11-4" tabindex="-1" aria-labelledby="h-release-26-11-4" hidden>
+      <div class="wrap blog-post-wrap">
+        <a class="blog-back" href="#" data-blog-back>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0 5-5m-5 5 5 5"/></svg>
+          Back to blog
+        </a>
+
+        <figure class="blog-hero">
+          <img width="1200" height="630" src="assets/img/release-26-11-4-hero.svg" alt="v26.11.4 release art — puresignal, drawn as an AetherSDR spectrum panel" />
+        </figure>
+
+        <span class="blog-meta">
+          <time datetime="2026-11-22">November 22, 2026</time>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>4 min read</span>
+        </span>
+        <h1 id="h-release-26-11-4">v26.11.4: PureSignal comes to the Hermes-Lite 2</h1>
+
+        <div class="blog-body">
+          <p class="lede">Seventy-nine merged changes, and the one Hermes-Lite 2 owners have asked about most is finally here: PureSignal, the adaptive predistortion that cleans up an amplifier's splatter by measuring its own output. Around it, the HL2's receiver stops drowning in its own transmit, and every station gets a transmit time-out it didn't have before.</p>
+
+          <h2>PureSignal on the Hermes-Lite 2</h2>
+
+          <p>PureSignal samples the transmitted signal, compares it with what was meant to go out, and pre-distorts the drive so the amplifier's own nonlinearity cancels out. The calibration and correction are WDSP's existing <code>calcc</code> stage, the same code other openHPSDR hosts use. What's new is everything around it: the HL2's wire bits, the controller that decides when to calibrate, the feedback-gain loop and an applet to run it from. With an external amplifier's RF sampler, the feedback can be too strong even at the HL2's maximum 31 dB of attenuation, and AetherSDR now tells you so instead of failing to converge. One station fixed it with an extra 8 dB SMA attenuator.</p>
+
+          <p>The receiver got attention too. While the HL2 transmits, its own TX leaks into RX1, and at normal RF gains that filled the panadapter with lines the receiver made itself. With PureSignal off, the gateware now caps the receive gain at +8 dB for exactly the keyed time and gives your setting back on unkey; with PureSignal on, PureSignal owns that gain. The pan's DC removal uses a running estimate instead of each frame's mean, so the bright line at the pan center while transmitting is gone. Noise reduction and auto notch now run in the HL2's receive channel, Radio Health shows PA current in amps (not yet checked against an ammeter), and the HL2 Hardware page reads the IO board's status.</p>
+
+          <h2>A time limit on every transmission</h2>
+
+          <p>A stuck PTT on a remote station is the failure nobody wants to discover from a neighbor. AetherSDR now runs a host transmit time-out, on by default at <strong>180 seconds</strong>, that bounds this station's transmissions however they were keyed. When it expires it unkeys, says so and stays latched: nothing keys again until every input that was holding a key has let go and a new key-down arrives. On a FlexRadio the default never starts shorter than the radio's own timeout. You can set it from 15 to 1800 seconds, or turn it off, on Radio Setup's Transmit page. If you run long digital overs, check the setting after you update.</p>
+
+          <p>Two smaller transmit changes come from the same thinking. An optional TX off delay keeps a phone-mode over keyed for up to two seconds after you release PTT, so the end of your last word actually airs. And a TCI client that holds PTT and stops answering keepalives is now dropped after 15 seconds, and the radio unkeys.</p>
+
+          <h2>Also in this release</h2>
+
+          <p>Right-click a panadapter and turn on <strong>Show WSJT-X Rx/Tx Frequency</strong>, and each WSJT-X instance's receive and transmit offsets appear as live brackets on the panadapter and waterfall. Copy Assist can show gray provisional text while its model decodes, from an English-only streaming recognizer or Apple's own on macOS 26 and later. CWX macros take <code>{CALL}</code>, filled by double-clicking a callsign in the CW decoder. TCI clients can now take IQ from an HL2, and can opt in to a documented set of AetherSDR controls for RF gain, antennas, span, the TX passband and HL2 hardware. A client that never asks sees exactly the bytes it did before. Diversity pairs on two panadapters no longer drag each other around, the KPA500 gets a status indicator, and the Windows 11 white outline around the main window is gone.</p>
+
+          <p>One change you'll notice on GitHub rather than in the app: the release page now carries only what people download. Signatures, debug symbols and the Store upload live on updates.aethersdr.com, and in-app updates fetch from there. Verifying a download works as before, from <code>SHA256SUMS.txt</code> and its signature.</p>
+
+          <p>79 merged changes from 16 contributors, plus three Dependabot updates — including three first-time contributors this cycle. Full release notes and the complete commit list: <a href="https://github.com/aethersdr/AetherSDR/releases/tag/v26.11.4">v26.11.4 on GitHub</a>.</p>
         </div>
 
         <a class="blog-back blog-back-end" href="#" data-blog-back>

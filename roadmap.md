@@ -18,7 +18,7 @@ Expand all categories
 
 Collapse all categories
 
-18 releases · 122 entries · newest on the right
+19 releases · 130 entries · newest on the right
 
 v26.7.1 Released, 2 Jul 2026 The 3D stacked-trace spectrum
 
@@ -965,6 +965,64 @@ Every Flex status line through one fenced ingress, as typed observations.
 Receive-only remote clients with pairing; updates from updates.aethersdr.com.
 
 #7287, #7351
+
+v26.11.4 Released, 22 Nov 2026 PureSignal on the Hermes-Lite 2
+
+Radios2 entries
+
+**PureSignal on the Hermes-Lite 2**
+
+Adaptive predistortion, with an applet and a feedback-range warning.
+
+#7018, #7087
+
+**An HL2 receiver that survives its own TX**
+
+Keyed gain capped at +8 dB with PureSignal off; running DC removal; NR and ANF.
+
+#7401, #7405, #7423
+
+Station Control2 entries
+
+**Host transmit time-out**
+
+On by default at 180 s; bounds this station's transmissions and latches.
+
+#7404
+
+**TX off delay**
+
+Holds a phone-mode unkey so the speech tail airs.
+
+#7059
+
+Interface2 entries
+
+**WSJT-X Rx/Tx markers**
+
+Each instance's offsets as live brackets on the panadapter and waterfall.
+
+#6999
+
+**Copy Assist live preview**
+
+Provisional text while the model decodes.
+
+#7223
+
+Core & Platform2 entries
+
+**TCI IQ and the extension set**
+
+IQ from the HL2 and an opt-in set of AetherSDR controls.
+
+#6859, #7185
+
+**A 14-file release page**
+
+Signatures, symbols and the Store upload move to updates.aethersdr.com.
+
+#7356
 
 Scroll sideways for earlier releases — the full history is in the changelog.
 
